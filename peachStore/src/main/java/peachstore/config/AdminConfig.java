@@ -1,4 +1,4 @@
-package peachStore.config;
+package peachstore.config;
 
 public class AdminConfig {
 

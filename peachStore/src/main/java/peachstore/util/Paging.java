@@ -1,4 +1,4 @@
-package peachStore.util;
+package peachstore.util;
 
 import java.util.List;
 

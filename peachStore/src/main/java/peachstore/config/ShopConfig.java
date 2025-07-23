@@ -1,4 +1,4 @@
-package peachStore.config;
+package peachstore.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"peachStore.shop.controller"})
+@ComponentScan(basePackages = {"peachstore.shop.controller"})
 public class ShopConfig {
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
