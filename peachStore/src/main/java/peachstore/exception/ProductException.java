@@ -1,4 +1,4 @@
-package peachStore.exception;
+package peachstore.exception;
 
 public class ProductException extends RuntimeException{
 	

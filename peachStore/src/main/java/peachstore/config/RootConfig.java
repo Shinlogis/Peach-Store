@@ -1,4 +1,4 @@
-package peachStore.config;
+package peachstore.config;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -19,7 +19,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@ComponentScan(basePackages = {"peachStore.util, peachStore.model"})
+@ComponentScan(basePackages = {"peachstore.util, peachstore.model"})
 public class RootConfig {
 	public DataSource dataSource() throws NamingException {
 		JndiTemplate jndi = new JndiTemplate();
