@@ -8,8 +8,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"peachstore.shop.controller"})
+@ComponentScan(basePackages = { "peachstore.shop.controller" })
 public class ShopConfig {
+
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
