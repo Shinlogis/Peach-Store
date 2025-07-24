@@ -15,11 +15,6 @@ public class TestController {
 	@Autowired
 	private TestService testService;
 	
-	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public String connectTest() {
-		log.debug("컨트롤러 테스트용 로그 입니다.");
-		return "shop/gitTest";
-	}
 	
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public String Test() {
