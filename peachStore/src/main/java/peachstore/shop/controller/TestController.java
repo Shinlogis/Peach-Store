@@ -31,6 +31,18 @@ public class TestController {
 	
 	@GetMapping("/mypage")
 	public String myPage() {
-		return "shop/mypage/mypagelist";
+		return "shop/mypage/mypage";
+	}
+	
+	@GetMapping("/review/registForm")
+	public String regist() {
+		
+		return "shop/review/regist";
+	}
+	
+	@GetMapping("/inquiry/registForm")
+	public String inquiryRegist() {
+		
+		return "/shop/inquiry/regist";
 	}
 }
