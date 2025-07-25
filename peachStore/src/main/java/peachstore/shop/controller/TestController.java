@@ -40,9 +40,5 @@ public class TestController {
 		return "shop/review/regist";
 	}
 	
-	@GetMapping("/inquiry/registForm")
-	public String inquiryRegist() {
-		
-		return "/shop/inquiry/regist";
-	}
+	
 }
