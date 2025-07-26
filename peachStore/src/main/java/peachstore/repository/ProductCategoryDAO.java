@@ -18,11 +18,26 @@ public interface ProductCategoryDAO {
 	 * @param productCategory
 	 * @return
 	 */
-	public List<ProductCategory> selectAll();
+	public List<ProductCategory> selectAll(String searchKey);
 	
 	/**
 	 * 제품 카테고리 등록
 	 * @param categoryName
 	 */
-	public void save(ProductCategory productCategory);
+	public void register(ProductCategory productCategory);
+	
+	/**
+	 * 제품 카테고리 수정
+	 * @param productCategory
+	 * @return update row 수
+	 */
+	public int update(ProductCategory productCategory);
+	
+	/**
+	 * pk값으로 제품 카테고리 조회
+	 * @param productCategoryId
+	 * @return
+	 */
+	public ProductCategory findById(int productCategoryId);
+
 }
