@@ -1,6 +1,8 @@
+<%@page import="peachstore.domain.User"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<% User user = (User)session.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -52,10 +54,14 @@
 					<!-- Default box -->
 					<div class="card">
 						<div class="card-body">
-							<form id="form1">
+							<form id="form1" enctype="multipart/form-data">
 								<div class="form-group">
 									<label >제목</label> <input type="text"
 										id="title" name="title" class="form-control" required />
+								</div>
+								<div class="form-group">
+									<label >작성자</label> <input type="text" value="<%=user.getId() %>"
+										 class="form-control" required />
 								</div>
 								<div class="form-group">
 									<div>
@@ -72,6 +78,8 @@
 									<br><br>
 									<div id="preview" style="width: 100%;">파일 미리보기</div>
 								</div>
+								
+								<input type="hidden" name="is_active" value="true">
 								
 								<div class="form-group">
 									<button type="button" class="btn btn-primary" id="bt_regist">문의 등록</button>

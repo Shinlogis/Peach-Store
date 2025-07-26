@@ -1,33 +1,24 @@
 package peachstore.shop.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
-import peachstore.service.TestService;
+import peachstore.domain.User;
+import peachstore.repository.UserDAO;
 
 @Slf4j
 @Controller
 public class TestController {
 	
 	@Autowired
-	private TestService testService;
-	
-	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public String connectTest() {
-		log.debug("컨트롤러 테스트용 로그 입니다.");
-		return "shop/gitTest";
-	}
-	
-	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public String Test() {
-		log.debug("index.jsp 로그 입니다.");		
-		log.debug(testService.test());
-		return "shop/index";
-	}
+	private UserDAO userDAO;
 	
 	@GetMapping("/mypage")
 	public String myPage() {
@@ -38,6 +29,17 @@ public class TestController {
 	public String regist() {
 		
 		return "shop/review/regist";
+	}
+	
+	@GetMapping("/user")
+	public String getUser(HttpSession session) {
+		
+		int user_id = 2;
+		User user = userDAO.select(user_id);
+		session.setAttribute("user", user);
+		
+		return "redirect:/shop/main";
+		
 	}
 	
 	
