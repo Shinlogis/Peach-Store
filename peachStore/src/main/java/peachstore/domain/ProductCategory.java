@@ -1,6 +1,6 @@
 package peachstore.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * 제품 카테고리
@@ -8,12 +8,18 @@ import lombok.Data;
  * @author 김예진
  * @since 2025-07-25
  */
-@Data
+@Getter
 public class ProductCategory {
-	
-	private int productCategoryId;
-	
-	private String productCategoryName;
-	
-	private boolean isActive;
+    private int productCategoryId;
+    private String productCategoryName;
+    private boolean isActive;
+
+    // setter
+    public void setName(String name) { this.productCategoryName = name; }
+    public void setActive(boolean active) { this.isActive = active; }
+    
+    public void deactivate() {
+        this.isActive = false;
+    }
+
 }
