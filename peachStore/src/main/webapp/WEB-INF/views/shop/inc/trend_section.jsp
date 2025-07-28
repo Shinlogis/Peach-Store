@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<section class="trend spad">
+<section class="trend spad" style="margin-left:165px">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-4 col-md-4 col-sm-6">
