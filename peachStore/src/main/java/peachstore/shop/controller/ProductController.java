@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ProductController {
 	
 	@GetMapping("/product/phone")
+<<<<<<< HEAD
 	public String phone() {
 		return "shop/product/phone";
 	}
@@ -24,5 +25,9 @@ public class ProductController {
 	@GetMapping("/product/accessory")
 	public String accessory() {
 		return "shop/product/accessory";
+=======
+	public String product() {
+		return "shop/phone";
+>>>>>>> f431e95 (0728 예닮 상품페이지)
 	}
 }

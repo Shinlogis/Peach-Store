@@ -6,8 +6,10 @@
       <li><a href="/shop/product/mac">Pac</a></li>
       <li><a href="/shop/product/macbook">Pacbook</a></li>
       <li><a href="/shop/product/phone">PPhone</a></li>
-      <li><a href="/shop/product/accessory">액세서리</a></li>
-      <li><a href="/shop/inquiry/registForm">고객지원</a></li>
+      <li><a href="/shop/product/phone">Pac</a></li>
+      <li><a href="/shop/product/phone">PPhone</a></li>
+      <li><a href="">액세서리</a></li>
+      <li><a href="">고객지원</a></li>
       <li><a href="">검색</a></li>
       <li><a href="/shop/loginform">로그인</a></li>
       <li><a href="">장바구니</a></li>
