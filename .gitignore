@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,windows,macos,maven,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,windows,macos,maven,eclipse
 
+# 민감정보
+/src/main/resources/application.properties
+
 ### Eclipse ###
 .metadata
 bin/
