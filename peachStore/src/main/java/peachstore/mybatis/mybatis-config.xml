@@ -5,7 +5,7 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias type="peachstore.domain.ProductCategory" alias="ProductCategory" />
+		<typeAlias type="peachstore.domain.ProductTopcategory" alias="ProductTopcategory" />
 	</typeAliases>
 
 	<environments default="development">
@@ -19,6 +19,6 @@
 	</environments>
 
 	<mappers>
-		<mapper resource="peachstore/mybatis/ProductCategoryMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/ProductTopcategoryMapper.xml"/> 
 	</mappers>
 </configuration>

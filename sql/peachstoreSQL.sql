@@ -2,6 +2,7 @@ USE electronicmall;
 
 -- 부모부터 순서로 delete 되도록 순서 맞춰서 수정 해주세요
 -- CREATE, INSERT 전부 DROP순서랑 맞추어 놓았으니 찾을 일 있으면 참고하세요
+
 DROP TABLE IF EXISTS review_img; -- 리뷰 이미지
 DROP TABLE IF EXISTS review; -- 리뷰
 DROP TABLE IF EXISTS order_detail; -- 주문상세
@@ -18,7 +19,7 @@ DROP TABLE IF EXISTS inquiry; -- 문의
 DROP TABLE IF EXISTS cart; -- 장바구니
 DROP TABLE IF EXISTS product; -- 제품
 DROP TABLE IF EXISTS user; -- 회원
-DROP TABLE IF EXISTS product_series; -- 제품 시리즈
+DROP TABLE IF EXISTS product_subcategory; -- 제품 서브 카테고리
 DROP TABLE IF EXISTS grade_coupon; -- 등급별 쿠폰
 DROP TABLE IF EXISTS user_grade; -- 회원 등급
 DROP TABLE IF EXISTS admin; -- 관리자
@@ -26,7 +27,7 @@ DROP TABLE IF EXISTS size; -- 사이즈
 DROP TABLE IF EXISTS color; -- 색상
 DROP TABLE IF EXISTS capacity; -- 용량
 DROP TABLE IF EXISTS product_engraving; -- 제품 각인
-DROP TABLE IF EXISTS product_category; -- 제품 카테고리
+DROP TABLE IF EXISTS product_topcategory; -- 제품 상위 카테고리
 DROP TABLE IF EXISTS coupon; -- 쿠폰
 DROP TABLE IF EXISTS sns_provider; -- snsprovider
 
@@ -36,7 +37,7 @@ CREATE TABLE admin(
 	, email VARCHAR(100) NOT NULL UNIQUE
 	, password varchar(100) NOT NULL
 	, admin_name varchar(100) NOT NULL
-	, role varchar(10) NOT NULL CHECK(role in('super', 'admin')) DEFAULT 'admin'
+	, role varchar(10) NOT NULL DEFAULT 'admin' CHECK(role in('super', 'admin'))
 	, is_active boolean NOT NULL DEFAULT TRUE
 );
 
@@ -140,21 +141,22 @@ CREATE TABLE product_engraving(
 	, engraving_text varchar(10) NOT NULL
 );
 
--- 제품 카테고리 테이블 생성(CREATE TABLE product_category)
-CREATE TABLE product_category(
-	product_category_id int PRIMARY KEY AUTO_INCREMENT
-	, product_category_name varchar(100) NOT NULL
+-- 제품 상위 카테고리 테이블 생성(CREATE TABLE product_topcategory)
+CREATE TABLE product_topcategory(
+	product_topcategory_id int PRIMARY KEY AUTO_INCREMENT
+	, product_topcategory_name varchar(100) NOT NULL
 	, is_active boolean NOT NULL DEFAULT TRUE
 );
 
--- 제품 시리즈 테이블 생성(CREATE TABLE product_series)
-CREATE TABLE product_series(
-	product_series_id int PRIMARY KEY AUTO_INCREMENT
-	, series_name varchar(100) NOT NULL
-	, product_category_id int NOT NULL
-	,CONSTRAINT fk_product_series_product_category_id
-		FOREIGN KEY (product_category_id)
-		REFERENCES product_category(product_category_id)
+-- 제품 하위 카테고리 테이블 생성(CREATE TABLE product_subcategory)
+CREATE TABLE product_subcategory(
+	product_subcategory_id int PRIMARY KEY AUTO_INCREMENT
+	, product_subcategory_name varchar(100) NOT NULL
+	, product_topcategory_id int NOT NULL
+    , is_active boolean NOT NULL DEFAULT TRUE
+	, CONSTRAINT fk_product_topcategory_id
+		FOREIGN KEY (product_topcategory_id)
+		REFERENCES product_topcategory(product_topcategory_id)
 );
 
 -- 제품 테이블 생성(CREATE TABLE product)
@@ -165,10 +167,10 @@ CREATE TABLE product(
 	, price int NOT NULL
 	, introduct varchar(100) NOT NULL
 	, detail varchar(100) NOT NULL
-	, product_series_id int
-	, CONSTRAINT fk_product_product_series_id
-		FOREIGN KEY (product_series_id)
-		REFERENCES product_series(product_series_id)
+	, product_subcategory_id int
+	, CONSTRAINT fk_product_product_subcategory_id
+		FOREIGN KEY (product_subcategory_id)
+		REFERENCES product_subcategory(product_subcategory_id)
 );
 
 -- 제품 사이즈 테이블 생성(CREATE TABLE product_size)
@@ -279,7 +281,7 @@ CREATE TABLE snapshot(
 CREATE TABLE order_receipt(
 	order_receipt_id int PRIMARY KEY AUTO_INCREMENT
 	, orderdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-	, order_status varchar(10) NOT NULL CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료')) DEFAULT '상품 준비 전'
+	, order_status varchar(10) NOT NULL DEFAULT '상품 준비 전' CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료'))
 	, user_id int NOT NULL
 	, CONSTRAINT fk_order_receipt_user_id
 		FOREIGN KEY (user_id)
@@ -384,8 +386,8 @@ VALUES
 	(2500, '각인입니다4'),
 	(3000, '각인입니다5');
 
--- 제품 카테고리 테이블 인서트(INSERT INTO product_category)
-INSERT INTO product_category (product_category_name, is_active)
+-- 제품 상위 카테고리 테이블 인서트(INSERT INTO product_topcategory)
+INSERT INTO product_topcategory (product_topcategory_name, is_active)
 VALUES
 	('pPhone', true),
 	('pPad', true),
@@ -436,8 +438,8 @@ VALUES
   ('LOYALTY20', 20000, 20, 'Gold 등급 전용'),
   ('SUPERPLATINUM', 30000, 10, 'Platinum 등급 전용');
 
--- 제품 시리즈 테이블 인서트(INSERT INTO product_series)
-INSERT INTO product_series (series_name, product_category_id)
+-- 제품 서브카테고리 테이블 인서트(INSERT INTO product_subpcategory)
+INSERT INTO product_subcategory (product_subcategory_name, product_topcategory_id)
 VALUES
 	('pPhone 14 Pro', 1), ('pPhone 15', 1), ('pPhone SE 3rd Gen', 1),
 	('pPad Air 5th', 2), ('pPad Mini 6', 2), ('pPad Pro M2', 2),
@@ -474,7 +476,7 @@ VALUES
   (4, 4, 'Platinum 등급 도달 시 발급');
 
 -- 제품 테이블 인서트(INSERT INTO product)
-INSERT INTO product (product_code, product_name, price, introduct, detail, product_series_id)
+INSERT INTO product (product_code, product_name, price, introduct, detail, product_subcategory_id)
 VALUES
 	('P14P-BLK', 'pPhone 14 Pro 블랙', 1350000, '고성능 스마트폰', '6.1인치 디스플레이 / A16 Bionic', 1),
 	('P15-WHT', 'pPhone 15 화이트', 1250000, '차세대 아이폰', '6.1인치 / USB-C / 다이나믹 아일랜드', 2),
