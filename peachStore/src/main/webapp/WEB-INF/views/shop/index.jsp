@@ -40,14 +40,6 @@
 <%@ include file="./inc/trend_section.jsp" %>
 <!-- Trend Section End -->
 
-<!-- Discount Section Begin -->
-<%-- <%@ include file="./inc/discount_section.jsp" %> --%>
-<!-- Discount Section End -->
-
-<!-- Services Section Begin -->
-<%-- <%@ include file="./inc/services_section.jsp" %> --%>
-<!-- Services Section End -->
-
 <!-- Instagram Begin -->
 <%@ include file="./inc/instagram.jsp" %> 
 <!-- Instagram End -->
