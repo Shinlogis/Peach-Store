@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 제품 상위 카테고리 매퍼 -->
+<mapper namespace="peachstore.repository.ProductTopcategoryDAO">
+
+	<resultMap id="ProductTopcategoryResultMap" type="peachstore.domain.ProductTopcategory">
+		<result column="product_topcategory_id" property="productTopcategoryId"/>
+		<result column="product_topcategory_name" property="productTopcategoryName"/>
+		<result column="is_active" property="isActive"/>
+	</resultMap>
+	
+	<!-- 전체 조회 (검색 포함) -->
+	<select id="selectAll" resultMap="ProductTopcategoryResultMap" parameterType="map">
+	    select product_topcategory_id, product_topcategory_name, is_active
+	    from product_topcategory
+	    where is_active = true
+	    <if test="searchKey != null and searchKey != ''">
+	        and product_topcategory_name like concat('%', #{searchKey}, '%')
+	    </if>
+	    order by product_topcategory_id desc
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insert" parameterType="peachstore.domain.ProductTopcategory">
+		insert into product_topcategory(product_topcategory_name) 
+		values(#{productTopcategoryName})
+	</insert>
+
+	<!-- 수정 -->
+	<update id="update" parameterType="peachstore.domain.ProductTopcategory">
+	    update product_topcategory
+	    set 
+	    	product_topcategory_name = #{productTopcategoryName}
+	        , is_active = #{isActive}
+	    where product_topcategory_id = #{productTopcategoryId}
+	</update>
+
+	<!-- pk를 통한 조회 -->
+	<select id="findById" resultMap="ProductTopcategoryResultMap">
+	    select * 
+	    from product_topcategory 
+	    where product_topcategory_id = #{productTopcategoryId}
+	</select>
+
+
+</mapper>

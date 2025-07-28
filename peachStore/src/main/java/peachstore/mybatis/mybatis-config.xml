@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="peachstore.domain.ProductTopcategory" alias="ProductTopcategory" />
+		<typeAlias type="peachstore.domain.User" alias="User"/>
+		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
+		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
+		<typeAlias type="peachstore.domain.User" alias="User"/>
+		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
+		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
+		
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="JNDI">
+				<property name="data_source"
+					value="java:comp/env/jndi/mysql" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="peachstore/mybatis/ProductTopcategoryMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
+		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
+	</mappers>
+</configuration>
