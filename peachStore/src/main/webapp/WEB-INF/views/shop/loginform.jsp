@@ -4,6 +4,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<%@ include file="./inc/head_link.jsp" %>
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -269,7 +270,7 @@ input[type=submit]:hover {
 </style>
 </head>
 <body>
-
+<%@ include file="./inc/header.jsp" %>
 <h2>pPhone에 오신것을 환영합니다.</h2>
 <p>Resize the browser window to see the responsive effect. When the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other.</p>
 
