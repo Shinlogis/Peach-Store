@@ -177,3 +177,6 @@ Servers/
 
 # IntelliJ IDEA 설정 무시
 .idea/
+
+# GitHub 이슈 템플릿 무시
+.github/ISSUE_TEMPLATE/
