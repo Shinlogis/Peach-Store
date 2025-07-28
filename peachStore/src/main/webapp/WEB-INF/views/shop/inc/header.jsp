@@ -10,6 +10,9 @@
       <% int topId=topcategory.getProductTopcategoryId(); %>
       <li><a href="/shop/product?topid=<%=topId%>"><%=topName %></a></li>
       <%}%>
+      <li><a href="/shop/product/phone">Pac</a></li>
+      <li><a href="/shop/product/phone">PPhone</a></li>
+      <li><a href="">액세서리</a></li>
       <li><a href="/shop/inquiry/registForm">고객지원</a></li>
       <li><a href="/shop/loginform">로그인</a></li>
       <li><a href=""><img src="/static/shop/img/header/search1.png" style="width:13px; height:100%; margin-bottom:3px"></a></li>
