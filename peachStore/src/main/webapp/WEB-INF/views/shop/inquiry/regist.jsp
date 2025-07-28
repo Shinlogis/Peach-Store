@@ -54,7 +54,7 @@
 					<!-- Default box -->
 					<div class="card">
 						<div class="card-body">
-							<form id="form1">
+							<form id="form1" enctype="multipart/form-data">
 								<div class="form-group">
 									<label >제목</label> <input type="text"
 										id="title" name="title" class="form-control" required />

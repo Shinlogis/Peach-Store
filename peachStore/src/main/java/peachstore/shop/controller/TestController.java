@@ -41,9 +41,4 @@ public class TestController {
 		return "redirect:/shop/main";
 		
 	}
-	@GetMapping("/inquiry/registForm")
-	public String inquiryRegist() {
-		
-		return "/shop/inquiry/regist";
-	}
 }
