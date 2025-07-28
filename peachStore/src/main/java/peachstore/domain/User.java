@@ -6,16 +6,16 @@ import lombok.Data;
 public class User {
 	
 	private int user_id;
+	private String id;
     private String email;
-    private String id;
     private String password;
-    private String name;
+    private String user_name;
     private String tel;
     private String address;
-    private int gradeId;
     private boolean isActive;
-    private java.sql.Timestamp createAt;
-    private int snsPrviderId;
+    private String createAt;
+    private UserGrade userGrade;
+    private SnsProvider snsProvider;
 
 
 }
