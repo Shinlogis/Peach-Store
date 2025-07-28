@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
 import peachstore.service.SnsProviderService;
 import peachstore.service.UserService;
-
 @Slf4j
 @Controller
 public class UserController {
@@ -101,4 +100,5 @@ public class UserController {
 
 		return "redirect:/shop/main";
 	}
+	
 }

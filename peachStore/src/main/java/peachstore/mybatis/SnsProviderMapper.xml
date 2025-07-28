@@ -4,4 +4,7 @@
 	<select id="selectByName" parameterType="String" resultType="SnsProvider">
 		select * from sns_provider where provider_name=#{provider_name}
 	</select>
+	<select id="selectById" resultType="SnsProvider" parameterType="int">
+		select * from SnsProvider where sns_provider_id = #{sns_prdovider_id}
+	</select>
 </mapper>
