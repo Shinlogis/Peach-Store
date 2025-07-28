@@ -1,53 +1,16 @@
-
 <%@ page contentType="text/html; charset=UTF-8"%>
-<header class="header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-3 col-lg-2">
-                    <div class="header__logo">
-                        <a href="/static/shop/index.html"><img src="/static/shop/img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-7">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a href="/static/shop/index.html">Home</a></li>
-                            <li><a href="#">header</a></li>
-                            <li><a href="/static/shop/shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="/static/shop/product-details.html">Product Details</a></li>
-                                    <li><a href="/static/shop/shop-cart.html">Shop Cart</a></li>
-                                    <li><a href="/static/shop/checkout.html">Checkout</a></li>
-                                    <li><a href="/static/shop/blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="/static/shop/blog.html">Blog</a></li>
-                            <li><a href="/static/shop/contact.html">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <div class="header__right__auth">
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
-                        </div>
-                        <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
-    </html>
+<header class="header1">
+     <ul class="header_nav" style="display: flex;">
+      <li><a href="">애플</a></li>
+      <li><a href="/shop/main">Store</a></li>
+      <li><a href="../product/mac.html">Pac</a></li>
+      <li><a href="/static/shop/shop.html">PPhone</a></li>
+      <li><a href="">액세서리</a></li>
+      <li><a href="">고객지원</a></li>
+      <li><a href="">검색</a></li>
+      <li><a href="">로그인</a></li>
+      <li><a href="">장바구니</a></li>
+      <li><a href="">마이페이지</a></li>
+    </ul>
+</header>
+</html>

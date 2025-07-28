@@ -12,12 +12,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
 <%@ include file="./inc/head_link.jsp" %>
-
+    
 </head>
-
 <body>
     <!-- Page Preloder -->
-<%@ include file="./inc/preloader.jsp" %>
+<%-- <%@ include file="./inc/preloader.jsp" %> --%>
     <!-- Offcanvas Menu Begin -->
 <%@ include file="./inc/offcanvas.jsp" %>
     <!-- Offcanvas Menu End -->
@@ -43,15 +42,15 @@
 <!-- Trend Section End -->
 
 <!-- Discount Section Begin -->
-<%@ include file="./inc/discount_section.jsp" %>
+<%-- <%@ include file="./inc/discount_section.jsp" %> --%>
 <!-- Discount Section End -->
 
 <!-- Services Section Begin -->
-<%@ include file="./inc/services_section.jsp" %>
+<%-- <%@ include file="./inc/services_section.jsp" %> --%>
 <!-- Services Section End -->
 
 <!-- Instagram Begin -->
-<%@ include file="./inc/instagram.jsp" %>
+<%@ include file="./inc/instagram.jsp" %> 
 <!-- Instagram End -->
 
 <!-- Footer Section Begin -->

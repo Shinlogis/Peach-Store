@@ -14,3 +14,6 @@
     <link rel="stylesheet" href="/static/shop/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/static/shop/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/static/shop/css/style.css" type="text/css">
+    <link rel="stylesheet"  href="/static/shop/css/main/header.css">
+    <link rel="stylesheet"  href="/static/shop/css/main/category.css">
+    <link rel="stylesheet"  href="/static/shop/css/main/product_section.css">
