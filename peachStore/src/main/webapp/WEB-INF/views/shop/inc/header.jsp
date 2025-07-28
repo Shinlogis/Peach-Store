@@ -3,8 +3,8 @@
      <ul class="header_nav" style="display: flex;">
       <li><a href="">애플</a></li>
       <li><a href="/shop/main">Store</a></li>
-      <li><a href="../product/mac.html">Pac</a></li>
-      <li><a href="/static/shop/shop.html">PPhone</a></li>
+      <li><a href="/shop/product/phone">Pac</a></li>
+      <li><a href="/shop/product/phone">PPhone</a></li>
       <li><a href="">액세서리</a></li>
       <li><a href="">고객지원</a></li>
       <li><a href="">검색</a></li>
