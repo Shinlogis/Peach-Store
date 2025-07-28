@@ -23,15 +23,13 @@ public class InquiryDAOImpl implements InquiryDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public List selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List selectAll(Inquiry inquiry) {
+		return sqlSessionTemplate.selectList("Inquiry.selectAll", inquiry);
 	}
 
 	@Override
-	public Inquiry select(int inquiry_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Inquiry select(Inquiry inquiry) {
+		return sqlSessionTemplate.selectOne("Inquiry.select", inquiry);
 	}
 
 	@Override

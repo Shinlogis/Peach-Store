@@ -24,7 +24,7 @@ public class InquiryImgDAOImpl implements InquiryImgDAO{
 	public void insert(InquiryImg inquiryImg) throws InquiryImgException {
 		int result = sqlSessionTemplate.insert("InquiryImg.insert", inquiryImg);
 		log.debug("inquiry_img insert result: " + result); 
-		
+
 		if(result<1)throw new InquiryImgException("사진 등록 실페");
 	}
 

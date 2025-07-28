@@ -44,7 +44,7 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">나의 문의내역 보기</a></li>
+						<li><a href="/shop/inquiry/list">나의 문의내역 보기</a></li>
 					</ul>
 				</div>
 			</div>

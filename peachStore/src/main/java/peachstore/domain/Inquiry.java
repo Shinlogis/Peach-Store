@@ -17,7 +17,7 @@ public class Inquiry {
 	private int inquiry_id;
 	private String title;
 	private String inquiry_text;
-	private LocalDateTime create_at;
+	private LocalDateTime created_at;
 	private String answer_text;
 	private LocalDateTime answered_at;
 	private boolean is_active;

@@ -29,18 +29,16 @@ public class InquiryServiceImpl implements InquiryService{
 	private FileManager fileManager;
 	
 	@Autowired
-	private InquiryImgDAO inquiryImgDAO;
+	private InquiryImgService inquiryImgService;
 
 	@Override
-	public List selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List selectAll(Inquiry inquiry) {
+		return inquiryDAO.selectAll(inquiry);
 	}
 
 	@Override
-	public Inquiry select(int inquiry_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Inquiry select(Inquiry inquiry) {
+		return inquiryDAO.select(inquiry);
 	}
 
 	@Override
@@ -52,8 +50,13 @@ public class InquiryServiceImpl implements InquiryService{
 		List<InquiryImg> imgList = inquiry.getImgList();
 		for(InquiryImg inquiryImg : imgList) {
 			inquiryImg.setInquiry(inquiry);
-			inquiryImgDAO.insert(inquiryImg);
+			inquiryImgService.insert(inquiryImg);
 		}
+	}
+
+	@Override
+	public void remove(Inquiry inquiry, String savePath) {
+		fileManager.remove(inquiry, savePath);
 	}
 	
 

@@ -1,5 +1,6 @@
 package peachstore.service.inquiry;
 
+import peachstore.domain.Inquiry;
 import peachstore.domain.InquiryImg;
 
 /**
@@ -9,4 +10,5 @@ import peachstore.domain.InquiryImg;
  */
 public interface InquiryImgService {
 	public void insert(InquiryImg inquiryImg);
+	
 }
