@@ -10,3 +10,4 @@
 <script src="/static/shop/js/owl.carousel.min.js"></script>
 <script src="/static/shop/js/jquery.nicescroll.min.js"></script>
 <script src="/static/shop/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>

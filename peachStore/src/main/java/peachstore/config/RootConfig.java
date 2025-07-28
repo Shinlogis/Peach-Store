@@ -13,8 +13,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jndi.JndiTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
+@EnableTransactionManagement
 @ComponentScan(basePackages = {
 	    "peachstore.service",
 	    "peachstore.repository",
@@ -48,6 +51,15 @@ public class RootConfig {
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate() throws Exception {
 		return new SqlSessionTemplate(sqlSessionFactory());
+	}
+	
+	/*파일 업로드 설정*/
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setMaxUploadSize(10*1024*1024); //10M
+		
+		return resolver;
 	}
 
 

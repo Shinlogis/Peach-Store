@@ -5,7 +5,14 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias type="peachstore.domain.ProductCategory" alias="ProductCategory" />
+		<typeAlias type="peachstore.domain.ProductTopcategory" alias="ProductTopcategory" />
+		<typeAlias type="peachstore.domain.User" alias="User"/>
+		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
+		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
+		<typeAlias type="peachstore.domain.User" alias="User"/>
+		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
+		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
+		
 	</typeAliases>
 
 	<environments default="development">
@@ -19,6 +26,12 @@
 	</environments>
 
 	<mappers>
-		<mapper resource="peachstore/mybatis/ProductCategoryMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/ProductTopcategoryMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
+		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
+		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
 	</mappers>
 </configuration>

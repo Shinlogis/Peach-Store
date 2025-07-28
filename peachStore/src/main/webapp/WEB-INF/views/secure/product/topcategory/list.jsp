@@ -1,9 +1,9 @@
 <%@page import="peachstore.util.Paging"%>
-<%@page import="peachstore.domain.ProductCategory"%>
+<%@page import="peachstore.domain.ProductTopcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<ProductCategory> productCategories = (List) request.getAttribute("productCategories");
+	List<ProductTopcategory> productTopcategories = (List) request.getAttribute("productTopcategories");
 	Paging paging = (Paging) request.getAttribute("paging");
 	// 페이징 처리 변수들
 	int totalRecord = paging.getTotalRecord();
@@ -13,7 +13,7 @@
 	int lastPage = paging.getLastPage();
 	int totalPage = paging.getTotalPage();
 	int startNum = totalRecord - (currentPage - 1) * pageSize;
-	int size = productCategories.size();
+	int size = productTopcategories.size();
 	
 	String searchKey = (String) request.getAttribute("searchKey"); // 검색어 받아오기
 	if (searchKey == null)
@@ -106,24 +106,24 @@
 										<tbody>
 											<%
 												for (int i = 0; i < size; i++) {
-													ProductCategory productCategory = productCategories.get(i);
+													ProductTopcategory productTopcategory = productTopcategories.get(i);
 											%>
 											<tr>
 												<td><%=startNum - i%></td>
-												<td><%=productCategory.getProductCategoryName()%></td>
+												<td><%=productTopcategory.getProductTopcategoryName()%></td>
 												<td>
 													<button type="button" class="btn btn-secondary"
 														data-toggle="modal" data-target="#categoryEditModal"
-														data-id="<%=productCategory.getProductCategoryId()%>"
-														data-name="<%=productCategory.getProductCategoryName()%>">
+														data-id="<%=productTopcategory.getProductTopcategoryId()%>"
+														data-name="<%=productTopcategory.getProductTopcategoryName()%>">
 														수정
 													</button>
 												</td>
 												<td>
 													<button type="button" class="btn btn-danger"
 														data-toggle="modal" data-target="#categoryDelModal"
-														data-id="<%=productCategory.getProductCategoryId()%>"
-														data-name="<%=productCategory.getProductCategoryName()%>">
+														data-id="<%=productTopcategory.getProductTopcategoryId()%>"
+														data-name="<%=productTopcategory.getProductTopcategoryName()%>">
 														삭제
 													</button>
 												</td>
@@ -200,7 +200,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="categoryModalLabel">카테고리 등록</h5>
+									<h5 class="modal-title" id="categoryModalLabel">상위 카테고리 등록</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -208,13 +208,13 @@
 								<div class="modal-body">
 									<form id="categoryForm">
 										<div class="form-group">
-											<label for="categoryName">카테고리명</label> <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="카테고리명을 입력하세요">
+											<label for="categoryName">상위 카테고리명</label> <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="카테고리명을 입력하세요">
 										</div>
 									</form>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-									<button type="button" class="btn btn-primary" id="submitCategory">등록</button>
+									<button type="button" class="btn btn-primary" id="submitTopCategory">등록</button>
 								</div>
 							</div>
 						</div>
@@ -225,7 +225,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="categoryModalLabel">카테고리를 수정하시겠어요?</h5>
+									<h5 class="modal-title" id="categoryModalLabel">상위 카테고리를 수정하시겠어요?</h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -234,14 +234,14 @@
 								<div class="modal-body">
 									<form id="categoryEditForm">
 										<div class="form-group">
-											<label for="editCategoryName">현재 카테고리명</label> 
+											<label for="editTopCategoryName">현재 상위 카테고리명</label> 
 											<label id="categoryNameLabel" class="h5 font-weight-bold text-dark d-block"></label> 
-											<input type="text" class="form-control" id="editCategoryName" name="editCategoryName" placeholder="수정할 카테고리명을 입력하세요">
+											<input type="text" class="form-control" id="editTopCategoryName" name="editTopCategoryName" placeholder="수정할 카테고리명을 입력하세요">
 										</div>
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" id="editCategory">수정</button>
+									<button type="button" class="btn btn-primary" id="editTopCategory">수정</button>
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 								</div>
 							</div>
@@ -253,7 +253,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="categoryModalLabel">카테고리를 삭제하시겠어요?</h5>
+									<h5 class="modal-title" id="categoryModalLabel">상위 카테고리를 삭제하시겠어요?</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -262,15 +262,15 @@
 									<form id="categoryDelForm">
 										<div class="form-group">
 											<div class="modal-body text-center pt-0 pb-4">
-												<p class="text-secondary mb-1">다음 카테고리를 삭제합니다.</p>
-												<label id="delCategoryName" class="h5 font-weight-bold text-dark d-block"></label>
+												<p class="text-secondary mb-1">다음 상위 카테고리를 삭제합니다.</p>
+												<label id="delTopCategoryName" class="h5 font-weight-bold text-dark d-block"></label>
 												<p class="text-secondary mb-1">이 작업은 되돌릴 수 없습니다.</p>
 											</div>
 										</div>
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" id="delCategory">확인</button>
+									<button type="button" class="btn btn-primary" id="delTopCategory">확인</button>
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 								</div>
 							</div>
@@ -296,21 +296,21 @@
 		// 검색 버튼 클릭 이벤트
 		$("#bt_search").click(()=>{
 			let searchKey = document.getElementById("searchKey").value.trim();
-			location.href = "/admin/product/category/list?currentPage=1&searchKey="+encodeURIComponent(searchKey);
+			location.href = "/admin/product/topcategory/list?currentPage=1&searchKey="+encodeURIComponent(searchKey);
 		});
 
 		// 등록 요청
 		function regist(categoryName) {
 			$.ajax({
-				url : "/admin/product/category/regist",
+				url : "/admin/product/topcategory/regist",
 				type : "post",
 				data : {
-					"categoryName" : categoryName
+					"productTopcategoryName" : categoryName
 				},
 				success : function(result, status, xhr) {
 					if (result == "success") {
 						alert("등록 성공");
-						location.href = "/admin/product/category/list?currentPage=1";
+						location.href = "/admin/product/topcategory/list?currentPage=1";
 					}
 				},
 				error : function(xhr, status, result) {
@@ -320,7 +320,7 @@
 		}
 
 		// 등록 버튼 클릭 이벤트
-		$("#submitCategory").click(()=>{
+		$("#submitTopCategory").click(()=>{
 			let categoryName = document.getElementById("categoryName").value.trim();
 			if (!categoryName) {
 				alert("카테고리명을 입력하세요.");
@@ -335,23 +335,23 @@
 		// 수정 모달 오픈 이벤트
 		$("#categoryEditModal").on("show.bs.modal", function(e) {
 			let button = $(e.relatedTarget);
-			let productCategoryId = button.data("id");
+			let productTopcategoryId = button.data("id");
 			let categoryName = button.data("name");
 
 			let modal = $(this);
 			modal.find("#categoryNameLabel").text(categoryName);
-			modal.data("productCategoryId", productCategoryId);
-			modal.find("#editCategoryName").val(categoryName);
+			modal.data("productTopcategoryId", productTopcategoryId);
+			modal.find("#editTopCategoryName").val(categoryName);
 		});
 
 		// 수정 요청
-		function update(productCategoryId, newName) {
+		function update(productTopcategoryId, newName) {
 			$.ajax({
-				url : "/admin/product/category/update",
+				url : "/admin/product/topcategory/update",
 				type : "POST",
 				data : {
-					productCategoryId : productCategoryId,
-					productCategoryName : newName
+					productTopcategoryId : productTopcategoryId,
+					productTopcategoryName : newName
 				},
 				success : function(result) {
 					if (result === "success") {
@@ -369,43 +369,43 @@
 		}
 
 		// 수정 확인 버튼 클릭 이벤트
-		$("#editCategory").click(()=>{
+		$("#editTopCategory").click(()=>{
 			let modal = $("#categoryEditModal");
-			let productCategoryId = modal.data("productCategoryId");
-			let newName = modal.find("#editCategoryName").val().trim();
+			let productTopcategoryId = modal.data("productTopcategoryId");
+			let newName = modal.find("#editTopCategoryName").val().trim();
 
 			if (!newName) {
 				alert("수정할 카테고리명을 입력하세요.");
 				return;
 			}
 
-			update(productCategoryId, newName);
+			update(productTopcategoryId, newName);
 		});
 
 		// 삭제 모달 오픈 이벤트
 		$("#categoryDelModal").on("show.bs.modal", function(e) {
 			let button = $(e.relatedTarget);
-			let productCategoryId = button.data("id");
+			let productTopcategoryId = button.data("id");
 			let categoryName = button.data("name");
 
 			let modal = $(this);
-			modal.find("#delCategoryName").text(categoryName);
-			modal.data("productCategoryId", productCategoryId);
+			modal.find("#delTopCategoryName").text(categoryName);
+			modal.data("productTopcategoryId", productTopcategoryId);
 		});
 
 		// 삭제 요청
-		function deactive(productCategoryId) {
+		function deactive(productTopcategoryId) {
 			$.ajax({
-				url : "/admin/product/category/deactivate",
+				url : "/admin/product/topcategory/deactivate",
 				type : "POST",
 				data : {
-					"productCategoryId" : productCategoryId
+					"productTopcategoryId" : productTopcategoryId
 				},
 				success : function(result) {
 					if (result === "success") {
 						alert("삭제 성공");
 						$("#categoryDelModal").modal("hide");
-						location.href = "/admin/product/category/list?currentPage=1"; // 1페이지로 이동
+						location.href = "/admin/product/topcategory/list?currentPage=1"; // 1페이지로 이동
 					} else {
 						alert("삭제 실패");
 					}
@@ -417,11 +417,11 @@
 		}
 
 		// 삭제 확인 버튼 클릭 이벤트
-		$("#delCategory").click(()=>{
+		$("#delTopCategory").click(()=>{
 			let modal = $("#categoryDelModal");
-			let productCategoryId = modal.data("productCategoryId");
+			let productTopcategoryId = modal.data("productTopcategoryId");
 
-			deactive(productCategoryId);
+			deactive(productTopcategoryId);
 		});
 	</script>
 
