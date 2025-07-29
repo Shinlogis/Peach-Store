@@ -1,7 +1,10 @@
+<%@page import="peachstore.domain.ProductSubcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+	List<ProductSubcategory> subList=(List)request.getAttribute("subList");
+	String topname=(String)request.getAttribute("topName");
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -28,16 +31,16 @@
  <section id="product-list-section" style="margin:auto">
 	<!-- 제목 -->
 	<div>
-		<span class="title-h1">당신의 새로운 PPhone 구입하기  </span>
+		<span class="title-h1">당신의 새로운 <%=topname%> 구입하기  </span>
 	</div>
 	<!-- 제목 -->
 	
 	<!-- 서브카테고리토글  시작 -->
 	<div class=sub-category-toggle >
 		<div class=sub-category-toggle-buttons>
-			<button class="btn-item" id="btn16">16시리즈</button>
-			<button class="btn-item">15시리즈</button>
-			<button class="btn-item">14시리즈</button>
+			<%for(ProductSubcategory productSubcategory : subList){ %>
+				<button class="btn-item"><%=productSubcategory.getProductSubcategoryName() %></button>
+			<%} %>
 		</div>
 	</div>
 	<!-- 서브카테고리토글 끝-->
@@ -135,7 +138,6 @@
 	background-color:#fff;
 	border-radius: 18px;
 	padding: 8px;
-	
 }
 
 .sub-category-toggle button{
@@ -145,6 +147,7 @@
 	padding: 3px 10px;
 	font-size:18px;
 	font-weight:600;
+	letter-spacing: 1px;
 }
 
 .phone{
