@@ -6,7 +6,7 @@
 	pageEncoding="UTF-8"%>
 <% User user = (User)session.getAttribute("user");
 	Inquiry inquiry = (Inquiry)request.getAttribute("inquiry");
-	
+	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 %>
 <!DOCTYPE html>
 <html lang="zxx">
