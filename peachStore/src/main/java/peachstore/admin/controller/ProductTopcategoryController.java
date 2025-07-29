@@ -100,4 +100,15 @@ public class ProductTopcategoryController {
 		productTopcategoryService.deactivate(productTopcategoryId);
 		return "success";
 	}
+    /**
+     * 주로 상품 등록 화면에서 상위 카테고리 드롭다운을 동적으로 채우기 위해 사용
+     * @return 전체 상위 카테고리 리스트 (JSON 배열로 반환됨)
+     * @author 김지민
+     * @since 2025-07-29
+     */
+	@GetMapping("/topcategory/list")
+	@ResponseBody
+	public List<ProductTopcategory> getTopcategoryList() {
+	    return productTopcategoryService.selectAll();
+	}
 }

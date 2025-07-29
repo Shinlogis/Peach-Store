@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+
+	
+	<insert id="insert" parameterType="Product">
+		insert into product(product_code, product_name, price, introduce, detail, product_subcategory_id)
+		values(#{product_code}, #{product_name}, #{price}, #{introduce}, #{detail}, #{productSubcategory.productSubcategoryId})
+		
+		<selectKey keyColumn="product_id" keyProperty="product_id" resultType="int" order="AFTER">
+			select last_insert_id() as product_id
+		</selectKey>
+	</insert>
+
+	<sql id="columns">
+		product_id, product_code, product_name, price, introduce, detail, product_subcategory_id
+	</sql>
+	
+	<resultMap type="Product" id="joinMap">
+		<id 		column="product_id" 		property="product_id"/>		
+		<result 	column="product_code" 	property="product_code"/>
+		<result 	column="product_name" 	property="product_name"/>
+		<result 	column="brand" 				property="brand"/>
+		<result 	column="price" 				property="price"/>
+		<result 	column="introduce" 			property="introduce"/>
+		<result 	column="detail" 				property="detail"/>
+		
+		<association column="product_subcategory_id" property="productSubcategory" javaType="ProductSubCategory"
+				select="ProductSubcategory.selectById"/>
+		
+		<!-- 1:多 관계인 자식을 수집한다 -->
+		<collection column="product_id" property="colorList" javaType="java.util.List" ofType="ProductColor"
+			select="ProductColor.selectByProductId"/>
+		
+		<collection column="product_id" property="sizeList" javaType="java.util.List" ofType="ProductSize"
+			select="ProductSize.selectByProductId"/>	
+	</resultMap>
+	
+
+	<select id="selectAll" resultType="Product">
+		select <include refid="columns"/> from product
+	</select>
+	
+	<select id="select" parameterType="int" resultType="Product">
+		select <include refid="columns"/> from product 
+		where product_id=#{product_id}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

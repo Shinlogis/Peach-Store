@@ -1,5 +1,9 @@
 package peachstore.exception;
-
+/**
+ * 상품 예외처리
+ * @author 김지민 
+ * @since 2025-07-29
+ */
 public class ProductException extends RuntimeException{
 	
 	public ProductException(String msg) {
