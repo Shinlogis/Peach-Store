@@ -18,8 +18,6 @@
 		<typeAlias type="peachstore.domain.OrderDetail" alias="OrderDetail"/>
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
-		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
-		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 		
 	</typeAliases>
 
