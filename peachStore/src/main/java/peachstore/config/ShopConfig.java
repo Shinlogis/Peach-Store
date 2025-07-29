@@ -15,7 +15,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 @Configuration
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
-@ComponentScan(basePackages = { "peachstore.shop.controller" })
+@ComponentScan(basePackages = { "peachstore.advice","peachstore.shop.controller" })
 public class ShopConfig {
 	//Client ID, Secret, callback주소 보안매핑
 	@Value("${oauth.google.clientId}")

@@ -1,5 +1,9 @@
+<%@page import="peachstore.domain.ProductTopcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -14,8 +18,6 @@
     
 </head>
 <body>
-    <!-- Page Preloder -->
-<%-- <%@ include file="./inc/preloader.jsp" %> --%>
     <!-- Offcanvas Menu Begin -->
 <%@ include file="./inc/offcanvas.jsp" %>
     <!-- Offcanvas Menu End -->
@@ -39,14 +41,6 @@
 <!-- Trend Section Begin -->
 <%@ include file="./inc/trend_section.jsp" %>
 <!-- Trend Section End -->
-
-<!-- Discount Section Begin -->
-<%-- <%@ include file="./inc/discount_section.jsp" %> --%>
-<!-- Discount Section End -->
-
-<!-- Services Section Begin -->
-<%-- <%@ include file="./inc/services_section.jsp" %> --%>
-<!-- Services Section End -->
 
 <!-- Instagram Begin -->
 <%@ include file="./inc/instagram.jsp" %> 

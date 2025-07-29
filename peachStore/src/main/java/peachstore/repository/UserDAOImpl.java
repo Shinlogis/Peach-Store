@@ -13,8 +13,8 @@ public class UserDAOImpl implements UserDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
-	public User selectByName(String sns_name) {
-		User user = (User)sqlSessionTemplate.selectOne("User.select", sns_name);
+	public User selectByName(String name) {
+		User user = (User)sqlSessionTemplate.selectOne("User.selectByName", name);
 		
 		return user;
 	}

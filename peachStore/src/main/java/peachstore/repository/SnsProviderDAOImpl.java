@@ -20,6 +20,6 @@ public class SnsProviderDAOImpl implements SnsProviderDAO{
 	}
 	
 	public SnsProvider selectByName(String name) {
-		return sqlSessionTemplate.selectOne("Snsprovider.selectByName", name);
+		return sqlSessionTemplate.selectOne("SnsProvider.selectByName", name);
 	}
 }
