@@ -21,8 +21,7 @@ import peachstore.exception.Uploadexception;
 @Slf4j
 @Component
 public class FileManager {
-
-	// 상품 이미지 저장
+	//상품 이미지 저장
 	public void save(Inquiry inquiry, String savePath) throws Uploadexception {
 		List imgList = new ArrayList();
 
@@ -103,28 +102,27 @@ public class FileManager {
 
 	}
 	
-
-	// 상품 이미지 삭제
+	
+	//상품 이미지 삭제
 	public void remove(Inquiry inquiry, String savePath) {
-
+		
 		File directory = new File(savePath, "p_" + inquiry.getInquiry_id());
-
-		if (directory.exists() && directory.isDirectory()) {
+		
+		if(directory.exists()&&directory.isDirectory()) {
 			File[] files = directory.listFiles();
-
-			if (files != null) {
-				for (File file : files) {
+			
+			if(files!= null) {
+				for(File file : files) {
 					boolean deleted = file.delete();
 					log.debug(file.getName() + "를 삭제한 결과" + deleted);
 				}
 			}
-
+			
 			boolean result = directory.delete();
-
-			if (result == false) {
+			
+			if(result == false) {
 				log.warn("디렉토리 삭제 실패" + directory.getAbsolutePath());
 			}
 		}
 	}
-
 }

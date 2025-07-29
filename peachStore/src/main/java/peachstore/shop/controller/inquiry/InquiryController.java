@@ -35,8 +35,8 @@ public class InquiryController {
 	public String registForm() {
 		return "/shop/inquiry/regist";
 	}
-
-	// 등록
+	
+	//등록
 	@PostMapping("/inquiry/regist")
 	@ResponseBody
 	public String regist(Inquiry inquiry, HttpServletRequest request, HttpSession session) {
@@ -45,7 +45,6 @@ public class InquiryController {
 		String responseData = "fail";
 		log.debug("제목은 : " + request.getParameter("title"));
 		log.debug("내용은 : " + request.getParameter("inquiry_text"));
-
 		try {
 			inquiryService.regist(inquiry, savePath);
 			log.debug("문의 아이디는 : " + inquiry.getInquiry_id());
@@ -130,5 +129,6 @@ public class InquiryController {
 		
 		return "redirect:/shop/inquiry/list";
 	}
-
 }
+
+
