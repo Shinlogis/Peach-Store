@@ -4,18 +4,42 @@
 
 	
 	<insert id="insert" parameterType="Product">
-		insert into product(product_code, product_name, price, introduce, detail)
-		values(#{product_code}, #{product_name}, #{price}, #{introduce},#{detail})
+		insert into product(product_code, product_name, price, introduce, detail, product_subcategory_id)
+		values(#{product_code}, #{product_name}, #{price}, #{introduce}, #{detail}, #{productSubcategory.productSubcategoryId})
 		
-		<!-- insert 시키자 마자, 현재 세션에서 일으킨 pk의 최대값  -->
 		<selectKey keyColumn="product_id" keyProperty="product_id" resultType="int" order="AFTER">
 			select last_insert_id() as product_id
 		</selectKey>
 	</insert>
 
 	<sql id="columns">
-		product_id, product_code, product_name, price, introduce, detail
+		product_id, product_code, product_name, price, introduce, detail, product_subcategory_id
 	</sql>
+	
+		<resultMap type="Product" id="joinMap">
+		<id 		column="product_id" 		property="product_id"/>		
+		<result 	column="product_code" 	property="product_code"/>
+		<result 	column="product_name" 	property="product_name"/>
+		<result 	column="brand" 				property="brand"/>
+		<result 	column="price" 				property="price"/>
+		<result 	column="introduce" 			property="introduce"/>
+		<result 	column="detail" 				property="detail"/>
+		
+		<association column="product_subcategory_id" property="subcategory" javaType="ProductSubCategory"
+				select="SubCategory.select"/>
+		
+		<!-- 1:多 관계인 자식을 수집한다 -->
+		<collection column="product_id" property="colorList" javaType="java.util.List" ofType="ProductColor"
+			select="ProductColor.selectByProductId"/>
+		
+		<collection column="product_id" property="sizeList" javaType="java.util.List" ofType="ProductSize"
+			select="ProductSize.selectByProductId"/>
+		
+		<collection column="product_id" property="imgList" javaType="java.util.List" ofType="ProductImg"
+			select="ProductImg.selectByProductId"/>
+		
+	</resultMap>
+	
 
 	<select id="selectAll" resultType="Product">
 		select <include refid="columns"/> from product
