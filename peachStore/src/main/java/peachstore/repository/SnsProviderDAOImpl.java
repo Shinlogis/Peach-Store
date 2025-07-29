@@ -19,8 +19,7 @@ public class SnsProviderDAOImpl implements SnsProviderDAO{
 		return sqlSessionTemplate.selectList("SnsProvider.selectAll");
 	}
 	
-	@Override
 	public SnsProvider selectByName(String name) {
-		return sqlSessionTemplate.selectOne("SnsProvider.selectByName", name);
+		return sqlSessionTemplate.selectOne("Snsprovider.selectByName", name);
 	}
 }

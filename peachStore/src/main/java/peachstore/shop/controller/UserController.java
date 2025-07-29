@@ -36,7 +36,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	// 로그인 폼 요청 처리
+	//로그인 폼 요청 처리
 	@GetMapping("/loginform")
 	public String getLoginForm() {
 		return "shop/loginform";
