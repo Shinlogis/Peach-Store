@@ -19,16 +19,52 @@ public class ProductSubcategoryDAOImpl implements ProductSubcategoryDAO {
 	private final SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public List<ProductSubcategory> selectAllWithTopcategory() {
-		List<ProductSubcategory> list = sqlSessionTemplate.selectList("peachstore.repository.ProductSubcategoryDAO.selectAllWithTopcategory");
-        log.debug("selectAll - resultCount: {}", list.size());
-        return list;
+	public List<ProductSubcategory> findAllWithTopcategory(String searchKey) {
+		// 검색어 담을 파라미터 맵
+		Map<String, Object> paramMap = new HashMap<>();
+
+		String trimmedSearchKey = null;
+		// searchKey가 있는 경우
+		if (searchKey != null) {
+			trimmedSearchKey = searchKey.trim(); // 공백 제거
+			// searchKey가 비어있으면 null로 전달해서 매퍼에서 조건 무시
+			if (trimmedSearchKey.isEmpty()) {
+				trimmedSearchKey = null;
+			}
+		}
+		paramMap.put("searchKey", trimmedSearchKey);
+
+		List<ProductSubcategory> list = sqlSessionTemplate.selectList("peachstore.repository.ProductSubcategoryDAO.selectAllWithTopcategory", paramMap);
+		log.debug("selectAll - searchKey: {}, resultCount: {}", searchKey, list.size());
+		return list;
 	}
 
 	@Override
-	public void register(ProductSubcategory productSubcategory) {
-		sqlSessionTemplate.insert("peachstore.repository.ProductSubcategoryDAO.insert", productSubcategory);
-		log.debug("register - productSubcategory: {}", productSubcategory);
+	public int insert(ProductSubcategory productSubcategory) {
+		int result = sqlSessionTemplate.insert("peachstore.repository.ProductSubcategoryDAO.insert", productSubcategory);
+		log.debug("insert - productSubcategory: {}", productSubcategory);
+		return result;
+	}
+
+	@Override
+	public int update(ProductSubcategory productSubcategory) {
+		int result = sqlSessionTemplate.update("peachstore.repository.ProductSubcategoryDAO.update", productSubcategory);
+		log.debug("update - ProductSubcategory: {}", productSubcategory);
+		return result;
+	}
+
+	@Override
+	public ProductSubcategory findById(int subcategoryId) {
+		ProductSubcategory result = sqlSessionTemplate.selectOne("peachstore.repository.ProductSubcategoryDAO.selectById", subcategoryId);
+		log.debug("selectById - result: {}", result);
+		return result;
+	}
+
+	@Override
+	public List<ProductSubcategory> findAllByTopcategoryId(int productTopcategoryId) {
+		List<ProductSubcategory> list = sqlSessionTemplate.selectList("peachstore.repository.ProductSubcategoryDAO.selectAllSubcategoryByTopcategoryId", productTopcategoryId);
+		log.debug("selectAllSubcategoryByTopcategoryId - resultCount: {}", list.size());
+		return list;
 	}
 
 }
