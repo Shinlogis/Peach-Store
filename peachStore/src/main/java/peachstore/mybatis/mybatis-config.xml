@@ -12,7 +12,8 @@
 		<typeAlias type="peachstore.domain.OrderReceipt" alias="OrderReceipt"/>
 		<typeAlias type="peachstore.domain.SnapShot" alias="SnapShot"/>
 		<typeAlias type="peachstore.domain.OrderDetail" alias="OrderDetail"/>
-		
+		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
+		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 	</typeAliases>
 
 	<environments default="development">
@@ -33,5 +34,7 @@
 		<mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
 		<mapper resource="peachstore/mybatis/OrderDetailMapper.xml"/>
+		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
+		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
 	</mappers>
 </configuration>
