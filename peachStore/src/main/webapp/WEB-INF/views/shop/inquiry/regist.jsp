@@ -2,7 +2,10 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<% User user = (User)session.getAttribute("user"); %>
+<%
+User user = (User)session.getAttribute("user"); 
+List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+%>
 <!DOCTYPE html>
 <html lang="zxx">
 
