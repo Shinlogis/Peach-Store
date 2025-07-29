@@ -9,9 +9,7 @@
 		<typeAlias type="peachstore.domain.User" alias="User"/>
 		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
 		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
-		<typeAlias type="peachstore.domain.User" alias="User"/>
-		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
-		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
+		<typeAlias type="peachstore.domain.Product" alias="Product"/>
 		
 	</typeAliases>
 
@@ -30,8 +28,7 @@
 		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
 		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
 		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
-		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
-		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
-		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
+		<mapper resource="peachstore/mybatis/ProductMapper.xml"/>
+
 	</mappers>
 </configuration>
