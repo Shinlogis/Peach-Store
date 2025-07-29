@@ -6,6 +6,10 @@
 
 	<typeAliases>
 		<typeAlias type="peachstore.domain.ProductTopcategory" alias="ProductTopcategory" />
+		<typeAlias type="peachstore.domain.ProductSubcategory" alias="ProductSubcategory" />
+		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade" />
+		<typeAlias type="peachstore.domain.GradeCoupon" alias="GradeCoupon" />
+		<typeAlias type="peachstore.domain.Coupon" alias="Coupon" />
 		<typeAlias type="peachstore.domain.User" alias="User"/>
 		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
 		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
@@ -25,6 +29,10 @@
 
 	<mappers>
 		<mapper resource="peachstore/mybatis/ProductTopcategoryMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/ProductSubcategoryMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/GradeCouponMapper.xml"/> 
+		<mapper resource="peachstore/mybatis/CouponMapper.xml"/> 
 		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
 		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
 		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
