@@ -47,9 +47,14 @@ public class UserController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		// 로그 아웃 할 시 다시 로그인 폼으로 가도록 변경
-		return "redirect:/shop/user/loginform";
+		return "redirect:/shop/main";
 	}
 
+	@GetMapping("/joinform")
+	public String getJoinForm() {
+		return "shop/joinform";
+	}
+	
 	/*
 	 * ======================================================================== 구글
 	 * 로그인 처리
