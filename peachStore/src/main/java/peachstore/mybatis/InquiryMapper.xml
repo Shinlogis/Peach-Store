@@ -34,8 +34,13 @@
 	
 	<!--문의 단건 조회 -->
 	<select id="select" parameterType="Inquiry" resultMap="joinMap">
-		select inquiry_id, title, inquiry_text , created_at, user_id from inquiry where user_id=#{user.user_id} and inquiry_id=#{inquiry_id}
+		select inquiry_id, title, inquiry_text , created_at, user_id from inquiry where inquiry_id=#{inquiry_id}
 	</select>
 	
+	<!-- 문의 수정 -->
+	<update id="update" parameterType="Inquiry" >
+		update inquiry set title = #{title}, inquiry_text = #{inquiry_text}
+		 where inquiry_id=#{inquiry_id}
+	</update>	
 
 </mapper>

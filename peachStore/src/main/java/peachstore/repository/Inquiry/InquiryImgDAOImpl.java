@@ -28,4 +28,15 @@ public class InquiryImgDAOImpl implements InquiryImgDAO{
 		if(result<1)throw new InquiryImgException("사진 등록 실페");
 	}
 
+	@Override
+	public void update(InquiryImg inquiryImg) {
+		int result = sqlSessionTemplate.update("InquiryImg.update", inquiryImg);
+		
+		if(result <1) {
+			throw new InquiryImgException("사진 수정 실패");
+		}
+	}
+	
+	
+
 }

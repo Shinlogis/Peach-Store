@@ -55,9 +55,23 @@ public class InquiryServiceImpl implements InquiryService{
 	}
 
 	@Override
+	public void update(Inquiry inquiry, String savePath) throws InquiryException {
+		inquiryDAO.update(inquiry);
+		
+		fileManager.update(inquiry, savePath);
+		List<InquiryImg> imgList = inquiry.getImgList();
+		
+		for(InquiryImg inquiryImg : imgList) {
+			inquiryImg.setInquiry(inquiry);
+			inquiryImgService.update(inquiryImg);
+		}
+	}
+	
+	@Override
 	public void remove(Inquiry inquiry, String savePath) {
 		fileManager.remove(inquiry, savePath);
 	}
+
 	
 
 }

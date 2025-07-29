@@ -15,5 +15,7 @@ public interface InquiryDAO {
 	public Inquiry select(Inquiry inquiry);
 	
 	public void insert(Inquiry inquiry);
+	
+	public void update(Inquiry inquiry);
 
 }

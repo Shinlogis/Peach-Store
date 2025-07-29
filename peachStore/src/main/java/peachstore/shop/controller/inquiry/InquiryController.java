@@ -17,35 +17,35 @@ import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Inquiry;
 import peachstore.domain.User;
 import peachstore.service.inquiry.InquiryService;
+
 /**
  * 문의하기 컨트롤러
- * @author 성유진 
+ * 
+ * @author 성유진
  * @since 2025-07-26
  */
 @Slf4j
 @Controller
 public class InquiryController {
-	
-	@Autowired 
+
+	@Autowired
 	private InquiryService inquiryService;
 
 	@GetMapping("/inquiry/registForm")
 	public String registForm() {
 		return "/shop/inquiry/regist";
 	}
-	
-	
-	//등록
+
+	// 등록
 	@PostMapping("/inquiry/regist")
 	@ResponseBody
 	public String regist(Inquiry inquiry, HttpServletRequest request, HttpSession session) {
-		
+
 		String savePath = request.getServletContext().getRealPath("/data");
 		String responseData = "fail";
 		log.debug("제목은 : " + request.getParameter("title"));
 		log.debug("내용은 : " + request.getParameter("inquiry_text"));
-		
-		
+
 		try {
 			inquiryService.regist(inquiry, savePath);
 			log.debug("문의 아이디는 : " + inquiry.getInquiry_id());
@@ -54,39 +54,72 @@ public class InquiryController {
 			inquiryService.remove(inquiry, savePath);
 			e.printStackTrace();
 		}
-		
+
 		return responseData;
 	}
-	
-	
-	//전체 조회
+
+	// 전체 조회
 	@GetMapping("/inquiry/list")
 	public ModelAndView getList(Inquiry inquiry, HttpSession session) {
 		User user = (User) session.getAttribute("user");
-		inquiry.setUser(user); 
+		inquiry.setUser(user);
 
 		List inquiryList = inquiryService.selectAll(inquiry);
-	    
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("inquiryList", inquiryList);
 		mav.setViewName("shop/inquiry/list");
-		
-		
-		
+
 		return mav;
 	}
-	
-	//단건 조회
+
+	// 단건 조회
 	@GetMapping("/inquiry/detail")
 	public String getDetail(Inquiry inq, Model model, HttpSession session) {
-		
-		User user = (User)session.getAttribute("user");
+
+		User user = (User) session.getAttribute("user");
 		inq.setUser(user);
+
+		Inquiry inquiry = inquiryService.select(inq);
+		model.addAttribute("inquiry", inquiry);
+
+		return "shop/inquiry/detail";
+	}
+
+	// 수정화면
+	@GetMapping("/inquiry/updateform")
+	public String update(Inquiry inq, Model model) {
+		
+		log.debug("수정폼 넘길 때 id " + inq.getInquiry_id());
 		
 		Inquiry inquiry = inquiryService.select(inq);
 		model.addAttribute("inquiry", inquiry);
+		log.debug("수정 폼 넘길 때 inqruiy" + inquiry);
 		
-		return "shop/inquiry/detail";
+		return "shop/inquiry/update";
 	}
-	
+
+	// 수정
+	@PostMapping("/inquiry/update")
+	@ResponseBody
+	public String update(Inquiry inquiry, HttpServletRequest request, HttpSession session) {
+
+		String savePath = request.getServletContext().getRealPath("/data");
+		String responseData = "fail";
+		log.debug("제목은 : " + request.getParameter("title"));
+		log.debug("내용은 : " + request.getParameter("inquiry_text"));
+		log.debug("제목은2 : " + inquiry.getTitle());
+		log.debug("내용은2 : " + inquiry.getInquiry_text());
+
+		try {
+			inquiryService.update(inquiry, savePath);
+			log.debug("문의 아이디는 : " + inquiry.getInquiry_id());
+			responseData = "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseData;
+	}
+
 }

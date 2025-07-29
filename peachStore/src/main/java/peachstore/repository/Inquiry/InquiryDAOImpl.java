@@ -42,4 +42,13 @@ public class InquiryDAOImpl implements InquiryDAO{
 		}
 	}
 
+	@Override
+	public void update(Inquiry inquiry) throws InquiryException {
+		int result = sqlSessionTemplate.update("Inquiry.update", inquiry);
+		
+		if(result<1) {
+			throw new InquiryException("문의 수정 실패");
+		}
+	}
+
 }
