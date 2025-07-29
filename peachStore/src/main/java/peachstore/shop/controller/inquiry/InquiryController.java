@@ -129,6 +129,10 @@ public class InquiryController {
 		
 		return "redirect:/shop/inquiry/list";
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> bbd5753 (문의 삭제 기능 구현)
 }
 
 
