@@ -23,5 +23,4 @@ public interface InquiryService {
 	public void remove(Inquiry inquiry, String savePath);
 	
 	
-
 }

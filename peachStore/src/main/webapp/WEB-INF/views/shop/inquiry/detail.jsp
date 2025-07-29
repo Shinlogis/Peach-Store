@@ -52,6 +52,8 @@ Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 
 
 			<!-- 리스트 시작 -->
+				<input type="hidden" name="user.user_id"
+					value="<%=user.getUser_id()%>">
 				<section class="shop-cart spad">
 					<div class="container">
 						<div class="row">
@@ -114,6 +116,9 @@ Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 														onclick="if(confirm('삭제하시겠습니까?')) document.getElementById('delete').submit();">
 														삭제</button>
 														
+													<div>
+														<button type="button" class="btn btn-secondary">수정</button>
+														<button type="button" class="btn btn-secondary">삭제</button>
 													</div>
 												</td>
 											</tr>
