@@ -165,7 +165,7 @@ CREATE TABLE product(
 	, product_code varchar(100) NOT NULL
 	, product_name varchar(100) NOT NULL
 	, price int NOT NULL
-	, introduct varchar(100) NOT NULL
+	, introduce varchar(100) NOT NULL
 	, detail varchar(100) NOT NULL
 	, product_subcategory_id int
 	, CONSTRAINT fk_product_product_subcategory_id
@@ -218,8 +218,7 @@ CREATE TABLE product_capacity(
 -- 제품 이미지는 더미데이터 생성하지 않았음
 CREATE TABLE product_img(
     product_img_id int PRIMARY KEY AUTO_INCREMENT
-    , thumb varchar(100) NOT NULL
-    , root_img varchar(100) NOT NULL
+    , filename varchar(30) NOT NULL
     , product_id int NOT NULL
     , CONSTRAINT fk_product_img_product_id
         FOREIGN KEY (product_id)
@@ -475,7 +474,7 @@ VALUES
   (4, 4, 'Platinum 등급 도달 시 발급');
 
 -- 제품 테이블 인서트(INSERT INTO product)
-INSERT INTO product (product_code, product_name, price, introduct, detail, product_subcategory_id)
+INSERT INTO product (product_code, product_name, price, introduce, detail, product_subcategory_id)
 VALUES
 	('P14P-BLK', 'pPhone 14 Pro 블랙', 1350000, '고성능 스마트폰', '6.1인치 디스플레이 / A16 Bionic', 1),
 	('P15-WHT', 'pPhone 15 화이트', 1250000, '차세대 아이폰', '6.1인치 / USB-C / 다이나믹 아일랜드', 2),

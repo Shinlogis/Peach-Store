@@ -66,4 +66,9 @@ public class ProductTopcategoryDAOImpl implements ProductTopcategoryDAO {
         return productTopCategory;
     }
 
+	@Override
+	public List<ProductTopcategory> selectAll() {
+		return sqlSessionTemplate.selectList("peachstore.repository.ProductTopcategoryDAO.selectAll", null);
+	}
+
 }

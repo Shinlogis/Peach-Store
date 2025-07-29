@@ -97,4 +97,17 @@ public class ProductSubcategoryController {
 	public List<ProductSubcategory> findAllByTopcategoryId(int productTopcategoryId, Model model){
 		 return productSubcategoryService.findAllByTopcategoryId(productTopcategoryId);
 	}
+	
+	/**
+	 * 해당 id의 상위 카테고리의 모든 하위 카테고리 조회
+	 * [상품 등록]
+	 * @param productTopcategoryId
+	 * @return
+	 */
+	@GetMapping("/subcategory/list")
+	@ResponseBody  
+	public List<ProductSubcategory> getList(int topcategory_id) { 
+		return productSubcategoryService.findAllByTopcategoryId(topcategory_id);
+	}
+	
 }

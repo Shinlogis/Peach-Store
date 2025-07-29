@@ -65,4 +65,9 @@ public class ProductTopcategoryServiceImpl implements ProductTopcategoryService{
 		
 	    return productTopcategory;
 	}
+
+	@Override
+	public List<ProductTopcategory> selectAll() {
+	    return productCategoryDAO.selectAll();
+	}
 }
