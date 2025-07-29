@@ -1,7 +1,10 @@
 <%@page import="java.util.List"%>
+<%@page import="peachstore.domain.ProductSubcategory"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+	List<ProductSubcategory> subList=(List)request.getAttribute("subList");
+	String topname=(String)request.getAttribute("topName");
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -28,7 +31,7 @@
  <section id="product-list-section" style="margin:auto">
 	<!-- 제목 -->
 	<div>
-		<span class="acc-h1">당신의 새로운 PPhone 구입하기  </span>
+		<span class="acc-h1">당신의 새로운 <%=topname%> 구입하기  </span>
 		<img src="/static/shop/img/product/accessory/accessory-banner.png">
 	</div>
 	<!-- 제목 -->
@@ -36,8 +39,9 @@
 	<!-- 서브카테고리토글  시작 -->
 	<div class=sub-category-accessory>
 		<div class="sub-category-accessory">
-			<button class="btn-item" id="btn16">16시리즈</button>
-			<button class="btn-item">15시리즈</button>
+			<%for(ProductSubcategory productSubcategory : subList){ %>
+				<button class="btn-item"><%=productSubcategory.getProductSubcategoryName() %></button>
+			<%} %>
 		</div>
 	</div>
 	<!-- 서브카테고리토글 끝-->
