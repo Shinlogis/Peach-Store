@@ -7,21 +7,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 회원 등급 엔티티
- * @author 김예진 
+ * 쿠폰 엔티티
+ * 
+ * @author 김예진
  * @since 2025-07-28
  */
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserGrade {
-	private int userGradeId;
+public class Coupon {
+	private int couponId;
 
-	private String userGradeName;
-	
-	private int criteriaAmount;
+	private String couponName;
 
-	private double discountRate;
+	private int discountAmount;
+
+	private int validDays;
+
+	private String useCondition;
 	
 	private boolean isActive;
 

@@ -3,3 +3,25 @@
 <mapper namespace="UserGrade">
 
 </mapper>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="peachstore.repository.UserGradeDAO">
+
+	<resultMap id="UserGradeResultMap" type="UserGrade">
+		<result column="user_grade_id" property="userGradeId"/>
+		<result column="user_grade_name" property="userGradeName"/>
+		<result column="criteria_amount" property="criteriaAmount"/>
+		<result column="discount_rate" property="discountRate"/>
+		<result column="is_active" property="isActive"/>
+		
+		<!-- 회원등급은 여러 등급별 쿠폰을 가짐 -->
+		<collection property="gradeCoupons" ofType="peachstore.domain.GradeCoupon" 
+			select="peachstore.repository.GradeCouponDAO.selectByUserGradeId"
+			column="user_grade_id"/>
+	</resultMap>
+		
+	<select id="selectById" resultType="UserGrade" parameterType="int">
+	    SELECT * FROM user_grade WHERE user_grade_id = #{userGradeId}
+	</select>
+
+
+</mapper>

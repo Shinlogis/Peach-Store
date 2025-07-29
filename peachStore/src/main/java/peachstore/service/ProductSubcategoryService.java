@@ -16,13 +16,38 @@ public interface ProductSubcategoryService {
 	 * 상위카테고리와 조인한 하위카테고리 전체 조회
 	 * @return
 	 */
-	public List<ProductSubcategory> selectAllWithTopcategory();
+	public List<ProductSubcategory> findAllWithTopcategory(String searchKey);
 	
 	/**
 	 * 제품 하위카테고리 등록
 	 * @param productSubCategory
 	 */
-	public void register(ProductSubcategory productSubCategory);
+	public void register(String name, int topcategoryId);
 	
+	/**
+	 * 하위 카테고리 이름 수정
+	 * @param name
+	 * @param subcategoryId
+	 */
+	public void updateName(String name, int subcategoryId);
+	
+	/**
+	 * 하위 카테고리 비활성화
+	 * @param subcategoryId
+	 */
+	public void deactivate(int subcategoryId);
 
+	/**
+	 * id로 서브카테고리 조회
+	 * @param subcategoryId
+	 * @return
+	 */
+	public ProductSubcategory findById(int subcategoryId);
+	
+	/**
+	 * 해당 id의 상위 카테고리의 모든 하위 카테고리
+	 * @param productTopcategoryId
+	 * @return
+	 */
+	public List<ProductSubcategory> findAllByTopcategoryId(int productTopcategoryId);
 }

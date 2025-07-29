@@ -46,9 +46,10 @@ public class ProductTopcategoryDAOImpl implements ProductTopcategoryDAO {
     }
 
     @Override
-    public void register(ProductTopcategory productTopCategory) {
-        sqlSessionTemplate.insert("peachstore.repository.ProductTopcategoryDAO.insert", productTopCategory);
+    public int insert(ProductTopcategory productTopCategory) {
+        int result = sqlSessionTemplate.insert("peachstore.repository.ProductTopcategoryDAO.insert", productTopCategory);
         log.debug("save - productCategory: {}", productTopCategory);
+        return result;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ProductTopcategoryDAOImpl implements ProductTopcategoryDAO {
     }
 
     @Override
-    public ProductTopcategory findById(int productTopCategoryId) {
+    public ProductTopcategory selectById(int productTopCategoryId) {
     	ProductTopcategory productTopCategory = sqlSessionTemplate.selectOne("peachstore.repository.ProductTopcategoryDAO.findById", productTopCategoryId);
     	log.debug("findById - productCategoryId: {}, result: {}", productTopCategoryId, productTopCategory);
         return productTopCategory;
