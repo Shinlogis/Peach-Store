@@ -4,13 +4,53 @@ import java.util.List;
 
 import peachstore.domain.Product;
 
+/**
+ * 상품(Product) 관련 서비스 인터페이스  
+ * 상품의 등록, 수정, 삭제, 조회 등의 비즈니스 로직을 정의한다.  
+ * 특히 파일 경로(savePath)를 필요로 하는 등록/삭제 로직은  
+ * 실제 이미지 등의 자원 처리까지 포함된다.
+ * 
+ * @author 김지민
+ * @since 2025-07-29
+ */
 public interface ProductService {
-public void regist(Product product, String savePath); 
-	
-	public List selectAll();
-	public Product select(int product_id);
-	public void update(Product product);
-	public void delete(Product product);
-	
-	public void remove(Product product, String savePath);
+
+    /**
+     * 상품 등록
+     * @param product 등록할 상품 객체
+     * @param savePath 이미지 저장 경로
+     */
+    public void regist(Product product, String savePath); 
+
+    /**
+     * 전체 상품 목록 조회
+     * @return 상품 리스트
+     */
+    public List selectAll();
+
+    /**
+     * 특정 상품 상세 조회
+     * @param product_id 상품 ID
+     * @return 상품 객체
+     */
+    public Product select(int product_id);
+
+    /**
+     * 상품 정보 수정
+     * @param product 수정할 상품 객체
+     */
+    public void update(Product product);
+
+    /**
+     * 상품 정보 삭제 (DB만)
+     * @param product 삭제할 상품 객체
+     */
+    public void delete(Product product);
+
+    /**
+     * 상품 정보 및 관련 자원 삭제 (파일 포함)
+     * @param product 삭제할 상품 객체
+     * @param savePath 파일 경로
+     */
+    public void remove(Product product, String savePath);
 }

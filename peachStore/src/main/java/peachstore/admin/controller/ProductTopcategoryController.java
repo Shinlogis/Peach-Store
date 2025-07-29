@@ -106,7 +106,7 @@ public class ProductTopcategoryController {
      * @author 김지민
      * @since 2025-07-29
      */
-	@GetMapping("/admin/topcategory/list")
+	@GetMapping("/topcategory/list")
 	@ResponseBody
 	public List<ProductTopcategory> getTopcategoryList() {
 	    return productTopcategoryService.selectAll();

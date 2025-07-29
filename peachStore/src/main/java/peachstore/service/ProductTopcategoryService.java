@@ -17,7 +17,7 @@ public interface ProductTopcategoryService {
 	 * 검색 조건 없이 전체 목록을 반환.
 	 * @return 
 	 */
-	List<ProductTopcategory> selectAll(); // 전체 조회
+	public List<ProductTopcategory> selectAll(); // 전체 조회
 	
 	/**
 	 * 제품 상위카테고리 전체 조회

@@ -68,6 +68,6 @@ public class ProductTopcategoryServiceImpl implements ProductTopcategoryService{
 
 	@Override
 	public List<ProductTopcategory> selectAll() {
-	    return productCategoryDAO.selectAll(); // 또는 selectAll(null)
+	    return productCategoryDAO.selectAll();
 	}
 }

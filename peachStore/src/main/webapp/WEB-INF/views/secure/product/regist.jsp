@@ -75,24 +75,20 @@
 	                  </div>
                 	<!-- 카테고리 영역 끝 -->
                   <div class="form-group">
-                  <label>상품명</label>
-                    <input type="text" class="form-control" name="product_name" placeholder="상품명 입력">
+                  <label>상품코드</label>
+                    <input type="text" class="form-control" name="product_code" placeholder="상품코드 입력">
                   </div>
                   <div class="form-group">
-                  <label>브랜드</label>
-                    <input type="text" class="form-control" name="brand_name" placeholder="브랜드 입력">
+                  <label>상품명</label>
+                    <input type="text" class="form-control" name="product_name" placeholder="상품명 입력">
                   </div>
                   <div class="form-group">
                   <label>가격</label>
                     <input type="text" class="form-control" name="price" placeholder="가격 입력">
                   </div>
                   <div class="form-group">
-                  <label>할인가</label>
-                    <input type="text" class="form-control" name="discount" placeholder="할인가 입력">
-                  </div>
-                  <div class="form-group">
                   <label>간단소개</label>
-                    <input type="text" class="form-control" name="introduce" placeholder="간단소개 100자 이하 ">
+                    <input type="text" class="form-control" name="introduce" placeholder="간단소개(100자) 입력">
                   </div>
 				   <div class="form-group">
 				   <label>색상</label>
@@ -163,13 +159,16 @@
 	
 	// 화면에 카테고리를 출력하는 메서드
 	function printCategory(obj, list){
-		let tag="<option value='0'>카테고리 선택</option>";
-		
+		let tag = "";
+		// 필요할 때만 '카테고리 선택' 문구 추가
+		if(obj === "#topcategory" || obj === "#subcategory"){
+			tag += "<option value='' disabled selected hidden>카테고리 선택</option>";
+		}
 		for(let i=0;i<list.length;i++){
 			if(obj=="#topcategory"){
-				tag+="<option value='"+list[i].topcategory_id+"'>"+list[i].top_name+"</option>";
+				tag+="<option value='"+list[i].productTopcategoryId+"'>"+list[i].productTopcategoryName+"</option>";
 			}else if(obj=="#subcategory"){
-				tag+="<option value='"+list[i].subcategory_id+"'>"+list[i].sub_name+"</option>";
+				tag+="<option value='"+list[i].productSubCategoryId+"'>"+list[i].productSubcategoryName+"</option>";
 			}else if(obj=="#color"){
 				tag+="<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
 			}else if(obj=="#size"){
@@ -269,9 +268,9 @@
 	   //상위 카테고리 가져오기 
 	   getTopCategory();
 	   // 색상 목록 가져오기
-	   //getColorList();
+	   getColorList();
 	   // 사이즈 목록 가져오기
-	   //getSizeList();
+	   getSizeList();
 	   
 	   //상위 카테고리의 값을 변경시, 하위 카테고리 가져오기 
 	   $("#topcategory").change(function(){

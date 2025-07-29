@@ -2,6 +2,17 @@ package peachstore.model.product;
 
 import java.util.List;
 
+/**
+ * 색상(Color) 관련 DAO 인터페이스
+ * DB에서 색상 목록을 조회하는 기능
+ * @author 김지민
+ * @since 2025-07-29
+ */
 public interface ColorDAO {
-	public List selectAll();
+
+    /**
+     * 색상 전체 목록 조회
+     * @return 색상 목록 리스트
+     */
+    public List selectAll();
 }
