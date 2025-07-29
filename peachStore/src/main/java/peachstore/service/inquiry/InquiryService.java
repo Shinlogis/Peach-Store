@@ -23,8 +23,4 @@ public interface InquiryService {
 	public void remove(Inquiry inquiry, String savePath);
 	
 	
-<<<<<<< HEAD
-=======
-
->>>>>>> bbd5753 (문의 삭제 기능 구현)
 }

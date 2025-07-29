@@ -665,3 +665,4 @@ VALUES
 
 -- 리뷰 이미지 테이블 인서트(INSERT INTO inquiry_img)
 -- =========인서트 없음
+show tables;
