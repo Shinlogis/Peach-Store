@@ -61,7 +61,7 @@ Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 							<div class="col-lg-12">
 								<div class="shop__cart__table">
 
-									<table style="table-layout: fixed; width: 70%;">
+									<table style="table-layout: fixed; width: 70%; margin-left: 80px">
 										<thead>
 											<tr>
 												<th colspan="5">
@@ -102,8 +102,11 @@ Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 														<%=inquiry.getInquiry_text()%>
 													</div>
 													<div>
-														<button type="button" class="btn btn-secondary">수정</button>
-														<button type="button" class="btn btn-secondary">삭제</button>
+														<button type="button" class="btn btn-secondary" 
+														onclick="location.href='/shop/inquiry/updateform?inquiry_id=<%=inquiry.getInquiry_id()%>'">
+														수정</button>
+														<button type="button" class="btn btn-secondary" href="#">
+														삭제</button>
 													</div>
 												</td>
 											</tr>

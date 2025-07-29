@@ -24,5 +24,11 @@ public class InquiryImgServiceImpl implements InquiryImgService{
 		
 	}
 
+	@Override
+	public void update(InquiryImg inquiryImg) {
+		inquiryImgDAO.update(inquiryImg);
+	}
+	
+
 	
 }
