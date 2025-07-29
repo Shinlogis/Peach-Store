@@ -177,3 +177,6 @@ Servers/
 
 # IntelliJ IDEA 설정 무시
 .idea/
+
+# application.properties 제외
+/src/main/resources/application.properties

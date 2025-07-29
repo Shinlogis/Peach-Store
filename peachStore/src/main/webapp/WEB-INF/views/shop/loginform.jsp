@@ -268,6 +268,7 @@ input[type=submit]:hover {
   }
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 <%@ include file="./inc/header.jsp" %>
@@ -307,10 +308,22 @@ input[type=submit]:hover {
         <a href="#" class="twitter btn">
           <i class="fa fa-twitter fa-fw"></i> 네이버 로그인 하기
         </a>
-        <a href="#" class="google btn"><i class="fa fa-google fa-fw">
+        <a href="javascript:login('google')" class="google btn"><i class="fa fa-google fa-fw">
           </i> 구글 로그인 하기	
         </a>
       </div>
+	<script type="text/javascript">
+		function login(sns){
+			$.ajax({
+				url:"/shop/user/"+sns+"/authurl",
+				type:"GET",
+				success:function(result){
+				alert(result);
+					location.href=result;//동의화면 요청
+				}
+			})
 
+		}
+	</script>
 </body>
 </html>
