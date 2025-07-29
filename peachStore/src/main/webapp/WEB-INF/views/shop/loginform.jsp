@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+%>
 <!DOCTYPE html>
 <html>
 <head>

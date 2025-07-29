@@ -1,7 +1,7 @@
 USE electronicmall;
 
 -- 부모부터 순서로 delete 되도록 순서 맞춰서 수정 해주세요
--- CREATE, INSERT 전부 DROP순서랑 맞추어 놓았으니 찾을 일 있으면 참고하세요
+-- CREATE INSERT 전부 DROP순서랑 맞추어 놓았으니 찾을 일 있으면 참고하세요
 
 DROP TABLE IF EXISTS review_img; -- 리뷰 이미지
 DROP TABLE IF EXISTS review; -- 리뷰
@@ -392,7 +392,6 @@ VALUES
 	('pPhone', true),
 	('pPad', true),
 	('pMac', true),
-	('pWatch', true),
 	('accessory', true);
 
 -- snsprovider 테이블 인서트(insert into sns_provider)
@@ -441,11 +440,11 @@ VALUES
 -- 제품 서브카테고리 테이블 인서트(INSERT INTO product_subpcategory)
 INSERT INTO product_subcategory (product_subcategory_name, product_topcategory_id)
 VALUES
-	('pPhone 14 Pro', 1), ('pPhone 15', 1), ('pPhone SE 3rd Gen', 1),
-	('pPad Air 5th', 2), ('pPad Mini 6', 2), ('pPad Pro M2', 2),
-	('pMac M1', 3), ('pMac M2 Pro', 3), ('pMac Studio', 3),
-	('pWatch SE', 4), ('pWatch Ultra', 4), ('pWatch Series 9', 4),
-	('MagSafe 충전기', 5), ('실리콘 케이스', 5), ('스마트 키보드 폴리오', 5);
+	('14시리즈', 1), ('15시리즈', 1), ('16시리즈', 1),
+	('Air', 2), ('Mini', 2), ('Pro', 2),
+	('노트북', 3), ('데스크탑', 3), ('디스플레이', 3),
+	('MagSafe 충전기', 4), ('실리콘 케이스', 4), ('스마트 키보드 폴리오', 4),('에어팟', 4);
+
 	
 -- 회원 테이블 인서트(INSERT INTO user)
 -- 나중에 금액이랑 묶으면 user_grade_id는 default로만 insert할것
@@ -490,13 +489,10 @@ VALUES
 	('PMAC-M2P', 'pMac M2 Pro 14인치', 1990000, '고성능 노트북', 'M2 Pro / Liquid Retina XDR', 8),
 	('PSTUDIO-MAX', 'pMac Studio Max', 2790000, '프로급 데스크탑', 'M1 Max / 고성능 포트 구성', 9),
 	
-	('PWT-SE', 'pWatch SE 2세대', 359000, '가성비 스마트워치', '50m 방수 / 충돌 감지', 10),
-	('PWT-ULTRA', 'pWatch Ultra', 1149000, '아웃도어 최적화 워치', '티타늄 케이스 / 36시간 배터리', 11),
-	('PWT-S9', 'pWatch Series 9', 599000, '일반형 스마트워치', 'S9 칩 / 더블탭 제스처', 12),
 	
-	('MAG-CHRGR', 'MagSafe 무선 충전기', 49000, '자석식 무선 충전', '아이폰 & 에어팟 지원', 13),
-	('CASE-BLUE', '실리콘 케이스 블루', 45000, '아이폰 보호 케이스', '부드러운 터치 / 내구성', 14),
-	('KEYBOARD-FOLIO', '스마트 키보드 폴리오', 219000, '아이패드 키보드', '자석 부착식 / 한국어 배열', 15);
+	('MAG-CHRGR', 'MagSafe 무선 충전기', 49000, '자석식 무선 충전', '아이폰 & 에어팟 지원', 10),
+	('CASE-BLUE', '실리콘 케이스 블루', 45000, '아이폰 보호 케이스', '부드러운 터치 / 내구성', 11),
+	('KEYBOARD-FOLIO', '스마트 키보드 폴리오', 219000, '아이패드 키보드', '자석 부착식 / 한국어 배열', 12);
 
 -- 장바구니 테이블 인서트(INSERT INTO cart)
 INSERT INTO cart (user_id) VALUES (1);
@@ -574,10 +570,8 @@ VALUES
     (4, 9),
     (5, 10),
     (1, 11),
-    (2, 12),
-    (3, 13),
-    (4, 14),
-    (5, 15);
+    (2, 12);
+
 
 -- 제품 용량 테이블 인서트(INSERT INTO product_capacity)
 INSERT INTO product_capacity (additional_price, capacity_id, product_id)
@@ -594,7 +588,6 @@ VALUES
 
 -- 제품 이미지 테이블 인서트(INSERT INTO product_img)
 -- =========인서트 없음
-
 -- 스냅샷 테이블 인서트(INSERT INTO snapshot)
 INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving)
 VALUES
@@ -605,13 +598,10 @@ VALUES
     (4, 'pPad Air 5 스페이스 그레이', 850000, '10.9인치', '256GB', 'Red', NULL),
     (5, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3'),
 
-    (7, 'pMac M1 13인치', 1290000, '13인치', '128GB', 'Black', NULL),
+    (6, 'pMac M1 13인치', 1290000, '13인치', '128GB', 'Black', NULL),
 
-    (10, 'pWatch SE 2세대', 359000, NULL, NULL, 'Green', '각인입니다4'),
-    (11, 'pWatch Ultra', 1149000, NULL, NULL, 'White', NULL),
-
-    (13, 'MagSafe 무선 충전기', 49000, NULL, NULL, 'White', '각인입니다5'),
-    (15, '스마트 키보드 폴리오', 219000, NULL, NULL, 'Green', NULL);
+    (10, 'MagSafe 무선 충전기', 49000, NULL, NULL, 'White', '각인입니다5'),
+    (12, '스마트 키보드 폴리오', 219000, NULL, NULL, 'Green', NULL);
 
 
 -- 문의 이미지 테이블 인서트(INSERT INTO inquiry_img)
@@ -647,25 +637,21 @@ VALUES
 	(2, 3, 5),
 	(1, 4, 6),
 	(1, 5, 7),
-	(2, 5, 8),
-	(1, 6, 9),
-	(3, 7, 10);
+	(2, 5, 8);
+	
 
 -- 장바구니 제품 테이블 인서트(INSERT INTO cart_item)
 INSERT INTO cart_item (cart_id, product_id, custom_option_id)
 VALUES
     (1, 7, NULL),
     (2, 3, NULL),
-    (3, 14, 1),
     (4, 1, NULL),
     (5, 11, NULL),
     (6, 9, 2),
     (7, 2, NULL),
-    (8, 13, NULL),
     (9, 7, NULL),
     (10, 6, 3),
     (11, 4, 4),
-    (12, 15, 5),
     (13, 5, NULL),
     (14, 8, NULL),
     (15, 12, NULL);
@@ -675,7 +661,7 @@ INSERT INTO review (context, status, user_id, order_detail_id)
 VALUES
     ('정말 마음에 들어요! 배송도 빨랐어요.', '활성', 2, 4),
     ('상품이 설명과 같고 만족스러워요.', '활성', 3, 5),
-    ('가성비 최고네요. 다음에도 구매할게요!', '활성', 4, 9);
+    ('가성비 최고네요. 다음에도 구매할게요!', '활성', 4, 5);
 
 
 -- 리뷰 이미지 테이블 인서트(INSERT INTO inquiry_img)
