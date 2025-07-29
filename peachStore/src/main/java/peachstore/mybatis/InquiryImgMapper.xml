@@ -13,5 +13,9 @@
 	<update id="update" parameterType="InquiryImg">
 		update inquiry_img set filename=#{filename} where inquiry_img_id = #{inquiry_img_id}
 	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from inquiry_img where inquiry_id = #{inquiry_id}
+	</delete>
 
 </mapper>

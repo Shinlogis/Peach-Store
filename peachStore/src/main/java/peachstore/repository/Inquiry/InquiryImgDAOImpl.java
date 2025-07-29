@@ -29,11 +29,20 @@ public class InquiryImgDAOImpl implements InquiryImgDAO{
 	}
 
 	@Override
-	public void update(InquiryImg inquiryImg) {
+	public void update(InquiryImg inquiryImg) throws InquiryImgException{
 		int result = sqlSessionTemplate.update("InquiryImg.update", inquiryImg);
 		
 		if(result <1) {
 			throw new InquiryImgException("사진 수정 실패");
+		}
+	}
+
+	@Override
+	public void delete(int inquiry_id) throws InquiryImgException {
+		int result = sqlSessionTemplate.delete("InquiryImg.delete", inquiry_id);
+		
+		if(result<1) {
+			throw new InquiryImgException("사진 삭제 실패");
 		}
 	}
 	

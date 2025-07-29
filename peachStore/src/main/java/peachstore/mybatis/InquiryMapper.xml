@@ -41,6 +41,11 @@
 	<update id="update" parameterType="Inquiry" >
 		update inquiry set title = #{title}, inquiry_text = #{inquiry_text}
 		 where inquiry_id=#{inquiry_id}
-	</update>	
+	</update>
+	
+	<!-- 문의 삭제 -->	
+	<delete id="delete" parameterType="Inquiry">
+		delete from inquiry where inquiry_id = #{inquiry_id}
+	</delete>
 
 </mapper>

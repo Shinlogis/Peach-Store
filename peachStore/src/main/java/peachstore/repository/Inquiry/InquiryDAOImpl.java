@@ -51,4 +51,13 @@ public class InquiryDAOImpl implements InquiryDAO{
 		}
 	}
 
+	@Override
+	public void delete(Inquiry inquiry) throws InquiryException{
+		int result = sqlSessionTemplate.delete("Inquiry.delete", inquiry);
+		
+		if(result<1) {
+			throw new InquiryException("문의 삭제 실패");
+		}
+	}
+
 }
