@@ -1,5 +1,7 @@
 package peachstore.domain;
 
+//tinyInt는 boolean으로 매핑하면 된다고 함.
+	
 import java.util.List;
 
 import lombok.Getter;
