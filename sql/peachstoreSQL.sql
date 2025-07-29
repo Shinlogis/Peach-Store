@@ -63,8 +63,8 @@ CREATE TABLE user(
 	, email varchar(100) UNIQUE
 	, password varchar(100) 
 	, user_name varchar(10) NOT NULL 
-	, tel varchar(13) NOT NULL UNIQUE
-	, address varchar(255) NOT NULL
+	, tel varchar(13) UNIQUE
+	, address varchar(255)
 	, is_active boolean  NOT NULL DEFAULT TRUE
 	, created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 	, user_grade_id int NOT NULL DEFAULT 1
