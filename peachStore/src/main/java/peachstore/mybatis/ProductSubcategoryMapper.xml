@@ -101,6 +101,4 @@
     		and pt.is_active = true
     		and pt.product_topcategory_id = #{value}
 	</select>
-	
-	
 </mapper>
