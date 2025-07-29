@@ -6,7 +6,6 @@
 <%
     List<ProductSubcategory> productSubcategories = (List) request.getAttribute("productSubcategories");
     List<ProductTopcategory> productTopcategories = (List) request.getAttribute("productTopcategories");
-    Paging paging = (Paging) request.getAttribute("paging");
 
     String searchKey = (String) request.getAttribute("searchKey"); // 검색어 받아오기
     if (searchKey == null) searchKey = "";
@@ -117,9 +116,9 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <%
-                                            for (ProductSubcategory sub : productSubcategories) {
-                                                if (sub.getProductTopcategory().getProductTopcategoryId() == top.getProductTopcategoryId()) {
-                                        %>
+										    for (ProductSubcategory sub : productSubcategories) {
+										        if (sub.getProductTopcategory().getProductTopcategoryId() == top.getProductTopcategoryId()) {
+										%>
                                         <li class="nav-item d-flex align-items-center justify-content-between px-3">
                                             <div>
                                                 <i class="far fa-circle nav-icon"></i>
@@ -140,17 +139,15 @@
                                                 </button>
                                             </div>
                                         </li>
-                                        <%
-                                                }
-                                            }
-                                        %>
+										<%
+										    	}
+										    }
+										%>
                                     </ul>
                                 </li>
                             </ul>
                         </div>
-                        <%
-                            }
-                        %>
+                    	<%} %>
                     </div>
                 </div>
 
@@ -332,7 +329,7 @@
     // 검색 버튼 클릭
     $("#bt_search").click(() => {
         let searchKey = $("#searchKey").val().trim();
-        location.href = "/admin/product/topcategory/list?currentPage=1&searchKey=" + encodeURIComponent(searchKey);
+        location.href = "/admin/product/category/list?searchKey=" + encodeURIComponent(searchKey);
     });
 
     // 상위 카테고리 등록
@@ -481,7 +478,7 @@
         $(this).find("#editSubCategoryName").val(name);
     });
 
-    // 하위 카테고리 수정
+    // 하위 카테고리 이름 수정
     $("#editSubCategory").click(() => {
         let id = $("#editSubCategoryId").val();
         let newName = $("#editSubCategoryName").val().trim();
@@ -524,7 +521,7 @@
     $("#delSubCategory").click(() => {
         let id = $("#subCategoryDelModal").data("id");
         $.ajax({
-            url: "/admin/product/subcategory/delete",
+            url: "/admin/product/subcategory/deactive",
             type: "POST",
             data: { productSubcategoryId: id },
             success: function (result) {

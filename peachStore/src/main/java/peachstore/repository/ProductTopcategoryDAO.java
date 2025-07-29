@@ -24,7 +24,7 @@ public interface ProductTopcategoryDAO {
 	 * 제품 상위카테고리 등록
 	 * @param categoryName
 	 */
-	public void register(ProductTopcategory productTopCategory);
+	public int insert(ProductTopcategory productTopCategory);
 	
 	/**
 	 * 제품 상위카테고리 수정
@@ -38,6 +38,6 @@ public interface ProductTopcategoryDAO {
 	 * @param productTopCategoryId
 	 * @return
 	 */
-	public ProductTopcategory findById(int productTopCategoryId);
+	public ProductTopcategory selectById(int productTopCategoryId);
 
 }
