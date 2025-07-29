@@ -1,9 +1,9 @@
+<%@page import="peachstore.domain.GradeCoupon"%>
 <%@page import="peachstore.util.Paging"%>
-<%@page import="peachstore.domain.ProductTopcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<ProductTopcategory> productTopcategories = (List) request.getAttribute("productTopcategories");
+	List<GradeCoupon> coupons = (List) request.getAttribute("coupons");
 	Paging paging = (Paging) request.getAttribute("paging");
 	// 페이징 처리 변수들
 	int totalRecord = paging.getTotalRecord();
@@ -13,7 +13,8 @@
 	int lastPage = paging.getLastPage();
 	int totalPage = paging.getTotalPage();
 	int startNum = totalRecord - (currentPage - 1) * pageSize;
-	int size = productTopcategories.size();
+	int size = coupons.size();
+	
 	
 	String searchKey = (String) request.getAttribute("searchKey"); // 검색어 받아오기
 	if (searchKey == null)
@@ -25,7 +26,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AdminLTE 3 | Dashboard</title>
-<%@ include file="../../inc/head_link.jsp"%>
+<%@ include file="../inc/head_link.jsp"%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<div class="wrapper">
@@ -37,11 +38,11 @@
 		</div>
 
 		<!-- Navbar -->
-		<%@ include file="../../inc/navbar.jsp"%>
+		<%@ include file="../inc/navbar.jsp"%>
 		<!-- /.navbar -->
 
 		<!-- Main Sidebar Container -->
-		<%@ include file="../../inc/left_bar.jsp"%>
+		<%@ include file="../inc/left_bar.jsp"%>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -106,24 +107,24 @@
 										<tbody>
 											<%
 												for (int i = 0; i < size; i++) {
-													ProductTopcategory productTopcategory = productTopcategories.get(i);
+													GradeCoupon coupon = coupons.get(i);
 											%>
 											<tr>
 												<td><%=startNum - i%></td>
-												<td><%=productTopcategory.getProductTopcategoryName()%></td>
+												<td><%=coupon.getCoupon().getCouponName()%></td>
 												<td>
 													<button type="button" class="btn btn-secondary"
 														data-toggle="modal" data-target="#categoryEditModal"
-														data-id="<%=productTopcategory.getProductTopcategoryId()%>"
-														data-name="<%=productTopcategory.getProductTopcategoryName()%>">
+														data-id="<%=coupon.getGradeCouponId()%>"
+														data-name="<%=coupon.getGradeCouponId()%>">
 														수정
 													</button>
 												</td>
 												<td>
 													<button type="button" class="btn btn-danger"
 														data-toggle="modal" data-target="#categoryDelModal"
-														data-id="<%=productTopcategory.getProductTopcategoryId()%>"
-														data-name="<%=productTopcategory.getProductTopcategoryName()%>">
+														data-id="<%=coupon.getGradeCouponId()%>"
+														data-name="<%=coupon.getGradeCouponId()%>">
 														삭제
 													</button>
 												</td>
@@ -283,14 +284,14 @@
 			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
-		<%@ include file="../../inc/footer.jsp"%>
+		<%@ include file="../inc/footer.jsp"%>
 
 		<!-- Control Sidebar -->
 		<%//@ include file="../inc/right_bar.jsp" %>
 		<!-- /.control-sidebar -->
 	</div>
 	<!-- ./wrapper -->
-	<%@ include file="../../inc/footer_link.jsp"%>
+	<%@ include file="../inc/footer_link.jsp"%>
 	<script src="/static/admin/custom/ProductImg.js"></script>
 	<script>
 		// 검색 버튼 클릭 이벤트
