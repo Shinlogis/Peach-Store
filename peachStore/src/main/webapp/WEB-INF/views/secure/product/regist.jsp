@@ -269,9 +269,9 @@
 	   //상위 카테고리 가져오기 
 	   getTopCategory();
 	   // 색상 목록 가져오기
-	   getColorList();
+	   //getColorList();
 	   // 사이즈 목록 가져오기
-	   getSizeList();
+	   //getSizeList();
 	   
 	   //상위 카테고리의 값을 변경시, 하위 카테고리 가져오기 
 	   $("#topcategory").change(function(){

@@ -15,6 +15,13 @@ public interface ProductTopcategoryDAO {
 	
 	/**
 	 * 제품 상위카테고리 전체 조회
+	 * 검색 조건 없이 전체 목록을 반환.
+	 * @return 전체 상위카테고리 리스트
+	 */
+	public List<ProductTopcategory> selectAll();
+	
+	/**
+	 * 제품 상위카테고리 전체 조회
 	 * @param productCategory
 	 * @return
 	 */

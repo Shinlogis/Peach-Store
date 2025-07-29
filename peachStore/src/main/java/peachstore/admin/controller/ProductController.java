@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import peachstore.model.product.ProductService;
+import peachstore.util.Paging;
 
 /**
  * 제품 등록 컨트롤러
@@ -18,6 +19,10 @@ public class ProductController {
     // 제품 관련 서비스 의존성 주입
     @Autowired
     private ProductService productService;
+    
+	//페이징 처리 객체를 보유 
+	@Autowired
+	private Paging paging;
 
     /**
      * 상품 등록 페이지 진입
