@@ -14,7 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
-<%@ include file="./inc/head_link.jsp" %>
+	<%@ include file="./inc/head_link.jsp" %>
+	<link rel="stylesheet"  href="/static/shop/css/main/product_section.css">
     
 </head>
 <body>
