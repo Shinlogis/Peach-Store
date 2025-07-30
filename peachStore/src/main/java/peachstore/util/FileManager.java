@@ -62,45 +62,6 @@ public class FileManager {
 		}
 	}
 
-	// 상품 이미지 수정
-	public void update(Inquiry inquiry, String savePath) {
-
-		File directory = new File(savePath, "p_" + inquiry.getInquiry_id());
-		
-		List selectedImg = new ArrayList<>();
-		
-		//유저가 선택한 사진들
-		for(InquiryImg inquiryImg : inquiry.getImgList()) {
-			selectedImg.add(inquiryImg.getFilename());
-		}
-
-		if (directory.exists() && directory.isDirectory()) {
-			File[] files = directory.listFiles();
-
-			if (files != null) {
-				for (File file : files) {
-					if(!selectedImg.contains(file.getName())){ //파일이 이미지 리스트에 추가돼있지 않다면
-						boolean deleted = file.delete();
-						log.debug(file.getName() + "를 삭제한 결과" + deleted);
-					}
-				}
-			}
-
-			//삭제 후 남은 파일 확인
-			File[] leftFile = directory.listFiles();
-			if(leftFile == null || leftFile.length == 0) {
-				boolean result = directory.delete();
-				if (!result) {
-					log.warn("디렉토리 삭제 실패: " + directory.getAbsolutePath());
-				} else {
-					log.debug("디렉토리 삭제 성공: " + directory.getAbsolutePath());
-				}
-				
-			}
-
-		}
-
-	}
 	
 	
 	//상품 이미지 삭제
@@ -125,4 +86,8 @@ public class FileManager {
 			}
 		}
 	}
+	
+	
+	
+	
 }

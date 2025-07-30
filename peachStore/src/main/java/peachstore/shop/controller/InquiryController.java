@@ -1,4 +1,4 @@
-package peachstore.shop.controller.inquiry;
+package peachstore.shop.controller;
 
 import java.util.List;
 
@@ -102,23 +102,14 @@ public class InquiryController {
 	@PostMapping("/inquiry/update")
 	@ResponseBody
 	public String update(Inquiry inquiry, HttpServletRequest request, HttpSession session) {
+		
+		log.debug("수정 컨트롤러에 도달");
 
 		String savePath = request.getServletContext().getRealPath("/data");
-		String responseData = "fail";
-		log.debug("제목은 : " + request.getParameter("title"));
-		log.debug("내용은 : " + request.getParameter("inquiry_text"));
-		log.debug("제목은2 : " + inquiry.getTitle());
-		log.debug("내용은2 : " + inquiry.getInquiry_text());
-
-		try {
-			inquiryService.update(inquiry, savePath);
-			log.debug("문의 아이디는 : " + inquiry.getInquiry_id());
-			responseData = "success";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return responseData;
+		
+		inquiryService.update(inquiry, savePath);
+		
+		return "ok";
 	}
 	
 	//삭제
