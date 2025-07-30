@@ -66,5 +66,5 @@ public class ProductSubcategoryDAOImpl implements ProductSubcategoryDAO {
 		log.debug("selectAllSubcategoryByTopcategoryId - resultCount: {}", list.size());
 		return list;
 	}
-
 }
+	
