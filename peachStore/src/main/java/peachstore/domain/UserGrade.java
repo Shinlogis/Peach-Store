@@ -1,5 +1,9 @@
 package peachstore.domain;
 
+import java.math.BigDecimal;
+
+//tinyInt는 boolean으로 매핑하면 된다고 함.
+	
 import java.util.List;
 
 import lombok.Getter;
@@ -21,9 +25,13 @@ public class UserGrade {
 	
 	private int criteriaAmount;
 
-	private double discountRate;
+	private BigDecimal discountRate;
 	
 	private boolean isActive;
 
 	private List<GradeCoupon> gradeCoupons;
+	
+	public double getDiscountRateAsDouble() {
+	    return discountRate != null ? discountRate.doubleValue() : 0.0;
+	}
 }

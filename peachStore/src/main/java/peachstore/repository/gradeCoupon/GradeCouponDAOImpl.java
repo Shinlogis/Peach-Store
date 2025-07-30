@@ -24,10 +24,7 @@ public class GradeCouponDAOImpl implements GradeCouponDAO {
 
 	@Override
 	public List<GradeCoupon> selectAll() {
-		List<GradeCoupon> list = sqlSessionTemplate.selectList("peachstore.repository.GradeCouponDAO.selectAll");
-		log.debug("selectAll - result: {}", list);
-
-		return list;
+		return null;
 	}
 
 }

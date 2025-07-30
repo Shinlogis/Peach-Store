@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="peachstore.repository.gradeCoupon.GradeCouponDAO">
+<mapper namespace="GradeCoupon">
 
 	<resultMap id="GradeCouponResultMap" type="GradeCoupon">
 		<result column="grade_coupon_id" property="gradeCouponId" />
@@ -10,14 +9,20 @@
 
 		<!-- 하나의 등급을 가짐 -->
 		<association column="user_grade_id" property="userGrade"
-			javaType="peachstore.domain.UserGrade"
-			select="peachstore.repository.gradeCoupon.UserGradeDAO.selectById" />
+			javaType="UserGrade"
+			select="UserGrade.selectById" />
 
 		<!-- 하나의 쿠폰을 가짐 -->
 		<association column="coupon_id" property="coupon"
-			javaType="peachstore.domain.Coupon"
-			select="peachstore.repository.coupon.CouponDAO.selectById" />
+			javaType="Coupon"
+			select="Coupon.selectById" />
 	</resultMap>
+
+ 
+	<select id="selectByUserGradeId" resultMap="GradeCouponResultMap" parameterType="int" resultType="GradeCoupon">
+		SELECT * FROM grade_coupon WHERE user_grade_id = #{userGradeId}
+	</select>
+
 
 	<!-- 전체 조회 -->
 	<select id="selectAll" resultMap="GradeCouponResultMap">

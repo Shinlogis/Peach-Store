@@ -16,8 +16,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
-<%@ include file="../inc/head_link.jsp" %>
-    
+	<%@ include file="../inc/head_link.jsp" %>
+	<link rel="stylesheet"  href="/static/shop/css/product/productList.css">
 </head>
 <body style="background-color:#f5f5f7;">
 <%@ include file="../inc/offcanvas.jsp" %>
@@ -46,49 +46,74 @@
 	<!-- 서브카테고리토글 끝-->
 	
 	<!--상품 리스트  -->
-	<div class="content-container-phone">
-	       <div class="phone">
+	<div class="content-container-p">
+	       <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="phone_name">iPhone 16 PRO</div>
-	           <div class="phone_price">💲199,0000원</div>
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
 	       </div>
-	       <div class="phone">
+	       <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="phone_name">iPhone 16 PRO</div>
-	           <div class="phone_price">💲199,0000원</div>
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
 	       </div>
-	       <div class="phone">
+	       <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="phone_name">iPhone 16 PRO</div>
-	           <div class="phone_price">💲199,0000원</div>
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
 	       </div>
-	       <div class="phone">
+	       <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="phone_name">iPhone 16 PRO</div>
-	           <div class="phone_price">💲199,0000원</div>
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
 	       </div>
-	       <div class="phone">
+	       <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="phone_name">iPhone 16 PRO</div>
-	           <div class="phone_price">💲199,0000원</div>
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
 	       </div>
-	       <div class="phone">
+	       <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="phone_name">iPhone 16 PRO</div>
-	           <div class="phone_price">💲199,0000원</div>
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
 	       </div>
-	       <div class="phone">
+	       <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="phone_name">iPhone 16 PRO</div>
-	           <div class="phone_price">💲199,0000원</div>
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
 	       </div>
+	       <div class="p_list">
+	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
+	           <a href="" class="item-btn">쇼핑하기</a>
+	       </div>
+	       <div class="p_list">
+	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
+	           <a href="" class="item-btn">쇼핑하기</a>
+	       </div>
+	       <div class="p_list">
+	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
+	           <a href="" class="item-btn">쇼핑하기</a>
+	       </div>
+	       <div class="p_list">
+	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
+	           <div class="p_name">iPhone 16 PRO</div>
+	           <div class="p_price">💲199,0000원</div>
+	           <a href="" class="item-btn">쇼핑하기</a>
+	       </div>
+	      
 	   </div>
 	<!--상품 리스트  -->
 </section>
@@ -113,98 +138,6 @@
 <script src="/static/admin/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
-</body>
-</html>
-<style>
-#product-list-section{
-	text-align: center;
-}
-
-.content-container-phone{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 70px;
-    max-width: 900px;  /* 원하는 최대 너비 */
-    margin: auto;       /* 가운데 정렬 */
-}
-
-.sub-category-toggle{
-	display:flex;
-	justify-content:center;
-	margin: 50px 0 40px;
-}
-
-.sub-category-toggle-buttons{
-	background-color:#fff;
-	border-radius: 18px;
-	padding: 8px;
-}
-
-.sub-category-toggle button{
-	border:none;
-	border-radius:18px;
-	background-color:#fff;
-	padding: 3px 10px;
-	font-size:18px;
-	font-weight:600;
-	letter-spacing: 1px;
-}
-
-.phone{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 260px;
-    margin: auto;
-    position: relative;
-    border-radius:18px;
-    background-color:#fff;
-    padding-top:20px;
-    box-shadow: 2px 4px 12px #00000014;
-}  
-
-.phone img{
-   height:240px;
-}
-
-.phone:hover .item-btn{
-    transform: translate(-50%, 0);
-    opacity: 1;
-}
-
-.phone_name{
-  	font-size: 20px;
-    font-weight: bold;
-    margin-top: 50px;
-}
-
-.phone_price{
-    font-size: 17px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: gray;
-    margin-bottom: 20px;
-}
-
-.item-btn{
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    margin: auto;
-    display: block;
-    padding: 10px 20px;
-    background-color: #0071e3;  
-    color: white;
-    border: none;
-    border-radius: 28px;
-    font-size: 1rem;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: translate(-50%, 10px);
-    text-align: center;
-}
-</style>
 <script>
 $(".btn-item").click(function () {
     $(".btn-item").css({
@@ -218,3 +151,5 @@ $(".btn-item").click(function () {
     });
   });
 </script>
+</body>
+</html>
