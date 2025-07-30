@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 제품 하위 카테고리 매퍼 -->
-<mapper namespace="peachstore.repository.ProductSubcategoryDAO">
+<mapper namespace="peachstore.repository.subcategory.ProductSubcategoryDAO">
 
 	<resultMap id="ProductSubcategoryResultMap" type="peachstore.domain.ProductSubcategory">
 		<result column="product_subcategory_id" property="productSubcategoryId"/>
@@ -10,7 +10,7 @@
 		
 		<!-- 하나의 등급을 가짐 -->
 		<association column="product_topcategory_id" property="productTopcategory"
-			javaType="peachstore.domain.ProductTopcategory" select="peachstore.repository.ProductTopcategoryDAO.findById" />
+			javaType="peachstore.domain.ProductTopcategory" select="peachstore.repository.topcategory.ProductTopcategoryDAO.findById" />
 	</resultMap>
 	
 	<!-- 상위카테고리와 조인해둔 resultMap -->

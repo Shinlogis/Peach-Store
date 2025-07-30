@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.ProductTopcategory;
-import peachstore.service.ProductTopcategoryService;
+import peachstore.service.topcategory.ProductTopcategoryService;
 import peachstore.util.Paging;
 
 /**

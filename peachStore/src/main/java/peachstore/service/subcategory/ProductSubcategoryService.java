@@ -1,4 +1,4 @@
-package peachstore.service;
+package peachstore.service.subcategory;
 
 import java.util.List;
 

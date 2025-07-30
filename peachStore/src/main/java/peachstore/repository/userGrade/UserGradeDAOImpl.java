@@ -1,4 +1,4 @@
-package peachstore.repository;
+package peachstore.repository.userGrade;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.ProductTopcategory;
 import peachstore.domain.UserGrade;
+import peachstore.repository.gradeCoupon.UserGradeDAO;
 
 /**
  * 사용자 등급 마이바티스 DAO 구현체입니다

@@ -1,4 +1,4 @@
-package peachstore.repository;
+package peachstore.repository.topcategory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.ProductTopcategory;
 
 /**
- * 제품 상의카테고리 마이바티스 DAO 구현체입니다
+ * 제품 상위카테고리 마이바티스 DAO 구현체입니다
  * 
  * @author 김예진
  * @since 2025-07-24
@@ -39,7 +39,7 @@ public class ProductTopcategoryDAOImpl implements ProductTopcategoryDAO {
         }
         paramMap.put("searchKey", trimmedSearchKey);
 
-        List<ProductTopcategory> list = sqlSessionTemplate.selectList("peachstore.repository.ProductTopcategoryDAO.selectAll", paramMap);
+        List<ProductTopcategory> list = sqlSessionTemplate.selectList("peachstore.repository.topcategory.ProductTopcategoryDAO.selectAll", paramMap);
         log.debug("selectAll - searchKey: {}, resultCount: {}", searchKey, list.size());
         
         return list;
@@ -47,21 +47,21 @@ public class ProductTopcategoryDAOImpl implements ProductTopcategoryDAO {
 
     @Override
     public int insert(ProductTopcategory productTopCategory) {
-        int result = sqlSessionTemplate.insert("peachstore.repository.ProductTopcategoryDAO.insert", productTopCategory);
+        int result = sqlSessionTemplate.insert("peachstore.repository.topcategory.ProductTopcategoryDAO.insert", productTopCategory);
         log.debug("save - productCategory: {}", productTopCategory);
         return result;
     }
 
     @Override
     public int update(ProductTopcategory productTopCategory) {
-        int result = sqlSessionTemplate.update("peachstore.repository.ProductTopcategoryDAO.update", productTopCategory);
+        int result = sqlSessionTemplate.update("peachstore.repository.topcategory.ProductTopcategoryDAO.update", productTopCategory);
         log.debug("update - productCategory: {}, result: {}", productTopCategory, result);
         return result;
     }
 
     @Override
     public ProductTopcategory selectById(int productTopCategoryId) {
-    	ProductTopcategory productTopCategory = sqlSessionTemplate.selectOne("peachstore.repository.ProductTopcategoryDAO.findById", productTopCategoryId);
+    	ProductTopcategory productTopCategory = sqlSessionTemplate.selectOne("peachstore.repository.topcategory.ProductTopcategoryDAO.findById", productTopCategoryId);
     	log.debug("findById - productCategoryId: {}, result: {}", productTopCategoryId, productTopCategory);
         return productTopCategory;
     }
