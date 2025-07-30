@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="peachstore.repository.coupon.CouponDAO">
+<mapper namespace="Coupon">
 
 	<resultMap id="CouponResultMap" type="Coupon">
 		<result column="coupon_id" property="couponId"/>
@@ -11,10 +11,13 @@
 		<result column="is_active" property="isActive"/>
 		
 		<!-- 쿠폰은 여러 등급별 쿠폰을 가짐 -->
-		<collection property="gradeCoupons" ofType="peachstore.domain.GradeCoupon" 
-			select="peachstore.repository.gradeCoupon.GradeCouponDAO.selectByCouponId"
+		<collection property="gradeCoupons" ofType="GradeCoupon" 
+			select="GradeCoupon.selectByCouponId"
 			column="coupon_id"/>
 	</resultMap>
 	
 
+	<select id="selectById" resultType="Coupon" parameterType="int">
+	    SELECT * FROM coupon WHERE coupon_id = #{CouponId}
+	</select>
 </mapper>
