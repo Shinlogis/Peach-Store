@@ -5,11 +5,6 @@
      <ul class="header_nav" style="display: flex;">
       <li><a href=""><img src="/static/shop/img/logo1.png" style="width:15px; height:15px; margin-bottom:3px"></a></li>
       <li><a href="/shop/main">Store</a></li>
-      <%for(ProductTopcategory topcategory: topList){%>
-      <% String topName=topcategory.getProductTopcategoryName(); %>
-      <% int topId=topcategory.getProductTopcategoryId(); %>
-      <li><a href="/shop/product?topid=<%=topId%>"><%=topName %></a></li>
-      <%}%>
       <li><a href="/shop/product/phone">Pac</a></li>
       <li><a href="/shop/product/phone">PPhone</a></li>
       <li><a href="">액세서리</a></li>

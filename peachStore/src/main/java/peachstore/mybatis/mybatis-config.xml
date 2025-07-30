@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
 	<typeAliases>
@@ -18,8 +16,6 @@
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 		<typeAlias type="peachstore.domain.OrderReceipt" alias="OrderReceipt"/>
-		<typeAlias type="peachstore.domain.SnapShot" alias="SnapShot"/>
-		<typeAlias type="peachstore.domain.OrderDetail" alias="OrderDetail"/>
 		
 	</typeAliases>
 
@@ -47,7 +43,5 @@
 		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
 		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
 		<mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
-		<mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
-		<mapper resource="peachstore/mybatis/OrderDetailMapper.xml"/>
 	</mappers>
 </configuration>
