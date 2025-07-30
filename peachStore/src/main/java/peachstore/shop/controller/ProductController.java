@@ -2,13 +2,20 @@ package peachstore.shop.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import peachstore.domain.Product;
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.ProductTopcategory;
+import peachstore.service.product.ProductService;
 import peachstore.service.subcategory.ProductSubcategoryService;
 import peachstore.service.topcategory.ProductTopcategoryService;
 
@@ -24,6 +31,8 @@ public class ProductController {
 	ProductSubcategoryService productSubcategoryService;
 	@Autowired
 	ProductTopcategoryService productTopcategoryService;
+	@Autowired
+	ProductService productService;
 	
 	@GetMapping("/product")
 	public ModelAndView phone(int topid) {
@@ -38,21 +47,33 @@ public class ProductController {
 		return mav;
 	}
 	
-	@GetMapping("/product/pPad")
-	public String macbook() {
-		return "shop/product/pPad";
+	@GetMapping("/shop/product/list")
+	@ResponseBody
+	public List<Product> getList(HttpServletRequest request) {
+		//3단계: 목록 가져오기 
+		List productList=productService.selectAll();
+		
+//		paging.init(productList, request);
+		
+		//4단계: 결과 저장
+//		mav.addObject("paging", paging); //페이징 처리 객체도 담기
+		return productList;
 	}
 	
-	@GetMapping("/product/pMac")
-	public String mac() {
-		return "shop/product/pMac";
-	}
 	
-	@GetMapping("/product/accessory")
-	public String accessory() {
-		return "shop/product/accessory";
+	@GetMapping("/product/detail")
+	public ModelAndView getProductDetail(int product_id) {
+		ModelAndView mav=new ModelAndView("shop/detail");
+		
+		Product product = productService.select(product_id);
+		
+		mav.addObject("product",product);
+		return mav;
 	}
-	public String product() {
-		return "shop/phone";
-	}
+		
+	
+	
+	
+	
+
 }
