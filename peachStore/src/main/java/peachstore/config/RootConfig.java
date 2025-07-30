@@ -22,7 +22,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 	    "peachstore.service",
 	    "peachstore.repository",
 	    "peachstore.util",
-	    "peachstore.model.product"
 	})
 
 public class RootConfig {

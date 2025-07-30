@@ -1,4 +1,4 @@
-package peachstore.model.product;
+package peachstore.repository.product;
 
 import java.util.List;
 
