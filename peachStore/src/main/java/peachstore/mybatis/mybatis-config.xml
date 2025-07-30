@@ -17,6 +17,8 @@
 		<typeAlias type="peachstore.domain.ProductColor" alias="ProductColor"/>
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
+		<typeAlias type="peachstore.domain.GradeCoupon" alias="GradeCoupon"/>
+		<typeAlias type="peachstore.domain.Coupon" alias="Coupon"/>
 
 		
 	</typeAliases>
@@ -44,5 +46,7 @@
 		<mapper resource="peachstore/mybatis/ProductSizeMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
 		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
+		<mapper resource="peachstore/mybatis/GradeCouponMapper.xml"/>
+		<mapper resource="peachstore/mybatis/CouponMapper.xml"/>
 	</mappers>
 </configuration>
