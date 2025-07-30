@@ -21,7 +21,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 @ComponentScan(basePackages = {
 	    "peachstore.service",
 	    "peachstore.repository",
-	    "peachstore.util"
+	    "peachstore.util",
+	    "peachstore.model.product"
 	})
 
 public class RootConfig {

@@ -1,8 +1,8 @@
-<%@page import="mall.util.Paging"%>
-<%@page import="mall.domain.ProductSize"%>
-<%@page import="mall.domain.ProductColor"%>
-<%@page import="mall.domain.Color"%>
-<%@page import="mall.domain.Product"%>
+<%@page import="peachstore.util.Paging"%>
+<%@page import="peachstore.domain.ProductSize"%>
+<%@page import="peachstore.domain.ProductColor"%>
+<%@page import="peachstore.domain.Color"%>
+<%@page import="peachstore.domain.Product"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%

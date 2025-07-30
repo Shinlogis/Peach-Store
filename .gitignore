@@ -182,6 +182,10 @@ Servers/
 # IntelliJ IDEA 설정 무시
 .idea/
 
+# GitHub 이슈 템플릿 무시
+.github/ISSUE_TEMPLATE/
+README.md
+
 # application.properties 제외
 /src/main/resources/application.properties
 peachStore/src/main/resources/application.properties
