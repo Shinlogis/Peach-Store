@@ -1,4 +1,4 @@
-package peachstore.repository;
+package peachstore.repository.gradeCoupon;
 
 import java.util.List;
 

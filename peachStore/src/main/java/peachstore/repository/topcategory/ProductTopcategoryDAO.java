@@ -1,4 +1,4 @@
-package peachstore.repository;
+package peachstore.repository.topcategory;
 
 import java.util.List;
 

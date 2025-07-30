@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import peachstore.service.ProductTopcategoryService;
+import peachstore.service.topcategory.ProductTopcategoryService;
 
 @ControllerAdvice
 public class ShopGlobalModelAdvice {

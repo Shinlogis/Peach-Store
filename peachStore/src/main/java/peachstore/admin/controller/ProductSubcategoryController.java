@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.ProductTopcategory;
-import peachstore.service.ProductSubcategoryService;
-import peachstore.service.ProductTopcategoryService;
+import peachstore.service.subcategory.ProductSubcategoryService;
+import peachstore.service.topcategory.ProductTopcategoryService;
 
 /**
  * 제품 하위 카테고리 컨트롤러

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 제품 상위 카테고리 매퍼 -->
-<mapper namespace="peachstore.repository.ProductTopcategoryDAO">
+<mapper namespace="peachstore.repository.topcategory.ProductTopcategoryDAO">
 
 	<resultMap id="ProductTopcategoryResultMap" type="peachstore.domain.ProductTopcategory">
 		<result column="product_topcategory_id" property="productTopcategoryId"/>

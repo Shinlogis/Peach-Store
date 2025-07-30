@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.GradeCoupon;
-import peachstore.service.GradeCouponService;
+import peachstore.service.gradeCoupon.GradeCouponService;
 
 /**
  * 등급별 쿠폰 컨트롤러

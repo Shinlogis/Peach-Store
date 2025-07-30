@@ -9,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.ProductTopcategory;
-import peachstore.service.ProductSubcategoryService;
-import peachstore.service.ProductTopcategoryService;
+import peachstore.service.subcategory.ProductSubcategoryService;
+import peachstore.service.topcategory.ProductTopcategoryService;
 
 /**
  * 제품컨트롤러 

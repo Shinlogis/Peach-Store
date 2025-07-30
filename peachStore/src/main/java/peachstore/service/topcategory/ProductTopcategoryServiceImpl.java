@@ -1,4 +1,4 @@
-package peachstore.service;
+package peachstore.service.topcategory;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.ProductTopcategory;
 import peachstore.exception.ProductTopcategoryException;
-import peachstore.repository.ProductTopcategoryDAO;
+import peachstore.repository.topcategory.ProductTopcategoryDAO;
 
 /**
  * 제품 카테고리 서비스 구현체
