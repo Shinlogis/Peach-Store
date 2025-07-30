@@ -12,10 +12,15 @@ import peachstore.domain.Inquiry;
  */
 public interface InquiryService {
 	
-	public List selectAll();
+	public List selectAll(Inquiry inquiry);
 	
-	public Inquiry select(int inquiry_id);
+	public Inquiry select(Inquiry inquiry);
 	
 	public void regist(Inquiry inquiry, String savePath);
-
+	
+	public void update(Inquiry inquiry, String savePath);
+	
+	public void remove(Inquiry inquiry, String savePath);
+	
+	
 }
