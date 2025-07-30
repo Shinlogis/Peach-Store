@@ -1,4 +1,4 @@
-package peachstore.model.product;
+package peachstore.repository.product;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

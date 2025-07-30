@@ -1,15 +1,11 @@
-package peachstore.model.product;
+package peachstore.service.product;
 
 import java.util.List;
 
 import peachstore.domain.Product;
 
 /**
- * 상품(Product) 관련 서비스 인터페이스  
- * 상품의 등록, 수정, 삭제, 조회 등의 비즈니스 로직을 정의한다.  
- * 특히 파일 경로(savePath)를 필요로 하는 등록/삭제 로직은  
- * 실제 이미지 등의 자원 처리까지 포함된다.
- * 
+ * 상품(Product) 관련 서비스 인터페이스   
  * @author 김지민
  * @since 2025-07-29
  */

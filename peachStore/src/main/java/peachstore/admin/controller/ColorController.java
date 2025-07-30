@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import peachstore.model.product.ColorService;
+import peachstore.service.product.ColorService;
 
 /**
  * 색상 관련 컨트롤러

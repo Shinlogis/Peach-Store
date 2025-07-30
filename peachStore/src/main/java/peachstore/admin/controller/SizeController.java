@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import peachstore.model.product.SizeService;
+import peachstore.service.product.SizeService;
 
 /**
  * 사이즈 관련 컨트롤러

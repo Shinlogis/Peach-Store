@@ -1,4 +1,4 @@
-package peachstore.model.product;
+package peachstore.service.product;
 
 import java.util.List;
 
@@ -8,18 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import peachstore.domain.Product;
 import peachstore.domain.ProductColor;
-import peachstore.domain.ProductImg;
 import peachstore.domain.ProductSize;
 import peachstore.exception.ProductColorException;
 import peachstore.exception.ProductException;
 import peachstore.exception.ProductSizeException;
+import peachstore.repository.product.ProductColorDAO;
+import peachstore.repository.product.ProductDAO;
+import peachstore.repository.product.ProductSizeDAO;
 import peachstore.util.FileManager;
 
 /**
- * 상품 서비스 구현체  
  * 상품 등록 및 관련 색상/사이즈 정보 저장을 포함한  
- * 전체 상품 비즈니스 로직을 수행한다.
- * 
+ * 전체 상품 비즈니스 로직을 수행
  * @author 김지민
  * @since 2025-07-29
  */
