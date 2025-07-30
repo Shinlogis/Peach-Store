@@ -1,4 +1,4 @@
-package peachstore.repository;
+package peachstore.repository.subcategory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,35 +34,35 @@ public class ProductSubcategoryDAOImpl implements ProductSubcategoryDAO {
 		}
 		paramMap.put("searchKey", trimmedSearchKey);
 
-		List<ProductSubcategory> list = sqlSessionTemplate.selectList("peachstore.repository.ProductSubcategoryDAO.selectAllWithTopcategory", paramMap);
+		List<ProductSubcategory> list = sqlSessionTemplate.selectList("peachstore.repository.subcategory.ProductSubcategoryDAO.selectAllWithTopcategory", paramMap);
 		log.debug("selectAll - searchKey: {}, resultCount: {}", searchKey, list.size());
 		return list;
 	}
 
 	@Override
 	public int insert(ProductSubcategory productSubcategory) {
-		int result = sqlSessionTemplate.insert("peachstore.repository.ProductSubcategoryDAO.insert", productSubcategory);
+		int result = sqlSessionTemplate.insert("peachstore.repository.subcategory.ProductSubcategoryDAO.insert", productSubcategory);
 		log.debug("insert - productSubcategory: {}", productSubcategory);
 		return result;
 	}
 
 	@Override
 	public int update(ProductSubcategory productSubcategory) {
-		int result = sqlSessionTemplate.update("peachstore.repository.ProductSubcategoryDAO.update", productSubcategory);
+		int result = sqlSessionTemplate.update("peachstore.repository.subcategory.ProductSubcategoryDAO.update", productSubcategory);
 		log.debug("update - ProductSubcategory: {}", productSubcategory);
 		return result;
 	}
 
 	@Override
 	public ProductSubcategory findById(int subcategoryId) {
-		ProductSubcategory result = sqlSessionTemplate.selectOne("peachstore.repository.ProductSubcategoryDAO.selectById", subcategoryId);
+		ProductSubcategory result = sqlSessionTemplate.selectOne("peachstore.repository.subcategory.ProductSubcategoryDAO.selectById", subcategoryId);
 		log.debug("selectById - result: {}", result);
 		return result;
 	}
 
 	@Override
 	public List<ProductSubcategory> findAllByTopcategoryId(int productTopcategoryId) {
-		List<ProductSubcategory> list = sqlSessionTemplate.selectList("peachstore.repository.ProductSubcategoryDAO.selectAllSubcategoryByTopcategoryId", productTopcategoryId);
+		List<ProductSubcategory> list = sqlSessionTemplate.selectList("peachstore.repository.subcategory.ProductSubcategoryDAO.selectAllSubcategoryByTopcategoryId", productTopcategoryId);
 		log.debug("selectAllSubcategoryByTopcategoryId - resultCount: {}", list.size());
 		return list;
 	}

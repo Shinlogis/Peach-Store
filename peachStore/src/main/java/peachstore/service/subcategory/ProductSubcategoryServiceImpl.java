@@ -1,4 +1,4 @@
-package peachstore.service;
+package peachstore.service.subcategory;
 
 import java.util.List;
 
@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.ProductTopcategory;
 import peachstore.exception.ProductSubcategoryException;
-import peachstore.repository.ProductSubcategoryDAO;
+import peachstore.repository.subcategory.ProductSubcategoryDAO;
+import peachstore.service.topcategory.ProductTopcategoryService;
 
 @Service
 @RequiredArgsConstructor

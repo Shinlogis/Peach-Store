@@ -1,4 +1,4 @@
-package peachstore.service;
+package peachstore.service.gradeCoupon;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.GradeCoupon;
-import peachstore.repository.GradeCouponDAO;
+import peachstore.repository.gradeCoupon.GradeCouponDAO;
 
 /**
  * 제품 카테고리 서비스 구현체

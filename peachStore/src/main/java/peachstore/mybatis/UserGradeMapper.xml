@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="peachstore.repository.UserGradeDAO">
+<mapper namespace="peachstore.repository.gradeCoupon.UserGradeDAO">
 
 	<resultMap id="UserGradeResultMap" type="UserGrade">
 		<result column="user_grade_id" property="userGradeId"/>
@@ -11,7 +11,7 @@
 		
 		<!-- 회원등급은 여러 등급별 쿠폰을 가짐 -->
 		<collection property="gradeCoupons" ofType="peachstore.domain.GradeCoupon" 
-			select="peachstore.repository.GradeCouponDAO.selectByUserGradeId"
+			select="peachstore.repository.gradeCoupon.GradeCouponDAO.selectByUserGradeId"
 			column="user_grade_id"/>
 	</resultMap>
 		
