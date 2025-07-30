@@ -189,3 +189,5 @@ README.md
 # application.properties 제외
 /src/main/resources/application.properties
 peachStore/src/main/resources/application.properties
+**/application.properties
+
