@@ -16,8 +16,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
-<%@ include file="../inc/head_link.jsp" %>
-    
+	<%@ include file="../inc/head_link.jsp" %>
+	<link rel="stylesheet"  href="/static/shop/css/product/accessoryList.css">
 </head>
 <body style="background-color:#fff;">
 <%@ include file="../inc/offcanvas.jsp" %>
@@ -29,22 +29,78 @@
 
  <!-- product-list-section start -->
  <section id="product-list-section" style="margin:auto">
-	<!-- 제목 -->
+	<!-- 제목 start-->
 	<div>
 		<span class="acc-h1">당신의 새로운 <%=topname%> 구입하기  </span>
-		<img src="/static/shop/img/product/accessory/accessory-banner.png">
+		<img src="/static/shop/img/product/accessory/accessery-banner.png">
 	</div>
-	<!-- 제목 -->
+	<!-- 제목 end -->
 	
-	<!-- 서브카테고리토글  시작 -->
-	<div class=sub-category-accessory>
-		<div class="sub-category-accessory">
+	<!-- 서브카테고리토리 시작 -->
+	<div class="sub-category-accessory-grid">
+		<div class="acc-h2">원하는 액세러리를 찾아보세요</div>
+		<ul class="sub-category-accessory-list">
 			<%for(ProductSubcategory productSubcategory : subList){ %>
-				<button class="btn-item"><%=productSubcategory.getProductSubcategoryName() %></button>
+			<li>
+				<div class="sub-accessory-wrapper">
+					<div class="sub-accessory-img">
+						<img src="/static/shop/img/product/accessory/airpods.png">
+					</div>
+					<div class="sub-accessory-name"><%=productSubcategory.getProductSubcategoryName() %></div>
+				</div>
+			</li>
 			<%} %>
-		</div>
+			<li>
+				<div class="sub-accessory-wrapper">
+					<div class="sub-accessory-img">
+						<img src="/static/shop/img/product/accessory/airpods.png">
+					</div>
+					<div class="sub-accessory-name">시계</div>
+				</div>
+			</li>
+			<li>
+				<div class="sub-accessory-wrapper">
+					<div class="sub-accessory-img">
+						<img src="/static/shop/img/product/accessory/airpods.png">
+					</div>
+					<div class="sub-accessory-name">시계</div>
+				</div>
+			</li>
+			<li>
+				<div class="sub-accessory-wrapper">
+					<div class="sub-accessory-img">
+						<img src="/static/shop/img/product/accessory/airpods.png">
+					</div>
+					<div class="sub-accessory-name">시계</div>
+				</div>
+			</li>
+			<li>
+				<div class="sub-accessory-wrapper">
+					<div class="sub-accessory-img">
+						<img src="/static/shop/img/product/accessory/airpods.png">
+					</div>
+					<div class="sub-accessory-name">시계</div>
+				</div>
+			</li>
+			<li>
+				<div class="sub-accessory-wrapper">
+					<div class="sub-accessory-img">
+						<img src="/static/shop/img/product/accessory/airpods.png">
+					</div>
+					<div class="sub-accessory-name">시계</div>
+				</div>
+			</li>
+			<li>
+				<div class="sub-accessory-wrapper">
+					<div class="sub-accessory-img">
+						<img src="/static/shop/img/product/accessory/airpods.png">
+					</div>
+					<div class="sub-accessory-name">시계</div>
+				</div>
+			</li>
+		</ul>
 	</div>
-	<!-- 서브카테고리토글 끝-->
+	<!-- 서브카테고리 끝-->
 	
 	<!--상품 리스트  -->
 	<div class="acc-content-container">
@@ -109,51 +165,3 @@
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
 </body>
 </html>
-<style>
-.acc-h1{
-	font-size: 48px;
-    font-weight: 800;
-    margin-left:165px;
-}
-
-.acc-content-container{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 70px;
-    max-width: 900px; 
-    margin: auto;       
-}
-
-.acc{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 260px;
-    heigth:407px;
-    margin: auto;
-    position: relative;
-    border-radius:18px;
-    background-color:#f5f5f7;
-    padding:24px;
-}  
-
-.acc img{
-    height: 250px;
-}
-
-.acc_name{
-  	font-size: 17px;
-    font-weight: bold;
-    margin-top: 50px;
-    color:#1d1d1f;
-}
-
-.acc_price{
-    font-size: 14px;
-    margin-top: 30px;
-    font-weight: 600;
-    color:#1d1d1f;
-}
-</style>
-<script>
-</script>

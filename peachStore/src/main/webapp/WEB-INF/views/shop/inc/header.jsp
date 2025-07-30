@@ -12,9 +12,6 @@
       <li><a href="/shop/product?topid=<%=topId%>"><%=topName %></a></li>
       <%}%>
 		<li><a href="/shop/inquiry/registForm">고객지원</a></li>
-		<li><a href="">검색</a></li>
-		<li><a href="">장바구니</a></li>
-		<li><a href="/shop/mypage">마이페이지</a></li>
 		<% User loginUser = (User)session.getAttribute("user"); %>
 		<% if(loginUser==null){%>
       		<li><a href="/shop/loginform">로그인</a></li>
