@@ -1,9 +1,11 @@
-package peachstore.model.product;
+package peachstore.service.product;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import peachstore.repository.product.ColorDAO;
 
 /**
  * 색상(Color) 관련 서비스 구현체

@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-<<<<<<< HEAD
 import peachstore.service.topcategory.ProductTopcategoryService;
-=======
-import peachstore.service.ProductTopcategoryService;
->>>>>>> 7021b43 (0729 header toplist추가)
 
 @ControllerAdvice
 public class ShopGlobalModelAdvice {

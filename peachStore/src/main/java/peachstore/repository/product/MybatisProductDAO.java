@@ -1,4 +1,4 @@
-package peachstore.model.product;
+package peachstore.repository.product;
 
 import java.util.List;
 
@@ -10,13 +10,8 @@ import peachstore.domain.Product;
 import peachstore.exception.ProductException;
 
 /**
- * 상품(Product) 관련 MyBatis DAO 구현체
  * ProductDAO 인터페이스를 구현하며,
- * 상품 목록 조회, 상세 조회, 상품 등록 기능을 MyBatis 기반으로 수행한다.
- * 
- * SqlSessionTemplate을 사용해 Mapper XML의 쿼리를 실행한다.
- * 등록 실패 시 ProductException을 발생시킨다.
- * 
+ * 상품 목록 조회, 상세 조회, 상품 등록 기능
  * @author 김지민
  * @since 2025-07-29
  */

@@ -7,11 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.ProductTopcategory;
 import peachstore.exception.ProductTopcategoryException;
-<<<<<<< HEAD:peachStore/src/main/java/peachstore/service/topcategory/ProductTopcategoryServiceImpl.java
 import peachstore.repository.topcategory.ProductTopcategoryDAO;
-=======
-import peachstore.repository.ProductTopcategoryDAO;
->>>>>>> 2362fca (상위 카테고리에 해당하는 하위 카테고리 조회 기능 구현):peachStore/src/main/java/peachstore/service/ProductTopcategoryServiceImpl.java
 
 /**
  * 제품 카테고리 서비스 구현체
