@@ -38,6 +38,21 @@ public class ProductController {
 		return mav;
 	}
 	
-
-
+	@GetMapping("/product/pPad")
+	public String macbook() {
+		return "shop/product/pPad";
+	}
+	
+	@GetMapping("/product/pMac")
+	public String mac() {
+		return "shop/product/pMac";
+	}
+	
+	@GetMapping("/product/accessory")
+	public String accessory() {
+		return "shop/product/accessory";
+	}
+	public String product() {
+		return "shop/phone";
+	}
 }

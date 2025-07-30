@@ -22,7 +22,6 @@ import peachstore.shop.model.NaverApi20;
 @ComponentScan(basePackages = { "peachstore.advice","peachstore.shop.controller" })
 public class ShopConfig {
 	//Client ID, Secret, callback주소 보안매핑
-	
 	/*============구글 매핑===========*/
 	@Value("${oauth.google.clientId}")
 	private String googleClientId;
@@ -53,6 +52,7 @@ public class ShopConfig {
 	@Value("${oauth.kakao.callback}")
 	private String kakaoCallbackUrl;
 	
+	private String callbackUrl;
 	
 	@Bean
 	public InternalResourceViewResolver viewResolver() {

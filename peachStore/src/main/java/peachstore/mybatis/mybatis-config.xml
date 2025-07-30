@@ -13,8 +13,6 @@
 		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
 		<typeAlias type="peachstore.domain.OrderReceipt" alias="OrderReceipt"/>
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
-		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
-		<typeAlias type="peachstore.domain.OrderReceipt" alias="OrderReceipt"/>
 		
 	</typeAliases>
 
@@ -39,7 +37,5 @@
 		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
 		<mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
-		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
-		<mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
 	</mappers>
 </configuration>

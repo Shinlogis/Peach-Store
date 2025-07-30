@@ -185,8 +185,6 @@ Servers/
 # IntelliJ IDEA 설정 무시
 .idea/
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # GitHub 이슈 템플릿 무시
 .github/ISSUE_TEMPLATE/
 README.md
@@ -194,16 +192,5 @@ README.md
 # application.properties 제외
 /src/main/resources/application.properties
 peachStore/src/main/resources/application.properties
-<<<<<<< HEAD
-=======
-# application.properties 제외
-/src/main/resources/application.properties
->>>>>>> 4d436b5 (추적 제거 및 스테이지편집 후 커밋)
-=======
-peachStore/src/main/resources/application.properties
->>>>>>> 0d06ce4 (Remove application.properties from Git tracking and add to .gitignore)
-=======
-# application.properties 제외
-/src/main/resources/application.properties
-peachStore/src/main/resources/application.properties
->>>>>>> 546aba18aef49ef14c0cd37565d3a3ab2a6cd871
+**/application.properties
+

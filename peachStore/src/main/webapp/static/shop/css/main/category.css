@@ -1,7 +1,11 @@
 @charset "UTF-8";
 section{
 	padding:40px 0px 50px;
+<<<<<<< HEAD
 
+=======
+	margin-left:165px;
+>>>>>>> 546aba18aef49ef14c0cd37565d3a3ab2a6cd871
 }
 
 .title-h1{
