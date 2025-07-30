@@ -69,7 +69,9 @@ public class InquiryServiceImpl implements InquiryService{
 	
 	@Override
 	public void remove(Inquiry inquiry, String savePath) {
+		inquiryImgService.delete(inquiry.getInquiry_id());
 		fileManager.remove(inquiry, savePath);
+		inquiryDAO.delete(inquiry);
 	}
 
 	

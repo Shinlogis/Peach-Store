@@ -113,13 +113,25 @@
 
 <script>
 	  let selectedFile = [];
+	  const container = document.getElementById("preview");  // 미리보기 컨테이너 미리 선언
+
+	  //  기존 이미지 출력 - 서버에서 렌더링할 때, 파일명만 배열에 저장하고 InquiryImg 생성
+	  <% if (inquiry.getImgList() != null) {
+	      for (InquiryImg img : inquiry.getImgList()) {
+	          String src = "/data/p_" + inquiry.getInquiry_id() + "/" + img.getFilename();
+	  %>
+	      selectedFile.push("<%=img.getFilename()%>");
+	      new InquiryImg(container, "<%=img.getFilename()%>", "<%=src%>", 100, 100, true);
+	  <% } } %>
 	  
 	  function update() {
 		let formData = new FormData(document.getElementById("form1"));
 		
 		formData.delete("photo");
 		for(let i=0; i<selectedFile.length; i++){
-			formData.append("photo", selectedFile[i]);
+			if(!selectedFile[i].isExisting){
+				formData.append("photo", selectedFile[i]);
+			}
 		}
 		
 		$.ajax({
@@ -144,7 +156,7 @@
 	$('#summernote').summernote({
 		height:300
 	});
-	$("#summernote").summernote("code","<%=inquiry.getInquiry_text() %>")
+	$("#summernote").summernote("code","<%= inquiry.getInquiry_text() %>")
 	
 	
 
@@ -160,10 +172,7 @@
 		
 			reader.onload=function(e){	
 				console.log("읽은 결과 ", e);
-				//file의 url은 e.target.result
-				
 				let inquiryImg = new InquiryImg(document.getElementById("preview"), selectedFile[i], e.target.result, 100,100);
-				
 			}
 		
 		

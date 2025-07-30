@@ -10,6 +10,7 @@
 		<typeAlias type="peachstore.domain.User" alias="User"/>
 		<typeAlias type="peachstore.domain.Inquiry" alias="Inquiry"/>
 		<typeAlias type="peachstore.domain.InquiryImg" alias="InquiryImg"/>
+<<<<<<< HEAD
 		<typeAlias type="peachstore.domain.Product" alias="Product"/>
 		<typeAlias type="peachstore.domain.Color" alias="Color"/>
 		<typeAlias type="peachstore.domain.Size" alias="Size"/>
@@ -18,6 +19,11 @@
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 
+=======
+		<typeAlias type="peachstore.domain.OrderReceipt" alias="OrderReceipt"/>
+		<typeAlias type="peachstore.domain.SnapShot" alias="SnapShot"/>
+		<typeAlias type="peachstore.domain.OrderDetail" alias="OrderDetail"/>
+>>>>>>> ba82406 (문의 삭제 기능 구현)
 		
 	</typeAliases>
 
@@ -37,6 +43,7 @@
 		<mapper resource="peachstore/mybatis/UserMapper.xml"/>
 		<mapper resource="peachstore/mybatis/InquiryMapper.xml"/>
 		<mapper resource="peachstore/mybatis/InquiryImgMapper.xml"/>
+<<<<<<< HEAD
 		<mapper resource="peachstore/mybatis/ProductMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ColorMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SizeMapper.xml"/>
@@ -44,5 +51,10 @@
 		<mapper resource="peachstore/mybatis/ProductSizeMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
 		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
+=======
+		<mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
+		<mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
+		<mapper resource="peachstore/mybatis/OrderDetailMapper.xml"/>
+>>>>>>> ba82406 (문의 삭제 기능 구현)
 	</mappers>
 </configuration>

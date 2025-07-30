@@ -121,5 +121,14 @@ public class InquiryController {
 
 		return responseData;
 	}
+	
+	//삭제
+	@PostMapping("/inquiry/delete")
+	public String delete(Inquiry inquiry, String savePath) {
+		
+		inquiryService.remove(inquiry, savePath);
+		
+		return "redirect:/shop/inquiry/list";
+	}
 
 }

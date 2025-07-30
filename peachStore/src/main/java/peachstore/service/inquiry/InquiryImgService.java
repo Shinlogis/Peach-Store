@@ -13,4 +13,6 @@ public interface InquiryImgService {
 	
 	public void update(InquiryImg inquiryImg);
 	
+	public void delete(int inquiry_id);
+	
 }

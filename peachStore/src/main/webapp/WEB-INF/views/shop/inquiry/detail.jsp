@@ -52,9 +52,6 @@ Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 
 
 			<!-- 리스트 시작 -->
-			<form>
-				<input type="hidden" name="user.user_id"
-					value="<%=user.getUser_id()%>">
 				<section class="shop-cart spad">
 					<div class="container">
 						<div class="row">
@@ -101,12 +98,22 @@ Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 														style="white-space: pre-wrap; font-size: 20px !important; color: black;">
 														<%=inquiry.getInquiry_text()%>
 													</div>
-													<div>
+													
+													<div style="display: flex; gap: 10px;">
+														
 														<button type="button" class="btn btn-secondary" 
 														onclick="location.href='/shop/inquiry/updateform?inquiry_id=<%=inquiry.getInquiry_id()%>'">
 														수정</button>
-														<button type="button" class="btn btn-secondary" href="#">
+														
+														<form method="post" id="delete" action="/shop/inquiry/delete">
+														<input  type="hidden" name="inquiry_id" value="<%=inquiry.getInquiry_id()%>">
+														<input type="hidden" name="user.user_id" value="<%=user.getUser_id()%>">
+														</form>
+														
+														<button type="button" class="btn btn-secondary"
+														onclick="if(confirm('삭제하시겠습니까?')) document.getElementById('delete').submit();">
 														삭제</button>
+														
 													</div>
 												</td>
 											</tr>
@@ -117,7 +124,6 @@ Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 						</div>
 					</div>
 				</section>
-			</form>
 			<!-- 리스트 끝 -->
 
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import peachstore.domain.InquiryImg;
+import peachstore.exception.InquiryImgException;
 import peachstore.exception.Uploadexception;
 import peachstore.repository.Inquiry.InquiryImgDAO;
 /**
@@ -25,8 +26,13 @@ public class InquiryImgServiceImpl implements InquiryImgService{
 	}
 
 	@Override
-	public void update(InquiryImg inquiryImg) {
+	public void update(InquiryImg inquiryImg) throws InquiryImgException {
 		inquiryImgDAO.update(inquiryImg);
+	}
+
+	@Override
+	public void delete(int inquiry_id)throws InquiryImgException {
+		inquiryImgDAO.delete(inquiry_id);
 	}
 	
 
