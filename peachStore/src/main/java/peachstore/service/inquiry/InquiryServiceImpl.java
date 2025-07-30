@@ -79,7 +79,7 @@ public class InquiryServiceImpl implements InquiryService{
 			int stayCount=0;
 			
 			for(int a=0;a<oldList.size();a++) {
-				boolean stay = (newList[i].getOriginalFilename() == oldList.get(a).getFilename());
+				boolean stay = (newList[i].getOriginalFilename().equals(oldList.get(a).getFilename()));
 				
 				if(stay) { //두개를 비교해서, 같은것을 발견한 경우 유지대상 
 					stayCount++;	
@@ -94,7 +94,7 @@ public class InquiryServiceImpl implements InquiryService{
 			int stayCount=0;
 			
 			for(int a=0;a<newList.length;a++) {
-				boolean stay = (newList[a].getOriginalFilename() == oldList.get(i).getFilename());
+				boolean stay = (newList[a].getOriginalFilename().equals(oldList.get(i).getFilename()));
 				
 				if(stay) { //두개를 비교해서, 같은것을 발견한 경우 유지대상 
 					stayCount++;	
@@ -109,6 +109,24 @@ public class InquiryServiceImpl implements InquiryService{
 		}
 		for(int i=0; i<removeList.size(); i++) {
 			log.debug("삭제될 이미지 " + removeList.get(i).getFilename());
+		}
+		
+		if(!addList.isEmpty()) {
+			inquiryDAO.update(inquiry);
+			fileManager.save(inquiry, savePath);
+			
+			for(InquiryImg img : inquiry.getImgList()) {
+				inquiryImgService.update(img);
+			}
+		}
+		
+		if(!removeList.isEmpty()) {
+			inquiryDAO.update(inquiry);
+			fileManager.remove(inquiry, savePath);
+			
+			for(InquiryImg img : inquiry.getImgList()) {
+				inquiryImgService.update(img);
+			}
 		}
 		
 		
