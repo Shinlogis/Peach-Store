@@ -309,21 +309,25 @@ input[type=submit]:hover {
 	<div class="bottom-container">
 		<div class="row">
 			<div class="col">
-				<a href="#" style="color:white" class="btn">회원가입하기</a>
+				<a href="/shop/joinform" style="color:white" class="btn">회원가입하기</a>
 			</div>
 		</div>
 	</div>
+	
+	<!-- 소셜로그인 버튼 -->
 	<div class="login-guide">회원이 아닌경우 회원가입 페이지로 이동합니다.</div>
 	<div class="row">
+		<!-- 카카오 소셜 로그인 버튼 -->
 		<a href="#" class="social-login-btn" onclick="login('kakao')">
 			<img src="/static/shop/img/login/kakaologin.png" alt="카카오 로그인 버튼" />
 		</a>
 		
+		<!-- 네이버 소셜 로그인 버튼 -->
 		<a href="#" class="social-login-btn" onclick="login('naver')">
 			<img src="/static/shop/img/login/naverlogin.png" alt="네이버 로그인 버튼" />
 		</a>
 
-		<!-- 구글 로그인 버튼 공식 사이트에서 퍼옴  -->
+		<!-- 구글 소셜 로그인 버튼 -->
 		<button class="gsi-material-button" onclick="login('google')">
 			<div class="gsi-material-button-state"></div>
 			<div class="gsi-material-button-content-wrapper">
@@ -340,7 +344,10 @@ input[type=submit]:hover {
 			<span style="display: none;">Sign in with Google</span>
 			</div>
 		</button>
+		
 	</div>
+	<!-- 소셜로그인 버튼 끝-->
+	
 	<script type="text/javascript">
 		function login(sns){
 			$.ajax({
