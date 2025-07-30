@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+   List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 %>
 <!DOCTYPE html>
 <html>
@@ -17,12 +17,20 @@ body {
   box-sizing: border-box;
 }
 
+/* style loginform title */
+.login-title{
+   font-size: 48px;
+    font-weight: 800;
+    margin:auto;
+    margin-bottom:50px;
+}    
+
 /* style the container */
 .container {
   position: relative;
   border-radius: 5px;
-  background-color: #f2f2f2;
   padding: 20px 0 30px 0;
+  width:35%;
 } 
 
 /* style inputs and link buttons */
@@ -63,8 +71,7 @@ input:hover,
 
 /* style the submit button */
 input[type=submit] {
-  background-color: #04AA6D;
-  color: white;
+  color: #494949;
   cursor: pointer;
 }
 
@@ -135,6 +142,12 @@ input[type=submit]:hover {
     display: block;
     text-align: center;
   }
+}
+
+.a{
+   border-radius:8px;
+   border: 1px solid #494949;
+   color:#494949;
 }
 
 .gsi-material-button {
@@ -286,262 +299,86 @@ input[type=submit]:hover {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<<<<<<< HEAD
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-	<%@ include file="./inc/header.jsp" %>
-	<h2>pPhone에 오신것을 환영합니다.</h2>
-	<p>Resize the browser window to see the responsive effect. When the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other.</p>
-	
-	<div class="container" style="text-align:center">
-		<form action="/action_page.php">
-			<h2 style="text-align:center">Login with Social Media or Manually</h2>
-			<div class="row">
-				<div class="col">
-					<input type="text" name="username" placeholder="Username" required>
-					<input type="password" name="password" placeholder="Password" required>
-					<input type="submit" value="Login">
-				</div>
-			</div>
-		</form>
-	</div>
-	
-	<div class="bottom-container">
-		<div class="row">
-			<div class="col">
-				<a href="/shop/joinform" style="color:white" class="btn">회원가입하기</a>
-			</div>
-		</div>
-	</div>
-	
-	<!-- 소셜로그인 버튼 -->
-	<div class="login-guide">회원이 아닌경우 회원가입 페이지로 이동합니다.</div>
-	<div class="row">
-		<!-- 카카오 소셜 로그인 버튼 -->
-		<a href="#" class="social-login-btn" onclick="login('kakao')">
-			<img src="/static/shop/img/login/kakaologin.png" alt="카카오 로그인 버튼" />
-		</a>
-		
-		<!-- 네이버 소셜 로그인 버튼 -->
-		<a href="#" class="social-login-btn" onclick="login('naver')">
-			<img src="/static/shop/img/login/naverlogin.png" alt="네이버 로그인 버튼" />
-		</a>
-
-		<!-- 구글 소셜 로그인 버튼 -->
-		<button class="gsi-material-button" onclick="login('google')">
-			<div class="gsi-material-button-state"></div>
-			<div class="gsi-material-button-content-wrapper">
-				<div class="gsi-material-button-icon">
-					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
-						<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-						<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-						<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-						<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-						<path fill="none" d="M0 0h48v48H0z"></path>
-					</svg>
-				</div>
-			<span class="gsi-material-button-contents">로그인</span>
-			<span style="display: none;">Sign in with Google</span>
-			</div>
-		</button>
-		
-	</div>
-	<!-- 소셜로그인 버튼 끝-->
-	
-	<script type="text/javascript">
-		function login(sns){
-			$.ajax({
-				url:"/shop/user/"+sns+"/authurl",
-				type:"GET",
-				success:function(result){
-				alert(result);
-					location.href=result;//동의화면 요청
-				}
-			})
-		
-=======
-* {
-  box-sizing: border-box;
-}
-
-/* style the container */
-.container {
-  position: relative;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px 0 30px 0;
-} 
-
-/* style inputs and link buttons */
-input,
-.btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  margin: 5px 0;
-  opacity: 0.85;
-  display: inline-block;
-  font-size: 17px;
-  line-height: 20px;
-  text-decoration: none; /* remove underline from anchors */
-}
-
-input:hover,
-.btn:hover {
-  opacity: 1;
-}
-
-/* add appropriate colors to fb, twitter and google buttons */
-.fb {
-  background-color: #3B5998;
-  color: white;
-}
-
-.twitter {
-  background-color: #55ACEE;
-  color: white;
-}
-
-.google {
-  background-color: #dd4b39;
-  color: white;
-}
-
-/* style the submit button */
-input[type=submit] {
-  background-color: #04AA6D;
-  color: white;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #45a049;
-}
-
-/* Two-column layout */
-.col {
-  float: left;
-  width: 50%;
-  margin: auto;
-  padding: 0 50px;
-  margin-top: 6px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* vertical line */
-.vl {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  border: 2px solid #ddd;
-  height: 175px;
-}
-
-/* text inside the vertical line */
-.vl-innertext {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  padding: 8px 10px;
-}
-
-/* hide some text on medium and large screens */
-.hide-md-lg {
-  display: none;
-}
-
-/* bottom container */
-.bottom-container {
-  text-align: center;
-  background-color: #666;
-  border-radius: 0px 0px 4px 4px;
-}
-
-/* Responsive layout - when the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 650px) {
-  .col {
-    width: 100%;
-    margin-top: 0;
-  }
-  /* hide the vertical line */
-  .vl {
-    display: none;
-  }
-  /* show the hidden text on small screens */
-  .hide-md-lg {
-    display: block;
-    text-align: center;
-  }
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-</head>
-<body>
-<%@ include file="./inc/header.jsp" %>
-<h2>pPhone에 오신것을 환영합니다.</h2>
-<p>Resize the browser window to see the responsive effect. When the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other.</p>
-
-<div class="container" style="text-align:center">
-  <form action="/action_page.php">
-    <div class="row">
-      <h2 style="text-align:center">Login with Social Media or Manually</h2>
-      <div class="col">
-
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Login">
+   <%@ include file="./inc/header.jsp" %>
+   <section style="padding: 40px 0px 50px;">
+      <div style="text-align:center;">
+         <div class="login-title">Peach에 오신것을 환영합니다.</div>
+      </div>
+      <div class="container" style="text-align:center">
+         <form action="/action_page.php">
+            <h2 style="text-align:center; color:#494949; font-size:24px; font-weight: 600;">Peach Store에 로그인하세요</h2>
+            <div class="row">
+               <div class="col">
+                  <input class="a" type="text" name="username" placeholder="Username" required>
+                  <input class="a" type="password" name="password" placeholder="Password" required>
+                  <input class="a" type="submit" value="Login">
+               </div>
+            </div>
+         </form>
       </div>
       
-    </div>
-  </form>
-</div>
-
-<div class="bottom-container">
-  <div class="row">
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Sign up</a>
-    </div>
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Forgot password?</a>
-    </div>
-  </div>
-</div>
-
-      <div class="col">
-        <a href="#" class="fb btn">
-          <i class="fa fa-facebook fa-fw"></i> 카카오 로그인 하기
+      <!-- <div class="bottom-container">
+         <div class="row">
+            <div class="col">
+               <a href="/shop/joinform" style="color:white" class="btn">회원가입하기</a>
+            </div>
+         </div>
+      </div> -->
+      
+      
+      <!-- 소셜로그인 버튼 -->
+      <div class="row">
+         <!-- 카카오 소셜 로그인 버튼 -->
+         <a href="#" class="social-login-btn" onclick="login('kakao')">
+            <img src="/static/shop/img/login/kakaologin.png" alt="카카오 로그인 버튼" />
          </a>
-        <a href="#" class="twitter btn">
-          <i class="fa fa-twitter fa-fw"></i> 네이버 로그인 하기
-        </a>
-        <a href="javascript:login('google')" class="google btn"><i class="fa fa-google fa-fw">
-          </i> 구글 로그인 하기	
-        </a>
+         
+         <!-- 네이버 소셜 로그인 버튼 -->
+         <a href="#" class="social-login-btn" onclick="login('naver')">
+            <img src="/static/shop/img/login/naverlogin.png" alt="네이버 로그인 버튼" />
+         </a>
+   
+         <!-- 구글 소셜 로그인 버튼 -->
+         <button class="gsi-material-button" onclick="login('google')">
+            <div class="gsi-material-button-state"></div>
+            <div class="gsi-material-button-content-wrapper">
+               <div class="gsi-material-button-icon">
+                  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
+                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                     <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                     <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                     <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                     <path fill="none" d="M0 0h48v48H0z"></path>
+                  </svg>
+               </div>
+            <span class="gsi-material-button-contents">로그인</span>
+            <span style="display: none;">Sign in with Google</span>
+            </div>
+         </button>
       </div>
-	<script type="text/javascript">
-		function login(sns){
-			$.ajax({
-				url:"/shop/user/"+sns+"/authurl",
-				type:"GET",
-				success:function(result){
-				alert(result);
-					location.href=result;//동의화면 요청
-				}
-			})
-
->>>>>>> 546aba18aef49ef14c0cd37565d3a3ab2a6cd871
-		}
-	</script>
+      <!-- 소셜로그인 버튼 끝-->
+      
+      <div class="login-guide">
+         <span>peach계정이 없으십니까?</span>
+         <a href="/shop/joinform">peach계정 생성</a>
+      </div>
+      
+   </section>
+   <script type="text/javascript">
+      function login(sns){
+         $.ajax({
+            url:"/shop/user/"+sns+"/authurl",
+            type:"GET",
+            success:function(result){
+            alert(result);
+               location.href=result;//동의화면 요청
+            }
+         })
+      
+      }
+   </script>
 </body>
 </html>
