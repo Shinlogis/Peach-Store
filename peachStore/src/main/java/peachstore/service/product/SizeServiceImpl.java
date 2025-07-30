@@ -1,9 +1,11 @@
-package peachstore.model.product;
+package peachstore.service.product;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import peachstore.repository.product.SizeDAO;
 
 /**
  * 상품 사이즈(Size) 관련 서비스 구현체  
