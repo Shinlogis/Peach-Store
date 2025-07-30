@@ -373,12 +373,24 @@ input[type=submit]:hover {
 				url:"/shop/user/"+sns+"/authurl",
 				type:"GET",
 				success:function(result){
-				alert(result);
+					alert(result);
 					location.href=result;//동의화면 요청
 				}
 			})
-		
 		}
+		function homePageLogin(){
+			$("#form1").attr({
+				action:"/shop/member/login",
+				method:"post"
+			})
+			$("#form1").submit();
+		}
+
+		$(()=>{
+			$("#bt_login").click(()=>{
+				homePageLogin();
+			});
+		})
 	</script>
 </body>
 </html>

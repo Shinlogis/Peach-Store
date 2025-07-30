@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -57,6 +58,7 @@ public class UserController {
 		return "redirect:/shop/main";
 	}
 
+	//회원가입 폼 요청 처리
 	@GetMapping("/joinform")
 	public String getJoinForm() {
 		return "shop/joinform";
@@ -224,4 +226,12 @@ public class UserController {
 		return "redirect:/shop/main";
 	}
 
+	//가입 회워 로그인 로직
+	@PostMapping("/member/login")
+	public String homepageLogin(User user, HttpSession session) {
+		User obj = userService.login(user);
+		session.setAttribute("user", obj);
+		return "redirect:/shop/main";
+	}
+	
 }

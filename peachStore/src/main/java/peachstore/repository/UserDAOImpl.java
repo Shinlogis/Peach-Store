@@ -32,4 +32,9 @@ public class UserDAOImpl implements UserDAO{
 	public User select(int user_id) {
 		return sqlSessionTemplate.selectOne("User.select", user_id);
 	}
+	
+	@Override
+	public User login(User user) {
+		return sqlSessionTemplate.selectOne("User.select", user);
+	}
 }
