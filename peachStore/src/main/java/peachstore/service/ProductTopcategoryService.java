@@ -14,6 +14,8 @@ public interface ProductTopcategoryService {
 
 	/**
 	 * 제품 상위카테고리 전체 조회
+	 * 
+	 * @param searchKey  null일 경우 전체 조회
 	 * @return
 	 */
 	public List<ProductTopcategory> selectAll(String searchKey);

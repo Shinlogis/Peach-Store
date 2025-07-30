@@ -13,7 +13,9 @@ import peachstore.domain.ProductSubcategory;
 public interface ProductSubcategoryService {
 
 	/**
-	 * 상위카테고리와 조인한 하위카테고리 전체 조회
+	 * 상위카테고리와 조인한 하위카테고리 조회
+	 * 
+	 * @param searchKey null일 경우 전체 조회
 	 * @return
 	 */
 	public List<ProductSubcategory> findAllWithTopcategory(String searchKey);
