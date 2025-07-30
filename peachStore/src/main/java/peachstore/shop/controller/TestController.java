@@ -34,7 +34,7 @@ public class TestController {
 	@GetMapping("/user")
 	public String getUser(HttpSession session) {
 		
-		int user_id = 2;
+		int user_id = 3;
 		User user = userDAO.select(user_id);
 		session.setAttribute("user", user);
 		

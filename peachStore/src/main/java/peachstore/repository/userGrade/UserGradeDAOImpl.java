@@ -7,9 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import peachstore.domain.ProductTopcategory;
 import peachstore.domain.UserGrade;
-import peachstore.repository.gradeCoupon.UserGradeDAO;
 
 /**
  * 사용자 등급 마이바티스 DAO 구현체입니다
@@ -24,29 +22,36 @@ public class UserGradeDAOImpl implements UserGradeDAO{
 
     private final SqlSessionTemplate sqlSessionTemplate;
 	
+    @Override
+    public List<UserGrade> selectAll() {
+        List<UserGrade> list = sqlSessionTemplate.selectList("UserGrade.selectAll");
+        log.debug("findAll - listCount: {}", list.size());
+        return list;
+    }
+
 	@Override
-	public List<UserGrade> findAll() {
-		List<ProductTopcategory> list = sqlSessionTemplate.selectList("", log);
-		return null;
-		
+	public int insert(UserGrade userGrade) {
+		int result = sqlSessionTemplate.insert("UserGrade.insert", userGrade);
+		return result;
 	}
 
 	@Override
-	public void save(UserGrade userGrade) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deactivate(UserGrade userGrade) {
-		// TODO Auto-generated method stub
-		
+	public int update(UserGrade userGrade) {
+		int result = sqlSessionTemplate.update("UserGrade.update", userGrade);
+		return result;
 	}
 
 	@Override
 	public UserGrade findById(int userGradeId) {
-		// TODO Auto-generated method stub
-		return null;
+		UserGrade result = sqlSessionTemplate.selectOne("UserGrade.selectById", userGradeId);
+		return result;
+	}
+
+	@Override
+	public int delete(int userGradeId) {
+		int result = sqlSessionTemplate.delete("UserGrade.delete", userGradeId);
+		log.info("delete id={}", userGradeId);
+		return result;
 	}
 
 }

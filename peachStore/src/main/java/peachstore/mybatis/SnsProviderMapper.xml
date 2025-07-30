@@ -9,5 +9,4 @@
 	<select id="selectById" parameterType="int" resultType="SnsProvider">
 		select * from SnsProvider where sns_provider_id = #{sns_prdovider_id}
 	</select>
-	
 </mapper>

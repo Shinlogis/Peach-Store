@@ -3,7 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
 	<typeAliases>
 		<typeAlias type="peachstore.domain.ProductTopcategory" alias="ProductTopcategory" />
 		<typeAlias type="peachstore.domain.ProductSubcategory" alias="ProductSubcategory" />
@@ -17,19 +16,22 @@
 		<typeAlias type="peachstore.domain.ProductColor" alias="ProductColor"/>
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
+		<typeAlias type="peachstore.domain.GradeCoupon" alias="GradeCoupon"/>
+		<typeAlias type="peachstore.domain.Coupon" alias="Coupon"/>
 
-		
-	</typeAliases>
+      
+   </typeAliases>
 
-	<environments default="development">
-		<environment id="development">
-			<transactionManager type="JDBC" />
-			<dataSource type="JNDI">
-				<property name="data_source"
-					value="java:comp/env/jndi/mysql" />
-			</dataSource>
-		</environment>
-	</environments>
+   <environments default="development">
+      <environment id="development">
+         <transactionManager type="JDBC" />
+         <dataSource type="JNDI">
+            <property name="data_source"
+               value="java:comp/env/jndi/mysql" />
+         </dataSource>
+      </environment>
+   </environments>
+
 
 	<mappers>
 		<mapper resource="peachstore/mybatis/ProductTopcategoryMapper.xml"/> 
@@ -44,5 +46,7 @@
 		<mapper resource="peachstore/mybatis/ProductSizeMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
 		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
+		<mapper resource="peachstore/mybatis/GradeCouponMapper.xml"/>
+		<mapper resource="peachstore/mybatis/CouponMapper.xml"/>
 	</mappers>
 </configuration>
