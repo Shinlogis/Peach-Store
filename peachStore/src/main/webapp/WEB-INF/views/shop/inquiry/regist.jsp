@@ -2,7 +2,10 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<% User user = (User)session.getAttribute("user"); %>
+<%
+User user = (User)session.getAttribute("user"); 
+List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -54,7 +57,8 @@
 					<!-- Default box -->
 					<div class="card">
 						<div class="card-body">
-							<form id="form1" enctype="multipart/form-data">
+							<form id="form1">
+							<input type="hidden" name="user.user_id" value="<%=user.getUser_id() %>">
 								<div class="form-group">
 									<label >제목</label> <input type="text"
 										id="title" name="title" class="form-control" required />
