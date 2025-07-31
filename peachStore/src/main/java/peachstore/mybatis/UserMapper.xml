@@ -2,15 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="User">
 
+	<resultMap type="User" id="userResultMap">
+		<id column="user_id" property="user_id"/>
+		<result column="id" property="id"/>
+		<result column="email" property="email"/>
+		<result column="password" property="password"/>
+		<result column="user_name" property="user_name"/>
+		<result column="tel" property="tel"/>
+		<result column="address" property="address"/>
+		<result column="is_active" property="is_active"/>
+		<result column="created_at" property="created_at"/>
+		<association column="user_grade_id" property="user_grade"
+			javaType="UserGrade"
+			select="UserGrade.selectAll"/>
+		<association column="sns_provider_id" property="sns_provider"
+			javaType="SnsProvider"
+			select="SnsProvider.selectAll"/>
+	</resultMap>
+
 	<select id="selectByName" resultType="User" parameterType="String"> 
 		select * from user where id = #{id}
 	</select>
 	
-	<select id="selectById" parameterType="int" resultType="User">
+	<select id="selectById" resultType="User" parameterType="String"> 
+		select * from user where id = #{id}
+	</select>
+	
+	<select id="select" parameterType="int" resultType="User">
 		select * from user where user_id = #{user_id}
 	</select>
 	
-	<insert id="insert" parameterType="User">
+	<select id="selectAll" resultMap="userResultMap">
+		select * from user
+	</select>
+	
+	<select id="homepageLogin" parameterType="User" resultType="User">
+		select * from user where id = #{id} and password = #{password}
+	</select>
+	
+	<!-- 소셜로그인 회원가입폼 -->
+	<insert id="snsInsert" parameterType="User">
 		insert into user(id, email, password, user_name, sns_provider_id)
 		values(#{id}, #{email}, #{password}, #{user_name}, #{snsProvider.sns_provider_id})
 	</insert>

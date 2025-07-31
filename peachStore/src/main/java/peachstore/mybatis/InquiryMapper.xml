@@ -12,5 +12,40 @@
 		
 	</insert>
 	
+	<resultMap type="Inquiry" id="joinMap">
+		<id column="inquiry_id" property="inquiry_id"/>
+		<result column="title" property="title"/>
+		<result column="created_at" property="created_at"/>
+		
+		<association column="user_id" property="user" javaType="User" 
+			select="User.select"
+		/>
+		
+		<collection column="inquiry_id" property="imgList" javaType="java.util.List" ofType="InquiryImg"
+			select = "InquiryImg.selectByInquiry"
+		/>
+		
+	</resultMap>
+	
+	<!--회원 아이디에 따른 문의 전체 조회 -->
+	<select id="selectAll" parameterType="Inquiry" resultMap="joinMap">
+		select inquiry_id, title, created_at, user_id from inquiry where user_id = #{user.user_id} order by inquiry_id desc
+	</select>
+	
+	<!--문의 단건 조회 -->
+	<select id="select" parameterType="Inquiry" resultMap="joinMap">
+		select inquiry_id, title, inquiry_text , created_at, user_id from inquiry where inquiry_id=#{inquiry_id}
+	</select>
+	
+	<!-- 문의 수정 -->
+	<update id="update" parameterType="Inquiry" >
+		update inquiry set title = #{title}, inquiry_text = #{inquiry_text}
+		 where inquiry_id=#{inquiry_id}
+	</update>
+	
+	<!-- 문의 삭제 -->	
+	<delete id="delete" parameterType="Inquiry">
+		delete from inquiry where inquiry_id = #{inquiry_id}
+	</delete>
 
 </mapper>

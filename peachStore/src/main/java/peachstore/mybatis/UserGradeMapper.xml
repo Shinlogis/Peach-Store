@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="peachstore.repository.gradeCoupon.UserGradeDAO">
+<mapper namespace="UserGrade">
 
 	<resultMap id="UserGradeResultMap" type="UserGrade">
 		<result column="user_grade_id" property="userGradeId"/>
@@ -10,14 +10,40 @@
 		<result column="is_active" property="isActive"/>
 		
 		<!-- 회원등급은 여러 등급별 쿠폰을 가짐 -->
-		<collection property="gradeCoupons" ofType="peachstore.domain.GradeCoupon" 
-			select="peachstore.repository.gradeCoupon.GradeCouponDAO.selectByUserGradeId"
+		<collection property="gradeCoupons" ofType="GradeCoupon" 
+			select="GradeCoupon.selectByUserGradeId"
 			column="user_grade_id"/>
 	</resultMap>
-		
-	<select id="selectById" resultType="UserGrade" parameterType="int">
-	    SELECT * FROM user_grade WHERE user_grade_id = #{userGradeId}
+	
+	<!-- 전체 조회 -->
+	<select id="selectAll" resultMap="UserGradeResultMap">
+	    SELECT * FROM user_grade
 	</select>
 
+	<!-- pk로 조회 -->
+	<select id="selectById" resultMap="UserGradeResultMap" parameterType="int">
+	    SELECT * FROM user_grade WHERE user_grade_id = #{userGradeId}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insert" parameterType="UserGrade">
+		INSERT INTO USER_GRADE(USER_GRADE_NAME, DISCOUNT_RATE, CRITERIA_AMOUNT) VALUES(#{userGradeName}, #{discountRate}, #{criteriaAmount});
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="update" parameterType="UserGrade">
+		update user_grade
+		set 
+			user_grade_name = #{userGradeName}
+			, discount_rate = #{discountRate}
+			, criteria_amount = #{criteriaAmount}
+			, is_active = #{isActive}
+		where user_grade_id = #{userGradeId}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from user_grade where user_grade_id = #{userGradeId}
+	</delete>
 
 </mapper>

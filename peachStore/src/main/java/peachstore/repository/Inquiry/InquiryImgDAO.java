@@ -10,5 +10,9 @@ import peachstore.domain.InquiryImg;
 public interface InquiryImgDAO {
 	
 	public void insert(InquiryImg inquiryImg);
+	
+	public void update(InquiryImg inquiryImg);
+	
+	public void delete(int inquiry_id);
 
 }

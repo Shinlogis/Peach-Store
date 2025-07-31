@@ -58,6 +58,12 @@
                   <p>상품등록</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="/admin/product/category/list" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>상품 카테고리</p>
+                </a>
+              </li>
             </ul>
           </li>
           <!--상품관리 메뉴 끝-->

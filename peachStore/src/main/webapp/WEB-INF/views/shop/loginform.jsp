@@ -308,26 +308,17 @@ input[type=submit]:hover {
 			<div class="login-title">Peach에 오신것을 환영합니다.</div>
 		</div>
 		<div class="container" style="text-align:center">
-			<form action="/action_page.php">
+			<form id="form1">
 				<h2 style="text-align:center; color:#494949; font-size:24px; font-weight: 600;">Peach Store에 로그인하세요</h2>
 				<div class="row">
 					<div class="col">
-						<input class="a" type="text" name="username" placeholder="Username" required>
+						<input class="a" type="text" name="id" placeholder="Userid" required>
 						<input class="a" type="password" name="password" placeholder="Password" required>
-						<input class="a" type="submit" value="Login">
+						<input class="a" type="button" value="Login" id="bt_login">
 					</div>
 				</div>
 			</form>
 		</div>
-		
-		<!-- <div class="bottom-container">
-			<div class="row">
-				<div class="col">
-					<a href="/shop/joinform" style="color:white" class="btn">회원가입하기</a>
-				</div>
-			</div>
-		</div> -->
-		
 		
 		<!-- 소셜로그인 버튼 -->
 		<div class="row">
@@ -373,12 +364,25 @@ input[type=submit]:hover {
 				url:"/shop/user/"+sns+"/authurl",
 				type:"GET",
 				success:function(result){
-				alert(result);
+					alert(result);
 					location.href=result;//동의화면 요청
 				}
 			})
-		
 		}
+		function homepageLogin(){
+			$("#form1").attr({
+				action:"/shop/user/login",
+				method:"post"
+			})
+			$("#form1").submit();
+		}
+
+		$(()=>{
+			$("#bt_login").click(()=>{
+				alert("버튼이 눌려서 요청이 들어갔씁니다");
+				homepageLogin();
+			});
+		})
 	</script>
 </body>
 </html>

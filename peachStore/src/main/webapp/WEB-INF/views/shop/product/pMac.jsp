@@ -39,7 +39,7 @@
 	<div class=sub-category-toggle >
 		<div class=sub-category-toggle-buttons>
 			<%for(ProductSubcategory productSubcategory : subList){ %>
-				<button class="btn-item"><%=productSubcategory.getProductSubcategoryName() %></button>
+				<button class="sub-btn" value="<%=productSubcategory.getProductSubcategoryId() %>"><%=productSubcategory.getProductSubcategoryName() %></button>
 			<%} %>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 	
 	<!--상품 리스트  -->
 	<div class="content-container-p">
-	       <div class="p_list">
+	     <!--   <div class="p_list">
 	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
 	           <div class="p_name">iPhone 16 PRO</div>
 	           <div class="p_price">💲199,0000원</div>
@@ -112,7 +112,7 @@
 	           <div class="p_name">iPhone 16 PRO</div>
 	           <div class="p_price">💲199,0000원</div>
 	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
+	       </div> -->
 	      
 	   </div>
 	<!--상품 리스트  -->
@@ -139,8 +139,38 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
 <script>
-$(".btn-item").click(function () {
-    $(".btn-item").css({
+function printCategory(list, v){
+	let tag="";
+	
+	for(let i=0;i<list.length;i++){
+		tag+="<div class='p_list'>";
+		tag+="<img src='/static/shop/img/product/iphone.png' class='slide' alt='Slide 1'>";
+		tag+="<div class='p_name'>iPhone 16 PRO</div>";
+		tag+="<div class='p_price'>💲199,0000원</div>";
+		tag+="<a href='' class='item-btn'>쇼핑하기</a>";
+		tag+="</div>";
+	}
+	
+	$(".content-container-p").html(tag);  // innerHTML=태그 동일
+	
+	//현재 select 객체의 값 설정 
+	/* $(obj).val(v); */
+}
+
+function getProductList(subid){
+	$.ajax({
+		url:"/shop/product/list", 
+		type:"GET",
+		success:function(result, status, xhr){
+			printCategory(result,subid);
+		},
+		error:function(xhr, status, err){
+		}
+	});
+}
+
+$(".sub-btn").click(function () {
+    $(".sub-btn").css({
       "background-color": "",
       "color": ""
     });
@@ -149,7 +179,8 @@ $(".btn-item").click(function () {
       "background-color": "#1d1d1f",
       "color": "white"
     });
-  });
+    getProductList($(this).val());
+ });
 </script>
 </body>
 </html>
