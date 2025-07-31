@@ -2,11 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OrderReceipt">
 
+	<resultMap type="OrderReceipt" id="joinMap">
+		<id column="order_receipt_id" property="order_receipt_id"/> 
+		<result column="orderdate" property="orderdate"/>
+		<result column="order_status" property="order_status"/>
+		
+		<association column="user_id" property="user" javaType="User"
+		select="User.select"/>
+		
+		<!-- <collection column="order_receipt_id" property="orderList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderReceiptId"/> -->
+	</resultMap>
+
 	
 
-	<select id="select" parameterType="OrderReceipt" resultType="OrderReceipt">
-		select order_receipt_id, order_date, order_status, user_id 
-		 from order_receipt where order_receipt_id = #{order_receipt_id} and user_id = #{user.user_id}
+	<select id="selectByUserId" parameterType="OrderReceipt" resultMap="joinMap">
+		select order_receipt_id, orderdate, order_status, user_id 
+		 from order_receipt where user_id = #{user.user_id}
+	</select>
+	
+	<select id="select" parameterType="OrderReceipt" resultMap="joinMap">
+		select order_receipt_id, orderdate, order_status, user_id 
+		 from order_receipt where order_receipt_id = #{order_receipt_id}
 	</select>
 	
 </mapper>

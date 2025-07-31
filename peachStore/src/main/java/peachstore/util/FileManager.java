@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Inquiry;
 import peachstore.domain.InquiryImg;
+import peachstore.exception.InquiryImgException;
 import peachstore.exception.Uploadexception;
 
 /**
@@ -83,6 +84,18 @@ public class FileManager {
 			
 			if(result == false) {
 				log.warn("디렉토리 삭제 실패" + directory.getAbsolutePath());
+			}
+		}
+	}
+	
+	//삭제 대상 파일 처리
+	public void deleteImg(Inquiry inquiry, String savePath) throws InquiryImgException{
+		for(int i=0; i<inquiry.getImgList().size(); i++) {
+			File file = new File(savePath, "p_" + inquiry.getInquiry_id()+ "/" + inquiry.getImgList().get(i));
+			boolean deleted = file.delete();
+			
+			if(deleted == false) {
+				throw new InquiryImgException("사진 삭제 실패");
 			}
 		}
 	}

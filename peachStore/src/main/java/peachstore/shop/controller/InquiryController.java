@@ -62,6 +62,7 @@ public class InquiryController {
 	public ModelAndView getList(Inquiry inquiry, HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		inquiry.setUser(user);
+		log.debug("문의 리스트 유저는 " + user);
 
 		List inquiryList = inquiryService.selectAll(inquiry);
 
