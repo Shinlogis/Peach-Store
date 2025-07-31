@@ -43,7 +43,7 @@
 	<!-- 소셜로그인 회원가입폼 -->
 	<insert id="snsInsert" parameterType="User">
 		insert into user(id, email, password, user_name, sns_provider_id)
-		values(#{id}, #{email}, #{password}, #{user_name}, #{snsProvider.sns_provider_id})
+		values(#{id}, #{email}, #{password}, #{user_name}, #{sns_provider.sns_provider_id})
 	</insert>
 	
 </mapper>
