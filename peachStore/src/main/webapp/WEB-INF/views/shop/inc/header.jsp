@@ -1,5 +1,5 @@
-<%@page import="peachstore.domain.User"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@page import="peachstore.domain.User"%>
 <%@page import="peachstore.domain.ProductTopcategory"%>
 <%@page import="java.util.List"%>
 <header class="header1">

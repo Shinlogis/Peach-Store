@@ -12,10 +12,10 @@ public class User {
     private String user_name;
     private String tel;
     private String address;
-    private boolean isActive;
-    private String createAt;
-    private UserGrade userGrade;
-    private SnsProvider snsProvider;
-
+    private boolean is_active;
+    private String created_at;
+    private UserGrade user_grade;
+    private SnsProvider sns_provider;
+// 마이바티스에서 매핑 해야함.
 
 }

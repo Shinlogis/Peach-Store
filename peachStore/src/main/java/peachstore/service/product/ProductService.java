@@ -49,4 +49,18 @@ public interface ProductService {
      * @param savePath 파일 경로
      */
     public void remove(Product product, String savePath);
+    
+    /**
+     * 페이징된 상품 목록 조회
+     * @param startIndex 시작 인덱스
+     * @param pageSize 한 페이지에 표시할 개수
+     * @return 상품 리스트
+     */
+    public List<Product> selectAll(int startIndex, int pageSize);
+
+    /**
+     * 전체 상품 수 조회 (페이징 계산용)
+     * @return 전체 상품 수
+     */
+    public int getTotalRecord();
 }

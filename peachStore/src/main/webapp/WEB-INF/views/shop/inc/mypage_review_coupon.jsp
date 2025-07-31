@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <!-- 등급조회 테이블 시작 -->
 				<div class="col-6">
 					<!-- 두 col-5가 wrapper2 안에 둘 다 있음 -->

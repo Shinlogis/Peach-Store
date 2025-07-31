@@ -140,20 +140,24 @@ CREATE TABLE product_engraving(
 
 -- 제품 상위 카테고리 테이블 생성(CREATE TABLE product_topcategory)
 CREATE TABLE product_topcategory(
-	product_topcategory_id int PRIMARY KEY AUTO_INCREMENT
-	, product_topcategory_name varchar(100) NOT NULL
-	, is_active boolean NOT NULL DEFAULT TRUE
+   product_topcategory_id int PRIMARY KEY AUTO_INCREMENT
+   , product_topcategory_name varchar(100) NOT NULL
+   , fileDirName varchar(30) DEFAULT NULL
+    , filename varchar(30)
+   , is_active boolean NOT NULL DEFAULT TRUE
 );
 
 -- 제품 하위 카테고리 테이블 생성(CREATE TABLE product_subcategory)
 CREATE TABLE product_subcategory(
-	product_subcategory_id int PRIMARY KEY AUTO_INCREMENT
-	, product_subcategory_name varchar(100) NOT NULL
-	, product_topcategory_id int NOT NULL
+   product_subcategory_id int PRIMARY KEY AUTO_INCREMENT
+   , product_subcategory_name varchar(100) NOT NULL
+   , product_topcategory_id int NOT NULL
+    , fileDirName varchar(30) DEFAULT NULL
+    , filename varchar(30)
     , is_active boolean NOT NULL DEFAULT TRUE
-	, CONSTRAINT fk_product_topcategory_id
-		FOREIGN KEY (product_topcategory_id)
-		REFERENCES product_topcategory(product_topcategory_id)
+   , CONSTRAINT fk_product_topcategory_id
+      FOREIGN KEY (product_topcategory_id)
+      REFERENCES product_topcategory(product_topcategory_id)
 );
 
 -- 제품 테이블 생성(CREATE TABLE product)
@@ -271,6 +275,7 @@ CREATE TABLE snapshot(
 	, capacity varchar(100)
 	, color varchar(100)
 	, engraving varchar(100)
+    , filename varchar(100) NOT NULL
 );
 
 -- 주문내역 테이블(CREATE TABLE order_receipt)
@@ -585,19 +590,20 @@ VALUES
 -- 제품 이미지 테이블 인서트(INSERT INTO product_img)
 -- =========인서트 없음
 -- 스냅샷 테이블 인서트(INSERT INTO snapshot)
-INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving)
+-- 스냅샷 테이블 인서트(INSERT INTO snapshot)
+INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving, filename)
 VALUES
-    (1, 'pPhone 14 Pro 블랙', 1350000, '6.1인치', '128GB', 'Black', '각인입니다1'),
-    (2, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', NULL),
-    (3, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입니다2'),
+    (1, 'pPhone 14 Pro 블랙', 1350000, '6.1인치', '128GB', 'Black', '각인입니다1', 'a7F3xBq9'),
+    (2, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', NULL, 'R9tLm2Qc'),
+    (3, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입니다2', 'Zt8wKm2Q'),
 
-    (4, 'pPad Air 5 스페이스 그레이', 850000, '10.9인치', '256GB', 'Red', NULL),
-    (5, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3'),
+    (4, 'pPad Air 5 스페이스 그레이', 850000, '10.9인치', '256GB', 'Red', NULL, 'Np6Ud8Xr'),
+    (5, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3', 'Pq1sLe8N'),
 
-    (6, 'pMac M1 13인치', 1290000, '13인치', '128GB', 'Black', NULL),
+    (6, 'pMac M1 13인치', 1290000, '13인치', '128GB', 'Black', NULL, 'Tz3Mxv7W'),
 
-    (10, 'MagSafe 무선 충전기', 49000, NULL, NULL, 'White', '각인입니다5'),
-    (12, '스마트 키보드 폴리오', 219000, NULL, NULL, 'Green', NULL);
+    (10, 'MagSafe 무선 충전기', 49000, NULL, NULL, 'White', '각인입니다5', 'Hj7Er5Yc'),
+    (12, '스마트 키보드 폴리오', 219000, NULL, NULL, 'Green', NULL, 'Kw9Tb4Vz');
 
 
 -- 문의 이미지 테이블 인서트(INSERT INTO inquiry_img)

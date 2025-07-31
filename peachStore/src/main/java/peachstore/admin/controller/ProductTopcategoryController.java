@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.ProductTopcategory;
@@ -40,6 +41,7 @@ public class ProductTopcategoryController {
 	public String selectAll(
 	        Model model,
 	        @RequestParam(required=false) String searchKey,
+	        @RequestParam("photo") MultipartFile photo,
 	        HttpServletRequest request) {
 
 	    // 검색 조건에 맞는 전체 리스트
@@ -65,14 +67,22 @@ public class ProductTopcategoryController {
 	/**
 	 * 제품 상위카테고리 등록
 	 * @param productTopcategoryName
+	 * @param photo
+	 * @param request
 	 * @return
 	 */
 	@PostMapping("/product/topcategory/regist")
 	@ResponseBody
-	public String register(String productTopcategoryName) {
+	public String register(
+			String productTopcategoryName, 
+			@RequestParam("photo") MultipartFile photo, 
+			HttpServletRequest request) {
+		// 파일 저장 경로
+		String savePath = request.getServletContext().getRealPath("/data");
+		
 		ProductTopcategory category = new ProductTopcategory();
 		category.setProductTopcategoryName(productTopcategoryName);
-	    productTopcategoryService.register(category);
+	    productTopcategoryService.register(category, savePath, photo);
 	    return "success";
 	}
 	
