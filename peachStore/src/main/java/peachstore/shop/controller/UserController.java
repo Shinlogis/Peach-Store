@@ -102,7 +102,7 @@ public class UserController {
 			user = new User();
 
 			// 회원 등록
-			user.setSnsProvider(snsProviderService.selectByName("google"));
+			user.setSns_provider(snsProviderService.selectByName("google"));
 			user.setId(openId);
 			user.setEmail(email);
 			user.setUser_name(name);
@@ -110,7 +110,8 @@ public class UserController {
 			userService.register(user);
 		}
 		// 없으면 가입 후, 있으면 로그인
-		session.setAttribute("user", user);// 세션이 살아있는 한, Member를 사용할 수 있음
+		//session에 user라는 이름의 객체를 저장
+		session.setAttribute("user", user);
 
 		return "redirect:/shop/main";
 	}
@@ -158,7 +159,7 @@ public class UserController {
 			user = new User();
 
 			// 회원 등록
-			user.setSnsProvider(snsProviderService.selectByName("naver"));
+			user.setSns_provider(snsProviderService.selectByName("naver"));
 			user.setId(id);
 			user.setEmail(email);
 			user.setUser_name(name);
@@ -214,7 +215,7 @@ public class UserController {
 			user = new User();
 
 			// 회원 등록
-			user.setSnsProvider(snsProviderService.selectByName("kakao"));
+			user.setSns_provider(snsProviderService.selectByName("kakao"));
 			user.setId(id);
 			user.setEmail(email);
 			user.setUser_name(name);
@@ -226,9 +227,16 @@ public class UserController {
 	}
 
 	//가입 회워 로그인 로직
-	@PostMapping("/member/login")
+	@PostMapping("/user/login")
 	public String homepageLogin(User user, HttpSession session) {
-		User obj = userService.login(user);
+		log.debug("user 레퍼런스주소"+user);
+		User obj = userService.homepageLogin(user);
+//		if(user==null) {user=null이면 로그인 됨
+		if(obj==null) {
+//			존재하지 않는 회원인경우 알림 띄우는 로직 구현하기
+			return "redirect:/shop/loginform";
+		}
+		
 		session.setAttribute("user", obj);
 		return "redirect:/shop/main";
 	}
