@@ -24,8 +24,28 @@ public class InquiryImgDAOImpl implements InquiryImgDAO{
 	public void insert(InquiryImg inquiryImg) throws InquiryImgException {
 		int result = sqlSessionTemplate.insert("InquiryImg.insert", inquiryImg);
 		log.debug("inquiry_img insert result: " + result); 
-		
+
 		if(result<1)throw new InquiryImgException("사진 등록 실페");
 	}
+
+	@Override
+	public void update(InquiryImg inquiryImg) throws InquiryImgException{
+		int result = sqlSessionTemplate.update("InquiryImg.update", inquiryImg);
+		
+		if(result <1) {
+			throw new InquiryImgException("사진 수정 실패");
+		}
+	}
+
+	@Override
+	public void delete(int inquiry_id) throws InquiryImgException {
+		int result = sqlSessionTemplate.delete("InquiryImg.delete", inquiry_id);
+		
+		if(result<1) {
+			throw new InquiryImgException("사진 삭제 실패");
+		}
+	}
+	
+	
 
 }

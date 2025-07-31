@@ -10,10 +10,14 @@ import peachstore.domain.Inquiry;
  */
 public interface InquiryDAO {
 	
-	public List selectAll();
+	public List selectAll(Inquiry inquiry);
 	
-	public Inquiry select(int inquiry_id);
+	public Inquiry select(Inquiry inquiry);
 	
 	public void insert(Inquiry inquiry);
+	
+	public void update(Inquiry inquiry);
+	
+	public void delete(Inquiry inquiry);
 
 }
