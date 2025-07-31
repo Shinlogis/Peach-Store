@@ -1,12 +1,13 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,windows,macos,maven,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,windows,macos,maven,eclipse
-<<<<<<< HEAD
 # 민감정보
 # application 설정 파일 무시
 **/application.properties
 
-=======
->>>>>>> 0d06ce4 (Remove application.properties from Git tracking and add to .gitignore)
+# static 무시
+peachStore/src/main/webapp/static/
+/src/main/webapp/static/
+
 
 ### Eclipse ###
 .metadata

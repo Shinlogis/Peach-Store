@@ -2,7 +2,10 @@ package peachstore.service.subcategory;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import peachstore.domain.ProductSubcategory;
+import peachstore.domain.ProductTopcategory;
 
 /**
  * 제품 상위카테고리 서비스 인터페이스
@@ -25,6 +28,14 @@ public interface ProductSubcategoryService {
 	 * @param productSubCategory
 	 */
 	public void register(String name, int topcategoryId);
+	
+
+	/**
+	 * 제품 하위카테고리 등록
+	 * @param productTopCategory
+	 * @param savePath 파일 저장 경로
+	 */
+	public void register(String productSubCategoryName, int productTopcategoryId, String savePath, MultipartFile photo);
 	
 	/**
 	 * 하위 카테고리 이름 수정

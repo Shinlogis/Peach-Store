@@ -89,7 +89,7 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link d-flex justify-content-between align-items-center">
                                         <p class="mb-0 d-flex align-items-center">
-                                        	<!-- 이미지 자리 -->
+                                        	<!-- 상위카테고리 이미지 자리 -->
                                         	<% if (top.getFilename() != null && !top.getFilename().isEmpty()) { %>
 											  <img src="/data/category_<%= top.getProductTopcategoryId() %>/<%= top.getFilename() %>" style="width:150px;" />
 											<% } %>
@@ -125,6 +125,12 @@
                                         <li class="nav-item d-flex align-items-center justify-content-between px-3">
                                             <div>
                                                 <i class="far fa-circle nav-icon"></i>
+                                                <p class="mb-0 d-flex align-items-center">
+		                                        	<% if (sub.getFilename() != null && !sub.getFilename().isEmpty()) { %>
+													  <img src="/data/subcategory_<%= sub.getProductSubcategoryId()%>/<%= sub.getFilename() %>" style="width:150px;" />
+													<% } %>
+		                                            <span><%= top.getProductTopcategoryName() %></span>
+		                                        </p>
                                                 <span><%= sub.getProductSubcategoryName() %></span>
                                             </div>
                                             <div>
@@ -167,19 +173,16 @@
                             <div class="modal-body">
                                 <form id="topCategoryForm">
                                     <div class="form-group">
-                                        <label for="topCategoryName">상위 카테고리명</label>
+                                    	<label for="topCategoryName">상위 카테고리명</label>
                                         <input type="text" class="form-control" id="topCategoryName" name="topCategoryName" placeholder="상위 카테고리명을 입력하세요" />
-                                    </div>
-                                    <div class="input-group">
-				                      <div class="custom-file">
-				                        <input type="file" class="custom-file-input" name="photo" id="photo">
-				                        <label class="custom-file-label" for="exampleInputFile">상위 카테고리 이미지 선택</label>
-				                      </div>
-				                      <div class="input-group-append">
-				                        <span class="input-group-text">Upload</span>
-				                      </div>
-				                    </div>
-				                    <div id="preview" style="width:100%;">
+                                    	<div class="input-group">
+				                      		<div class="custom-file">
+				                      			<input type="file" class="custom-file-input photo-upload" data-preview-target="#preview_top">
+				                        		<label class="custom-file-label" for="exampleInputFile">상위 카테고리 이미지 선택</label>
+					                    		<div id="preview_top" class="preview-container">
+					                    		</div>
+				                    		</div>
+				                    	</div>
 				                    </div>
                                 </form>
                             </div>
@@ -260,6 +263,13 @@
                                     <div class="form-group">
                                         <label for="subCategoryName">하위 카테고리명</label>
                                         <input type="text" class="form-control" id="subCategoryName" name="subCategoryName" placeholder="카테고리명을 입력하세요" />
+                                        <div class="input-group">
+					                      <div class="custom-file">
+					                        <input type="file" class="custom-file-input photo-upload" data-preview-target="#preview_sub">
+					                        <label class="custom-file-label" for="exampleInputFile">하위 카테고리 이미지 선택</label>
+					                      </div>					                     
+					                    </div>
+					                    <div id="preview_sub" class="preview-container"></div>
                                     </div>
                                 </form>
                             </div>
@@ -346,8 +356,8 @@
         location.href = "/admin/product/category/list?searchKey=" + encodeURIComponent(searchKey);
     });
     
-    // 업로드 파일 배열
-	let selectedFile = [];
+ 	// 선택된 파일들
+    let selectedFiles = {};
 
     // 상위 카테고리 등록
     $("#submitTopCategory").click(() => {
@@ -362,8 +372,9 @@
 		
 		// 기존의 photo 대신, selectedFile 배열로 대체
 		formData.delete("photo");
-		for(let i=0; i<selectedFile.length; i++){
-			formData.append("photo", selectedFile[i]);
+		let files = selectedFiles["#preview_top"];
+		for (let i = 0; i < files.length; i++) {
+		    formData.append("photo", files[i]);
 		}
 		// 이름 직접 설정 (formData에 직접 넣거나, input에 넣어두거나)
 	    formData.set("productTopcategoryName", categoryName);
@@ -390,24 +401,27 @@
         $("#topCategoryForm")[0].reset();
     });
     
- 	// 파일 컴포넌트의 값 변경 시 이벤트 연결
-	$("#photo").change(function(e){
-		let files = e.target.files;
-		
-		// 첨부 파일 수만큼 반복
-		for(let i=0; i<files.length;i++){
-			selectedFile[i] = files[i]; // 읽기 전용에 들어있던 파일을 selectedFile에 저장
-			
-			// 파일을 읽기위한 스트림 객체 생성
-			const reader = new FileReader();
-			reader.onload = function(e){ // 파일을 스트림으로 읽어들인 정보 e
-				console.log(e);
-				
-				let productImg = new ProductImg(document.getElementById("preview"), selectedFile[i], e.target.result, 100, 100);
-			}
-			reader.readAsDataURL(files[i]); // 지정한 파일을 읽기
-		}
-	});
+    
+ 	// 파일 선택 이벤트 통합 처리
+    $(".photo-upload").change(function (e) {
+        let files = e.target.files;
+        let previewId = $(this).data("preview-target");
+        let $preview = $(previewId);
+        let fieldKey = previewId;
+
+        selectedFiles[fieldKey] = []; // 기존 파일 초기화
+        $preview.empty(); // 기존 미리보기 이미지 제거
+
+        for (let i = 0; i < files.length; i++) {
+            selectedFiles[fieldKey].push(files[i]);
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                new ProductImg($preview[0], files[i], e.target.result, 100, 100);
+            };
+            reader.readAsDataURL(files[i]);
+        }
+    });
 
     // 상위 카테고리 수정 모달 오픈 시 데이터 셋팅
     $("#topCategoryEditModal").on("show.bs.modal", function (e) {
@@ -486,7 +500,7 @@
         let topName = button.data("topname");
         $("#subTopCategoryId").val(topId);
     });
-
+	
     // 하위 카테고리 등록
     $("#submitSubCategory").click(() => {
         let name = $("#subCategoryName").val().trim();
@@ -495,15 +509,27 @@
             alert("카테고리명을 입력하세요.");
             return;
         }
+        
+        // 폼에 업로드한 이미지
+    	let formData = new FormData(document.getElementById("subCategoryForm"));
+    	// 기존의 photo 대신, selectedFile 배열로 대체
+    	formData.delete("photo");
+    	let files = selectedFiles["#preview_sub"];
+    	for (let i = 0; i < files.length; i++) {
+    	    formData.append("photo", files[i]);
+    	}
+    	
+    	formData.set("productTopcategoryId", topId);
+    	formData.set("productSubcategoryName", name);
+
         $.ajax({
             url: "/admin/product/subcategory/regist",
             type: "POST",
-            data: {
-                productSubcategoryName: name,
-                productTopcategoryId: topId
-            },
+            data: formData,
+            processData: false, 
+       		contentType: false, 
             success: function (result) {
-                if (result === "success") {
+            	if (result.success) {
                     alert("등록 성공");
                     location.reload();
                 } else {
