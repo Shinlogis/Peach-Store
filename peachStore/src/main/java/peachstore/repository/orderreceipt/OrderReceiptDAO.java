@@ -7,4 +7,8 @@ import peachstore.domain.OrderReceipt;
 public interface OrderReceiptDAO {
 
 	public List selectByUserId(OrderReceipt orderReceipt);
+	
+	public List cancleList(OrderReceipt orderReceipt);
+	
+	public void cancle(OrderReceipt orderReceipt);
 }

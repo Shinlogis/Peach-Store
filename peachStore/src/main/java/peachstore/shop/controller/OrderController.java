@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -62,6 +63,38 @@ public class OrderController {
 		mav.setViewName("shop/order/list");
 		
 		return mav;
+	}
+	
+	//주문 취소 리스트
+	@GetMapping("/order/cancle/list")
+	public ModelAndView cancle(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		orderReceipt.setUser(user);
+		List<OrderDetail> details = new ArrayList<>();
+		
+		List<OrderReceipt> receiptList = orderReceiptService.cancleList(orderReceipt);
+		
+		for(OrderReceipt receipt : receiptList) {
+		List<OrderDetail> detail = orderDetailService.selecByReceitId(receipt.getOrder_receipt_id());
+			details.addAll(detail);
+		}
+		
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("cancle", details);
+		
+		mav.setViewName("shop/order/cancle");
+		
+		return mav;
+	}
+	
+	
+	@PostMapping("/order/cancle")
+	public String cancle(OrderReceipt orderReceipt) {
+		orderReceiptService.cancle(orderReceipt);
+		
+		return "redirect:/shop/order/list";
 	}
 
 }
