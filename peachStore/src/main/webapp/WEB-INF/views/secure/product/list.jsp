@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="peachstore.domain.ProductImg"%>
 <%@page import="peachstore.util.Paging"%>
 <%@page import="peachstore.domain.Size"%>
@@ -6,7 +7,6 @@
 <%@page import="peachstore.domain.Color"%>
 <%@page import="peachstore.domain.Product"%>
 <%@page import="java.util.List"%>
-<%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<Product> productList =(List)request.getAttribute("productList");
 	Paging paging =(Paging)request.getAttribute("paging");

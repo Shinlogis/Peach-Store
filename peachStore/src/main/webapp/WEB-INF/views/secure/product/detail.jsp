@@ -1,7 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="com.fasterxml.jackson.databind.ObjectMapper"%>
 <%@page import="mall.domain.ProductImg"%>
 <%@page import="mall.domain.Product"%>
-<%@ page contentType="text/html; charset=UTF-8"%>
 <%
     Product product = (Product)request.getAttribute("product");
 

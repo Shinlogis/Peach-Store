@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <script src="/static/shop/js/jquery-3.3.1.min.js"></script>
 <script src="/static/shop/js/bootstrap.min.js"></script>
 <script src="/static/shop/js/jquery.magnific-popup.min.js"></script>
