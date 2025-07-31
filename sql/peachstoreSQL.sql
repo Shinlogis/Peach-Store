@@ -30,18 +30,18 @@ DROP TABLE IF EXISTS coupon; -- 쿠폰
 DROP TABLE IF EXISTS sns_provider; -- snsprovider
 -- 관리자 테이블 생성(CREATE TABLE admin)
 CREATE TABLE admin(
-	admin_id int PRIMARY KEY AUTO_INCREMENT
-	, email VARCHAR(100) NOT NULL UNIQUE
-	, password varchar(100) NOT NULL
-	, admin_name varchar(100) NOT NULL
-	, role varchar(10) NOT NULL DEFAULT 'admin' CHECK(role in('super', 'admin'))
-	, is_active boolean NOT NULL DEFAULT TRUE
+   admin_id int PRIMARY KEY AUTO_INCREMENT
+   , email VARCHAR(100) NOT NULL UNIQUE
+   , password varchar(100) NOT NULL
+   , admin_name varchar(100) NOT NULL
+   , role varchar(10) NOT NULL DEFAULT 'admin' CHECK(role in('super', 'admin'))
+   , is_active boolean NOT NULL DEFAULT TRUE
 );
 
 -- snsprovider 테이블 생성(CREATE TABLE sns_provider)
 CREATE TABLE sns_provider(
-	sns_provider_id int PRIMARY KEY auto_increment
-	, provider_name varchar(12) NOT NULL UNIQUE
+   sns_provider_id int PRIMARY KEY auto_increment
+   , provider_name varchar(12) NOT NULL UNIQUE
 );
 
 -- 회원 등급 테이블 생성 (조건 기준 추가)(CREATE TABLE user_grade)
@@ -55,20 +55,20 @@ CREATE TABLE user_grade (
 
 -- 회원 테이블 생성(CREATE TABLE user)
 CREATE TABLE user(
-	user_id int PRIMARY KEY AUTO_INCREMENT
+   user_id int PRIMARY KEY AUTO_INCREMENT
     , id varchar(100) NOT NULL UNIQUE
-	, email varchar(100) UNIQUE
-	, password varchar(100) 
-	, user_name varchar(10) NOT NULL 
-	, tel varchar(13) UNIQUE
-	, address varchar(255)
-	, is_active boolean  NOT NULL DEFAULT TRUE
-	, created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-	, user_grade_id int NOT NULL DEFAULT 1
+   , email varchar(100) UNIQUE
+   , password varchar(100) 
+   , user_name varchar(10) NOT NULL 
+   , tel varchar(13) UNIQUE
+   , address varchar(255)
+   , is_active boolean  NOT NULL DEFAULT TRUE
+   , created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+   , user_grade_id int NOT NULL DEFAULT 1
     , sns_provider_id int
-	, CONSTRAINT fk_user_user_grade_id
-		FOREIGN KEY (user_grade_id)
-		REFERENCES user_grade(user_grade_id)
+   , CONSTRAINT fk_user_user_grade_id
+      FOREIGN KEY (user_grade_id)
+      REFERENCES user_grade(user_grade_id)
     , CONSTRAINT fk_user_sns_provider_id
         FOREIGN KEY (sns_provider_id)
         REFERENCES sns_provider(sns_provider_id)
@@ -115,27 +115,27 @@ CREATE TABLE inquiry_img(
 
 -- 사이즈 테이블 생성(CREATE TABLE size)
 CREATE TABLE size(
-	size_id int PRIMARY KEY AUTO_INCREMENT
-	, size_name varchar(100) NOT NULL
+   size_id int PRIMARY KEY AUTO_INCREMENT
+   , size_name varchar(100) NOT NULL
 );
 
 -- 컬러 테이블 생성(CREATE TABLE color)
 CREATE TABLE color(
-	color_id int PRIMARY KEY AUTO_INCREMENT
-	, color_name varchar(100) NOT NULL
+   color_id int PRIMARY KEY AUTO_INCREMENT
+   , color_name varchar(100) NOT NULL
 );
 
 -- 용량 수치 테이블 생성(CREATE TABLE capacity)
 CREATE TABLE capacity(
-	capacity_id int PRIMARY KEY AUTO_INCREMENT
-	, capacity_name varchar(100) NOT NULL
+   capacity_id int PRIMARY KEY AUTO_INCREMENT
+   , capacity_name varchar(100) NOT NULL
 );
 
 -- 제품 각인 테이블 생성(CREATE TABLE product_engraving)
 CREATE TABLE product_engraving(
-	product_engraving_id int PRIMARY KEY AUTO_INCREMENT
-	, engraving_price int NOT NULL CHECK(engraving_price >= 0)
-	, engraving_text varchar(10) NOT NULL
+   product_engraving_id int PRIMARY KEY AUTO_INCREMENT
+   , engraving_price int NOT NULL CHECK(engraving_price >= 0)
+   , engraving_text varchar(10) NOT NULL
 );
 
 -- 제품 상위 카테고리 테이블 생성(CREATE TABLE product_topcategory)
@@ -162,16 +162,16 @@ CREATE TABLE product_subcategory(
 
 -- 제품 테이블 생성(CREATE TABLE product)
 CREATE TABLE product(
-	product_id int PRIMARY KEY AUTO_INCREMENT
-	, product_code varchar(100) NOT NULL
-	, product_name varchar(100) NOT NULL
-	, price int NOT NULL
-	, introduce varchar(100) NOT NULL
-	, detail varchar(100) NOT NULL
-	, product_subcategory_id int
-	, CONSTRAINT fk_product_product_subcategory_id
-		FOREIGN KEY (product_subcategory_id)
-		REFERENCES product_subcategory(product_subcategory_id)
+   product_id int PRIMARY KEY AUTO_INCREMENT
+   , product_code varchar(100) NOT NULL
+   , product_name varchar(100) NOT NULL
+   , price int NOT NULL
+   , introduce varchar(100) NOT NULL
+   , detail varchar(100) NOT NULL
+   , product_subcategory_id int
+   , CONSTRAINT fk_product_product_subcategory_id
+      FOREIGN KEY (product_subcategory_id)
+      REFERENCES product_subcategory(product_subcategory_id)
 );
 
 -- 제품 사이즈 테이블 생성(CREATE TABLE product_size)
@@ -267,40 +267,40 @@ CREATE TABLE cart_item(
 
 -- 제품 스냅샷 테이블 생성(create table snapshot)
 CREATE TABLE snapshot(
-	snapshot_id int PRIMARY KEY AUTO_INCREMENT
-	, product_id int NOT NULL
-	, product_name varchar(100) NOT NULL
-	, price int NOT NULL
-	, size varchar(100)
-	, capacity varchar(100)
-	, color varchar(100)
-	, engraving varchar(100)
+   snapshot_id int PRIMARY KEY AUTO_INCREMENT
+   , product_id int NOT NULL
+   , product_name varchar(100) NOT NULL
+   , price int NOT NULL
+   , size varchar(100)
+   , capacity varchar(100)
+   , color varchar(100)
+   , engraving varchar(100)
     , filename varchar(100) NOT NULL
 );
 
 -- 주문내역 테이블(CREATE TABLE order_receipt)
 CREATE TABLE order_receipt(
-	order_receipt_id int PRIMARY KEY AUTO_INCREMENT
-	, orderdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-	, order_status varchar(10) NOT NULL DEFAULT '상품 준비 전' CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료'))
-	, user_id int NOT NULL
-	, CONSTRAINT fk_order_receipt_user_id
-		FOREIGN KEY (user_id)
-		REFERENCES user(user_id)
+   order_receipt_id int PRIMARY KEY AUTO_INCREMENT
+   , orderdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+   , order_status varchar(10) NOT NULL DEFAULT '상품 준비 전' CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료', '주문취소'))
+   , user_id int NOT NULL
+   , CONSTRAINT fk_order_receipt_user_id
+      FOREIGN KEY (user_id)
+      REFERENCES user(user_id)
 );
 
 -- 주문상세 테이블 생성(CREATE TABLE order_detail)
 CREATE TABLE order_detail(
-	order_detail_id int PRIMARY KEY AUTO_INCREMENT
-	, order_quantity int NOT NULL
-	, order_receipt_id int NOT NULL
-	, snapshot_id int NOT NULL UNIQUE
-	, CONSTRAINT fk_order_detail_order_receipt_id
-		FOREIGN KEY (order_receipt_id)
-		REFERENCES order_receipt(order_receipt_id)
-	, CONSTRAINT fk_order_detail_snapshot_id
-		FOREIGN KEY (snapshot_id)
-		REFERENCES snapshot(snapshot_id)
+   order_detail_id int PRIMARY KEY AUTO_INCREMENT
+   , order_quantity int NOT NULL
+   , order_receipt_id int NOT NULL
+   , snapshot_id int NOT NULL UNIQUE
+   , CONSTRAINT fk_order_detail_order_receipt_id
+      FOREIGN KEY (order_receipt_id)
+      REFERENCES order_receipt(order_receipt_id)
+   , CONSTRAINT fk_order_detail_snapshot_id
+      FOREIGN KEY (snapshot_id)
+      REFERENCES snapshot(snapshot_id)
 );
 
 -- 쿠폰 테이블 생성 (변경 없음)(CREATE TABLE coupon)
@@ -381,19 +381,19 @@ INSERT INTO capacity (capacity_name) VALUES ('256GB');
 -- 제품 각인 테이블 인서트(INSERT INTO product_engraving)
 INSERT INTO product_engraving (engraving_price, engraving_text)
 VALUES
-	(1000, '각인입니다1'),
-	(1500, '각인입니다2'),
-	(2000, '각인입니다3'),
-	(2500, '각인입니다4'),
-	(3000, '각인입니다5');
+   (1000, '각인입니다1'),
+   (1500, '각인입니다2'),
+   (2000, '각인입니다3'),
+   (2500, '각인입니다4'),
+   (3000, '각인입니다5');
 
 -- 제품 상위 카테고리 테이블 인서트(INSERT INTO product_topcategory)
 INSERT INTO product_topcategory (product_topcategory_name, is_active)
 VALUES
-	('pPhone', true),
-	('pPad', true),
-	('pMac', true),
-	('accessory', true);
+   ('pPhone', true),
+   ('pPad', true),
+   ('pMac', true),
+   ('accessory', true);
 
 -- snsprovider 테이블 인서트(insert into sns_provider)
 insert into sns_provider(provider_name) values('google');
@@ -403,13 +403,13 @@ insert into sns_provider(provider_name) values('kakao');
 -- 회원 등급 테이블 인서트(INSERT INTO user_grade)
 INSERT INTO user_grade (user_grade_name, discount_rate, criteria_amount)
 VALUES 
-	('Bronze', 0.00, 0),
-	('Silver', 2.00, 100000),
-	('Gold', 5.00, 300000),
-	('Platinum', 10.00, 700000);
+   ('Bronze', 0.00, 0),
+   ('Silver', 2.00, 100000),
+   ('Gold', 5.00, 300000),
+   ('Platinum', 10.00, 700000);
 INSERT INTO user_grade (user_grade_name, discount_rate, criteria_amount, is_active)
 VALUES
-	('zz', 12.00, 9999, false);
+   ('zz', 12.00, 9999, false);
 
 -- 관리자 테이블 인서트 (INSERT INTO admin)
 INSERT INTO admin (email, password, admin_name, role)
@@ -441,12 +441,12 @@ VALUES
 -- 제품 서브카테고리 테이블 인서트(INSERT INTO product_subpcategory)
 INSERT INTO product_subcategory (product_subcategory_name, product_topcategory_id)
 VALUES
-	('14시리즈', 1), ('15시리즈', 1), ('16시리즈', 1),
-	('Air', 2), ('Mini', 2), ('Pro', 2),
-	('노트북', 3), ('데스크탑', 3), ('디스플레이', 3),
-	('MagSafe 충전기', 4), ('실리콘 케이스', 4), ('스마트 키보드 폴리오', 4),('에어팟', 4);
+   ('14시리즈', 1), ('15시리즈', 1), ('16시리즈', 1),
+   ('Air', 2), ('Mini', 2), ('Pro', 2),
+   ('노트북', 3), ('데스크탑', 3), ('디스플레이', 3),
+   ('MagSafe 충전기', 4), ('실리콘 케이스', 4), ('스마트 키보드 폴리오', 4),('에어팟', 4);
 
-	
+   
 -- 회원 테이블 인서트(INSERT INTO user)
 -- 나중에 금액이랑 묶으면 user_grade_id는 default로만 insert할것
 INSERT INTO user (id, email, password, user_name, tel, address, user_grade_id, sns_provider_id)
@@ -478,22 +478,22 @@ VALUES
 -- 제품 테이블 인서트(INSERT INTO product)
 INSERT INTO product (product_code, product_name, price, introduce, detail, product_subcategory_id)
 VALUES
-	('P14P-BLK', 'pPhone 14 Pro 블랙', 1350000, '고성능 스마트폰', '6.1인치 디스플레이 / A16 Bionic', 1),
-	('P15-WHT', 'pPhone 15 화이트', 1250000, '차세대 아이폰', '6.1인치 / USB-C / 다이나믹 아일랜드', 2),
-	('PSE3-RED', 'pPhone SE 3 레드', 650000, '보급형 아이폰', '4.7인치 / Touch ID / A15 Bionic', 3),
-	
-	('PAIR5-GRY', 'pPad Air 5 스페이스 그레이', 850000, 'M1 칩 탑재 태블릿', '10.9인치 / Apple Pencil 2 지원', 4),
-	('PMINI6-PNK', 'pPad Mini 6 핑크', 770000, '컴팩트 태블릿', '8.3인치 / USB-C 포트', 5),
-	('PPRO-M2', 'pPad Pro M2 11인치', 1150000, '최상위 태블릿', 'M2 / 120Hz ProMotion 디스플레이', 6),
-	
-	('PMAC-M1', 'pMac M1 13인치', 1290000, '애플 실리콘 최초 모델', 'M1 / Retina 디스플레이 / 8GB RAM', 7),
-	('PMAC-M2P', 'pMac M2 Pro 14인치', 1990000, '고성능 노트북', 'M2 Pro / Liquid Retina XDR', 8),
-	('PSTUDIO-MAX', 'pMac Studio Max', 2790000, '프로급 데스크탑', 'M1 Max / 고성능 포트 구성', 9),
-	
-	
-	('MAG-CHRGR', 'MagSafe 무선 충전기', 49000, '자석식 무선 충전', '아이폰 & 에어팟 지원', 10),
-	('CASE-BLUE', '실리콘 케이스 블루', 45000, '아이폰 보호 케이스', '부드러운 터치 / 내구성', 11),
-	('KEYBOARD-FOLIO', '스마트 키보드 폴리오', 219000, '아이패드 키보드', '자석 부착식 / 한국어 배열', 12);
+   ('P14P-BLK', 'pPhone 14 Pro 블랙', 1350000, '고성능 스마트폰', '6.1인치 디스플레이 / A16 Bionic', 1),
+   ('P15-WHT', 'pPhone 15 화이트', 1250000, '차세대 아이폰', '6.1인치 / USB-C / 다이나믹 아일랜드', 2),
+   ('PSE3-RED', 'pPhone SE 3 레드', 650000, '보급형 아이폰', '4.7인치 / Touch ID / A15 Bionic', 3),
+   
+   ('PAIR5-GRY', 'pPad Air 5 스페이스 그레이', 850000, 'M1 칩 탑재 태블릿', '10.9인치 / Apple Pencil 2 지원', 4),
+   ('PMINI6-PNK', 'pPad Mini 6 핑크', 770000, '컴팩트 태블릿', '8.3인치 / USB-C 포트', 5),
+   ('PPRO-M2', 'pPad Pro M2 11인치', 1150000, '최상위 태블릿', 'M2 / 120Hz ProMotion 디스플레이', 6),
+   
+   ('PMAC-M1', 'pMac M1 13인치', 1290000, '애플 실리콘 최초 모델', 'M1 / Retina 디스플레이 / 8GB RAM', 7),
+   ('PMAC-M2P', 'pMac M2 Pro 14인치', 1990000, '고성능 노트북', 'M2 Pro / Liquid Retina XDR', 8),
+   ('PSTUDIO-MAX', 'pMac Studio Max', 2790000, '프로급 데스크탑', 'M1 Max / 고성능 포트 구성', 9),
+   
+   
+   ('MAG-CHRGR', 'MagSafe 무선 충전기', 49000, '자석식 무선 충전', '아이폰 & 에어팟 지원', 10),
+   ('CASE-BLUE', '실리콘 케이스 블루', 45000, '아이폰 보호 케이스', '부드러운 터치 / 내구성', 11),
+   ('KEYBOARD-FOLIO', '스마트 키보드 폴리오', 219000, '아이패드 키보드', '자석 부착식 / 한국어 배열', 12);
 
 -- 장바구니 테이블 인서트(INSERT INTO cart)
 INSERT INTO cart (user_id) VALUES (1);
@@ -612,13 +612,13 @@ VALUES
 -- 주문내역 테이블 인서트(INSERT INTO order_receipt)
 INSERT INTO order_receipt (order_status, user_id)
 VALUES
-	('상품 준비 전', 1),
-	('상품 준비 중', 3),
-	('발송완료', 5),
-	('상품 준비 전', 7),
-	('상품 준비 중', 9),
-	('발송완료', 2),
-	('상품 준비 전', 4);
+   ('상품 준비 전', 1),
+   ('상품 준비 중', 3),
+   ('발송완료', 5),
+   ('상품 준비 전', 7),
+   ('상품 준비 중', 9),
+   ('발송완료', 2),
+   ('상품 준비 전', 4);
 
 -- 제품 커스텀 옵션 테이블 인서트(INSERT INTO custom_option)
 INSERT INTO custom_option (product_size_id, product_color_id, product_capacity_id, product_engraving_id)
@@ -632,15 +632,15 @@ VALUES
 -- 주문상세 테이블 인서트(INSERT INTO order_detail)
 INSERT INTO order_detail (order_quantity, order_receipt_id, snapshot_id)
 VALUES
-	(2, 1, 1),
-	(1, 1, 2),
-	(3, 2, 3),
-	(1, 3, 4),
-	(2, 3, 5),
-	(1, 4, 6),
-	(1, 5, 7),
-	(2, 5, 8);
-	
+   (2, 1, 1),
+   (1, 1, 2),
+   (3, 2, 3),
+   (1, 3, 4),
+   (2, 3, 5),
+   (1, 4, 6),
+   (1, 5, 7),
+   (2, 5, 8);
+   
 
 -- 장바구니 제품 테이블 인서트(INSERT INTO cart_item)
 INSERT INTO cart_item (cart_id, product_id, custom_option_id)

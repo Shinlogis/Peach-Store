@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@page import="peachstore.domain.User"%>
 <!-- 카테고리 시작 -->
 <section class="services spad">
 
@@ -10,7 +11,7 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">주문내역 조회</a></li>
+						<li><a href="/shop/order/list">주문내역 조회</a></li>
 						<li><a href="#">취소내역</a></li>
 					</ul>
 				</div>
