@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Product;
 import peachstore.domain.ProductColor;
+import peachstore.domain.ProductImg;
 import peachstore.domain.ProductSize;
 import peachstore.exception.ProductColorException;
 import peachstore.exception.ProductException;
 import peachstore.exception.ProductSizeException;
 import peachstore.repository.product.ProductColorDAO;
 import peachstore.repository.product.ProductDAO;
+import peachstore.repository.product.ProductImgDAO;
 import peachstore.repository.product.ProductSizeDAO;
 import peachstore.util.FileManager;
 
@@ -23,6 +26,7 @@ import peachstore.util.FileManager;
  * @author 김지민
  * @since 2025-07-29
  */
+@Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -37,6 +41,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private FileManager fileManager;
+    
+    @Autowired
+	private ProductImgDAO productImgDAO;
 
     /**
      * 상품 등록 처리  
@@ -68,14 +75,31 @@ public class ProductServiceImpl implements ProductService {
             productSize.setProduct(product);
             productSizeDAO.insert(productSize);
         }
+        
+        //4) 이미지 저장 
+      	fileManager.save(product, savePath);
+      		
+      	//5) 이미지 파일명도 채워진 상태이므로 db 저장
+      	List<ProductImg> imgList = product.getProductImgs();
+      			
+      		for(ProductImg productImg : imgList) {
+      			productImg.setProduct(product); //현재 상품 정보
+      			productImgDAO.insert(productImg);
+      		}
     }
 
     /** 전체 상품 조회 */
-    @Override
-    public List selectAll() {
-        return productDAO.selectAll();
-    }
+    public List<Product> selectAll() {
+        List<Product> list = productDAO.selectAll();
+        log.error("selectAll() 호출됨, 결과 사이즈: " + list.size());
 
+        for (Product product : list) {
+            List<ProductImg> imgs = productImgDAO.selectByProductId(product.getProductId());
+            product.setProductImgs(imgs);
+        }
+
+        return list;
+    }
     /** 단일 상품 조회 */
     @Override
     public Product select(int product_id) {
@@ -97,6 +121,24 @@ public class ProductServiceImpl implements ProductService {
     /** 상품 및 관련 자원 삭제(DB + 이미지) - 구현 예정 */
     @Override
     public void remove(Product product, String savePath) {
-        // TODO: 상품 + 파일 리소스 삭제 로직 구현 예정
+    	fileManager.remove(product, savePath);
     }
+
+    @Override
+    public List<Product> selectAll(int startIndex, int pageSize) {
+        List<Product> list = productDAO.selectAll(startIndex, pageSize);
+
+        for (Product product : list) {
+            List<ProductImg> imgs = productImgDAO.selectByProductId(product.getProductId());
+            product.setProductImgs(imgs);
+        }
+
+        return list;
+    }
+
+	@Override
+	public int getTotalRecord() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
