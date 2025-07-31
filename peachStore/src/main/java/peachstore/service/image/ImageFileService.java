@@ -20,7 +20,7 @@ public interface ImageFileService {
 	 * @return
 	 * @throws Uploadexception
 	 */
-	Map<String, Object> saveImage(MultipartFile file, String subDirPrefix, String savePath) throws Uploadexception;
+	Map<String, Object> saveImage(MultipartFile file, String fileDirName, String savePath) throws Uploadexception;
 
 	/**
 	 * 이미지 삭제

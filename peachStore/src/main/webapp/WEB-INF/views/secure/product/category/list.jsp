@@ -90,7 +90,9 @@
                                     <a href="#" class="nav-link d-flex justify-content-between align-items-center">
                                         <p class="mb-0 d-flex align-items-center">
                                         	<!-- 이미지 자리 -->
-                                            <i class="nav-icon fas fa-folder mr-1"></i>
+                                        	<% if (top.getFilename() != null && !top.getFilename().isEmpty()) { %>
+											  <img src="/data/category_<%= top.getProductTopcategoryId() %>/<%= top.getFilename() %>" style="width:150px;" />
+											<% } %>
                                             <span><%= top.getProductTopcategoryName() %></span>
                                         </p>
                                         <div class="category-btn-group">

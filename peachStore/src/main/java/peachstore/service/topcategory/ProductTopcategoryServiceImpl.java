@@ -36,21 +36,23 @@ public class ProductTopcategoryServiceImpl implements ProductTopcategoryService{
 
 	@Override
 	public void register(ProductTopcategory productTopcategory, String savePath, MultipartFile photo) throws ProductTopcategoryException {
+		productCategoryDAO.insert(productTopcategory); // 저장
+		int id = productTopcategory.getProductTopcategoryId(); // pk값 추출
 		
-		// imageFileService를 이용해 이미지 저장
-        Map<String, Object> result = imageFileService.saveImage(photo, "category", savePath);
-        String fileDirName = (String) result.get("fileDirName");
-        List<String> savedFiles = (List<String>) result.get("savedFiles");
-        String filename = savedFiles.get(0);
-        
-		// 이미지 데이터 추가
+		// 이미지 저장
+		String fileDirName = "category_"+id;
+		Map<String, Object> result = imageFileService.saveImage(photo, fileDirName, savePath);
+
+		// 저장된 이미지들의 이름 배열
+		List<String> imgList = (List<String>) result.get("savedFiles");
+		String filename = imgList.get(0); // 상위 카테고리는 이미지가 하나만 있어서 첫 번째 이미지명만 꺼냄
+		
+		// 도메인에 데이터 세팅
 		productTopcategory.setFileDirName(fileDirName);
 		productTopcategory.setFilename(filename);
-		
-		log.debug("setFilename: {}", productTopcategory.getFilename());
+		log.debug("이미지 저장 디렉토리: {}, 파일명: {}", fileDirName, filename);
 
-		 // 상위 카테고리 등록
-        int resultCount = productCategoryDAO.insert(productTopcategory);
+        int resultCount = productCategoryDAO.update(productTopcategory); // filepath, filename update
         if (resultCount == 0) {
             fileManager.remove(fileDirName, savePath);
             throw new ProductTopcategoryException("상위 카테고리 등록 실패");
@@ -82,7 +84,7 @@ public class ProductTopcategoryServiceImpl implements ProductTopcategoryService{
 	@Override
 	public ProductTopcategory findById(int productTopCategoryId) throws ProductTopcategoryException {
 		ProductTopcategory productTopcategory = productCategoryDAO.selectById(productTopCategoryId);
-		if (productTopcategory == null || !productTopcategory.isActive()) {
+		if (productTopcategory == null || !productTopcategory.getIsActive()) {
 	        throw new ProductTopcategoryException("카테고리 조회 실패. 존재하지 않거나 비활성화");
 	    }
 		

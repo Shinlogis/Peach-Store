@@ -23,8 +23,7 @@ public class ImageFileServiceImpl implements ImageFileService {
     private final FileCommonManager fileManager;
 
     @Override
-    public Map<String, Object> saveImage(MultipartFile file, String subDirPrefix, String savePath) throws Uploadexception {
-        String fileDirName = subDirPrefix + "_" + System.currentTimeMillis();
+    public Map<String, Object> saveImage(MultipartFile file, String fileDirName, String savePath) throws Uploadexception {
         List<String> savedFiles = fileManager.saveFiles(new MultipartFile[] { file }, savePath, fileDirName);
 
         Map<String, Object> result = new HashMap<>();
