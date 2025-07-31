@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Inquiry;
 import peachstore.domain.InquiryImg;
+import peachstore.domain.Product;
+import peachstore.domain.ProductImg;
 import peachstore.exception.Uploadexception;
 /**
  * 문의하기 filemanager
@@ -34,7 +36,7 @@ public class FileManager {
 			for(int i=0; i<photo.length; i++) {
 				log.debug("원본 파일명은 " +photo[i].getOriginalFilename());
 				String ori = photo[i].getOriginalFilename();
-				String ext =ori.substring(ori.lastIndexOf(".")+1, ori.length());
+				String ext = ori.substring(ori.lastIndexOf(".")+1, ori.length());
 			
 				try {
 					Thread.sleep(10);
@@ -61,6 +63,57 @@ public class FileManager {
 		}
 	}
 	
+	public void save(Product product, String savePath) throws Uploadexception {
+		List<ProductImg> imgList = new ArrayList<>();
+
+		File directory = new File(savePath, "p_" + product.getProductId());
+		if (!directory.exists()) {
+			directory.mkdirs();
+		}
+
+		MultipartFile[] photo = product.getPhoto(); // Product 도 getPhoto() 제공 가정
+		log.debug("업로드 한 파일의 수는 " + photo.length);
+
+		try {
+			for (MultipartFile filePart : photo) {
+				String ori = filePart.getOriginalFilename();
+				String ext = ori.substring(ori.lastIndexOf(".") + 1);
+
+				Thread.sleep(10); // 중복 방지
+				String filename = System.currentTimeMillis() + "." + ext;
+
+				ProductImg productImg = new ProductImg();
+				productImg.setFilename(filename);
+				imgList.add(productImg);
+
+				File file = new File(directory, filename);
+				filePart.transferTo(file);
+				log.debug("저장 경로 = " + file.getAbsolutePath());
+			}
+			product.setProductImgs(imgList); // 저장된 이미지 목록 세팅
+		} catch (Exception e) {
+			log.error("파일 업로드 실패", e);
+			throw new Uploadexception("파일 업로드 실패", e);
+		}
+	}
 	
+	public void remove(Product product, String savePath) {
+		File directory = new File(savePath, "p_"+product.getProductId());
+		
+		if(directory.exists() && directory.isDirectory()) {
+			File[] files=directory.listFiles();
+			
+			if(files !=null) { 
+				for(File file : files) {
+					boolean deleted = file.delete();
+					log.debug(file.getName()+" 를 삭제한 결과 " + deleted);
+				}
+			}
+			boolean result = directory.delete();
+			if(result == false) {
+				log.warn("디렉토리 삭제 실패 "+ directory.getAbsolutePath());
+			}
+		}
 	
+	}
 }

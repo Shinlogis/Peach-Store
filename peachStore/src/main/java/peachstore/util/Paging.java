@@ -33,4 +33,14 @@ public class Paging {
 		curPos = (currentPage-1)*pageSize;
 		num = totalRecord-curPos;
 	}
+	
+	public int getStartIndex() {
+		return curPos;
+	}
+
+	// 🔹 현재 페이지의 마지막 인덱스 (for view logic 등)
+	public int getEndIndex() {
+		return Math.min(curPos + pageSize, totalRecord);
+	}
+
 }

@@ -3,7 +3,7 @@
 <mapper namespace="ProductColor">
 
 		<insert id ="insert" parameterType="ProductColor">
-			insert into product_color(product_id, color_id) values(#{product.product_id}, #{color.color_id})
+			insert into product_color(product_id, color_id) values(#{product.productId}, #{color.color_id})
 		</insert>
 		
 		<resultMap type="ProductColor" id="colorMap">
@@ -12,7 +12,7 @@
 		</resultMap>
 		
 		<select id="selectByProductId" parameterType="int" resultMap="colorMap">
-			select product_color_id, color_id, product_id from product_color where product_id = #{product_id}
+			select product_color_id, color_id, product_id from product_color where product_id = #{productId}
 		</select>
 
 </mapper>

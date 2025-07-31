@@ -15,6 +15,7 @@
 		<typeAlias type="peachstore.domain.Size" alias="Size"/>
 		<typeAlias type="peachstore.domain.ProductSize" alias="ProductSize"/>
 		<typeAlias type="peachstore.domain.ProductColor" alias="ProductColor"/>
+		<typeAlias type="peachstore.domain.ProductImg" alias="ProductImg"/>
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 
@@ -42,6 +43,7 @@
 		<mapper resource="peachstore/mybatis/SizeMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ProductColorMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ProductSizeMapper.xml"/>
+		<mapper resource="peachstore/mybatis/ProductImgMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
 		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
 	</mappers>
