@@ -110,6 +110,8 @@ public class InquiryController {
 		
 		inquiryService.update(inquiry, savePath);
 		
+
+		
 		return "ok";
 	}
 	

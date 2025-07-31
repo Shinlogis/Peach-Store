@@ -281,7 +281,7 @@ CREATE TABLE snapshot(
 CREATE TABLE order_receipt(
    order_receipt_id int PRIMARY KEY AUTO_INCREMENT
    , orderdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-   , order_status varchar(10) NOT NULL DEFAULT '상품 준비 전' CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료'))
+   , order_status varchar(10) NOT NULL DEFAULT '상품 준비 전' CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료', '주문취소'))
    , user_id int NOT NULL
    , CONSTRAINT fk_order_receipt_user_id
       FOREIGN KEY (user_id)

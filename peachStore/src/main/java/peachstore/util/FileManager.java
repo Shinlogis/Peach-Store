@@ -91,7 +91,7 @@ public class FileManager {
 	//삭제 대상 파일 처리
 	public void deleteImg(Inquiry inquiry, String savePath) throws InquiryImgException{
 		for(int i=0; i<inquiry.getImgList().size(); i++) {
-			File file = new File(savePath, "p_" + inquiry.getInquiry_id()+ "/" + inquiry.getImgList().get(i));
+			File file = new File(savePath, "p_" + inquiry.getInquiry_id()+ "/" + inquiry.getImgList().get(i).getFilename());
 			boolean deleted = file.delete();
 			
 			if(deleted == false) {
