@@ -5,5 +5,17 @@
 	<insert id="insert" parameterType="InquiryImg">
 		insert into inquiry_img(filename, inquiry_id) values(#{filename},#{inquiry.inquiry_id})
 	</insert>
+	
+	<select id="selectByInquiry" parameterType="int" resultType="InquiryImg">
+		select inquiry_img_id, filename, inquiry_id from inquiry_img where inquiry_id = #{inquiry_id}
+	</select>
+	
+	<update id="update" parameterType="InquiryImg">
+		update inquiry_img set filename=#{filename} where inquiry_img_id = #{inquiry_img_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from inquiry_img where inquiry_id = #{inquiry_id}
+	</delete>
 
 </mapper>

@@ -26,7 +26,6 @@ public class UserDAOImpl implements UserDAO{
 			throw new UserException("회원 등록 실패");
 		}
 
-		
 	}
 	@Override
 	public User select(int user_id) {
