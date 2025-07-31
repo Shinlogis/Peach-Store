@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+* {
+    font-family: "Apple SD Gothic Neo", "애플 SD 산돌고딕 Neo", -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", sans-serif !important;
+}
+
+.header1{
+    width: 100%;
+    height: 40px;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    position:sticky;
+    z-index:9999;
+}
+
+ul li{
+    list-style: none;
+}
+
+.header_nav li a{
+    color: #282828;
+    font-size: 12px;
+    padding: 30px;
+}
+
+.header_nav{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    height: 100%;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* body {
+    height: 200vh;
+} */

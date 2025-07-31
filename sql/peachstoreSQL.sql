@@ -142,11 +142,8 @@ CREATE TABLE product_engraving(
 CREATE TABLE product_topcategory(
    product_topcategory_id int PRIMARY KEY AUTO_INCREMENT
    , product_topcategory_name varchar(100) NOT NULL
-<<<<<<< HEAD
    , fileDirName varchar(30) DEFAULT NULL
     , filename varchar(30)
-=======
->>>>>>> 3ffdbc6705513c18594a01a3fbd91853b3cc18d7
    , is_active boolean NOT NULL DEFAULT TRUE
 );
 
@@ -155,11 +152,8 @@ CREATE TABLE product_subcategory(
    product_subcategory_id int PRIMARY KEY AUTO_INCREMENT
    , product_subcategory_name varchar(100) NOT NULL
    , product_topcategory_id int NOT NULL
-<<<<<<< HEAD
     , fileDirName varchar(30) DEFAULT NULL
     , filename varchar(30)
-=======
->>>>>>> 3ffdbc6705513c18594a01a3fbd91853b3cc18d7
     , is_active boolean NOT NULL DEFAULT TRUE
    , CONSTRAINT fk_product_topcategory_id
       FOREIGN KEY (product_topcategory_id)
@@ -273,16 +267,6 @@ CREATE TABLE cart_item(
 
 -- 제품 스냅샷 테이블 생성(create table snapshot)
 CREATE TABLE snapshot(
-<<<<<<< HEAD
-	snapshot_id int PRIMARY KEY AUTO_INCREMENT
-	, product_id int NOT NULL
-	, product_name varchar(100) NOT NULL
-	, price int NOT NULL
-	, size varchar(100)
-	, capacity varchar(100)
-	, color varchar(100)
-	, engraving varchar(100)
-=======
    snapshot_id int PRIMARY KEY AUTO_INCREMENT
    , product_id int NOT NULL
    , product_name varchar(100) NOT NULL
@@ -291,7 +275,6 @@ CREATE TABLE snapshot(
    , capacity varchar(100)
    , color varchar(100)
    , engraving varchar(100)
->>>>>>> 3ffdbc6705513c18594a01a3fbd91853b3cc18d7
     , filename varchar(100) NOT NULL
 );
 

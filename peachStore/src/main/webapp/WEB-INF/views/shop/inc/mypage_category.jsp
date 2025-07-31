@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="peachstore.domain.User"%>
 <!-- 카테고리 시작 -->

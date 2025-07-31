@@ -14,4 +14,6 @@ public interface UserDAO {
 	
 	public List<User> selectAll();
 	public User homepageLogin(User user);
+	//회원가입을 위한 메서드
+	public void userJoin(User user);
 }
