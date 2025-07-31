@@ -18,6 +18,8 @@ import lombok.Setter;
 public class ProductTopcategory {
     private int productTopcategoryId;
     private String productTopcategoryName;
+    private String fileDirName;
+    private String filename;
     private boolean isActive;
     private List<ProductSubcategory> productSubcategory;
     

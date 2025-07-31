@@ -6,6 +6,8 @@
 	<resultMap id="ProductTopcategoryResultMap" type="peachstore.domain.ProductTopcategory">
 		<result column="product_topcategory_id" property="productTopcategoryId"/>
 		<result column="product_topcategory_name" property="productTopcategoryName"/>
+		<result column="fileDirName" property="fileDirName"/>
+		<result column="filename" property="filename"/>
 		<result column="is_active" property="isActive"/>
 	</resultMap>
 	
@@ -13,6 +15,8 @@
 	<resultMap id="ProductTopcategoryWithSubcategoryMap" type="peachstore.domain.ProductTopcategory">
 	    <id property="productTopcategoryId" column="product_topcategory_id"/>
 	    <result property="productTopcategoryName" column="product_topcategory_name"/>
+	    <result column="fileDirName" property="fileDirName"/>
+	    <result column="filename" property="filename"/>
 	    <result property="isActive" column="is_active"/>
 	
 	    <collection property="productSubcategory" ofType="peachstore.domain.ProductSubcategory">
@@ -24,7 +28,7 @@
 	
 	<!-- 전체 조회 (검색 포함) -->
 	<select id="selectAll" resultMap="ProductTopcategoryResultMap" parameterType="map">
-	    select product_topcategory_id, product_topcategory_name, is_active
+	    select product_topcategory_id, product_topcategory_name, filename, is_active
 	    from product_topcategory
 	    where is_active = true
 	    <if test="searchKey != null and searchKey != ''">
@@ -38,9 +42,12 @@
 	    SELECT
 	        pt.product_topcategory_id,
 	        pt.product_topcategory_name,
+	        pt.fileDirName
+	        pt.filename,
 	        pt.is_active,
 	        ps.product_subcategory_id,
 	        ps.product_subcategory_name,
+	        ps.filename AS sub_filename,
 	        ps.is_active AS sub_is_active
 	    FROM product_topcategory pt
 	    LEFT JOIN product_subcategory ps
@@ -52,8 +59,8 @@
 
 	<!-- 등록 -->
 	<insert id="insert" parameterType="peachstore.domain.ProductTopcategory">
-		insert into product_topcategory(product_topcategory_name) 
-		values(#{productTopcategoryName})
+		insert into product_topcategory(product_topcategory_name, fileDirName, filename) 
+		values(#{productTopcategoryName}, #{fileDirName}, #{filename})
 	</insert>
 
 	<!-- 수정 -->

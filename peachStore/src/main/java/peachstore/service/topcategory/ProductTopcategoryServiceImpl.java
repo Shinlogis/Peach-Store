@@ -1,13 +1,18 @@
 package peachstore.service.topcategory;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.ProductTopcategory;
 import peachstore.exception.ProductTopcategoryException;
 import peachstore.repository.topcategory.ProductTopcategoryDAO;
+import peachstore.service.image.ImageFileService;
+import peachstore.util.FileCommonManager;
 
 /**
  * 제품 카테고리 서비스 구현체
@@ -15,11 +20,14 @@ import peachstore.repository.topcategory.ProductTopcategoryDAO;
  * @author 김예진
  * @since 2025-07-25
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductTopcategoryServiceImpl implements ProductTopcategoryService{
 
 	private final ProductTopcategoryDAO productCategoryDAO;
+	private final ImageFileService imageFileService;
+	private final FileCommonManager fileManager;
 	
 	@Override
 	public List<ProductTopcategory> selectAll(String searchKey) {
@@ -27,11 +35,26 @@ public class ProductTopcategoryServiceImpl implements ProductTopcategoryService{
 	}
 
 	@Override
-	public void register(ProductTopcategory productTopcategory) throws ProductTopcategoryException {
-		int result = productCategoryDAO.insert(productTopcategory);
-		if (result == 0) {
-			throw new ProductTopcategoryException("상위 카테고리 등록 실패");
-		}
+	public void register(ProductTopcategory productTopcategory, String savePath, MultipartFile photo) throws ProductTopcategoryException {
+		
+		// imageFileService를 이용해 이미지 저장
+        Map<String, Object> result = imageFileService.saveImage(photo, "category", savePath);
+        String fileDirName = (String) result.get("fileDirName");
+        List<String> savedFiles = (List<String>) result.get("savedFiles");
+        String filename = savedFiles.get(0);
+        
+		// 이미지 데이터 추가
+		productTopcategory.setFileDirName(fileDirName);
+		productTopcategory.setFilename(filename);
+		
+		log.debug("setFilename: {}", productTopcategory.getFilename());
+
+		 // 상위 카테고리 등록
+        int resultCount = productCategoryDAO.insert(productTopcategory);
+        if (resultCount == 0) {
+            fileManager.remove(fileDirName, savePath);
+            throw new ProductTopcategoryException("상위 카테고리 등록 실패");
+        }
 	}
 	
 	@Override

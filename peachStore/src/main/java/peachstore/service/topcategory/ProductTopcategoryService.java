@@ -2,6 +2,8 @@ package peachstore.service.topcategory;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import peachstore.domain.ProductTopcategory;
 
 /**
@@ -28,9 +30,10 @@ public interface ProductTopcategoryService {
 	
 	/**
 	 * 제품 상위카테고리 등록
-	 * @param categoryName
+	 * @param productTopCategory
+	 * @param savePath 파일 저장 경로
 	 */
-	public void register(ProductTopcategory productTopCategory);
+	public void register(ProductTopcategory productTopCategory, String savePath, MultipartFile photo);
 	
 	/**
 	 * 제품 상위카테고리 수정
