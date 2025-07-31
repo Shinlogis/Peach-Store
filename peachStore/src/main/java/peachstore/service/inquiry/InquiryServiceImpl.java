@@ -3,6 +3,8 @@ package peachstore.service.inquiry;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,7 @@ import peachstore.util.FileManager;
 @Slf4j
 @Service
 public class InquiryServiceImpl implements InquiryService{
+
 	
 	@Autowired
 	private InquiryDAO inquiryDAO;
@@ -33,6 +36,7 @@ public class InquiryServiceImpl implements InquiryService{
 	
 	@Autowired
 	private InquiryImgService inquiryImgService;
+
 
 	@Override
 	public List selectAll(Inquiry inquiry) {
@@ -57,6 +61,7 @@ public class InquiryServiceImpl implements InquiryService{
 		}
 	}
 
+	@Transactional
 	@Override
 	public void update(Inquiry inquiry, String savePath) throws InquiryException {
 		
@@ -79,7 +84,7 @@ public class InquiryServiceImpl implements InquiryService{
 			int stayCount=0;
 			
 			for(int a=0;a<oldList.size();a++) {
-				boolean stay = (newList[i].getOriginalFilename() == oldList.get(a).getFilename());
+				boolean stay = (newList[i].getOriginalFilename().equals(oldList.get(a).getFilename()));
 				
 				if(stay) { //두개를 비교해서, 같은것을 발견한 경우 유지대상 
 					stayCount++;	
@@ -94,7 +99,7 @@ public class InquiryServiceImpl implements InquiryService{
 			int stayCount=0;
 			
 			for(int a=0;a<newList.length;a++) {
-				boolean stay = (newList[a].getOriginalFilename() == oldList.get(i).getFilename());
+				boolean stay = (newList[a].getOriginalFilename().equals(oldList.get(i).getFilename()));
 				
 				if(stay) { //두개를 비교해서, 같은것을 발견한 경우 유지대상 
 					stayCount++;	
@@ -109,6 +114,29 @@ public class InquiryServiceImpl implements InquiryService{
 		}
 		for(int i=0; i<removeList.size(); i++) {
 			log.debug("삭제될 이미지 " + removeList.get(i).getFilename());
+		}
+		
+		//분석결과륾 inquiry안에 반영하기
+		inquiry.setPhoto(addList.toArray(new MultipartFile[0]));
+		log.debug("대체된 배열의 길이는 "+inquiry.getPhoto().length);
+		if(!addList.isEmpty()) {
+			inquiryDAO.update(inquiry);
+			fileManager.save(inquiry, savePath);
+			
+			for(InquiryImg img : inquiry.getImgList()) {
+				inquiryImgService.update(img);
+			}
+		}
+		
+		//삭제 대상대입
+		inquiry.setImgList(removeList);
+		if(!removeList.isEmpty()) {
+			inquiryDAO.update(inquiry);
+			fileManager.deleteImg(inquiry, savePath);
+			
+			for(InquiryImg img : inquiry.getImgList()) {
+				inquiryImgService.update(img);
+			}
 		}
 		
 		

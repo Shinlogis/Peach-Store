@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderDetail">
+	
+	<resultMap type="OrderDetail" id="joinMap">
+		<id column="order_detail_id" property="order_detail_id" />
+		<result column="order_quantity" property="order_quantity"/>
+		
+		<association column="order_receipt_id" property="orderReceipt" javaType="OrderReceipt"
+		select = "OrderReceipt.select"/>
+		<association column="snapshot_id" property="snapShot" javaType="SnapShot"
+			select="SnapShot.select"/>
+			
+		
+	</resultMap>
+	
+	
+	
+	<select id="selectAll" resultMap="joinMap">
+		select order_detail_id, order_quantity, order_receipt_id, snapshot_id from order_detail
+	</select>
+	
+	<select id="selectByOrderReceiptId" parameterType="int" resultMap="joinMap">
+		select order_detail_id, order_quantity, order_receipt_id, snapshot_id from order_detail where order_receipt_id = #{order_receipt_id}
+	</select>
+
+</mapper>
