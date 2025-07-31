@@ -46,4 +46,8 @@
 		values(#{id}, #{email}, #{password}, #{user_name}, #{sns_provider.sns_provider_id})
 	</insert>
 	
+	<insert id="userJoin" parameterType="User">
+		insert into user (id, email, password, user_name, tel, address)
+		values (#{id}, #{email}, #{password}, #{user_name}, #{tel}, #{address})
+	</insert>
 </mapper>
