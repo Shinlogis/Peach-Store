@@ -6,6 +6,7 @@
 	<resultMap id="ProductSubcategoryResultMap" type="peachstore.domain.ProductSubcategory">
 		<result column="product_subcategory_id" property="productSubcategoryId"/>
 		<result column="product_subcategory_name" property="productSubcategoryName"/>
+		<result column="filename" property="filename"/>
 		<result column="is_active" property="isActive"/>
 		
 		<!-- 하나의 등급을 가짐 -->
@@ -17,6 +18,7 @@
 	<resultMap id="SubcategoryWithTopcategoryMap" type="peachstore.domain.ProductSubcategory" >
 		<id property="productSubcategoryId" column="product_subcategory_id"/>
 		<result property="productSubcategoryName" column="product_subcategory_name"/>
+		<result column="filename" property="filename"/>
 		<result property="isActive" column="is_active"/>
 		
 		<association property="productTopcategory" javaType="peachstore.domain.ProductTopcategory">
@@ -32,10 +34,12 @@
     		ps.product_subcategory_id,
 	        ps.product_subcategory_name,
 	        ps.product_topcategory_id,
+	        ps.filename,
 	        ps.is_active,
 	        
 	        pt.product_topcategory_id AS pt_id,
 	        pt.product_topcategory_name AS pt_name,
+	        pt.filename AS pt_filename,
 	        pt.is_active AS pt_active
 	   
     	from product_subcategory ps
