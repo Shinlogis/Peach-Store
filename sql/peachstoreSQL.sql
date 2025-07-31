@@ -145,6 +145,8 @@ CREATE TABLE product_engraving(
 CREATE TABLE product_topcategory(
 	product_topcategory_id int PRIMARY KEY AUTO_INCREMENT
 	, product_topcategory_name varchar(100) NOT NULL
+	, fileDirName varchar(30) DEFAULT NULL
+    , filename varchar(30)
 	, is_active boolean NOT NULL DEFAULT TRUE
 );
 
@@ -153,6 +155,8 @@ CREATE TABLE product_subcategory(
 	product_subcategory_id int PRIMARY KEY AUTO_INCREMENT
 	, product_subcategory_name varchar(100) NOT NULL
 	, product_topcategory_id int NOT NULL
+    , fileDirName varchar(30) DEFAULT NULL
+    , filename varchar(30)
     , is_active boolean NOT NULL DEFAULT TRUE
 	, CONSTRAINT fk_product_topcategory_id
 		FOREIGN KEY (product_topcategory_id)
