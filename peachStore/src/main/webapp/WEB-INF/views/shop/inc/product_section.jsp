@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <section id="product_section" style="margin:0px">
 	<!-- 제목 -->
    	<div style="margin-left:165px">

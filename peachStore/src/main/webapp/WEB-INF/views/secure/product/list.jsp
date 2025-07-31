@@ -1,10 +1,10 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="peachstore.util.Paging"%>
 <%@page import="peachstore.domain.ProductSize"%>
 <%@page import="peachstore.domain.ProductColor"%>
 <%@page import="peachstore.domain.Color"%>
 <%@page import="peachstore.domain.Product"%>
 <%@page import="java.util.List"%>
-<%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<Product> productList = (List)request.getAttribute("productList");
 	Paging paging = (Paging)request.getAttribute("paging");
