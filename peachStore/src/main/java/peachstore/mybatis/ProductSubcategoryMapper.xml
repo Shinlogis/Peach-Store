@@ -7,6 +7,7 @@
 		<result column="product_subcategory_id" property="productSubcategoryId"/>
 		<result column="product_subcategory_name" property="productSubcategoryName"/>
 		<result column="filename" property="filename"/>
+		<result column="fileDirName" property="fileDirName"/>
 		<result column="is_active" property="isActive"/>
 		
 		<!-- 하나의 등급을 가짐 -->
@@ -19,11 +20,14 @@
 		<id property="productSubcategoryId" column="product_subcategory_id"/>
 		<result property="productSubcategoryName" column="product_subcategory_name"/>
 		<result column="filename" property="filename"/>
+		<result column="fileDirName" property="fileDirName"/>
 		<result property="isActive" column="is_active"/>
 		
 		<association property="productTopcategory" javaType="peachstore.domain.ProductTopcategory">
 			<id property="productTopcategoryId" column="pt_id"/>
 			<result property="productTopcategoryName" column="pt_name"/>
+			<result property="filename" column="pt_filename" />
+			<result property="fileDirName" column="pt_fileDirName" />
 			<result property="isActive" column="pt_active"/>
 		</association>
 	</resultMap>
@@ -35,11 +39,13 @@
 	        ps.product_subcategory_name,
 	        ps.product_topcategory_id,
 	        ps.filename,
+	        ps.fileDirName,
 	        ps.is_active,
 	        
 	        pt.product_topcategory_id AS pt_id,
 	        pt.product_topcategory_name AS pt_name,
 	        pt.filename AS pt_filename,
+	        pt.fileDirName AS pt_fileDirName,
 	        pt.is_active AS pt_active
 	   
     	from product_subcategory ps
@@ -53,16 +59,17 @@
     </select>
     
     <!-- 등록 -->
-    <insert id="insert" parameterType="peachstore.domain.ProductSubcategory">
-    	insert into product_subcategory(product_subcategory_name, product_topcategory_id)
-    	values(#{productSubcategoryName}, #{productTopcategory.productTopcategoryId})
+    <insert id="insert" parameterType="peachstore.domain.ProductSubcategory" useGeneratedKeys="true" keyProperty="productSubcategoryId">
+    	insert into product_subcategory(product_subcategory_name, product_topcategory_id, fileDirName, filename)
+    	values(#{productSubcategoryName}, #{productTopcategory.productTopcategoryId}, #{productTopcategory.fileDirName}, #{productTopcategory.filename})
     </insert>
     
     <!-- 수정 -->
 	<update id="update" parameterType="peachstore.domain.ProductSubcategory">
 		update product_subcategory
 		set product_subcategory_name = #{productSubcategoryName}
-			, is_active = #{isActive}
+			, fileDirName = #{fileDirName}
+			, filename = #{filename}
 		where product_subcategory_id = #{productSubcategoryId}
 	</update>
 
@@ -72,10 +79,14 @@
     		ps.product_subcategory_id,
 	        ps.product_subcategory_name,
 	        ps.product_topcategory_id,
+	        ps.filename,
+	        ps.fileDirName,
 	        ps.is_active,
 	        
 	        pt.product_topcategory_id AS pt_id,
 	        pt.product_topcategory_name AS pt_name,
+	        pt.fileDirName AS pt_fileDirName,
+	        pt.filename AS pt_filename,
 	        pt.is_active AS pt_active
 	   
     	from product_subcategory ps
@@ -89,13 +100,17 @@
 	<!-- TopcategoryId 상위 카테고리의 모든 하위 카테고리 -->
 	<select id="selectAllSubcategoryByTopcategoryId" resultMap="SubcategoryWithTopcategoryMap" parameterType="int">
 		select 
-			ps.product_subcategory_id,
+    		ps.product_subcategory_id,
 	        ps.product_subcategory_name,
 	        ps.product_topcategory_id,
+	        ps.filename,
+	        ps.fileDirName,
 	        ps.is_active,
 	        
 	        pt.product_topcategory_id AS pt_id,
 	        pt.product_topcategory_name AS pt_name,
+	        pt.fileDirName AS pt_fileDirName,
+	        pt.filename AS pt_filename,
 	        pt.is_active AS pt_active
 	    from product_subcategory ps
     	join product_topcategory pt

@@ -1,13 +1,20 @@
 package peachstore.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import peachstore.domain.ProductSubcategory;
@@ -59,9 +66,20 @@ public class ProductSubcategoryController {
 	 */
 	@PostMapping("/product/subcategory/regist")
 	@ResponseBody
-	public String register(String productSubcategoryName, int productTopcategoryId) {
-		productSubcategoryService.register(productSubcategoryName, productTopcategoryId);
-	    return "success";
+	public ResponseEntity<Map<String, Object>> register(
+			String productSubcategoryName, 
+			int productTopcategoryId,
+			@RequestParam("photo") MultipartFile photo, 
+			HttpServletRequest request) {
+		// 파일 저장 경로
+		String savePath = request.getServletContext().getRealPath("/data");
+		
+		productSubcategoryService.register(productSubcategoryName, productTopcategoryId, savePath, photo);
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("message", "하위 카테고리가 성공적으로 등록되었습니다.");
+		
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
 	/**

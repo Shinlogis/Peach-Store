@@ -22,6 +22,8 @@
 	    <collection property="productSubcategory" ofType="peachstore.domain.ProductSubcategory">
 	        <id property="productSubcategoryId" column="product_subcategory_id"/>
 	        <result property="productSubcategoryName" column="product_subcategory_name"/>
+	        <result column="fileDirName" property="fileDirName"/>
+	    	<result column="filename" property="filename"/>
 	        <result property="isActive" column="sub_is_active"/>
 	    </collection>
 	</resultMap>
@@ -47,6 +49,7 @@
 	        pt.is_active,
 	        ps.product_subcategory_id,
 	        ps.product_subcategory_name,
+	        ps.fileDirName AS sub_fileDirName,
 	        ps.filename AS sub_filename,
 	        ps.is_active AS sub_is_active
 	    FROM product_topcategory pt
