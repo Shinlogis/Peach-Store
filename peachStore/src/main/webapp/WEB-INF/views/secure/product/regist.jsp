@@ -69,18 +69,18 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>하위 카테고리</label>
-	                        <select class="form-control" name="subCategory.subcategory_id" id="subcategory"></select>
+	                        <select class="form-control" name="productSubcategory.productSubcategoryId" id="subcategory"></select>
 	                      </div>
 	                    </div>
 	                  </div>
                 	<!-- 카테고리 영역 끝 -->
                   <div class="form-group">
                   <label>상품코드</label>
-                    <input type="text" class="form-control" name="product_code" placeholder="상품코드 입력">
+                    <input type="text" class="form-control" name="productCode" placeholder="상품코드 입력">
                   </div>
                   <div class="form-group">
                   <label>상품명</label>
-                    <input type="text" class="form-control" name="product_name" placeholder="상품명 입력">
+                    <input type="text" class="form-control" name="productName" placeholder="상품명 입력">
                   </div>
                   <div class="form-group">
                   <label>가격</label>
@@ -168,7 +168,7 @@
 			if(obj=="#topcategory"){
 				tag+="<option value='"+list[i].productTopcategoryId+"'>"+list[i].productTopcategoryName+"</option>";
 			}else if(obj=="#subcategory"){
-				tag+="<option value='"+list[i].productSubCategoryId+"'>"+list[i].productSubcategoryName+"</option>";
+				tag+="<option value='"+list[i].productSubcategoryId+"'>"+list[i].productSubcategoryName+"</option>";
 			}else if(obj=="#color"){
 				tag+="<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
 			}else if(obj=="#size"){
