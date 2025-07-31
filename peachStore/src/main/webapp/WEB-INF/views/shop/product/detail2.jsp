@@ -17,7 +17,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
    <%@ include file="../inc/head_link.jsp" %>
-   <link rel="stylesheet"  href="/static/shop/css/product/productDetail.css">
 </head>
 <body>
     <!-- Offcanvas Menu Begin -->
@@ -29,72 +28,9 @@
     <!-- Header Section End -->
     
    <!-- 내용 시작 Begin -->
-    <section class="product-detail">
-    	<div>
-    		<span class="title-h1" style="margin-left:165px;">iPad Air 구입하기</span>
-    	</div>
-    	<div class="detail-wrapper">
-			<div class="detail-left">
-    			<div class="slideshow-container">
-					<div class="mySlides">
-					  <img src="/static/shop/img/product/iphone.png">
-					</div>
-					
-					<div class="mySlides">
-					  <img src="/static/shop/img/product/iphone.png">
-					</div>
-					
-					<div class="mySlides">
-					  <img src="/static/shop/img/product/iphone.png">
-					</div>
-					
-					<a class="prev" onclick="plusSlides(-1)">❮</a>
-					<a class="next" onclick="plusSlides(1)">❯</a>
-				</div>
-				<br>
-
-				<div style="text-align:center">
-				  <span class="dot" onclick="currentSlide(1)"></span> 
-				  <span class="dot" onclick="currentSlide(2)"></span> 
-				  <span class="dot" onclick="currentSlide(3)"></span> 
-				</div>
-			</div>
-			
-    		<div class="detail-right">
-    			<div class="detail-introduce-wrapper">
-    				<div class="introduce-title">product_namepr</div>
-    				<div>간단한 한 줄 소개</div>
-    			</div>
-    			<div class="detail-option-wrapper">
-    				<div class="detail-option-group">
-   						<fieldset>
-							<legend>선택해라</legend>
-						  <div>
-						    <input type="radio" id="html1" name="group1" value="html">
-						    <label for="html1">HTML</label>
-						  </div>
-						  <div>
-						    <input type="radio" id="html2" name="group1" value="aaa">
-						    <label for="html2">aaa</label>
-						  </div>
-						</fieldset>
-							
-						<fieldset>
-							<legend>너도 선택해라</legend>
-							<div>
-							  <input type="radio" id="a" name="group2" value="kim">
-							  <label for="a">김지민바보</label>
-							</div>
-							<div>
-							  <input type="radio" id="b" name="group2" value="seo">
-							  <label for="b">서예닮바보</label>
-							</div>
-						</fieldset>
-						<input type="button" value="장바구니에 담기">
-    				</div>
-    			</div>
-    		</div>
-    	</div>
+    <section class="product-details spad">
+    	<div></div>
+    	<span class="title-h1" style="margin-left:165px;">iPad Air 구입하기</span>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -147,6 +83,8 @@
             </div>
         </div>
     </section>
+    
+
    <!-- 내용 End -->
 
    <!-- Instagram Begin -->
@@ -163,37 +101,7 @@
 
    <!-- Js Plugins -->
    <%@ include file="../inc/footer_link.jsp" %>
-<script>
-let slideIndex = 1;
-
-document.addEventListener("DOMContentLoaded", function () {
-  showSlides(slideIndex);
-});
-
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].classList.remove("fade");
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].classList.add("fade");
-  dots[slideIndex-1].className += " active";
-}
-</script>
+   
 </body>
 
 </html>

@@ -39,7 +39,8 @@
 	<div class=sub-category-toggle >
 		<div class=sub-category-toggle-buttons>
 			<%for(ProductSubcategory productSubcategory : subList){ %>
-				<button class="sub-btn" value="<%=productSubcategory.getProductSubcategoryId() %>"><%=productSubcategory.getProductSubcategoryName() %></button>
+				<button class="sub-btn" value="<%=productSubcategory.getProductSubcategoryId() %>"><%=productSubcategory.getProductSubcategoryName() %>
+				</button>
 			<%} %>
 		</div>
 	</div>
@@ -139,7 +140,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
 <script>
-function printCategory(list, v){
+function printCategory(list){
 	let tag="";
 	
 	for(let i=0;i<list.length;i++){
@@ -161,8 +162,9 @@ function getProductList(subid){
 	$.ajax({
 		url:"/shop/product/list", 
 		type:"GET",
+		data: { subid: subid },
 		success:function(result, status, xhr){
-			printCategory(result,subid);
+			printCategory(result);
 		},
 		error:function(xhr, status, err){
 		}
@@ -179,6 +181,7 @@ $(".sub-btn").click(function () {
       "background-color": "#1d1d1f",
       "color": "white"
     });
+    console.log($(this).val());
     getProductList($(this).val());
  });
 </script>
