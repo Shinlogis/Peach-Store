@@ -46,6 +46,11 @@
 		where product_id=#{product_id}
 	</select>
 	
+	<select id="selectBySubcategoyId" parameterType="int" resultType="Product">
+		select * from product 
+		where product_subcategory_id=#{product_subcategory_id}
+	</select>
+	
 </mapper>
 
 

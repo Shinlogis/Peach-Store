@@ -32,13 +32,13 @@
 	<!-- 제목 start-->
 	<div>
 		<span class="acc-h1">당신의 새로운 <%=topname%> 구입하기  </span>
-		<img src="/static/shop/img/product/accessory/accessery-banner.png">
+		<img src="/static/shop/img/product/accessory/accBanner.png">
 	</div>
 	<!-- 제목 end -->
 	
 	<!-- 서브카테고리토리 시작 -->
 	<div class="sub-category-accessory-grid">
-		<div class="acc-h2">원하는 액세러리를 찾아보세요</div>
+		<div class="acc-h2">원하는 액세서리를 찾아보세요</div>
 		<ul class="sub-category-accessory-list">
 			<%for(ProductSubcategory productSubcategory : subList){ %>
 			<li>

@@ -1,8 +1,6 @@
 USE electronicmall;
-
 -- 부모부터 순서로 delete 되도록 순서 맞춰서 수정 해주세요
 -- CREATE INSERT 전부 DROP순서랑 맞추어 놓았으니 찾을 일 있으면 참고하세요
-
 DROP TABLE IF EXISTS review_img; -- 리뷰 이미지
 DROP TABLE IF EXISTS review; -- 리뷰
 DROP TABLE IF EXISTS order_detail; -- 주문상세
@@ -30,7 +28,6 @@ DROP TABLE IF EXISTS product_engraving; -- 제품 각인
 DROP TABLE IF EXISTS product_topcategory; -- 제품 상위 카테고리
 DROP TABLE IF EXISTS coupon; -- 쿠폰
 DROP TABLE IF EXISTS sns_provider; -- snsprovider
-
 -- 관리자 테이블 생성(CREATE TABLE admin)
 CREATE TABLE admin(
 	admin_id int PRIMARY KEY AUTO_INCREMENT
