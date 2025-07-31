@@ -16,7 +16,7 @@ import lombok.Setter;
 public class ProductSubcategory {
     private int productSubcategoryId;
     private String productSubcategoryName;
-    private boolean isActive;
+    private Boolean isActive;
     private ProductTopcategory productTopcategory;
     
     public void deactivate() {

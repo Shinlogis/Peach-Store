@@ -89,7 +89,10 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link d-flex justify-content-between align-items-center">
                                         <p class="mb-0 d-flex align-items-center">
-                                            <i class="nav-icon fas fa-folder mr-1"></i>
+                                        	<!-- 이미지 자리 -->
+                                        	<% if (top.getFilename() != null && !top.getFilename().isEmpty()) { %>
+											  <img src="/data/category_<%= top.getProductTopcategoryId() %>/<%= top.getFilename() %>" style="width:150px;" />
+											<% } %>
                                             <span><%= top.getProductTopcategoryName() %></span>
                                         </p>
                                         <div class="category-btn-group">
@@ -165,8 +168,19 @@
                                 <form id="topCategoryForm">
                                     <div class="form-group">
                                         <label for="topCategoryName">상위 카테고리명</label>
-                                        <input type="text" class="form-control" id="topCategoryName" name="topCategoryName" placeholder="카테고리명을 입력하세요" />
+                                        <input type="text" class="form-control" id="topCategoryName" name="topCategoryName" placeholder="상위 카테고리명을 입력하세요" />
                                     </div>
+                                    <div class="input-group">
+				                      <div class="custom-file">
+				                        <input type="file" class="custom-file-input" name="photo" id="photo">
+				                        <label class="custom-file-label" for="exampleInputFile">상위 카테고리 이미지 선택</label>
+				                      </div>
+				                      <div class="input-group-append">
+				                        <span class="input-group-text">Upload</span>
+				                      </div>
+				                    </div>
+				                    <div id="preview" style="width:100%;">
+				                    </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -331,6 +345,9 @@
         let searchKey = $("#searchKey").val().trim();
         location.href = "/admin/product/category/list?searchKey=" + encodeURIComponent(searchKey);
     });
+    
+    // 업로드 파일 배열
+	let selectedFile = [];
 
     // 상위 카테고리 등록
     $("#submitTopCategory").click(() => {
@@ -339,10 +356,24 @@
             alert("카테고리명을 입력하세요.");
             return;
         }
+        
+        // 폼에 업로드한 이미지
+		let formData = new FormData(document.getElementById("topCategoryForm"));
+		
+		// 기존의 photo 대신, selectedFile 배열로 대체
+		formData.delete("photo");
+		for(let i=0; i<selectedFile.length; i++){
+			formData.append("photo", selectedFile[i]);
+		}
+		// 이름 직접 설정 (formData에 직접 넣거나, input에 넣어두거나)
+	    formData.set("productTopcategoryName", categoryName);
+		
         $.ajax({
             url: "/admin/product/topcategory/regist",
             type: "POST",
-            data: { productTopcategoryName: categoryName },
+            data: formData,
+           	processData: false, // form을 이루는 데이터들이 문자열로 변환되지 않도록 (현재 바이너리 파일이 들어있음)
+   			contentType: false, // 브라우저가 자동으로 contentType을 설정하지 않도록 
             success: function (result) {
                 if (result === "success") {
                     alert("등록 성공");
@@ -358,6 +389,25 @@
         $("#topCategoryModal").modal('hide');
         $("#topCategoryForm")[0].reset();
     });
+    
+ 	// 파일 컴포넌트의 값 변경 시 이벤트 연결
+	$("#photo").change(function(e){
+		let files = e.target.files;
+		
+		// 첨부 파일 수만큼 반복
+		for(let i=0; i<files.length;i++){
+			selectedFile[i] = files[i]; // 읽기 전용에 들어있던 파일을 selectedFile에 저장
+			
+			// 파일을 읽기위한 스트림 객체 생성
+			const reader = new FileReader();
+			reader.onload = function(e){ // 파일을 스트림으로 읽어들인 정보 e
+				console.log(e);
+				
+				let productImg = new ProductImg(document.getElementById("preview"), selectedFile[i], e.target.result, 100, 100);
+			}
+			reader.readAsDataURL(files[i]); // 지정한 파일을 읽기
+		}
+	});
 
     // 상위 카테고리 수정 모달 오픈 시 데이터 셋팅
     $("#topCategoryEditModal").on("show.bs.modal", function (e) {
