@@ -1,6 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="peachstore.domain.User"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <!-- 카테고리 시작 -->
 <section class="services spad">
 

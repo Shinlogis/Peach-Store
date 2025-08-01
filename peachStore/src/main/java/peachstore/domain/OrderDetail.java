@@ -1,5 +1,6 @@
 package peachstore.domain;
 
+
 import lombok.Data;
 
 @Data

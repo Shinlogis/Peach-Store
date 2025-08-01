@@ -1,10 +1,9 @@
-<%-- <%@page import="peachstore.domain.Product"%>
+<%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
-	Product product = (Product)request.getAttribute("");
 
 %>
 <!DOCTYPE html>
@@ -18,6 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
    <%@ include file="../inc/head_link.jsp" %>
+   <link rel="stylesheet"  href="/static/shop/css/product/productDetail.css">
 </head>
 <body>
     <!-- Offcanvas Menu Begin -->
@@ -29,108 +29,74 @@
     <!-- Header Section End -->
     
    <!-- 내용 시작 Begin -->
-    <section class="product-details spad">
+    <section class="product-detail">
+    	<div>
+    		<span class="title-h1" style="margin-left:165px;">iPad Air 구입하기</span>
+    	</div>
+    	<div class="detail-wrapper">
+			<div class="detail-left">
+    			<div class="slideshow-container">
+					<div class="mySlides">
+					  <img src="/static/shop/img/product/iphone.png">
+					</div>
+					
+					<div class="mySlides">
+					  <img src="/static/shop/img/product/iphone.png">
+					</div>
+					
+					<div class="mySlides">
+					  <img src="/static/shop/img/product/iphone.png">
+					</div>
+					
+					<a class="prev" onclick="plusSlides(-1)">❮</a>
+					<a class="next" onclick="plusSlides(1)">❯</a>
+				</div>
+				<br>
+
+				<div style="text-align:center">
+				  <span class="dot" onclick="currentSlide(1)"></span> 
+				  <span class="dot" onclick="currentSlide(2)"></span> 
+				  <span class="dot" onclick="currentSlide(3)"></span> 
+				</div>
+			</div>
+			
+    		<div class="detail-right">
+    			<div class="detail-introduce-wrapper">
+    				<div class="introduce-title">product_namepr</div>
+    				<div>간단한 한 줄 소개</div>
+    			</div>
+    			<div class="detail-option-wrapper">
+    				<div class="detail-option-group">
+   						<fieldset>
+							<legend>선택해라</legend>
+						  <div>
+						    <input type="radio" id="html1" name="group1" value="html">
+						    <label for="html1">HTML</label>
+						  </div>
+						  <div>
+						    <input type="radio" id="html2" name="group1" value="aaa">
+						    <label for="html2">aaa</label>
+						  </div>
+						</fieldset>
+							
+						<fieldset>
+							<legend>너도 선택해라</legend>
+							<div>
+							  <input type="radio" id="a" name="group2" value="kim">
+							  <label for="a">김지민바보</label>
+							</div>
+							<div>
+							  <input type="radio" id="b" name="group2" value="seo">
+							  <label for="b">서예닮바보</label>
+							</div>
+						</fieldset>
+						<input type="button" value="장바구니에 담기">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="product__details__pic">
-                        <div class="product__details__pic__left product__thumb nice-scroll">
-                              
-                             <%for(int i=0;i<product.getImgList().size();i++){ %>
-                              <%ProductImg productImg = product.getImgList().get(i); %>
-                            <a class="pt active" href="#product-1">
-                                <img src="/data/p_<%=product.getProduct_id()%>/<%=productImg.getFilename() %>" alt="">
-                            </a>
-                           <%} %>
-                           
-                        </div>
-                        <div class="product__details__slider__content">
-                            <div class="product__details__pic__slider owl-carousel">
-                                 <%for(int i=0;i<product.getImgList().size();i++){ %>
-                                 <%ProductImg productImg = product.getImgList().get(i); %>
-                                <img data-hash="product-1" class="product__big__img" src="/data/p_<%=product.getProduct_id()%>/<%=productImg.getFilename() %>" alt="">
-                                <%} %>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="product__details__text">
-                        <h3><%=product.getProduct_name() %><span>Brand: <%=product.getBrand() %></span></h3>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <span>( 138 reviews )</span>
-                        </div>
-                        <div class="product__details__price"><%=product.getDiscount() %> <span><%=product.getPrice() %></span></div>
-                        <p><%=product.getIntroduce() %></p>
-                        <div class="product__details__button">
-                            <div class="quantity">
-                                <span>Quantity:</span>
-                                <div class="pro-qty">
-                                    <input type="text" id="ea" value="1">
-                                </div>
-                            </div>
-                            <%if(loginMember != null){ %>
-                            <a href="javascript:addCart(<%=loginMember.getMember_id() %>)" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
-                            <%}else{%>
-                            <a href="javascript:alert('로그인이 필요한 서비스 입니다')" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
-                            <%} %>
-                            <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__details__widget">
-                            <ul>
-                                <li>
-                                    <span>Availability:</span>
-                                    <div class="stock__checkbox">
-                                        <label for="stockin">
-                                            In Stock
-                                            <input type="checkbox" id="stockin">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>Available color:</span>
-                                    
-                                    <div class="color__checkbox">
-                                       <%for( ProductColor pc : product.getColorList()){ %>
-                                       <%
-                                          String color=pc.getColor().getColor_name();
-                                       %>
-                                        <label for="<%=color.toLowerCase()%>">
-                                            <input type="radio" name="color" id="<%=color.toLowerCase()%>" value="<%=pc.getColor().getColor_id()%>">
-                                            <span class="checkmark <%=color.toLowerCase()%>-bg" style="background:<%=color%>"></span>
-                                        </label>
-                                 <%} %>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>Available size:</span>
-                                    <div class="size__btn">
-                                       <%for(ProductSize ps  : product.getSizeList()){ %>
-                                            <input type="radio" name="size" value="<%=ps.getSize().getSize_id() %>">
-                                            <%=ps.getSize().getSize_name() %>
-                                        
-                                        <%}%>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>Promotions:</span>
-                                    <p>Free shipping</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-lg-12">
                     <div class="product__details__tab">
                         <ul class="nav nav-tabs" role="tablist">
@@ -147,7 +113,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <h6>Description</h6>
-                                <p><%=product.getDetail() %></p>
+                                <p>detail></p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>Specification</h6>
@@ -181,8 +147,6 @@
             </div>
         </div>
     </section>
-    
-
    <!-- 내용 End -->
 
    <!-- Instagram Begin -->
@@ -199,49 +163,36 @@
 
    <!-- Js Plugins -->
    <%@ include file="../inc/footer_link.jsp" %>
-   <script type="text/javascript">
-      //비동기 요청으로 장바구니 담기 
-      function getSelectedValue(array){
-         let selectedValue=0; //색상, 사이즈의 pk
-         
-         for(let i=0; i<array.length; i++){
-            if(array[i].checked){
-               selectedValue = array[i].value;
-            }
-         }
-         return selectedValue;
-      }
-      function addCart(member_id){
-         //let formData = new FormData();//개발자가 명시하지 않아도 multipart/form-data 가 이미 적용 
-                                             //파일 업로드가 아니더라도 사용 가능    
-                                             
-         //유저가 선택한 색상
-         
-         //유저가 선택한 사이즈
-         $.ajax({
-            url:"/shop/cart/regist", 
-            type:"post", 
-            data:{
-               "product.product_id" : <%=product.getProduct_id()%>,
-               "ea" : $("#ea").val(),
-               "member.member_id": member_id,
-               "color.color_id" : getSelectedValue(document.getElementsByName("color")), 
-               "size.size_id" : getSelectedValue(document.getElementsByName("size"))
-               
-            },
-            success:function(result, status, xhr){
-               if(confirm("장바구니에 상품을 담았습니다\n 장바구니로 이동하시겠어요?")){
-					location.href="/shop/cart/list";
-				}
-            },
-            error:function(xhr,stauts,err){
-				console.log("서버의 실패 응답 코드는 ",xhr.status);
-				console.log("서버의 실패 메세지는  ", xhr.responseJSON.msg);
-			}
-         });
-      }
-   
-   </script>
-</body>
+<script>
+let slideIndex = 1;
 
-</html> --%>
+document.addEventListener("DOMContentLoaded", function () {
+  showSlides(slideIndex);
+});
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].classList.remove("fade");
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].classList.add("fade");
+  dots[slideIndex-1].className += " active";
+}
+</script>
+</body>
+</html>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 제품 상위 카테고리 매퍼 -->
 <mapper namespace="peachstore.repository.topcategory.ProductTopcategoryDAO">
 
 	<resultMap id="ProductTopcategoryResultMap" type="peachstore.domain.ProductTopcategory">
 		<result column="product_topcategory_id" property="productTopcategoryId"/>
 		<result column="product_topcategory_name" property="productTopcategoryName"/>
+		<result column="fileDirName" property="fileDirName"/>
+		<result column="filename" property="filename"/>
 		<result column="is_active" property="isActive"/>
 	</resultMap>
 	
@@ -13,18 +15,22 @@
 	<resultMap id="ProductTopcategoryWithSubcategoryMap" type="peachstore.domain.ProductTopcategory">
 	    <id property="productTopcategoryId" column="product_topcategory_id"/>
 	    <result property="productTopcategoryName" column="product_topcategory_name"/>
+	    <result column="fileDirName" property="fileDirName"/>
+	    <result column="filename" property="filename"/>
 	    <result property="isActive" column="is_active"/>
 	
 	    <collection property="productSubcategory" ofType="peachstore.domain.ProductSubcategory">
 	        <id property="productSubcategoryId" column="product_subcategory_id"/>
 	        <result property="productSubcategoryName" column="product_subcategory_name"/>
+	        <result column="fileDirName" property="fileDirName"/>
+	    	<result column="filename" property="filename"/>
 	        <result property="isActive" column="sub_is_active"/>
 	    </collection>
 	</resultMap>
 	
 	<!-- 전체 조회 (검색 포함) -->
 	<select id="selectAll" resultMap="ProductTopcategoryResultMap" parameterType="map">
-	    select product_topcategory_id, product_topcategory_name, is_active
+	    select product_topcategory_id, product_topcategory_name, filename, is_active
 	    from product_topcategory
 	    where is_active = true
 	    <if test="searchKey != null and searchKey != ''">
@@ -33,14 +39,18 @@
 	    order by product_topcategory_id asc
 	</select>
 	
-	<!-- 전체조회개선예정 -->
+	<!-- 서브카테고리 포함 전체 조회 (개선예정) -->
 	<select id="selectAllWithSubcategories" resultMap="ProductTopcategoryWithSubcategoryMap">
 	    SELECT
 	        pt.product_topcategory_id,
 	        pt.product_topcategory_name,
+	        pt.fileDirName
+	        pt.filename,
 	        pt.is_active,
 	        ps.product_subcategory_id,
 	        ps.product_subcategory_name,
+	        ps.fileDirName AS sub_fileDirName,
+	        ps.filename AS sub_filename,
 	        ps.is_active AS sub_is_active
 	    FROM product_topcategory pt
 	    LEFT JOIN product_subcategory ps
@@ -51,9 +61,9 @@
 	</select>
 
 	<!-- 등록 -->
-	<insert id="insert" parameterType="peachstore.domain.ProductTopcategory">
-		insert into product_topcategory(product_topcategory_name) 
-		values(#{productTopcategoryName})
+	<insert id="insert" parameterType="peachstore.domain.ProductTopcategory" useGeneratedKeys="true" keyProperty="productTopcategoryId">
+		insert into product_topcategory(product_topcategory_name, fileDirName, filename) 
+		values(#{productTopcategoryName}, #{fileDirName}, #{filename})
 	</insert>
 
 	<!-- 수정 -->
@@ -61,7 +71,8 @@
 	    update product_topcategory
 	    set 
 	    	product_topcategory_name = #{productTopcategoryName}
-	        , is_active = #{isActive}
+	    	, fileDirName = #{fileDirName}
+	    	, filename = #{filename}
 	    where product_topcategory_id = #{productTopcategoryId}
 	</update>
 

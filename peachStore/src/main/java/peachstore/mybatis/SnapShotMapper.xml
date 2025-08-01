@@ -6,4 +6,15 @@
 		select snapshot_id, product_id, product_name, price, size, capacity, color, engraving, filename
 		 from snapshot where snapshot_id = #{snapshot_id}
 	</select>
+	<resultMap id="SnapshotMap" type="SnapShot">
+		<id column="snapshot_id" property="snapshot_id" />
+		<result column="product_name" property="product_name" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="SnapshotMap">
+		SELECT
+			*
+		FROM snapshot
+	</select>
+
 </mapper>

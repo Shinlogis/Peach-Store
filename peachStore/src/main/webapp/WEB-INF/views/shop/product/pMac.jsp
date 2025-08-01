@@ -20,9 +20,6 @@
 	<link rel="stylesheet"  href="/static/shop/css/product/productList.css">
 </head>
 <body style="background-color:#f5f5f7;">
-<%@ include file="../inc/offcanvas.jsp" %>
-    <!-- Offcanvas Menu End -->
-
     <!-- Header Section Begin -->
 <%@ include file="../inc/header.jsp" %>
     <!-- Header Section End -->
@@ -39,7 +36,8 @@
 	<div class=sub-category-toggle >
 		<div class=sub-category-toggle-buttons>
 			<%for(ProductSubcategory productSubcategory : subList){ %>
-				<button class="sub-btn" value="<%=productSubcategory.getProductSubcategoryId() %>"><%=productSubcategory.getProductSubcategoryName() %></button>
+				<button class="sub-btn" value="<%=productSubcategory.getProductSubcategoryId() %>"><%=productSubcategory.getProductSubcategoryName() %>
+				</button>
 			<%} %>
 		</div>
 	</div>
@@ -139,7 +137,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
 <script>
-function printCategory(list, v){
+function printCategory(list){
 	let tag="";
 	
 	for(let i=0;i<list.length;i++){
@@ -157,12 +155,14 @@ function printCategory(list, v){
 	/* $(obj).val(v); */
 }
 
-function getProductList(subid){
+
+function getProductList(){
 	$.ajax({
 		url:"/shop/product/list", 
 		type:"GET",
+		data: { subid: subid },
 		success:function(result, status, xhr){
-			printCategory(result,subid);
+			printCategory(result);
 		},
 		error:function(xhr, status, err){
 		}
@@ -179,7 +179,8 @@ $(".sub-btn").click(function () {
       "background-color": "#1d1d1f",
       "color": "white"
     });
-    getProductList($(this).val());
+	getProductList(); 
+/* 	getProductList($(this).val());  */
  });
 </script>
 </body>

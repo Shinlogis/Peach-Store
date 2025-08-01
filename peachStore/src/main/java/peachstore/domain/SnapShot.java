@@ -14,5 +14,4 @@ public class SnapShot {
     private String color;
     private String engraving;
     private String filename;
-
 }

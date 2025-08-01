@@ -1,6 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="com.fasterxml.jackson.databind.ObjectMapper"%>
-<%@page import="mall.domain.ProductImg"%>
-<%@page import="mall.domain.Product"%>
+<%@page import="peachstore.domain.ProductImg"%>
+<%@page import="peachstore.domain.Product"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
     Product product = (Product)request.getAttribute("product");
@@ -8,21 +9,22 @@
     int topCategoryId = 0;
     int subCategoryId = 0;
     if (product != null &&
-        product.getSubcategory() != null &&
-        product.getSubcategory().getTopCategory() != null) {
-        topCategoryId = product.getSubcategory().getTopCategory().getTopcategory_id();
-        subCategoryId = product.getSubcategory().getSubcategory_id();
+        product.getProductSubcategory() != null &&
+        product.getProductSubcategory().getProductTopcategory() != null) {
+        topCategoryId = product.getProductSubcategory().getProductTopcategory().getProductTopcategoryId();
+        subCategoryId = product.getProductSubcategory().getProductSubcategoryId();
     }
     
     // Java를 JSON 문자열로 변환
     ObjectMapper mapper = new ObjectMapper(); // java <> json
     
-    int[] colorArray = new int[product.getProductColorList().size()];
+    int[] colorArray = new int[product.getProductColors().size()];
     for(int i=0; i<colorArray.length; i++){
-    	colorArray[i] = product.getProductColorList().get(i).getColor().getColor_id();
+    	colorArray[i] = product.getProductColors().get(i).getColor().getColor_id();
     }
     String colorJson = mapper.writeValueAsString(colorArray);
-    out.print("color json "+colorJson);
+ 	
+    
     
 %>
 
@@ -82,11 +84,7 @@
 
               <div class="form-group">
                 <label>상품명</label>
-                <input type="text" class="form-control" name="product_name" value="<%= product != null ? product.getProduct_name() : "" %>">
-              </div>
-              <div class="form-group">
-                <label>브랜드</label>
-                <input type="text" class="form-control" name="brand" value="<%= product != null ? product.getBrand_name() : "" %>">
+                <input type="text" class="form-control" name="product_name" value="<%= product != null ? product.getProductName() : "" %>">
               </div>
               <div class="form-group">
                 <label>가격</label>
@@ -163,11 +161,11 @@
   getTopCategory(<%= topCategoryId %>);
   getSubCategory(<%= topCategoryId %>, <%= subCategoryId %>);
   getColorList(<%= colorJson%>);
-  getSizeList();
+  getSizeList<%= sizeJson%>();
 
-  <% if (product != null && product.getProductImgList() != null) {
-       for(ProductImg productImg : product.getProductImgList()) { %>
-         getImgList("p_<%= product.getProduct_id() %>", "<%= productImg.getFilename() %>");
+  <% if (product != null && product.getProductImgs() != null) {
+       for(ProductImg productImg : product.getProductImgs()) { %>
+         getImgList("product_<%= product.getProductId() %>", "<%= productImg.getFilename() %>");
   <%   }
      } %>
 
@@ -263,17 +261,18 @@
     });
   }
 
-  function getSizeList(){
+  function getSizeList(v){
     $.ajax({
       url: "/admin/size/list",
       type: "get",
       success: function(result){
-        printCategory("#size", result);
+        printCategory("#size", result, v);
       }
     });
-  }
+  }xk
 
   function printCategory(obj, list, v){
+	console.log(">> render", obj, "target:", v);
     let tag = "<option value='0'>카테고리 선택</option>";
     for(let i=0; i<list.length; i++){
       if(obj === "#topcategory"){
