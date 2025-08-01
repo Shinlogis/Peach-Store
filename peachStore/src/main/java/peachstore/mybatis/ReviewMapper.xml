@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Review">
+
+	<resultMap id="ReviewMap" type="Review">
+		<id column="review_id" property="reviewId" />
+		<result column="content" property="content" />
+		<result column="regdate" property="regdate" />
+		<result column="status" property="status" />
+
+		<association property="user" javaType="User">
+			<id column="user_id" property="user_id" />
+			<result column="id" property="id" />
+			<result column="email" property="email" />
+			<result column="user_name" property="user_name" />
+
+			<association property="user_grade" javaType="UserGrade">
+				<id column="user_grade_id" property="userGradeId" />
+				<result column="user_grade_name" property="userGradeName" />
+			</association>
+		</association>
+
+		<association property="orderDetail" javaType="OrderDetail">
+			<id column="order_detail_id" property="orderDetailId" />
+			
+			<association property="snapshot" javaType="SnapShot">
+				<id column="snapshot_id" property="snapshotId" />
+    			<result column="product_name" property="product_name" />
+			</association>
+		</association>
+		
+
+	</resultMap>
+
+	<select id="selectAll" resultMap="ReviewMap">
+		SELECT
+			r.review_id,
+			r.content,
+			r.regdate,
+			r.status,
+	
+			u.user_id AS user_id,
+			u.id AS id,
+			u.email AS email,
+			u.user_name AS user_name,
+	
+			ug.user_grade_id AS userGradeId,
+			ug.user_grade_name AS userGradeName,
+	
+			od.order_detail_id AS orderDetailId,
+			
+			s.snapshot_id AS snapshotId,
+			s.product_name AS product_name
+
+		FROM review r
+		JOIN user u 
+			ON r.user_id = u.user_id
+		JOIN user_grade ug 
+			ON u.user_grade_id = ug.user_grade_id
+		JOIN order_detail od 
+			ON r.order_detail_id = od.order_detail_id
+		JOIN snapshot s
+			ON od.snapshot_id = s.snapshot_id
+	</select>
+
+</mapper>

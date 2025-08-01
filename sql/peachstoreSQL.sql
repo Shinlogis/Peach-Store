@@ -319,7 +319,7 @@ CREATE TABLE coupon (
 -- 리뷰 테이블 생성(CREATE TABLE review)
 CREATE TABLE review(
     review_id int PRIMARY KEY AUTO_INCREMENT
-    , context text NOT NULL
+    , content text NOT NULL
     , regdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
     , status varchar(10) NOT NULL CHECK(status in('활성', '비활성'))
     , user_id int NOT NULL
@@ -662,7 +662,7 @@ VALUES
     (15, 12, NULL);
 
 -- 리뷰 테이블 인서트 (INSERT INTO review)
-INSERT INTO review (context, status, user_id, order_detail_id)
+INSERT INTO review (content, status, user_id, order_detail_id)
 VALUES
     ('정말 마음에 들어요! 배송도 빨랐어요.', '활성', 2, 4),
     ('상품이 설명과 같고 만족스러워요.', '활성', 3, 5),

@@ -19,6 +19,9 @@
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 		<typeAlias type="peachstore.domain.GradeCoupon" alias="GradeCoupon"/>
 		<typeAlias type="peachstore.domain.Coupon" alias="Coupon"/>
+		<typeAlias type="peachstore.domain.Review" alias="Review"/>
+		<typeAlias type="peachstore.domain.OrderDetail" alias="OrderDetail"/>
+		<typeAlias type="peachstore.domain.SnapShot" alias="SnapShot"/>
 
       
    </typeAliases>
@@ -50,5 +53,8 @@
 		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>
 		<mapper resource="peachstore/mybatis/GradeCouponMapper.xml"/>
 		<mapper resource="peachstore/mybatis/CouponMapper.xml"/>
+		<mapper resource="peachstore/mybatis/ReviewMapper.xml"/>
+		<mapper resource="peachstore/mybatis/OrderDetailMapper.xml"/>
+		<mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
 	</mappers>
 </configuration>
