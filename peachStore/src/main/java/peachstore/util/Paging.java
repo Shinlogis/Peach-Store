@@ -36,30 +36,31 @@ public class Paging {
 	
 	public void init(int totalRecord, HttpServletRequest request) {
 	    this.totalRecord = totalRecord;
+	    this.pageSize = 10;
 
-	    // 1. 현재 페이지 파라미터 유효성 검사
-	    if(request.getParameter("currentPage") != null) {
+	    String currentPageParam = request.getParameter("currentPage");
+
+	    if(currentPageParam != null) {
 	        try {
-	            currentPage = Integer.parseInt(request.getParameter("currentPage"));
-	            if (currentPage < 1) currentPage = 1;
+	            currentPage = Integer.parseInt(currentPageParam);
+	            if (currentPage < 1) {
+	                currentPage = 1;
+	            }
 	        } catch (NumberFormatException e) {
 	            currentPage = 1;
 	        }
 	    }
 
-	    // 2. 페이지 수 계산
 	    this.totalPage = (int) Math.ceil((double) totalRecord / pageSize);
-	    if (currentPage > totalPage) currentPage = totalPage;
+	    if (currentPage > totalPage) {
+	        currentPage = totalPage;
+	    }
 
-	    // 3. 페이징 범위 계산
 	    this.firstPage = currentPage - (currentPage - 1) % blockSize;
 	    this.lastPage = Math.min(firstPage + blockSize - 1, totalPage);
-
-	    // 4. DB 쿼리용 인덱스 계산
 	    this.curPos = (currentPage - 1) * pageSize;
-
-	    // 5. 번호 (No) 계산, 음수 방지
 	    this.num = Math.max(0, totalRecord - curPos);
+
 	}
 	public int getStartIndex() {
 		return curPos;

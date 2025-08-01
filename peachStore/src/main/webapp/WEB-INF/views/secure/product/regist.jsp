@@ -69,35 +69,33 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>하위 카테고리</label>
-	                        <select class="form-control" name="subcategory.subcategory_id" id="subcategory"></select>
+	                        <select class="form-control" name="productSubcategory.productSubcategoryId" id="subcategory"></select>
 	                      </div>
 	                    </div>
 	                  </div>
                 	<!-- 카테고리 영역 끝 -->
                   <div class="form-group">
-                    <input type="text" class="form-control" name="product_name" placeholder="상품명 입력">
+                    <input type="text" class="form-control" name="productCode" placeholder="상품코드 입력">
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="brand" placeholder="브랜드 입력">
+                    <input type="text" class="form-control" name="productName" placeholder="상품명 입력">
                   </div>
                   <div class="form-group">
                     <input type="text" class="form-control" name="price" placeholder="가격 입력">
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="discount" placeholder="할인가 입력">
-                  </div>
-                  <div class="form-group">
                     <input type="text" class="form-control" name="introduce" placeholder="간단소개 100자 이하 ">
                   </div>
 				   <div class="form-group">
+				       <label for="color">색상 선택</label>
                        <select class="form-control" name="color"id="color" multiple="multiple">
-                         <option>색상 선택</option>
+
                        </select>
 	              </div>
 				  
 				  <div class="form-group">
+				  	   <label for="size">사이즈 선택</label>
                        <select class="form-control" name="size" id="size" multiple="multiple">
-                         <option>사이즈 선택</option>
                        </select>
 	              </div>
 	              
@@ -117,7 +115,7 @@
                         <span class="input-group-text">Upload</span>
                       </div>
                     </div>
-                    <div id="preview" style="width:100%;background:yellow;">
+                    <div id="preview" style="width:100%">
                     	미리보기
                     </div>
                   </div>
@@ -148,21 +146,17 @@
 	<%@ include file="../inc/footer_link.jsp" %>
 	<script src="/static/admin/custom/ProductImg.js"></script>
 	<script>  
-	//크롬 브라우저에서 지원하는 e.target.files 유사 배열은 읽기전용 이라서,
-	//개발자가 쓰기가 안되므로, 배열을 하나 선언하여 담아서 처리
-	//주의) 아래의 배열은, 개발자가 정의한 배열일 뿐이지, form태그가 전송할 컴포넌트는 아니므로,
-	//submit시, selectedFile에 들어있는 파일을 전송할 수 는 없다!!
-	//해결책? form 태그에 인식시켜야 한다..(javascript로 프로그래밍적 formData 객체를 새용해야 함)
+
 	let selectedFile=[];
 	   
 	function printCategory(obj, list){
-		let tag="<option value='0'>카테고리 선택</option>";
+		let tag="<option value='0'disabled hidden selected>카테고리 선택</option>";
 		
 		for(let i=0;i<list.length;i++){
 			if(obj=="#topcategory"){
 				tag += "<option value='" + list[i].productTopcategoryId + "'>" + list[i].productTopcategoryName + "</option>";
 			}else if(obj=="#subcategory"){
-				tag+="<option value='"+list[i].productSubcategoryId+"'>"+list[i].ProductSubcategoryName+"</option>";
+				tag += "<option value='" + list[i].productSubcategoryId + "'>" + list[i].productSubcategoryName + "</option>";
 			}else if(obj=="#color"){
 				tag+="<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
 			}else if(obj=="#size"){
@@ -263,35 +257,66 @@
 	   });
 	   
 	   function regist(){
-		   //기존 폼을 이용하되, file 컴포넌트 파라미터만 새로 교체(selectedFile 배열로 대체)
-		   //js에서 프로그래밍 적 form 생성
-		   let formData = new FormData(document.getElementById("form1"));
+		   const productCode = $("input[name='productCode']").val().trim();
+		   const productName = $("input[name='productName']").val().trim();
+		   const price = $("input[name='price']").val().trim();
+		   const topcategory = $("#topcategory").val(); 
+		   const subcategory = $("#subcategory").val(); 
+		   const color = $("#color").val();
+		   const size = $("#size").val();
+		   if (!topcategory) {
+			     alert("⚠️ 상위 카테고리를 선택해주세요.");
+			     return;
+		   }
+		   if (!subcategory) {
+			     alert("⚠️ 하위 카테고리를 선택해주세요.");
+			     return;
+		   }
+		   if (!productName) {
+			     alert("⚠️ 상품코드를 입력해주세요.");
+			     return;
+		   }
+		   if (!productName) {
+		     alert("⚠️ 상품명을 입력해주세요.");
+		     return;
+		   }
+
+		   if (!price || isNaN(price)) {
+		     alert("⚠️ 가격을 숫자로 입력해주세요.");
+		     return;
+		   }
+
+		   if (!color || color.length === 0) {
+		     alert("⚠️ 색상을 하나 이상 선택해주세요.");
+		     return;
+		   }
+
+		   if (!size || size.length === 0) {
+		     alert("⚠️ 사이즈를 하나 이상 선택해주세요.");
+		     return;
+		   }
 		   
-		   //formData 동기/비동기 둘다 지원하지만, 대부분은 비동기 방식을 많이 씀
-		   //Jquery Ajax 자체에서 formData를 비동기 방식으로 간단하게 사용할 수 있는 코드를 지원
-		   //기존 photo 버리고, 우리가 선언한 배열로 대체
-		   //formData.append("email","kmkm7936@naver.com"); // <input type="txt" name="email">
-		   //formData는 개발자가 명시하지 않아도, 디폴트로 multipart/form-data가 지정되어 있음
-		   formData.delete("photo");//기존의 photo 파라미터 제거하기 append의 반대
+		   let formData = new FormData(document.getElementById("form1"));
+		   formData.delete("photo");
 		   
 		   for(let i=0; i<selectedFile.length; i++){
 		   	formData.append("photo", selectedFile[i]);
 		   }
-	
+
 		   //파일마저도 비동기로 업로드 가능!!
 		   $.ajax({
-			   url:"/admin/product/regist",
-			   type:"post",
-			   data:formData,
-			   processData:false, /*form 이루는 대상으로, 문자열로 변환되는 것을 방지(바이너리 파일 포함때문)*/
-			   contentType:false, /*브라우저가 자동으로 content-type을 설정하도록 하는 것 방지 */
-			   success:function(result, status, xhr){
-				   alert("업로드 성공");
+			   url: "/admin/product/regist",
+			   type: "post",
+			   data: formData,
+			   processData: false,
+			   contentType: false,
+			   success: function (result) {
+			       alert("✅ 등록 성공");
 			   },
-			   error:function(xhr, status, err){
-				   alert(err);
+			   error: function (xhr) {
+			       alert("❌ 등록 실패");
 			   }
-		   });
+			});
 	   }
 	   
 	   //상위 카테고리의 값을 변경시, 하위 카테고리 가져오기 
