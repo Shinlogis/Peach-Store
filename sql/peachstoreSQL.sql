@@ -57,7 +57,7 @@ CREATE TABLE user_grade (
 CREATE TABLE user(
 	user_id int PRIMARY KEY AUTO_INCREMENT
     , id varchar(100) NOT NULL UNIQUE
-	, email varchar(100) UNIQUE
+	, email varchar(100) NOT NULL UNIQUE
 	, password varchar(100) 
 	, user_name varchar(10) NOT NULL 
 	, tel varchar(13) UNIQUE
@@ -457,14 +457,14 @@ VALUES
     ('user04', 'user04@example.com', 'pass04', '이민호', '010-1234-0004', '서울시 강서구', 4, NULL),
     ('user05', 'user05@example.com', NULL, '최지우', '010-1234-0005', '서울시 양천구', 1, 1),
     ('user06', 'user06@example.com', NULL, '정해인', '010-1234-0006', '서울시 노원구', 2, 2),
-    ('user07', NULL, NULL, '한지민', '010-1234-0007', '서울시 도봉구', 3, 3),
+    ('user07', 'user07@example.com', NULL, '한지민', '010-1234-0007', '서울시 도봉구', 3, 3),
     ('user08', 'user08@example.com', NULL, '서강준', '010-1234-0008', '서울시 성동구', 4, 1),
     ('user09', 'user09@example.com', NULL, '김소현', '010-1234-0009', '서울시 마포구', 1, 2),
-    ('user10', NULL, NULL, '이성경', '010-1234-0010', '서울시 은평구', 2, 3),
+    ('user10', 'user10@example.com', NULL, '이성경', '010-1234-0010', '서울시 은평구', 2, 3),
     ('user11', 'user11@example.com', 'pass11', '조인성', '010-1234-0011', '서울시 구로구', 3, NULL),
     ('user12', 'user12@example.com', 'pass12', '배수지', '010-1234-0012', '서울시 금천구', 4, NULL),
     ('user13', 'user13@example.com', NULL, '윤아', '010-1234-0013', '서울시 중랑구', 1, 2),
-    ('user14', NULL, NULL, '김태리', '010-1234-0014', '서울시 동작구', 2, 3),
+    ('user14', 'user14@example.com', NULL, '김태리', '010-1234-0014', '서울시 동작구', 2, 3),
     ('user15', 'user15@example.com', NULL, '이준기', '010-1234-0015', '서울시 강북구', 3, 1);
 
 -- 등급 쿠폰 테이블 인서트(INSERT INTO grade_coupon)
