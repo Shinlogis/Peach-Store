@@ -6,9 +6,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.OrderReceipt;
 import peachstore.exception.OrderException;
 
+@Slf4j
 @Repository
 public class OrderReceiptDAOImpl implements OrderReceiptDAO{
 	
@@ -18,7 +20,10 @@ public class OrderReceiptDAOImpl implements OrderReceiptDAO{
 	@Override
 	public List selectByUserId(OrderReceipt orderReceipt) {
 		
-		return sqlSessionTemplate.selectList("OrderReceipt.selectByUserId", orderReceipt);
+		List list = sqlSessionTemplate.selectList("OrderReceipt.selectByUserId", orderReceipt);
+		log.debug("상품 정보 리스트는 " + list);
+		return list;
+				
 	}
 
 	@Override
