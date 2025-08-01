@@ -15,4 +15,23 @@ public interface ReviewDAO {
 	 * @return
 	 */
 	public List<Review> select();
+	
+	/**
+	 * 리뷰 수정
+	 */
+	public int update(Review review); 
+	
+	/**
+	 * pk로 리뷰 조회
+	 * @param reveiwId
+	 * @return
+	 */
+	public Review selectById(int reveiwId);
+	
+	/**
+	 * 리뷰 삭제
+	 * @param reviewId
+	 * @return
+	 */
+	public int delete(int reviewId);
 }

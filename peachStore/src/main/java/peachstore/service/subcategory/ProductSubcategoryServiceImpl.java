@@ -1,9 +1,11 @@
 package peachstore.service.subcategory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,7 @@ public class ProductSubcategoryServiceImpl implements ProductSubcategoryService 
 		ProductSubcategory productSubcategory = new ProductSubcategory();
 		productSubcategory.setProductTopcategory(productTopcategory);
 		productSubcategory.setProductSubcategoryName(productSubCategoryName);
+		productSubcategory.setActive(true);
 		
 		productSubcategoryDAO.insert(productSubcategory); // 저장
 		int id = productSubcategory.getProductSubcategoryId(); // pk값 추출
@@ -83,6 +86,57 @@ public class ProductSubcategoryServiceImpl implements ProductSubcategoryService 
 	}
 
 	@Override
+	@Transactional
+	public void change(int productSubCategoryId, String newName, String savePath, MultipartFile photo) throws ProductTopcategoryException {
+	    ProductSubcategory productSubcategory = findById(productSubCategoryId);
+	    // 기존 이미지 저장 폴더명
+	    String originalFileDirName = "subcategory_"+productSubCategoryId;
+	    // 기존 이미지 이름
+	    String originalFilename = productSubcategory.getFilename();
+	    // 기존 이미지 폴더를 백업해둘 폴더명
+	    String backupDirName = originalFileDirName + "_backup";
+	    
+	    // 기존 이미지 폴더 백업
+	    try {
+			fileManager.move(originalFileDirName, backupDirName, savePath, false);
+		} catch (IOException e) {
+			throw new ProductTopcategoryException("기존 이미지 백업 중 오류 발생", e);
+		}
+	    
+	    List<String> imgList;
+		try {
+			// 새로운 이미지 저장
+		    Map<String, Object> imgMap = imageFileService.saveImage(photo, originalFileDirName, savePath);
+			// 저장된 이미지들의 이름 꺼내기
+			imgList = (List<String>) imgMap.get("savedFiles");
+		} catch (Exception e) {
+			// 백업본 이미지 복원
+			fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
+			throw new ProductTopcategoryException("새 이미지 저장 실패", e);
+		}
+	    
+		// 변경한 파일명, 새로 저장한 이미지를 도메인에 세팅
+		String newFilename = imgList.get(0);
+		productSubcategory.setProductSubcategoryName(newName);
+		productSubcategory.setFileDirName(originalFileDirName);
+		productSubcategory.setFilename(newFilename);
+
+		// DB 업데이트
+		int result = productSubcategoryDAO.update(productSubcategory);
+		if (result == 0) {
+			fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
+			// 자바 객체도 복구 (혹시몰라서)
+			productSubcategory.setFileDirName(originalFileDirName);
+			productSubcategory.setFilename(originalFilename);
+			throw new ProductTopcategoryException("DB 업데이트 실패");
+		}
+
+		// 성공 시 백업 이미지 폴더 삭제
+		fileManager.remove(backupDirName, savePath);
+	}
+	
+	
+	@Override
 	public void updateName(String name, int subcategoryId) throws ProductSubcategoryException{
 		// 해당 서브 카테고리 조회
 		ProductSubcategory productSubcategory = findById(subcategoryId);
@@ -94,23 +148,22 @@ public class ProductSubcategoryServiceImpl implements ProductSubcategoryService 
 		}
 	}
 
-	// TODO 수정필요 deactivate
 	@Override
-	public void deactivate(int subcategoryId) throws ProductSubcategoryException {
+	public void toggleActivation(int subcategoryId) throws ProductSubcategoryException {
 		// 해당 서브 카테고리 조회
 		ProductSubcategory productSubcategory = findById(subcategoryId);
-		productSubcategory.deactivate();
+		productSubcategory.setActive(!productSubcategory.isActive());
 		
 		int result = productSubcategoryDAO.update(productSubcategory);
 		if (result == 0) {
-			throw new ProductSubcategoryException("서브 카테고리 비활성화 실패");
+			throw new ProductSubcategoryException("서브 카테고리 상태 변경 실패");
 		}
 	}
 
 	@Override
 	public ProductSubcategory findById(int subcategoryId) throws ProductSubcategoryException{
 		ProductSubcategory productSubcategory = productSubcategoryDAO.findById(subcategoryId);
-		if (productSubcategory == null || !productSubcategory.getIsActive()) {
+		if (productSubcategory == null) {
 			throw new ProductSubcategoryException("서브 카테고리 조회 실패. 존재하지 않거나 비활성화");
 		}
 		return productSubcategory;
