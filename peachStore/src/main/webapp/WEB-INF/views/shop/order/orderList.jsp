@@ -86,7 +86,7 @@
 		    <td colspan="2" style = "font-weight: bold; height: 20px;">
 		        주문번호: <%=orderReceipt.getOrder_receipt_id()%> /
 		        상태: <%=orderReceipt.getOrder_status()%> /
-		        주문일자: <%=orderReceipt.getOrderdate()%>
+		        주문일자: <%=orderReceipt.getOrderdate().toLocalDate()%>
 		    </td>
 		
 		    <!-- 오른쪽: 주문취소 버튼 -->

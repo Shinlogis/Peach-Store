@@ -18,7 +18,7 @@
 		<result column="created_at" property="created_at"/>
 		
 		<association column="user_id" property="user" javaType="User" 
-			select="User.select"
+			select="User.selectById"
 		/>
 		
 		<collection column="inquiry_id" property="imgList" javaType="java.util.List" ofType="InquiryImg"

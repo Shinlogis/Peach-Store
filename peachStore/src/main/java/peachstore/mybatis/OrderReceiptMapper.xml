@@ -16,7 +16,7 @@
 
 	<select id="selectByUserId" parameterType="OrderReceipt" resultMap="joinMap">
 		select order_receipt_id, orderdate, order_status, user_id 
-		 from order_receipt where user_id = #{user.user_id} and trim(order_status) IN ('상품 준비 전', '상품 준비 중', '발송완료')
+		 from order_receipt where user_id = #{user.user_id} and trim(order_status) IN ('상품 준비 전', '상품 준비 중', '발송완료') order by order_receipt_id desc;
 	</select>
 	
 	<select id="select" parameterType="OrderReceipt" resultMap="joinMap">
@@ -32,7 +32,7 @@
 	<!-- 주문 취소 목록 -->
 		<select id="cancleList" parameterType="OrderReceipt" resultMap="joinMap">
 		select order_receipt_id, orderdate, order_status, user_id 
-		 from order_receipt where user_id = #{user.user_id} and order_status = '주문취소'
+		 from order_receipt where user_id = #{user.user_id} and order_status = '주문취소' order by order_receipt_id desc;
 	</select>
 	
 </mapper>
