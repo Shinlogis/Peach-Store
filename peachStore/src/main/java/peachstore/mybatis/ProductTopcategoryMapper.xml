@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 제품 상위 카테고리 매퍼 -->
 <mapper namespace="peachstore.repository.topcategory.ProductTopcategoryDAO">
 
@@ -32,9 +32,8 @@
 	<select id="selectAll" resultMap="ProductTopcategoryResultMap" parameterType="map">
 	    select product_topcategory_id, product_topcategory_name, filename, is_active
 	    from product_topcategory
-	    where is_active = true
 	    <if test="searchKey != null and searchKey != ''">
-	        and product_topcategory_name like concat('%', #{searchKey}, '%')
+	         where product_topcategory_name like concat('%', #{searchKey}, '%')
 	    </if>
 	    order by product_topcategory_id asc
 	</select>
@@ -55,8 +54,6 @@
 	    FROM product_topcategory pt
 	    LEFT JOIN product_subcategory ps
 	        ON pt.product_topcategory_id = ps.product_topcategory_id
-	        AND ps.is_active = true
-	    WHERE pt.is_active = true
 	    ORDER BY pt.product_topcategory_id, ps.product_subcategory_id
 	</select>
 
@@ -73,6 +70,7 @@
 	    	product_topcategory_name = #{productTopcategoryName}
 	    	, fileDirName = #{fileDirName}
 	    	, filename = #{filename}
+	    	, is_active = #{isActive}
 	    where product_topcategory_id = #{productTopcategoryId}
 	</update>
 

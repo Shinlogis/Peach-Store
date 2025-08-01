@@ -4,11 +4,6 @@
 # application 설정 파일 무시
 **/application.properties
 
-# static 무시
-peachStore/src/main/webapp/static/
-/src/main/webapp/static/
-
-
 ### Eclipse ###
 .metadata
 bin/
@@ -189,7 +184,4 @@ Servers/
 # GitHub 이슈 템플릿 무시
 .github/ISSUE_TEMPLATE/
 README.md
-
-# application.properties 제외
-**/application.properties
 

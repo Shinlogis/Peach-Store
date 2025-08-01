@@ -3,7 +3,7 @@
 <mapper namespace="Inquiry">
 
 	<insert id="insert" parameterType="Inquiry">
-		insert into inquiry (title,inquiry_text, is_active, user_id) values(#{title},#{inquiry_text},#{is_active}, #{user.user_id})
+		insert into inquiry (title,inquiry_text, user_id) values(#{title},#{inquiry_text}, #{user.user_id})
 		
 		<!-- insert시키자 마자 현재 세션에서 일으킨 pk의 최대값 (insert 후 inquiry_id로 다른 테이블에 insert할 때 필요) -->
 		<selectKey keyColumn="inquiry_id" keyProperty="inquiry_id" resultType="int" order="AFTER">
@@ -18,7 +18,7 @@
 		<result column="created_at" property="created_at"/>
 		
 		<association column="user_id" property="user" javaType="User" 
-			select="User.select"
+			select="User.selectById"
 		/>
 		
 		<collection column="inquiry_id" property="imgList" javaType="java.util.List" ofType="InquiryImg"
@@ -29,7 +29,7 @@
 	
 	<!--회원 아이디에 따른 문의 전체 조회 -->
 	<select id="selectAll" parameterType="Inquiry" resultMap="joinMap">
-		select inquiry_id, title, created_at, user_id from inquiry where user_id = #{user.user_id} order by inquiry_id desc
+		select inquiry_id, title, created_at, user_id from inquiry where user_id = #{user.user_id} and is_active = true order by inquiry_id desc
 	</select>
 	
 	<!--문의 단건 조회 -->
@@ -44,8 +44,8 @@
 	</update>
 	
 	<!-- 문의 삭제 -->	
-	<delete id="delete" parameterType="Inquiry">
-		delete from inquiry where inquiry_id = #{inquiry_id}
-	</delete>
+	<update id="delete" parameterType="Inquiry">
+		update inquiry set is_active=false where inquiry_id = #{inquiry_id}
+	</update>
 
 </mapper>

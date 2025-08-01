@@ -18,4 +18,7 @@
 		delete from inquiry_img where inquiry_id = #{inquiry_id}
 	</delete>
 
+	<delete id="deleteByFilename" parameterType="InquiryImg">
+		delete from inquiry_img where filename = #{filename}
+	</delete>
 </mapper>

@@ -99,75 +99,76 @@
                   		int num=paging.getNum();
                   		
                   	%>
-                  	<%for(int i=1;i<paging.getPageSize();i++){ %>
-                  	<%if(num<1)break; //1보다 작으면 데이터가 없는 것임. %>
-                  	<%Product product = productList.get(curPos++); %>
-                    <tr>
-                      <td><%=num--%></td>
-                      <td>
-						  <% List<ProductImg> imgs = product.getProductImgs();
-						 	if (imgs != null && !imgs.isEmpty() && imgs.get(0).getFilename() != null) {%>
-						      <img width="40px" src="/data/p_<%=product.getProductId()%>/<%=imgs.get(0).getFilename()%>">
-						  <% } else { %>
-						      <span style="color: gray;">(이미지 없음)</span>
-						  <% } %>
+                  	<% if (productList == null || productList.size() == 0) { %>
+					  <tr><td colspan="7" style="text-align:center;">등록된 상품이 없습니다.</td></tr>
+					<% } else {
+					     for(int i = 0; i < productList.size(); i++) {
+					       Product product = productList.get(i);
+					%>
+					<tr>
+					  <td><%= paging.getNum() - i %></td>
+					  <td>
+					    <%
+					      List<ProductImg> imgs = product.getProductImgs();
+					      if (imgs != null && !imgs.isEmpty() && imgs.get(0).getFilename() != null) {
+					    %>
+					      <img width="60%" height="100"  src="/data/product_<%=product.getProductId()%>/<%=imgs.get(0).getFilename()%>">
+					    <% } else { %>
+					      <span style="color: gray;">(이미지 없음)</span>
+					    <% } %>
 					  </td>
-                      <td><%=product.getProductSubcategory().getProductSubcategoryName() %></td>
-                      <td><a href="/admin/product/detail?product_id=<%=product.getProductId() %>"><%=product.getProductName() %></a></td>
-                      <td><%=product.getPrice() %></td>
-                      <td>
-					  <%
-							List<ProductColor> colorList = product.getProductColors();
-							StringBuffer sb = new StringBuffer();
-						
-							for (int j = 0; j < colorList.size(); j++) {
-								Color color = colorList.get(j).getColor();
-								sb.append(color.getColor_name());
-								if (j < colorList.size() - 1) sb.append(", ");
-							}
-							out.print(sb.toString());
-					   %>
-						</td>
-						<td>
-					   <%
-							List<ProductSize> sizeList = product.getProductSizes();
-							sb.setLength(0); // 스트링 버퍼 초기화
-						
-							for (int j = 0; j < sizeList.size(); j++) {
-								Size size = sizeList.get(j).getSize();
-								sb.append(size.getSize_name());
-								if (j < sizeList.size() - 1) sb.append(", ");
-							}
-							out.print(sb.toString());
-					   %>
-                      
-                      </td>
-                    </tr>
-                    <%} %>
-                  </tbody>
+					  <td><%=product.getProductSubcategory().getProductSubcategoryName()%></td>
+					  <td><a href="/admin/product/detail?product_id=<%=product.getProductId()%>"><%=product.getProductName()%></a></td>
+					  <td><%=product.getPrice()%></td>
+					  <td>
+					    <%
+					      List<ProductColor> colorList = product.getProductColors();
+					      StringBuffer sb = new StringBuffer();
+					      for (int j = 0; j < colorList.size(); j++) {
+					        Color color = colorList.get(j).getColor();
+					        sb.append(color.getColor_name());
+					        if (j < colorList.size() - 1) sb.append(", ");
+					      }
+					      out.print(sb.toString());
+					    %>
+					  </td>
+					  <td>
+					    <%
+					      List<ProductSize> sizeList = product.getProductSizes();
+					      sb.setLength(0);
+					      for (int j = 0; j < sizeList.size(); j++) {
+					        Size size = sizeList.get(j).getSize();
+					        sb.append(size.getSize_name());
+					        if (j < sizeList.size() - 1) sb.append(", ");
+					      }
+					      out.print(sb.toString());
+					    %>
+					  </td>
+					</tr>
+					<%
+					 }
+					}
+					%>
+					</tbody>
                 </table>
               </div>
               <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-left">
-				  <!-- 이전 페이지 버튼 -->
-				  <li class="page-item">
-				    <a class="page-link" href="/admin/product/list?page=<%= paging.getFirstPage() - 1 %>">&laquo;</a>
-				  </li>
-				
-				  <!-- 페이지 번호 목록 -->
-				  <% for (int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) {
-				       if (i > paging.getTotalPage()) break;
-				  %>
-				    <li class="page-item">
-				      <a class="page-link" href="/admin/product/list?page=<%= i %>"><%= i %></a>
-				    </li>
-				  <% } %>
-				
-				  <!-- 다음 페이지 버튼 -->
-				  <li class="page-item">
-				    <a class="page-link" href="/admin/product/list?page=<%= paging.getLastPage() + 1 %>">&raquo;</a>
-				  </li>
+              <div class="card-footer d-flex justify-content-center">
+  					<ul class="pagination pagination-sm m-0">
+				 	<!-- 이전 페이지 버튼 -->
+					<a class="page-link" href="/admin/product/list?currentPage=<%= paging.getFirstPage() - 1 %>">&laquo;</a>
+					
+					<!-- 페이지 번호 목록 -->
+					<% for (int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) {
+					     if (i > paging.getTotalPage()) break;
+					%>
+					  <li class="page-item">
+					    <a class="page-link" href="/admin/product/list?currentPage=<%= i %>"><%= i %></a>
+					  </li>
+					<% } %>
+					
+					<!-- 다음 페이지 버튼 -->
+					<a class="page-link" href="/admin/product/list?currentPage=<%= paging.getLastPage() + 1 %>">&raquo;</a>
 				</ul>
               </div>
             

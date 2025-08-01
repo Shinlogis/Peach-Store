@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 제품 하위 카테고리 매퍼 -->
 <mapper namespace="peachstore.repository.subcategory.ProductSubcategoryDAO">
 
@@ -51,17 +51,15 @@
     	from product_subcategory ps
     	join product_topcategory pt
     		on ps.product_topcategory_id = pt.product_topcategory_id
-    	where ps.is_active = true 
-    		and pt.is_active = true
     		<if test="searchKey != null and searchKey != ''">
-	        and pt.product_topcategory_name like concat('%', #{searchKey}, '%')
+	        where pt.product_topcategory_name like concat('%', #{searchKey}, '%')
 	   		</if>
     </select>
     
     <!-- 등록 -->
     <insert id="insert" parameterType="peachstore.domain.ProductSubcategory" useGeneratedKeys="true" keyProperty="productSubcategoryId">
-    	insert into product_subcategory(product_subcategory_name, product_topcategory_id, fileDirName, filename)
-    	values(#{productSubcategoryName}, #{productTopcategory.productTopcategoryId}, #{productTopcategory.fileDirName}, #{productTopcategory.filename})
+    	insert into product_subcategory(product_subcategory_name, product_topcategory_id, fileDirName, filename, is_active)
+    	values(#{productSubcategoryName}, #{productTopcategory.productTopcategoryId}, #{productTopcategory.fileDirName}, #{productTopcategory.filename}, #{isActive})
     </insert>
     
     <!-- 수정 -->
@@ -70,6 +68,7 @@
 		set product_subcategory_name = #{productSubcategoryName}
 			, fileDirName = #{fileDirName}
 			, filename = #{filename}
+			, is_active = #{isActive}
 		where product_subcategory_id = #{productSubcategoryId}
 	</update>
 
@@ -93,8 +92,6 @@
     	join product_topcategory pt
     		on ps.product_topcategory_id = pt.product_topcategory_id
     	where ps.product_subcategory_id = #{productSubCategory}
-    		and ps.is_active = true 
-    		and pt.is_active = true
 	</select>
 	
 	<!-- TopcategoryId 상위 카테고리의 모든 하위 카테고리 -->
@@ -116,8 +113,6 @@
     	join product_topcategory pt
     		on ps.product_topcategory_id = pt.product_topcategory_id
     	where
-    		ps.is_active = true 
-    		and pt.is_active = true
     		and pt.product_topcategory_id = #{value}
 	</select>
 	
