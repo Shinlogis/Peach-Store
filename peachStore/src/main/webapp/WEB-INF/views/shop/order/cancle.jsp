@@ -7,7 +7,7 @@
 <% User user = (User)session.getAttribute("user"); 
 	
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
-	List<OrderDetail> orderDetail = (List)request.getAttribute("orderDetail");
+	List<OrderDetail> orderDetail = (List)request.getAttribute("cancle");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +52,8 @@
 
 			
  <!-- 리스트 시작 -->
-  
+   <form >
+   <input type="hidden" name="user.user_id" value="<%= user.getUser_id()%>">
 			<section class="shop-cart spad">
 				<div class="container">
 					<div class="row">
@@ -62,7 +63,7 @@
 								
 								<div class="card-header"
      style="display: flex; justify-content: space-between; border-bottom: 2px solid black;">
-    <h3 class="card-title" style="font-weight: bold;">주문 내역</h3>
+    <h3 class="card-title" style="font-weight: bold;">취소 내역</h3>
 </div>
 
 <table style="width: 100%; border-collapse: collapse;">
@@ -76,7 +77,7 @@
         <tr style="border-bottom: 1px solid black;">
             <th style="font-weight: bold; font-size: 20px;">상품정보</th>
             <th style="font-weight: bold; font-size: 20px;">진행상태</th>
-            <th style="font-weight: bold; font-size: 20px;">주문취소</th>
+            <th style="font-weight: bold; font-size: 20px;">리뷰쓰기</th>
         </tr>
     </thead>
             <%for(OrderDetail detail : orderDetail){ %>
@@ -85,7 +86,7 @@
             <!-- 상품정보 -->
             <td>
                 <div style="display: flex; gap: 120px;">
-                    <img src="data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename() %>" style="width: 100px; height: 100px; object-fit: cover;">
+                    <img src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename() %>" alt="상품 이미지" style="width: 100px; height: 100px; object-fit: cover;">
                     <div>
                         <div  style="margin-bottom: 12px;"> <strong><%=detail.getSnapShot().getProduct_name() %></strong></div>
                         <div>
@@ -107,18 +108,12 @@
                 <div style="margin-bottom: 12px;"> <%=detail.getOrderReceipt().getOrder_status() %></div>
                 <di style="margin-bottom: 12px;"> 2025-07-28</div>
             </td>
-				<form method="post" id="cancle" action="/shop/order/cancle">
-				 <input type="hidden" name="user.user_id" value="<%= user.getUser_id()%>">
-				 <%for(OrderDetail order : orderDetail) {%>
-				 <input type="hidden" name="order_receipt_id" value="<%=order.getOrderReceipt().getOrder_receipt_id()%>">
-				 <%} %>
-				 </form>
 
-            <!-- 주문취소 -->
+            <!-- 리뷰쓰기 -->
             <%if(detail.getOrderReceipt().getOrder_status().equals("발송완료")) {%>
             <td>
-                <button onclick="if(confirm('주문취소 하시겠습니까?')) document.getElementById('cancle').submit();" class="btn btn-danger">
-                    주문취소
+                <button onclick="cancelOrder()" class="btn btn-secondary">
+                    리뷰쓰기
                 </button>
             </td>
             <%} %>
@@ -133,6 +128,7 @@
 					</div>
 				</div>
 			</section>
+			</form>
 			<!-- 리스트 끝 -->
 
     

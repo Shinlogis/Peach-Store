@@ -12,7 +12,7 @@
 				<div class="card-body">
 					<ul>
 						<li><a href="/shop/order/list">주문내역 조회</a></li>
-						<li><a href="#">취소내역</a></li>
+						<li><a href="/shop/order/cancle/list">취소내역</a></li>
 					</ul>
 				</div>
 			</div>
