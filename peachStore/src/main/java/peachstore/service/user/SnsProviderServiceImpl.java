@@ -1,4 +1,4 @@
-package peachstore.service;
+package peachstore.service.user;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import peachstore.domain.SnsProvider;
-import peachstore.repository.SnsProviderDAO;
+import peachstore.repository.user.SnsProviderDAO;
 
 @Service
 public class SnsProviderServiceImpl implements SnsProviderService{

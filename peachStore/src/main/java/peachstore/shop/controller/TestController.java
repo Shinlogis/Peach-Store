@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
-import peachstore.repository.UserDAO;
+import peachstore.repository.user.UserDAO;
 
 @Slf4j
 @Controller

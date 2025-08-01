@@ -1,4 +1,4 @@
-package peachstore.service;
+package peachstore.service.user;
 
 import org.springframework.stereotype.Service;
 
