@@ -47,7 +47,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/static/admin/index.html" class="nav-link active">
+                <a href="/admin/product/list" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>상품목록</p>
                 </a>

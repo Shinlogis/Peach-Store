@@ -659,13 +659,8 @@ VALUES
     (14, 8, NULL),
     (15, 12, NULL);
 
-<<<<<<< HEAD
--- 리뷰 테이블 인서트 (INSERT INTO REVIEW)
-INSERT INTO REVIEW (CONTEXT, STATUS, USER_ID, ORDER_DETAIL_ID)
-=======
 -- 리뷰 테이블 인서트 (INSERT INTO review)
 INSERT INTO review (content, status, user_id, order_detail_id)
->>>>>>> 6fd7eaa3cc19b334b5601a508fb50bf615b9a3dd
 VALUES
     ('정말 마음에 들어요! 배송도 빨랐어요.', '활성', 2, 4),
     ('상품이 설명과 같고 만족스러워요.', '활성', 3, 5),

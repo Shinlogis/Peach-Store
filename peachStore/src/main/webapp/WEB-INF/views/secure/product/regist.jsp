@@ -69,43 +69,41 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>하위 카테고리</label>
-	                        <select class="form-control" name="productSubcategory.productSubcategoryId" id="subcategory"></select>
+	                        <select class="form-control" name="subcategory.subcategory_id" id="subcategory"></select>
 	                      </div>
 	                    </div>
 	                  </div>
                 	<!-- 카테고리 영역 끝 -->
                   <div class="form-group">
-                  <label>상품코드</label>
-                    <input type="text" class="form-control" name="productCode" placeholder="상품코드 입력">
+                    <input type="text" class="form-control" name="product_name" placeholder="상품명 입력">
                   </div>
                   <div class="form-group">
-                  <label>상품명</label>
-                    <input type="text" class="form-control" name="productName" placeholder="상품명 입력">
+                    <input type="text" class="form-control" name="brand" placeholder="브랜드 입력">
                   </div>
                   <div class="form-group">
-                  <label>가격</label>
                     <input type="text" class="form-control" name="price" placeholder="가격 입력">
                   </div>
                   <div class="form-group">
-                  <label>간단소개</label>
-                    <input type="text" class="form-control" name="introduce" placeholder="간단소개(100자) 입력">
+                    <input type="text" class="form-control" name="discount" placeholder="할인가 입력">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="introduce" placeholder="간단소개 100자 이하 ">
                   </div>
 				   <div class="form-group">
-				   <label>색상</label>
-                       <select class="form-control" name="color" id="color" multiple="multiple">
+                       <select class="form-control" name="color"id="color" multiple="multiple">
                          <option>색상 선택</option>
                        </select>
 	              </div>
+				  
 				  <div class="form-group">
-				  <label>사이즈</label>
                        <select class="form-control" name="size" id="size" multiple="multiple">
                          <option>사이즈 선택</option>
                        </select>
 	              </div>
-                  
+	              
                   <div class="form-group">
 					<!-- 편집 시작 -->
-			      	<textarea id="summernote" name=detail></textarea>
+			      	<textarea id="summernote" name="detail"></textarea>
 					<!-- 편집기 끝-->
                   </div>
                   
@@ -119,21 +117,16 @@
                         <span class="input-group-text">Upload</span>
                       </div>
                     </div>
-                    
-                    <div id="preview" style="width:100%;background:skyblue">
-                    미리보기
+                    <div id="preview" style="width:100%;background:yellow;">
+                    	미리보기
                     </div>
-                    
-                  </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
                   </div>
                 </div>
                 <!-- /.card-body -->
+
                 <div class="card-footer">
-                  <button type="button" class="btn btn-primary" id="bt_regist">등록</button>
-                  <button type="button" class="btn btn-primary" id="bt_list">목록보기</button>
+                  <button type="button" class="btn btn-secondary" id="bt_regist">상품 등록</button>
+                  <button type="button" class="btn btn-secondary" id="bt_list">목록 보기</button>
                 </div>
               </form>
             </div>
@@ -153,22 +146,23 @@
 </div>
 <!-- ./wrapper -->
 	<%@ include file="../inc/footer_link.jsp" %>
-<script src="/static/admin/custom/ProductImg.js"></script>
-	<script>
-	
-	
-	// 화면에 카테고리를 출력하는 메서드
+	<script src="/static/admin/custom/ProductImg.js"></script>
+	<script>  
+	//크롬 브라우저에서 지원하는 e.target.files 유사 배열은 읽기전용 이라서,
+	//개발자가 쓰기가 안되므로, 배열을 하나 선언하여 담아서 처리
+	//주의) 아래의 배열은, 개발자가 정의한 배열일 뿐이지, form태그가 전송할 컴포넌트는 아니므로,
+	//submit시, selectedFile에 들어있는 파일을 전송할 수 는 없다!!
+	//해결책? form 태그에 인식시켜야 한다..(javascript로 프로그래밍적 formData 객체를 새용해야 함)
+	let selectedFile=[];
+	   
 	function printCategory(obj, list){
-		let tag = "";
-		// 필요할 때만 '카테고리 선택' 문구 추가
-		if(obj === "#topcategory" || obj === "#subcategory"){
-			tag += "<option value='' disabled selected hidden>카테고리 선택</option>";
-		}
+		let tag="<option value='0'>카테고리 선택</option>";
+		
 		for(let i=0;i<list.length;i++){
 			if(obj=="#topcategory"){
-				tag+="<option value='"+list[i].productTopcategoryId+"'>"+list[i].productTopcategoryName+"</option>";
+				tag += "<option value='" + list[i].productTopcategoryId + "'>" + list[i].productTopcategoryName + "</option>";
 			}else if(obj=="#subcategory"){
-				tag+="<option value='"+list[i].productSubcategoryId+"'>"+list[i].productSubcategoryName+"</option>";
+				tag+="<option value='"+list[i].productSubcategoryId+"'>"+list[i].ProductSubcategoryName+"</option>";
 			}else if(obj=="#color"){
 				tag+="<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
 			}else if(obj=="#size"){
@@ -205,56 +199,30 @@
 		});
 	}
 	
-	// 색상 목록 가져오기
 	function getColorList(){
 		$.ajax({
-			url: "/admin/color/list",
-			type: "get",
-			success: function(result, status, xhr){
-				printCategory("#color", result);
+			url:"/admin/color/list",
+			type:"get",
+			success:function(result, status, xhr){ //200번대의 성공 응답 시, 이 함수 실행
+				console.log("서버로부터 받은 결과는 ", result);
+				//화면에 출력하기 
+				printCategory("#color",result);
+			},
+			error:function(xhr, status, err){
 			}
 		});
 	}
 	
-	// 사이즈 목록 가져오기
 	function getSizeList(){
 		$.ajax({
-			url: "/admin/size/list",
-			type: "get",
-			success: function(result, status, xhr){
-				printCategory("#size", result);
-			}
-		});
-	}
-	
-	// 브라우저에서 지원하는 e.target.files 유사 배열은 읽기 전용이므로 쓰기가 불가하여, 사용하기 위해선 이를 복제한 배열이 필요
-	// 그러나 submit 시 selectedFile을 전송할 수 없어 이미지 업로드 컴포넌트를 재설정하고, js의 프로그래밍적 formData 객체를 통해 form 태그에 인식시켜야 함
-	let selectedFile = [];
-	
-	// 상품 등록
-	function regist(){
-		// 기존 form에서 file 컴포넌트 파라미터만 새로 교체(위에서 선언한 selectedFile 배열)
-		let formData = new FormData(document.getElementById("form1"));
-		
-		// 기존의 photo 대신, selectedFile 배열로 대체
-		// formData는 디폴트로 multipart/form-data가 지정되어 있음
-		formData.delete("photo");
-		for(let i=0; i<selectedFile.length; i++){
-			formData.append("photo", selectedFile[i]);
-		}
-		
-		// formData는 동기/비동기 둘 다 지원하지만, 대부분 비동기방식을 많이 씀
-		$.ajax({
-			url: "/admin/product/regist",
-			type: "post",
-			data: formData,
-			processData: false, // form을 이루는 데이터들이 문자열로 변환되지 않도록 (현재 바이너리 파일이 들어있음)
-			contentType: false, // 브라우저가 자동으로 contentType을 설정하지 않도록 
-			success: function(result, status, xhr){
-				alert("등록 성공");
+			url:"/admin/size/list",
+			type:"get",
+			success:function(result, status, xhr){ //200번대의 성공 응답 시, 이 함수 실행
+				console.log("서버로부터 받은 결과는 ", result);
+				//화면에 출력하기 
+				printCategory("#size",result);
 			},
-			error: function(xhr, status, result){
-				
+			error:function(xhr, status, err){
 			}
 		});
 	}
@@ -266,64 +234,82 @@
 	   });
 	   
 	   //상위 카테고리 가져오기 
-	   getTopCategory();
-	   // 색상 목록 가져오기
-	   getColorList();
-	   // 사이즈 목록 가져오기
-	   getSizeList();
+	   getTopCategory(); //상위 카테고리 가져오기
+	   getColorList(); //색상 목록 가져오기
+	   getSizeList(); //사이즈 목록 가져오기
+	   
+	   //파일 컴포넌트의 값 변경 시 이벤트 연결
+	   $("#photo").change(function(e){
+		   console.log(e);
+		   //e.target.files 안에는 브라우저가 읽어들인, 파일의 정보가 배열유사 객체인 FileList에 담겨져 있다.
+		   
+		   let files = e.target.files;//배열 유사 객체 접근
+		   
+		   //첨부된 파일 수 만큼 반복
+		   for(let i=0; i<files.length; i++){
+			  selectedFile[i] = files[i]; //읽기 전용에 들어있었던 각 file들을, 우리만의 배열로 옮기자
+			   
+			  //파일을 읽기위한 스트림 객체 생성
+			  const reader = new FileReader();
+			  reader.onload=function(e){ //파일을 스트림으로 읽어들인 정보가 e에 들어있음
+			  	console.log("읽은 결과는 ",e);
+			  	
+			  	//개발자 정의 클래스 인스턴스 생성
+			  	let productImg = new ProductImg(document.getElementById("preview"), files[i],e.target.result, 100, 50);
+			  	
+			  }
+			  reader.readAsDataURL(files[i]); // 지정한 파일 읽기   
+			}
+	   });
+	   
+	   function regist(){
+		   //기존 폼을 이용하되, file 컴포넌트 파라미터만 새로 교체(selectedFile 배열로 대체)
+		   //js에서 프로그래밍 적 form 생성
+		   let formData = new FormData(document.getElementById("form1"));
+		   
+		   //formData 동기/비동기 둘다 지원하지만, 대부분은 비동기 방식을 많이 씀
+		   //Jquery Ajax 자체에서 formData를 비동기 방식으로 간단하게 사용할 수 있는 코드를 지원
+		   //기존 photo 버리고, 우리가 선언한 배열로 대체
+		   //formData.append("email","kmkm7936@naver.com"); // <input type="txt" name="email">
+		   //formData는 개발자가 명시하지 않아도, 디폴트로 multipart/form-data가 지정되어 있음
+		   formData.delete("photo");//기존의 photo 파라미터 제거하기 append의 반대
+		   
+		   for(let i=0; i<selectedFile.length; i++){
+		   	formData.append("photo", selectedFile[i]);
+		   }
+	
+		   //파일마저도 비동기로 업로드 가능!!
+		   $.ajax({
+			   url:"/admin/product/regist",
+			   type:"post",
+			   data:formData,
+			   processData:false, /*form 이루는 대상으로, 문자열로 변환되는 것을 방지(바이너리 파일 포함때문)*/
+			   contentType:false, /*브라우저가 자동으로 content-type을 설정하도록 하는 것 방지 */
+			   success:function(result, status, xhr){
+				   alert("업로드 성공");
+			   },
+			   error:function(xhr, status, err){
+				   alert(err);
+			   }
+		   });
+	   }
 	   
 	   //상위 카테고리의 값을 변경시, 하위 카테고리 가져오기 
 	   $("#topcategory").change(function(){
 			getSubCategory($(this).val());
 		});
+	   
+	   //등록버튼 이벤트 연결
+	   $("#bt_regist").click(()=>{
+		  regist(); 
+	   });
+	   
+	   //목록 버튼 이벤트 연결
+	   $("#bt_list").click(()=>{
+		  $(location).attr("href", "/admin/product/list");
+	   });
 	});
-	
-	// 파일 컴포넌트의 값 변경 시 이벤트 연결
-	$("#photo").change(function(e){
-		// console.log(e);
-		// e.target.files 안에는 파일 객체가 읽어들인 파일의 정보가 배열 유사 객체인 FileList에 담겨있음
-		let files = e.target.files;
-		
-		// 첨부 파일 수만큼 반복
-		for(let i=0; i<files.length;i++){
-			selectedFile[i] = files[i]; // 읽기 전용에 들어있던 파일을 selectedFile에 저장
-			
-			// 파일을 읽기위한 스트림 객체 생성
-			const reader = new FileReader();
-			reader.onload = function(e){ // 파일을 스트림으로 읽어들인 정보 e
-				console.log(e);
-				
-				let productImg = new ProductImg(document.getElementById("preview"), selectedFile[i], e.target.result, 100, 100);
-			}
-			reader.readAsDataURL(files[i]); // 지정한 파일을 읽기
-		}
-	});
-	
-	// 등록 버튼 이벤트 연결
-	$("#bt_regist").click(()=>{
-		console.log("click");
-		regist();
-	});
-	
-	// 목록보기 버튼 이벤트 연결
-	$("#bt_list").click(()=>{
-		location.href = "/admin/product/list";
-	});
-	
 	</script>
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

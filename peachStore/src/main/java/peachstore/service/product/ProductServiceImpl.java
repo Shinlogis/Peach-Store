@@ -1,5 +1,6 @@
 package peachstore.service.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import peachstore.repository.product.ProductColorDAO;
 import peachstore.repository.product.ProductDAO;
 import peachstore.repository.product.ProductImgDAO;
 import peachstore.repository.product.ProductSizeDAO;
-import peachstore.util.FileManager;
+import peachstore.util.FileCommonManager;
 
 /**
  * 상품 등록 및 관련 색상/사이즈 정보 저장을 포함한  
@@ -40,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductSizeDAO productSizeDAO;
 
     @Autowired
-    private FileManager fileManager;
+    private FileCommonManager fileCommonManager;
     
     @Autowired
 	private ProductImgDAO productImgDAO;
@@ -76,16 +77,19 @@ public class ProductServiceImpl implements ProductService {
             productSizeDAO.insert(productSize);
         }
         
-        //4) 이미지 저장 
-      	fileManager.save(product, savePath);
-      		
-      	//5) 이미지 파일명도 채워진 상태이므로 db 저장
-      	List<ProductImg> imgList = product.getProductImgs();
-      			
-      		for(ProductImg productImg : imgList) {
-      			productImg.setProduct(product); //현재 상품 정보
-      			productImgDAO.insert(productImg);
-      		}
+        // 4) 이미지 저장
+        List<String> savedFilenames = fileCommonManager.saveFiles(product.getPhoto(), savePath, "product");
+
+        // 5) DB에 이미지 정보 저장
+        List<ProductImg> imgList = new ArrayList<>();
+        for (String filename : savedFilenames) {
+            ProductImg img = new ProductImg();
+            img.setProduct(product);  // 상품 연결
+            img.setFilename(filename); // 📌 반드시 ProductImg에 이 필드 있어야 함
+            productImgDAO.insert(img);
+            imgList.add(img);
+        }
+        product.setProductImgs(imgList); // 이후 사용을 위해 연결
     }
 
     /** 전체 상품 조회 */
@@ -121,12 +125,12 @@ public class ProductServiceImpl implements ProductService {
     /** 상품 및 관련 자원 삭제(DB + 이미지) - 구현 예정 */
     @Override
     public void remove(Product product, String savePath) {
-    	fileManager.remove(product, savePath);
+    	fileCommonManager.remove("product", savePath); 
     }
 
     @Override
     public List<Product> selectAll(int startIndex, int pageSize) {
-        List<Product> list = productDAO.selectAll(startIndex, pageSize);
+        List<Product> list = productDAO.selectAllWithPaging(startIndex, pageSize);
 
         for (Product product : list) {
             List<ProductImg> imgs = productImgDAO.selectByProductId(product.getProductId());
@@ -138,7 +142,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public int getTotalRecord() {
-		// TODO Auto-generated method stub
-		return 0;
+		return productDAO.count(); // 🔹 이 메서드가 ProductMapper에 정의돼 있어야 함!
 	}
 }
