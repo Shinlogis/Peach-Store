@@ -668,3 +668,12 @@ VALUES
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
 SHOW TABLES;
+select * from size;
+select * from product;
+delete  from product where product_id=1;
+delete from cart;
+delete from cart_item;
+delete from product_capacity;
+delete from custom_option;
+delete from product_color;
+delete from product_size;

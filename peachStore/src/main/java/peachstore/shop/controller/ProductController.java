@@ -41,25 +41,23 @@ public class ProductController {
 		List<ProductSubcategory> subList=productSubcategoryService.findAllByTopcategoryId(topid);
 		ProductTopcategory productTopcategory=productTopcategoryService.findById(topid);
 		String topName=productTopcategory.getProductTopcategoryName();
+		List<Product> list=productService.selectAll();
 		
 		ModelAndView mav = new ModelAndView("shop/product/"+productTopcategory.getProductTopcategoryName());
 		mav.addObject("subList", subList);
 		mav.addObject("topName", topName);
+		mav.addObject("list", list);
 		
 		return mav;
 	}
-	
 
-	
 	@GetMapping("/product/list")
 	@ResponseBody
 	public List<Product> getList(int subId) {
-		List productList=productService.selectBySubId(subId);
+		List productListbySub=productService.selectBySubId(subId);
 		
-		return productList;
+		return productListbySub;
 	}
-	
-
 	
 	@GetMapping("/product/detail")
 	public ModelAndView getProductDetails(int productId) {

@@ -1,3 +1,4 @@
+<%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -5,6 +6,7 @@
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	List<ProductSubcategory> subList=(List)request.getAttribute("subList");
 	String topname=(String)request.getAttribute("topName");
+	List<Product> listAll=(List)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -46,6 +48,16 @@
 	
 	<!--상품 리스트  -->
 	<div class="content-container-p">
+		<%for(Product product:listAll){ %>
+		<a href='/shop/product/detail?productId=<%=product.getProductId() %>' class='p_list'>
+		<% if(product.getProductImgs()!=null && !product.getProductImgs().isEmpty()){%>
+			<% String imagePath = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();%>
+			<img src='<%= imagePath %>' class='slide' alt='Slide 1'>
+		<% }%>
+		<div class='p_name'><%=product.getProductName() %></div>
+		<div class='p_price'><%=product.getPrice()%></div>
+		</a>
+		<%} %>
 	</div>
 	<!--상품 리스트  -->
 </section>
@@ -74,11 +86,10 @@
 function printCategory(list){
 	let tag="";
 	
-	
 	for(let i=0;i<list.length;i++){
 		tag+="<a href='/shop/product/detail?productId=" + list[i].productId + "' class='p_list'>";
 		if(list[i].productImgs[0]!=null){
-		tag+="<img src='/data/p_"+list[i].productId+"/"+list[i].productImgs[0].filename+"' class='slide' alt='Slide 1'>";
+		tag+="<img src='/data/product_"+list[i].productId+"/"+list[i].productImgs[0].filename+"' class='slide' alt='Slide 1'>";
 		}
 		tag+="<div class='p_name'>" + list[i].productName +"</div>";
 		tag+="<div class='p_price'>" + list[i].price +"</div>";
@@ -86,9 +97,6 @@ function printCategory(list){
 	}
 	
 	$(".content-container-p").html(tag);  // innerHTML=태그 동일
-	
-	//현재 select 객체의 값 설정 
-	/* $(obj).val(v); */
 }
 
 
@@ -116,9 +124,10 @@ $(".sub-btn").click(function () {
       "background-color": "#1d1d1f",
       "color": "white"
     });
-    console.log($(this).val());
+    
  	getProductList($(this).val());
  });
+ 
 </script>
 </body>
 </html>

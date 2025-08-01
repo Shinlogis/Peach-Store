@@ -143,7 +143,7 @@ input[type="text"]{
 }
 
 input[type="button"]{
-	width: 430px;
+	width: 400px;
 	height: 65px;
 	border-radius: 18px;
 	background: #0071e3;
@@ -151,6 +151,55 @@ input[type="button"]{
 	border:0;
 	margin-top:50px;
 }
+
+/* 리뷰 - !important로 강제 적용 */
+.review-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.review-item {
+	border-bottom: 1px solid #eee;
+	padding: 12px 20px;
+	background: white;
+}
+
+.review-intro {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.review-writer {
+	font-weight: bold;
+	font-size: 16px;
+	color: #212529;
+}
+
+.review-date {
+	color: #888;
+	font-size: 14px;
+}
+
+.review-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.review-text{
+	width:70%;
+	white-space: nowrap;        
+  	overflow: hidden;        
+  	text-overflow: ellipsis;
+}
+
+.review-img img {
+	width: 35px;
+	height:100%;
+}
+
 
 
 
