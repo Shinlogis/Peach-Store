@@ -38,6 +38,15 @@ public interface ProductSubcategoryService {
 	public void register(String productSubCategoryName, int productTopcategoryId, String savePath, MultipartFile photo);
 	
 	/**
+	 * 하위카테고리 수정
+	 * @param productSubCategoryId
+	 * @param newName
+	 * @param savePath
+	 * @param photo
+	 */
+	public void change(int productSubCategoryId, String newName, String savePath, MultipartFile photo);
+	
+	/**
 	 * 하위 카테고리 이름 수정
 	 * @param name
 	 * @param subcategoryId
@@ -48,7 +57,7 @@ public interface ProductSubcategoryService {
 	 * 하위 카테고리 비활성화
 	 * @param subcategoryId
 	 */
-	public void deactivate(int subcategoryId);
+	public void toggleActivation(int subcategoryId);
 
 	/**
 	 * id로 서브카테고리 조회

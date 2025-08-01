@@ -20,8 +20,8 @@
 	<link rel="stylesheet"  href="/static/shop/css/product/productList.css">
 </head>
 <body style="background-color:#f5f5f7;">
-<%@ include file="../inc/offcanvas.jsp" %>
-    <!-- Offcanvas Menu End -->
+<%-- <%@ include file="../inc/offcanvas.jsp" %>
+    <!-- Offcanvas Menu End --> --%>
 
     <!-- Header Section Begin -->
 <%@ include file="../inc/header.jsp" %>

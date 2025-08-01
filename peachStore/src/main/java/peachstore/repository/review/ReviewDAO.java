@@ -27,4 +27,11 @@ public interface ReviewDAO {
 	 * @return
 	 */
 	public Review selectById(int reveiwId);
+	
+	/**
+	 * 리뷰 삭제
+	 * @param reviewId
+	 * @return
+	 */
+	public int delete(int reviewId);
 }

@@ -37,8 +37,15 @@ public class ReviewDAOImpl implements ReviewDAO{
 
 	@Override
 	public Review selectById(int reveiwId) {
-		Review result = sqlSessionTemplate.selectOne("Review.selectByid", reveiwId);
-		log.debug("select - result: {}", result);
+		Review result = sqlSessionTemplate.selectOne("Review.selectById", reveiwId);
+		log.debug("result: {}", result);
+		return result;
+	}
+
+	@Override
+	public int delete(int reviewId) {
+		int result = sqlSessionTemplate.delete("Review.delete", reviewId);
+		log.debug("result: {}", result);
 		return result;
 	}
 

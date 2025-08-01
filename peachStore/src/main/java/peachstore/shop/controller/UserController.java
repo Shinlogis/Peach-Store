@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,8 +23,10 @@ import com.google.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
+import peachstore.exception.UserException;
 import peachstore.service.SnsProviderService;
 import peachstore.service.UserService;
+
 @Slf4j
 @Controller
 public class UserController {
@@ -57,10 +60,16 @@ public class UserController {
 		return "redirect:/shop/main";
 	}
 
-	//회원가입 폼 요청 처리
+	// 회원가입 폼 요청 처리
 	@GetMapping("/joinform")
 	public String getJoinForm() {
 		return "shop/joinform";
+	}
+
+	@PostMapping("/user/join")
+	public String userJoin(User user) {
+		userService.userJoin(user);
+		return "redirect:/shop/main";
 	}
 
 	/*
@@ -110,7 +119,7 @@ public class UserController {
 			userService.register(user);
 		}
 		// 없으면 가입 후, 있으면 로그인
-		//session에 user라는 이름의 객체를 저장
+		// session에 user라는 이름의 객체를 저장
 		session.setAttribute("user", user);
 
 		return "redirect:/shop/main";
@@ -208,7 +217,7 @@ public class UserController {
 		// 아니라면 회원 가입 후 로그인 후..
 
 		// 회원가입 확인 및 등록 : 토큰을 통해 얻은 회원정보가 우리 쇼핑몰에 등록되어 있는지 체크
-		
+
 		User user = userService.selectById(id);
 		if (user == null) {
 			// 동일한 계정이 이미 존재한다면 로그인만 처리
@@ -222,23 +231,23 @@ public class UserController {
 
 			userService.register(user);
 		}
-		
+
 		return "redirect:/shop/main";
 	}
 
-	//가입 회워 로그인 로직
+	// 가입 회워 로그인 로직
 	@PostMapping("/user/login")
 	public String homepageLogin(User user, HttpSession session) {
-		log.debug("user 레퍼런스주소"+user);
+		log.debug("user 레퍼런스주소" + user);
 		User obj = userService.homepageLogin(user);
 //		if(user==null) {user=null이면 로그인 됨
-		if(obj==null) {
+		if (obj == null) {
 //			존재하지 않는 회원인경우 알림 띄우는 로직 구현하기
 			return "redirect:/shop/loginform";
 		}
-		
+
 		session.setAttribute("user", obj);
 		return "redirect:/shop/main";
 	}
-	
+
 }

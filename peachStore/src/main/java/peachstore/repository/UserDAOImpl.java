@@ -43,4 +43,13 @@ public class UserDAOImpl implements UserDAO{
 	public User homepageLogin(User user) {
 		return sqlSessionTemplate.selectOne("User.homepageLogin", user);
 	}
+	//회원가입을 위한 메서드
+	@Override
+	public void userJoin(User user) {
+		int result = sqlSessionTemplate.insert("User.userJoin", user);
+		if(result<1) {
+			throw new UserException("회원가입 정보가 올바르지 않습니다.");
+		}
+
+	}
 }

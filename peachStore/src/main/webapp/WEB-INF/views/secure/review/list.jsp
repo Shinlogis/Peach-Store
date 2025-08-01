@@ -140,12 +140,12 @@
 												</td>
 												<td>
 													제품이미지 추가 필요<br>
-													<%= review.getOrderDetail().getSnapshot().getProduct_name() %><br>
-													<%= review.getOrderDetail().getSnapshot().getSize()%>&nbsp;
-													<%= review.getOrderDetail().getSnapshot().getCapacity()%>&nbsp;
-													<%= review.getOrderDetail().getSnapshot().getColor()%>
-													<%= (review.getOrderDetail().getSnapshot().getEngraving() != null) ? "<br>각인: " + review.getOrderDetail().getSnapshot().getEngraving() : "" %><br>
-													<span style="color:gray;">구매가:&nbsp;<%= review.getOrderDetail().getSnapshot().getPrice() %></span>
+													<%= review.getOrderDetail().getSnapShot().getProduct_name() %><br>
+													<%= review.getOrderDetail().getSnapShot().getSize()%>&nbsp;
+													<%= review.getOrderDetail().getSnapShot().getCapacity()%>&nbsp;
+													<%= review.getOrderDetail().getSnapShot().getColor()%>
+													<%= (review.getOrderDetail().getSnapShot().getEngraving() != null) ? "<br>각인: " + review.getOrderDetail().getSnapShot().getEngraving() : "" %><br>
+													<span style="color:gray;">구매가:&nbsp;<%= review.getOrderDetail().getSnapShot().getPrice() %></span>
 												</td>
 												<td>
 												  <img width="40px" src="<%= imgSrc %>">
@@ -169,7 +169,7 @@
 												      관리
 												    </button>
 												    <div class="dropdown-menu" aria-labelledby="reviewManageDropdown<%= review.getReviewId() %>">
-												      <a class="dropdown-item" href="#" onclick="hideReview(<%= review.getReviewId() %>); return false;">리뷰 숨김</a>
+												      <a class="dropdown-item" href="#" onclick="hideReview(<%= review.getReviewId() %>); return false;">상태 변경</a>
 												      <a class="dropdown-item text-danger" href="#" onclick="deleteReview(<%= review.getReviewId() %>); return false;">리뷰 삭제</a>
 												    </div>
 												  </div>
@@ -213,20 +213,46 @@
 <script src="/static/admin/custom/ProductImg.js"></script>
 <script>
 	function hideReview(reviewId) {
-	    if (confirm('이 리뷰를 숨기시겠습니까?')) {
-	      // AJAX 요청 또는 폼 제출 로직 넣기
-	      alert('리뷰 숨김 기능: 리뷰ID = ' + reviewId);
-	      // 예) $.post('/admin/review/hide', {id: reviewId}, function(){ ... });
+	    if (confirm('이 리뷰 상태를 변경하시겠습니까?')) {
+	          $.ajax({
+	              url: "/admin/review/toggle",
+	              type: "POST",
+	              data: { reviewId: reviewId },
+	              success: function (result) {
+	                  if (result.success) {
+	                      alert("변경 성공");
+	                      location.reload();
+	                  } else {
+	                      alert("변경 실패");
+	                  }
+	              },
+	              error: function () {
+	                  alert("서버 오류");
+	              }
+	      });
 	    }
 	  }
 	
 	  function deleteReview(reviewId) {
 	    if (confirm('이 리뷰를 정말 삭제하시겠습니까? 삭제된 데이터는 복구할 수 없습니다.')) {
-	      // AJAX 요청 또는 폼 제출 로직 넣기
-	      alert('리뷰 삭제 기능: 리뷰ID = ' + reviewId);
-	      // 예) $.post('/admin/review/delete', {id: reviewId}, function(){ ... });
+		          $.ajax({
+		              url: "/admin/review/delete",
+		              type: "POST",
+		              data: { reviewId: reviewId },
+		              success: function (result) {
+		                  if (result.success) {
+		                      alert("삭제 성공");
+		                      location.reload();
+		                  } else {
+		                      alert("삭제 실패");
+		                  }
+		              },
+		              error: function () {
+		                  alert("서버 오류");
+		              }
+		      });
+		    }
 	    }
-  	}
 </script>
 
 </body>

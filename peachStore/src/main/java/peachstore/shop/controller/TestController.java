@@ -37,6 +37,7 @@ public class TestController {
 		int user_id = 3;
 		User user = userDAO.select(user_id);
 		session.setAttribute("user", user);
+		log.debug("로그인한 유저는 " + user);
 		
 		return "redirect:/shop/main";
 		

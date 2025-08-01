@@ -73,7 +73,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h3 class="card-title"><%=grades.size() %>개의 등급</h3>
+									<h3 class="card-title"><%=grades.size() %>개의 결과</h3>
 
 									<div class="card-tools">
 										
@@ -131,13 +131,6 @@
 												              data-discountRate="<%= grade.getDiscountRateAsDouble() %>"
 												              data-criteriaAmount="<%= grade.getCriteriaAmount() %>">
 												        수정
-												      </button>
-												      <button class="dropdown-item btn-delete"
-												              data-toggle="modal"
-												              data-target="#userGradeDelModal"
-												              data-id="<%= grade.getUserGradeId() %>"
-												              data-name="<%= grade.getUserGradeName() %>">
-												        삭제
 												      </button>
 												    </div>
 												  </div>
@@ -268,29 +261,6 @@
 				    </div>
 				  </div>
 				</div>
-				
-				<!-- 등급 삭제 모달 -->
-				<div class="modal fade" id="userGradeDelModal" tabindex="-1" role="dialog" aria-labelledby="userGradeDelModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="userGradeDelModalLabel">등급 삭제</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <p>다음 등급을 삭제합니다.</p>
-                                <p id="delGradeName" class="font-weight-bold"></p>
-                                <p>이 작업은 되돌릴 수 없습니다.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" id="delUserGrade">삭제</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 		</div>
 		<!-- /.content-wrapper -->
@@ -447,37 +417,6 @@
             }
 	    });
 	});
-
-    // 상위 카테고리 삭제 모달 오픈 시 데이터 셋팅
-    $("#userGradeDelModal").on("show.bs.modal", function (e) {
-        let button = $(e.relatedTarget);
-        let id = button.data("id");
-        let name = button.data("name");
-        $(this).data("id", id);
-        $(this).find("#delGradeName").text(name);
-    });
-
-    // 상위 카테고리 삭제
-    $("#delUserGrade").click(() => {
-        let id = $("#userGradeDelModal").data("id");
-        $.ajax({
-            url: "/admin/usergrade/delete",
-            type: "POST",
-            data: { userGradeId: id },
-            success: function (result) {
-                if (result.success) {
-                    alert("삭제 성공");
-                    location.reload();
-                } else {
-                    alert("삭제 실패");
-                }
-            },
-            error: function () {
-                alert("서버 오류");
-            }
-        });
-        $("#topCategoryDelModal").modal('hide');
-    });
 
 </script>
 </body>

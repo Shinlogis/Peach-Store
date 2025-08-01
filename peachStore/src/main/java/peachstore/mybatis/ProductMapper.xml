@@ -53,6 +53,17 @@
 		where product_subcategory_id=#{product_subcategory_id}
 	</select>
 	
+	<select id="selectAllWithPaging" resultMap="joinMap">
+	    select <include refid="columns"/> 
+	    from product 
+	    order by product_id desc
+	    limit #{pageSize} offset #{startIndex}
+	</select>
+	
+	<select id="count" resultType="int">
+	    SELECT COUNT(*) FROM product
+	</select>
+	
 </mapper>
 
 
