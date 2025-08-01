@@ -95,7 +95,6 @@
 
 		$(()=>{
 			$("#bt_login").click(()=>{
-				alert("로그인 요청 들어옴");
 				homepageLogin();
 			});
 		})

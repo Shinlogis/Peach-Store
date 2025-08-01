@@ -1,6 +1,7 @@
 package peachstore.shop.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpSession;
@@ -8,10 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -23,9 +24,8 @@ import com.google.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
-import peachstore.exception.UserException;
-import peachstore.service.SnsProviderService;
-import peachstore.service.UserService;
+import peachstore.service.user.SnsProviderService;
+import peachstore.service.user.UserService;
 
 @Slf4j
 @Controller
@@ -47,7 +47,7 @@ public class UserController {
 	private UserService userService;
 
 	// 로그인 폼 요청 처리
-	@GetMapping("/loginform")
+	@GetMapping("/user/loginform")
 	public String getLoginForm() {
 		return "shop/loginform";
 	}
@@ -61,9 +61,14 @@ public class UserController {
 	}
 
 	// 회원가입 폼 요청 처리
-	@GetMapping("/joinform")
-	public String getJoinForm() {
-		return "shop/joinform";
+	@GetMapping("/user/joinform")
+	public ModelAndView getJoinForm() {
+		List<User> userList = userService.selectAllJoin();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("userList", userList);
+		mav.setViewName("shop/joinform");
+		
+		return mav;
 	}
 
 	@PostMapping("/user/join")
@@ -71,10 +76,37 @@ public class UserController {
 		userService.userJoin(user);
 		return "redirect:/shop/main";
 	}
+	
+    @GetMapping("/user/checkid")
+    @ResponseBody
+    public String checkId(@RequestParam("id") String id) {
+        User user = userService.selectById(id);
+        if (user != null) {
+            return "duplicated";
+        } else {
+            return "available";
+        }
+    }
+    
+	// 가입 회원 로그인 로직
+	@PostMapping("/user/login")
+	public String homepageLogin(User user, HttpSession session) {
+		log.debug("user 레퍼런스주소" + user);
+		User obj = userService.homepageLogin(user);
+//		if(user==null) {user=null이면 로그인 됨
+		if (obj == null) {
+//			존재하지 않는 회원인경우 알림 띄우는 로직 구현하기
+			return "redirect:/shop/loginform";
+		}
 
+		session.setAttribute("user", obj);
+		return "redirect:/shop/main";
+	}
+
+	
 	/*
-	 * ======================================================================== 구글
-	 * 로그인 처리
+	 * ========================================================================
+	 * 구글 로그인 처리
 	 * ========================================================================
 	 */
 
@@ -126,7 +158,8 @@ public class UserController {
 	}
 
 	/*
-	 * ================================================= 네이버 로그인 처리
+	 * =================================================
+	 * 네이버 로그인 처리
 	 * ======================================================
 	 */
 
@@ -182,7 +215,8 @@ public class UserController {
 	}
 
 	/*
-	 * ================================================== 카카오 관련
+	 * ==================================================
+	 * 카카오 관련
 	 * =================================================
 	 */
 	@GetMapping("/user/kakao/authurl")
@@ -235,19 +269,5 @@ public class UserController {
 		return "redirect:/shop/main";
 	}
 
-	// 가입 회워 로그인 로직
-	@PostMapping("/user/login")
-	public String homepageLogin(User user, HttpSession session) {
-		log.debug("user 레퍼런스주소" + user);
-		User obj = userService.homepageLogin(user);
-//		if(user==null) {user=null이면 로그인 됨
-		if (obj == null) {
-//			존재하지 않는 회원인경우 알림 띄우는 로직 구현하기
-			return "redirect:/shop/loginform";
-		}
-
-		session.setAttribute("user", obj);
-		return "redirect:/shop/main";
-	}
 
 }
