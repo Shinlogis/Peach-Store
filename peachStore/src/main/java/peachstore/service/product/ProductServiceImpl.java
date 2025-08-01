@@ -64,7 +64,11 @@ public class ProductServiceImpl implements ProductService {
     public void regist(Product product, String savePath) throws ProductException, ProductColorException, ProductSizeException {
         // 1) 상품 DB에 등록
         productDAO.insert(product);
+        int productId = product.getProductId();
 
+     // 2. 디렉토리 생성용 서브 경로
+        String subDir = "product_" + productId;
+        
         // 2) 색상 목록 등록
         for (ProductColor productColor : product.getProductColors()) {
             productColor.setProduct(product); // PK 포함된 Product 객체 주입
@@ -78,14 +82,14 @@ public class ProductServiceImpl implements ProductService {
         }
         
         // 4) 이미지 저장
-        List<String> savedFilenames = fileCommonManager.saveFiles(product.getPhoto(), savePath, "product");
+        List<String> savedFilenames = fileCommonManager.saveFiles(product.getPhoto(), savePath, subDir);
 
         // 5) DB에 이미지 정보 저장
         List<ProductImg> imgList = new ArrayList<>();
         for (String filename : savedFilenames) {
             ProductImg img = new ProductImg();
-            img.setProduct(product);  // 상품 연결
-            img.setFilename(filename); // 📌 반드시 ProductImg에 이 필드 있어야 함
+            img.setProduct(product);  
+            img.setFilename(filename); 
             productImgDAO.insert(img);
             imgList.add(img);
         }
@@ -96,11 +100,6 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> selectAll() {
         List<Product> list = productDAO.selectAll();
         log.error("selectAll() 호출됨, 결과 사이즈: " + list.size());
-
-        for (Product product : list) {
-            List<ProductImg> imgs = productImgDAO.selectByProductId(product.getProductId());
-            product.setProductImgs(imgs);
-        }
 
         return list;
     }
@@ -128,20 +127,20 @@ public class ProductServiceImpl implements ProductService {
     	fileCommonManager.remove("product", savePath); 
     }
 
-    @Override
-    public List<Product> selectAll(int startIndex, int pageSize) {
-        List<Product> list = productDAO.selectAllWithPaging(startIndex, pageSize);
-
-        for (Product product : list) {
-            List<ProductImg> imgs = productImgDAO.selectByProductId(product.getProductId());
-            product.setProductImgs(imgs);
+    public List<Product> selectAll(int page, int pageSize) {
+        int total = productDAO.count();
+        if (total == 0) {
+            return new ArrayList<>();
         }
 
-        return list;
+        int safePage = Math.max(1, page);
+        int offset = (safePage - 1) * pageSize;
+
+        return productDAO.selectAllWithPaging(offset, pageSize);
     }
 
 	@Override
 	public int getTotalRecord() {
-		return productDAO.count(); // 🔹 이 메서드가 ProductMapper에 정의돼 있어야 함!
+		return productDAO.count(); 
 	}
 }

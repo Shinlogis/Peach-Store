@@ -35,6 +35,8 @@ public class FileCommonManager {
         if (!directory.exists()) {
             directory.mkdirs();
         }
+        
+        log.info("파일 저장 디렉토리: {}", directory.getAbsolutePath()); // 경로 확인용 로그
 
         try {
             for (MultipartFile file : files) {

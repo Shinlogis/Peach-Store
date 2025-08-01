@@ -23,7 +23,8 @@
     	colorArray[i] = product.getProductColors().get(i).getColor().getColor_id();
     }
     String colorJson = mapper.writeValueAsString(colorArray);
-    out.print("color json "+colorJson);
+ 	
+    
     
 %>
 
@@ -160,11 +161,11 @@
   getTopCategory(<%= topCategoryId %>);
   getSubCategory(<%= topCategoryId %>, <%= subCategoryId %>);
   getColorList(<%= colorJson%>);
-  getSizeList();
+  getSizeList<%= sizeJson%>();
 
   <% if (product != null && product.getProductImgs() != null) {
        for(ProductImg productImg : product.getProductImgs()) { %>
-         getImgList("p_<%= product.getProductId() %>", "<%= productImg.getFilename() %>");
+         getImgList("product_<%= product.getProductId() %>", "<%= productImg.getFilename() %>");
   <%   }
      } %>
 
@@ -260,17 +261,18 @@
     });
   }
 
-  function getSizeList(){
+  function getSizeList(v){
     $.ajax({
       url: "/admin/size/list",
       type: "get",
       success: function(result){
-        printCategory("#size", result);
+        printCategory("#size", result, v);
       }
     });
-  }
+  }xk
 
   function printCategory(obj, list, v){
+	console.log(">> render", obj, "target:", v);
     let tag = "<option value='0'>카테고리 선택</option>";
     for(let i=0; i<list.length; i++){
       if(obj === "#topcategory"){
