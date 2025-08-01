@@ -314,20 +314,20 @@ CREATE TABLE COUPON (
     IS_ACTIVE BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- 리뷰 테이블 생성(CREATE TABLE REVIEW)
-CREATE TABLE REVIEW(
-    REVIEW_ID INT PRIMARY KEY AUTO_INCREMENT
-    , CONTEXT TEXT NOT NULL
-    , REGDATE DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    , STATUS VARCHAR(10) NOT NULL CHECK(STATUS IN('활성', '비활성'))
-    , USER_ID INT NOT NULL
-    , ORDER_DETAIL_ID INT NOT NULL
-    , CONSTRAINT FK_REVIEW_USER_ID
-        FOREIGN KEY (USER_ID)
-        REFERENCES USER(USER_ID)
-    , CONSTRAINT FK_REVIEW_ORDER_DETAIL_ID
-        FOREIGN KEY (ORDER_DETAIL_ID)
-        REFERENCES ORDER_DETAIL(ORDER_DETAIL_ID)
+-- 리뷰 테이블 생성(CREATE TABLE review)
+CREATE TABLE review(
+    review_id int PRIMARY KEY AUTO_INCREMENT
+    , content text NOT NULL
+    , regdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+    , status varchar(10) NOT NULL CHECK(status in('활성', '비활성'))
+    , user_id int NOT NULL
+    , order_detail_id int NOT NULL
+    , CONSTRAINT fk_review_user_id
+        FOREIGN KEY (user_id)
+        REFERENCES user(user_id)
+    , CONSTRAINT fk_review_order_detail_id
+        FOREIGN KEY (order_detail_id)
+        REFERENCES order_detail(order_detail_id)
 );
 
 -- 리뷰 이미지 테이블 생성(CREATE TABLE REVIEW_IMG)
@@ -659,8 +659,13 @@ VALUES
     (14, 8, NULL),
     (15, 12, NULL);
 
+<<<<<<< HEAD
 -- 리뷰 테이블 인서트 (INSERT INTO REVIEW)
 INSERT INTO REVIEW (CONTEXT, STATUS, USER_ID, ORDER_DETAIL_ID)
+=======
+-- 리뷰 테이블 인서트 (INSERT INTO review)
+INSERT INTO review (content, status, user_id, order_detail_id)
+>>>>>>> 6fd7eaa3cc19b334b5601a508fb50bf615b9a3dd
 VALUES
     ('정말 마음에 들어요! 배송도 빨랐어요.', '활성', 2, 4),
     ('상품이 설명과 같고 만족스러워요.', '활성', 3, 5),

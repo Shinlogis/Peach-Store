@@ -1,13 +1,14 @@
 package peachstore.domain;
 
+
 import lombok.Data;
 
 @Data
 public class OrderDetail {
 
-	private int order_detail_id;
-	private int order_quantity;
+	private int orderDetailId;
+	private int orderQuantity;
 	private OrderReceipt orderReceipt;
-	private SnapShot snapShot;
+	private SnapShot snapshot;
 
 }

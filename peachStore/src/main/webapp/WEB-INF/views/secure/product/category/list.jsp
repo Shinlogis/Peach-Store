@@ -129,9 +129,8 @@
 		                                        	<% if (sub.getFilename() != null && !sub.getFilename().isEmpty()) { %>
 													  <img src="/data/subcategory_<%= sub.getProductSubcategoryId()%>/<%= sub.getFilename() %>" style="width:150px;" />
 													<% } %>
-		                                            <span><%= top.getProductTopcategoryName() %></span>
+                                                	<span><%= sub.getProductSubcategoryName() %></span>
 		                                        </p>
-                                                <span><%= sub.getProductSubcategoryName() %></span>
                                             </div>
                                             <div>
                                                 <button type="button" class="btn btn-secondary btn-sm"
