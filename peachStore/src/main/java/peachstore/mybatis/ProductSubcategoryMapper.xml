@@ -113,7 +113,7 @@
     	join product_topcategory pt
     		on ps.product_topcategory_id = pt.product_topcategory_id
     	where
-    		and pt.product_topcategory_id = #{value}
+    		pt.product_topcategory_id = #{value}
 	</select>
 	
 	
