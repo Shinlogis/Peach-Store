@@ -60,4 +60,11 @@ public class InquiryDAOImpl implements InquiryDAO{
 		}
 	}
 
+	@Override
+	public List<Inquiry> selectAllAtAdmin() {
+		List<Inquiry> list = sqlSessionTemplate.selectList("Inquiry.selectAllAtAdmin");
+		log.debug("resultCount: {}", list.size());
+		return list;
+	}
+
 }

@@ -1,6 +1,5 @@
 package peachstore.service.inquiry;
 
-import peachstore.domain.Inquiry;
 import peachstore.domain.InquiryImg;
 
 /**
