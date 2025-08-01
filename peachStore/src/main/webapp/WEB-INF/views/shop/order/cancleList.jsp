@@ -1,3 +1,4 @@
+<%@page import="peachstore.domain.OrderReceipt"%>
 <%@page import="peachstore.domain.OrderDetail"%>
 <%@page import="peachstore.domain.Inquiry"%>
 <%@page import="peachstore.domain.User"%>
@@ -7,7 +8,7 @@
 <% User user = (User)session.getAttribute("user"); 
 	
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
-	List<OrderDetail> orderDetail = (List)request.getAttribute("cancle");
+	List<OrderReceipt> cancleList = (List)request.getAttribute("cancleList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,8 +53,7 @@
 
 			
  <!-- 리스트 시작 -->
-   <form >
-   <input type="hidden" name="user.user_id" value="<%= user.getUser_id()%>">
+  
 			<section class="shop-cart spad">
 				<div class="container">
 					<div class="row">
@@ -63,72 +63,56 @@
 								
 								<div class="card-header"
      style="display: flex; justify-content: space-between; border-bottom: 2px solid black;">
-    <h3 class="card-title" style="font-weight: bold;">취소 내역</h3>
+    <h3 class="card-title" style="font-weight: bold;">주문 내역</h3>
 </div>
 
 <table style="width: 100%; border-collapse: collapse;">
-    <colgroup>
-        <col style="width: 50%;">
-        <col style="width: 30%;">
-        <col style="width: 20%;">
-    </colgroup>
+    
     <thead>
-        <br><br>
         <tr style="border-bottom: 1px solid black;">
             <th style="font-weight: bold; font-size: 20px;">상품정보</th>
-            <th style="font-weight: bold; font-size: 20px;">진행상태</th>
-            <th style="font-weight: bold; font-size: 20px;">리뷰쓰기</th>
         </tr>
     </thead>
-            <%for(OrderDetail detail : orderDetail){ %>
     <tbody>
-        <tr>
-            <!-- 상품정보 -->
-            <td>
-                <div style="display: flex; gap: 120px;">
-                    <img src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename() %>" alt="상품 이미지" style="width: 100px; height: 100px; object-fit: cover;">
-                    <div>
-                        <div  style="margin-bottom: 12px;"> <strong><%=detail.getSnapShot().getProduct_name() %></strong></div>
+        <% for(OrderReceipt orderReceipt : cancleList) { %>
+            <!-- 주문 단위 블럭 시작 -->
+            <tr style="background-color: #f5f5f5;">
+                <td colspan="3" style="padding: 10px; font-weight: bold;">
+                    주문번호: <%=orderReceipt.getOrder_receipt_id()%> /
+                    상태: <%=orderReceipt.getOrder_status()%> /
+                    주문일자: <%=orderReceipt.getOrderdate()%>
+                </td>
+            </tr>
+            
+            <% for(OrderDetail detail : orderReceipt.getOrderList()) { %>
+            <tr>
+                <!-- 상품정보 -->
+                <td>
+                    <div style="display: flex; gap: 20px;">
+                        <img src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename()%>" style="width: 100px; height: 100px; object-fit: cover;">
                         <div>
-                             <%=detail.getSnapShot().getSize() %> &nbsp;&nbsp;
-                             <%=detail.getSnapShot().getColor() %>
+                            <div style="margin-bottom: 8px;"><strong><%=detail.getSnapShot().getProduct_name()%></strong></div>
+                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getSize()%> / <%=detail.getSnapShot().getColor()%></div>
+                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getPrice()%>원 / <%=detail.getOrder_quantity()%>개</div>
+                            <div><strong>각인:</strong> <%=detail.getSnapShot().getEngraving()%></div>
                         </div>
-                        <div style="margin-bottom: 12px;">
-                             <%=detail.getSnapShot().getPrice() %>원 &nbsp;&nbsp;
-                            <%=detail.getOrder_quantity() %>개
-                        </div style="margin-bottom: 12px;">
-                        <div><strong>각인:</strong> <%=detail.getSnapShot().getEngraving() %></div>
                     </div>
-                </div>
-            </td>
-           
-
-            <!-- 진행상태 -->
-            <td>
-                <div style="margin-bottom: 12px;"> <%=detail.getOrderReceipt().getOrder_status() %></div>
-                <di style="margin-bottom: 12px;"> 2025-07-28</div>
-            </td>
-
-            <!-- 리뷰쓰기 -->
-            <%if(detail.getOrderReceipt().getOrder_status().equals("발송완료")) {%>
-            <td>
-                <button onclick="cancelOrder()" class="btn btn-secondary">
-                    리뷰쓰기
-                </button>
-            </td>
-            <%} %>
-        </tr>
+                </td>
+                
+                
+            </tr>
+            <% } %>
+            <!-- 주문 단위 블럭 끝 -->
+        <% } %>
     </tbody>
-     <%} %>
 </table>
 
-								</table>
+
 							</div>
 						</div>
 					</div>
 				</div>
 			</section>
-			</form>
 			<!-- 리스트 끝 -->
 
     

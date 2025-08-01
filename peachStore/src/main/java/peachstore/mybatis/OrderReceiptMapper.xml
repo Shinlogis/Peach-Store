@@ -7,10 +7,9 @@
 		<result column="orderdate" property="orderdate"/>
 		<result column="order_status" property="order_status"/>
 		
-		<association column="user_id" property="user" javaType="User"
-		select="User.select"/>
+		<association column="user_id" property="user" javaType="User" select="User.select"/>
 		
-		<!-- <collection column="order_receipt_id" property="orderList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderReceiptId"/> -->
+		 <collection column="order_receipt_id" property="orderList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderReceiptId"/> 
 	</resultMap>
 
 	

@@ -36,55 +36,39 @@ public class OrderController {
 	public ModelAndView selectAll(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
 		User user = (User)session.getAttribute("user");
 		orderReceipt.setUser(user);
-		List<OrderDetail> details = new ArrayList<>();
 		log.debug("유저 데이터 : {}",user);
 		
 		List<OrderReceipt> receiptList = orderReceiptService.selectByUserId(orderReceipt);
 		log.debug("주문요약 데이터 : {}",receiptList);
 		
-		for(OrderReceipt receipt : receiptList) {
-		List<OrderDetail> detail = orderDetailService.selecByReceitId(receipt.getOrder_receipt_id());
-		log.debug("주문상세 데이터 : {}",detail);
-			details.addAll(detail);
-		}
-		//SnapShot shot = snapShotService.select(snapShot);
-		
-//		for(OrderDetail orderList : detail) {
-//			log.debug("상품의 주문한 유저는 " + orderList.getOrderReceipt().getUser().getUser_id());
-//			log.debug("상품의 주문일은 " + orderList.getOrderReceipt().getOrderdate());
-//		}
 		
 		ModelAndView mav = new ModelAndView();
 		
-		mav.addObject("orderDetail", details);
-		//mav.addObject("orderReceipt", receipt);
-		//mav.addObject("snapShot", shot);
 		
-		mav.setViewName("shop/order/list");
+		mav.addObject("receiptList", receiptList);
+		
+		mav.setViewName("shop/order/orderList");
 		
 		return mav;
 	}
 	
 	//주문 취소 리스트
 	@GetMapping("/order/cancle/list")
-	public ModelAndView cancle(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
+	public ModelAndView selectCancle(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
 		User user = (User)session.getAttribute("user");
 		orderReceipt.setUser(user);
-		List<OrderDetail> details = new ArrayList<>();
+		log.debug("유저 데이터 : {}",user);
 		
-		List<OrderReceipt> receiptList = orderReceiptService.cancleList(orderReceipt);
-		
-		for(OrderReceipt receipt : receiptList) {
-		List<OrderDetail> detail = orderDetailService.selecByReceitId(receipt.getOrder_receipt_id());
-			details.addAll(detail);
-		}
+		List<OrderReceipt> cancleList = orderReceiptService.cancleList(orderReceipt);
+		log.debug("주문요약 데이터 : {}",cancleList);
 		
 		
 		ModelAndView mav = new ModelAndView();
 		
-		mav.addObject("cancle", details);
 		
-		mav.setViewName("shop/order/cancle");
+		mav.addObject("cancleList", cancleList);
+		
+		mav.setViewName("shop/order/cancleList");
 		
 		return mav;
 	}

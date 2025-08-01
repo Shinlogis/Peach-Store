@@ -6,8 +6,8 @@
 		<id column="order_detail_id" property="order_detail_id" />
 		<result column="order_quantity" property="order_quantity"/>
 		
-		<association column="order_receipt_id" property="orderReceipt" javaType="OrderReceipt"
-		select = "OrderReceipt.select"/>
+	<!-- 	<association column="order_receipt_id" property="orderReceipt" javaType="OrderReceipt"
+		select = "OrderReceipt.select"/> -->
 		<association column="snapshot_id" property="snapShot" javaType="SnapShot"
 			select="SnapShot.select"/>
 			
