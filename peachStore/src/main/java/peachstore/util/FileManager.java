@@ -89,15 +89,15 @@ public class FileManager {
 	}
 	
 	//삭제 대상 파일 처리
-	public void deleteImg(Inquiry inquiry, String savePath) throws InquiryImgException{
-		for(int i=0; i<inquiry.getImgList().size(); i++) {
-			File file = new File(savePath, "p_" + inquiry.getInquiry_id()+ "/" + inquiry.getImgList().get(i).getFilename());
+	public void deleteImg(InquiryImg img, String savePath) throws InquiryImgException{
+		
+			log.debug("삭제할 이미지 파일 경로" + savePath + "/" + img.getFilename());
+			File file = new File(savePath + "/" + img.getFilename());
 			boolean deleted = file.delete();
 			
 			if(deleted == false) {
 				throw new InquiryImgException("사진 삭제 실패");
 			}
-		}
 	}
 	
 	

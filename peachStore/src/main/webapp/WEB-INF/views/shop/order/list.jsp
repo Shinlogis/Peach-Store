@@ -105,7 +105,7 @@
             <!-- 진행상태 -->
             <td>
                 <div style="margin-bottom: 12px;"> <%=detail.getOrderReceipt().getOrder_status() %></div>
-                <di style="margin-bottom: 12px;"> 2025-07-28</div>
+                <div style="margin-bottom: 12px;"> <%=detail.getOrderReceipt().getOrderdate()%></div>
             </td>
 				<form method="post" id="cancle" action="/shop/order/cancle">
 				 <input type="hidden" name="user.user_id" value="<%= user.getUser_id()%>">
@@ -115,7 +115,7 @@
 				 </form>
 
             <!-- 주문취소 -->
-            <%if(detail.getOrderReceipt().getOrder_status().equals("발송완료")) {%>
+            <%if(detail.getOrderReceipt().getOrder_status().equals("상품 준비 전")||detail.getOrderReceipt().getOrder_status().equals("상품 준비 중")) {%>
             <td>
                 <button onclick="if(confirm('주문취소 하시겠습니까?')) document.getElementById('cancle').submit();" class="btn btn-danger">
                     주문취소

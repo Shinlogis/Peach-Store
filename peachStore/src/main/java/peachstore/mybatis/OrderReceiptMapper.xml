@@ -17,7 +17,7 @@
 
 	<select id="selectByUserId" parameterType="OrderReceipt" resultMap="joinMap">
 		select order_receipt_id, orderdate, order_status, user_id 
-		 from order_receipt where user_id = #{user.user_id} and order_status in ('상품 준비 전', '상품 준비 중', '발송완료')
+		 from order_receipt where user_id = #{user.user_id} and trim(order_status) IN ('상품 준비 전', '상품 준비 중', '발송완료')
 	</select>
 	
 	<select id="select" parameterType="OrderReceipt" resultMap="joinMap">
