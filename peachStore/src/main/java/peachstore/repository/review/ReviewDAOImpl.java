@@ -26,7 +26,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 		List<Review> list = sqlSessionTemplate.selectList("Review.selectAll");
 		log.debug("select - resultCount: {}", list.size());
 		for (Review review : list) {
-			log.debug("username {}", review.getUser().getUser_name());
+			log.debug("username {} grade {}", review.getUser().getUser_name(), review.getUser().getUser_grade().getUserGradeName());
 		}
 		return list;
 	}

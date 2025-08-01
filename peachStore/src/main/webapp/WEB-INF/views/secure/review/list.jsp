@@ -80,7 +80,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h3 class="card-title">Responsive Hover Table</h3>
+									<h3 class="card-title"><%=list.size() %>개의 결과</h3>
 
 									<div class="card-tools">
 										<div class="input-group input-group-sm" style="width: 150px;">
@@ -102,10 +102,10 @@
 											<tr>
 												<th>NO</th>
 												<th>작성일</th>
-												<th>이미지</th>
 												<th>고객정보</th>
 												<th>제품</th>
-												<th>내용</th>
+												<th>이미지</th>
+												<th>리뷰 상세 내용</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -132,15 +132,26 @@
 												%>
 												<td><%= review.getRegdate() %></td>
 												<td>
+													<%= review.getUser().getUser_name()%><br>
+													<span style="color:gray;"><%= review.getUser().getId() %></span><br>
+													<%= review.getUser().getUser_grade().getUserGradeName() %>
+												</td>
+												<td>
+													제품이미지 추가 필요<br>
+													<%= review.getOrderDetail().getSnapshot().getProduct_name() %><br>
+													<%= review.getOrderDetail().getSnapshot().getSize()%>&nbsp;
+													<%= review.getOrderDetail().getSnapshot().getCapacity()%>&nbsp;
+													<%= review.getOrderDetail().getSnapshot().getColor()%>
+													<%= (review.getOrderDetail().getSnapshot().getEngraving() != null) ? "<br>각인: " + review.getOrderDetail().getSnapshot().getEngraving() : "" %><br>
+													<span style="color:gray;">구매가:&nbsp;<%= review.getOrderDetail().getSnapshot().getPrice() %></span>
+												</td>
+												<td>
 												  <img width="40px" src="<%= imgSrc %>">
 												</td>
 												<td>
-													<%= review.getUser().getUser_name()%><br>
-													<%= review.getUser().getId() %><br>
-													<%= review.getUser().getUser_grade().getUserGradeName() %>
+												리뷰이미지 추가 필요<br>
+												<%= review.getContent() %>
 												</td>
-												<td><%= review.getOrderDetail().getSnapshot().getProduct_name() %></td>
-												<td><%= review.getContent() %></td>
 											</tr>
 										<%} %>
 										</tbody>

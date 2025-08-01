@@ -15,8 +15,8 @@
 			<result column="user_name" property="user_name" />
 
 			<association property="user_grade" javaType="UserGrade">
-				<id column="user_grade_id" property="userGradeId" />
-				<result column="user_grade_name" property="userGradeName" />
+				<id column="userGradeId" property="userGradeId" />
+				<result column="userGradeName" property="userGradeName" /> <!-- column에는 alias명이 필요 -->
 			</association>
 		</association>
 
@@ -26,9 +26,13 @@
 			<association property="snapshot" javaType="SnapShot">
 				<id column="snapshot_id" property="snapshotId" />
     			<result column="product_name" property="product_name" />
+    			<result column="price" property="price" />
+    			<result column="size" property="size" />
+    			<result column="capacity" property="capacity" />
+    			<result column="color" property="color" />
+    			<result column="engraving" property="engraving" />
 			</association>
 		</association>
-		
 
 	</resultMap>
 
@@ -50,7 +54,12 @@
 			od.order_detail_id AS orderDetailId,
 			
 			s.snapshot_id AS snapshotId,
-			s.product_name AS product_name
+			s.product_name AS product_name,
+			s.price AS price,
+			s.size AS size,
+			s.capacity AS capacity,
+			s.color AS color,
+			s.engraving AS engraving
 
 		FROM review r
 		JOIN user u 
