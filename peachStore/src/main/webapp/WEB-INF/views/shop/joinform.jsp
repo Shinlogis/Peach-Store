@@ -24,15 +24,16 @@
 			<div class="login-title">Peach Store의 회원이 되어보세요</div>
 		</div>
 		<div class="container" style="text-align:center">
-			<form id="form1">
+			<form id="joinform">
 				<div class="row">
 					<div class="col">
-						<input class="a" type="text" name="id" placeholder="아이디" required>
-						<input class="a" type="password" name="password" placeholder="비밀번호" required>
-						<input class="a" type="password" name="passwordconfirm" placeholder="비밀번호 확인" required>
-						<input class="a" type="email" name="email" placeholder="이메일" required>
-						<input class="a" type="text" name="username" placeholder="이름" required>
-						<input class="a" type="text" name="address" placeholder="주소" required>
+						<input class="a" type="text" id="id" name="id" placeholder="아이디" required>
+						<input class="a" type="password" id="password" name="password" placeholder="비밀번호" required>
+						<input class="a" type="password" id="passwordconfirm" placeholder="비밀번호 확인" required>
+						<input class="a" type="email" id="email" name="email" placeholder="이메일" required>
+						<input class="a" type="text" id="user_name" name="user_name" placeholder="이름" required>
+						<input class="a" type="tel" id="tel" name="tel" placeholder="휴대폰번호" required>
+						<input class="a" type="text" id="address" name="address" placeholder="주소" required>
 						<input class="a" type="submit" value="회원가입하기" id="bt_join">
 					</div>
 				</div>
@@ -88,11 +89,11 @@
 		}
 		
 		function userJoin(){
-			$("#form1").attr({
+			$("#joinform").attr({
 				action:"/shop/user/join",
 				method:"post"
 			})
-			$("#form1").submit();
+			$("#joinform").submit();
 		}
 		$(()=>{
 			$("#bt_join").click(()=>{

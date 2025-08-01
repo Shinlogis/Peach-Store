@@ -1,7 +1,10 @@
 package peachstore.repository.product;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -77,5 +80,19 @@ public class MybatisProductDAO implements ProductDAO {
 	@Override
 	public List<Product> selectBySubId(int subId) {
 		return sqlSessionTemplate.selectList("Product.selectBySubId",subId);
+	}
+	
+    @Override
+    public List<Product> selectAllWithPaging(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("startIndex", startIndex);
+        paramMap.put("pageSize", pageSize);
+
+        return sqlSessionTemplate.selectList("Product.selectAllWithPaging", paramMap);
+    }
+
+	@Override
+	public int count() {
+		return sqlSessionTemplate.selectOne("Product.count");
 	}
 }

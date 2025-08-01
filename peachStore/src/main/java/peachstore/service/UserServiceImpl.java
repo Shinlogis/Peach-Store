@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
 import peachstore.repository.UserDAO;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -41,4 +43,12 @@ public class UserServiceImpl implements UserService {
 		return obj;
 	}
 	
+	//회원가입을 위한 메서드
+	@Override
+	public void userJoin(User user) {
+		log.debug("넘어온 회원가입 id는 : "+ user.getUser_id());
+		log.debug("넘어온 회원가입 비밀번호는 : " + user.getPassword());
+		userDAO.userJoin(user);
+		//insert query
+	}
 }
