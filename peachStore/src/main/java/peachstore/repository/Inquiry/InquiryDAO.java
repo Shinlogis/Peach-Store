@@ -20,4 +20,8 @@ public interface InquiryDAO {
 	
 	public void delete(Inquiry inquiry);
 
+	/**
+	 * 관리자용 전체조회
+	 */
+	public List<Inquiry> selectAllAtAdmin();
 }

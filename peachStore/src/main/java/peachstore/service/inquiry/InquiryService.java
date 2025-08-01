@@ -22,5 +22,10 @@ public interface InquiryService {
 	
 	public void remove(Inquiry inquiry, String savePath);
 	
+	/**
+	 * 관리자용 전체 조회
+	 * @return
+	 */
+	public List<Inquiry> selectAllAtAdmin();
 	
 }

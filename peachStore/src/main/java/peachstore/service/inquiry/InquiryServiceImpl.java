@@ -1,13 +1,11 @@
 package peachstore.service.inquiry;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Inquiry;
@@ -96,6 +94,11 @@ public class InquiryServiceImpl implements InquiryService{
 		inquiryImgDAO.delete(inquiry.getInquiry_id());
 		fileManager.remove(inquiry, savePath);
 		inquiryDAO.delete(inquiry);
+	}
+
+	@Override
+	public List<Inquiry> selectAllAtAdmin() {
+		return inquiryDAO.selectAllAtAdmin();
 	}
 
 	
