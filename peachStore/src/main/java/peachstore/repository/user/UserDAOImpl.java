@@ -1,4 +1,4 @@
-package peachstore.repository;
+package peachstore.repository.user;
 
 import java.util.List;
 
@@ -15,10 +15,9 @@ public class UserDAOImpl implements UserDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
-	public User selectByName(String name) {
-		User user = (User)sqlSessionTemplate.selectOne("User.selectByName", name);
+	public User selectById(String id) {
 		
-		return user;
+		return sqlSessionTemplate.selectOne("User.selectById", id);
 	}
 	
 	@Override
@@ -52,4 +51,10 @@ public class UserDAOImpl implements UserDAO{
 		}
 
 	}
+	
+	@Override
+	public List<User> selectAllJoin() {
+		return sqlSessionTemplate.selectList("User.selectAllJoin");
+	}
+	
 }

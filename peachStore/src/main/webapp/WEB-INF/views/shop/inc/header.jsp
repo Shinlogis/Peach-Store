@@ -14,7 +14,7 @@
 		<li><a href="/shop/inquiry/registForm">고객지원</a></li>
 		<% User loginUser = (User)session.getAttribute("user"); %>
 		<% if(loginUser==null){%>
-      		<li><a href="/shop/loginform">로그인</a></li>
+      		<li><a href="/shop/user/loginform">로그인</a></li>
 		<%}else{ %>
 			<li><a href="/shop/user/logout" onclick="return confirm('로그아웃 하시겠습니까?')">로그아웃</a></li>
 		<li><a href="#" style="font-weight:bold;"><%= loginUser.getUser_name() %>님 </a></li>
