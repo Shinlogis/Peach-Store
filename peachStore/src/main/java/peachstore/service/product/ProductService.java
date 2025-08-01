@@ -63,4 +63,10 @@ public interface ProductService {
      * @return 전체 상품 수
      */
     public int getTotalRecord();
+    
+    /**
+     * 상품 조회 (서브카테고리로)
+     * @return 리스트 
+     */
+    public List<Product> selectBySubId(int subId);
 }

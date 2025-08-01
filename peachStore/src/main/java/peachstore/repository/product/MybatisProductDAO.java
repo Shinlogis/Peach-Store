@@ -70,4 +70,12 @@ public class MybatisProductDAO implements ProductDAO {
     public void delete(Product product) {
         // TODO: 상품 삭제 구현 예정
     }
+    
+    /**
+     * 상품 서브카테고리로 조회 
+     */
+	@Override
+	public List<Product> selectBySubId(int subId) {
+		return sqlSessionTemplate.selectList("Product.selectBySubId",subId);
+	}
 }

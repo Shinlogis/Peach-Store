@@ -47,42 +47,26 @@ public class ProductController {
 		return mav;
 	}
 	
+
+	
 	@GetMapping("/product/list")
 	@ResponseBody
-	public List<Product> getList() {
-		//3단계: 목록 가져오기 
-		List productList=productService.selectAll();
+	public List<Product> getList(int subId) {
+		List productList=productService.selectBySubId(subId);
 		
-//		paging.init(productList, request);
-		
-		//4단계: 결과 저장
-//		mav.addObject("paging", paging); //페이징 처리 객체도 담기
+
 		return productList;
 	}
 	
+
+	
 //	@GetMapping("/product/detail")
-//	public ModelAndView getProductDetail(int product_id) {
-//		ModelAndView mav=new ModelAndView("shop/detail");
+//	public ModelAndView getProductDetails(int subid) {
+//		ModelAndView mav=new ModelAndView("shop/product/detail");
 //		
-//		Product product = productService.select(product_id);
+//		List productListBysub = productService.select(subid);
 //		
-//		mav.addObject("product",product);
+//		mav.addObject("productListBysub",productListBysub);
 //		return mav;
 //	}
-	
-	@GetMapping("/product/detail")
-	public ModelAndView getProductDetails() {
-		ModelAndView mav=new ModelAndView("shop/product/detail");
-		
-		//Product product = productService.select(product_id);
-		
-		//mav.addObject("product",product);
-		return mav;
-	}
-		
-	
-	
-	
-	
-
 }

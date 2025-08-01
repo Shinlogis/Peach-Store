@@ -141,4 +141,9 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public List<Product> selectBySubId(int subId) {
+		return productDAO.selectBySubId(subId);
+	}
 }

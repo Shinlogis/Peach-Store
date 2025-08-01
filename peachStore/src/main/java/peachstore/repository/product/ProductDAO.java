@@ -40,4 +40,10 @@ public interface ProductDAO {
      * @param product 삭제할 상품 객체
      */
     public void delete(Product product);
+    
+    /**
+     * 상품 서브카테고리로 조회 
+     */
+    public List<Product> selectBySubId(int subId);
+    
 }

@@ -16,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<%@ include file="../inc/head_link.jsp" %>
 	<link rel="stylesheet"  href="/static/shop/css/product/productList.css">
 </head>
@@ -136,15 +137,16 @@
 <script src="/static/admin/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
-<script>
+<script type="text/javascript">
 function printCategory(list){
 	let tag="";
+	
 	
 	for(let i=0;i<list.length;i++){
 		tag+="<div class='p_list'>";
 		tag+="<img src='/static/shop/img/product/iphone.png' class='slide' alt='Slide 1'>";
-		tag+="<div class='p_name'>iPhone 16 PRO</div>";
-		tag+="<div class='p_price'>💲199,0000원</div>";
+		tag+="<div class='p_name'>" + list[i].productName +"</div>";
+		tag+="<div class='p_price'>" + list[i].price +"</div>";
 		tag+="<a href='' class='item-btn'>쇼핑하기</a>";
 		tag+="</div>";
 	}
@@ -156,12 +158,13 @@ function printCategory(list){
 }
 
 
-function getProductList(){
+function getProductList(subId){
 	$.ajax({
 		url:"/shop/product/list", 
 		type:"GET",
-		data: { subid: subid },
+		data: { subId: subId },
 		success:function(result, status, xhr){
+			console.log(result);
 			printCategory(result);
 		},
 		error:function(xhr, status, err){
@@ -179,8 +182,8 @@ $(".sub-btn").click(function () {
       "background-color": "#1d1d1f",
       "color": "white"
     });
-	getProductList(); 
-/* 	getProductList($(this).val());  */
+    console.log($(this).val());
+ 	getProductList($(this).val());
  });
 </script>
 </body>
