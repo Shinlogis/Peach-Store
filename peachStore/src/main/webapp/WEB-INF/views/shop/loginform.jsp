@@ -71,7 +71,7 @@
 		
 		<div class="login-guide">
 			<span>peach계정이 없으십니까?</span>
-			<a href="/shop/joinform">peach계정 생성</a>
+			<a href="/shop/user/joinform">peach계정 생성</a>
 		</div>
 		
 	</section>

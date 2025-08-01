@@ -89,6 +89,7 @@ public class UserController {
     }
     
 	// 가입 회원 로그인 로직
+    
 	@PostMapping("/user/login")
 	public String homepageLogin(User user, HttpSession session) {
 		log.debug("user 레퍼런스주소" + user);
@@ -96,7 +97,7 @@ public class UserController {
 //		if(user==null) {user=null이면 로그인 됨
 		if (obj == null) {
 //			존재하지 않는 회원인경우 알림 띄우는 로직 구현하기
-			return "redirect:/shop/loginform";
+			return "redirect:/shop/user/loginform";
 		}
 
 		session.setAttribute("user", obj);
