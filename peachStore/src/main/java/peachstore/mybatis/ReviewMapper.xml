@@ -24,7 +24,7 @@
 			<id column="order_detail_id" property="orderDetailId" />
 			
 			<association property="snapshot" javaType="SnapShot">
-				<id column="snapshot_id" property="snapshotId" />
+				<id column="snapshot_id" property="snapshot_id" />
     			<result column="product_name" property="product_name" />
     			<result column="price" property="price" />
     			<result column="size" property="size" />
