@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Product;
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.ProductTopcategory;
@@ -25,6 +26,7 @@ import peachstore.service.topcategory.ProductTopcategoryService;
  * @author 서예닮 
  * @since 2025-07-29 
  */
+@Slf4j
 @Controller
 public class ProductController {
 	@Autowired
@@ -54,19 +56,18 @@ public class ProductController {
 	public List<Product> getList(int subId) {
 		List productList=productService.selectBySubId(subId);
 		
-
 		return productList;
 	}
 	
 
 	
-//	@GetMapping("/product/detail")
-//	public ModelAndView getProductDetails(int subid) {
-//		ModelAndView mav=new ModelAndView("shop/product/detail");
-//		
-//		List productListBysub = productService.select(subid);
-//		
-//		mav.addObject("productListBysub",productListBysub);
-//		return mav;
-//	}
+	@GetMapping("/product/detail")
+	public ModelAndView getProductDetails(int productId) {
+		ModelAndView mav=new ModelAndView("shop/product/detail");
+		
+		Product product = productService.select(productId);
+		
+		mav.addObject("product",product);
+		return mav;
+	}
 }

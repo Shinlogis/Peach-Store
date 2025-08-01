@@ -1,10 +1,11 @@
+<%@page import="peachstore.domain.ProductImg"%>
 <%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
-
+	Product product = (Product)request.getAttribute("product");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,39 +32,32 @@
    <!-- 내용 시작 Begin -->
     <section class="product-detail">
     	<div>
-    		<span class="title-h1" style="margin-left:165px;">iPad Air 구입하기</span>
+    		<span class="title-h1" style="margin-left:165px;"><%=product.getProductSubcategory().getProductSubcategoryName()%> 구입하기</span>
     	</div>
     	<div class="detail-wrapper">
 			<div class="detail-left">
     			<div class="slideshow-container">
+    				<%for(ProductImg productImg:product.getProductImgs()){ %>
 					<div class="mySlides">
-					  <img src="/static/shop/img/product/iphone.png">
+					  <img src="/data/p_<%=product.getProductId()%>/<%=productImg.getFilename() %>">
 					</div>
-					
-					<div class="mySlides">
-					  <img src="/static/shop/img/product/iphone.png">
-					</div>
-					
-					<div class="mySlides">
-					  <img src="/static/shop/img/product/iphone.png">
-					</div>
-					
+					<%} %>
 					<a class="prev" onclick="plusSlides(-1)">❮</a>
 					<a class="next" onclick="plusSlides(1)">❯</a>
 				</div>
 				<br>
 
 				<div style="text-align:center">
-				  <span class="dot" onclick="currentSlide(1)"></span> 
-				  <span class="dot" onclick="currentSlide(2)"></span> 
-				  <span class="dot" onclick="currentSlide(3)"></span> 
+				<%for(int i=0;i<product.getProductImgs().size();i++){ %>
+				  <span class="dot" onclick="currentSlide(<%=i%>)"></span> 
+				<%} %>
 				</div>
 			</div>
 			
     		<div class="detail-right">
     			<div class="detail-introduce-wrapper">
-    				<div class="introduce-title">product_namepr</div>
-    				<div>간단한 한 줄 소개</div>
+    				<div class="introduce-title"><%=product.getProductName() %></div>
+    				<div><%=product.getIntroduce() %></div>
     			</div>
     			<div class="detail-option-wrapper">
     				<div class="detail-option-group">
@@ -104,10 +98,7 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Reviews</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -116,19 +107,6 @@
                                 <p>detail></p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <h6>Specification</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <h6>Reviews ( 2 )</h6>
                                 <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
                                     quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
@@ -163,7 +141,21 @@
 
    <!-- Js Plugins -->
    <%@ include file="../inc/footer_link.jsp" %>
-<script>
+<script type="text/javascript">
+let product = {
+	    id: <%=product.getProductId()%>,
+	    name: "<%=product.getProductName()%>",
+	    price: "<%=product.getPrice()%>",
+	    introduce: "<%=product.getIntroduce()%>",
+	    detail:"<%=product.getDetail()%>",
+	    productImgs:"<%=product.getProductImgs()%>",
+	    productSizes:"<%=product.getProductSizes()%>",
+	    productColors:"<%=product.getProductColors()%>",
+	    productCapacities:"<%=product.getProductCapacities()%>",
+	    productSubcategory:"<%=product.getProductSubcategory().getProductSubcategoryName()%>"
+	};
+	console.log(product);
+	
 let slideIndex = 1;
 
 document.addEventListener("DOMContentLoaded", function () {

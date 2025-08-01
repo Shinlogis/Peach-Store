@@ -1,5 +1,6 @@
 package peachstore.admin.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Color;
 import peachstore.domain.Product;
 import peachstore.domain.ProductColor;
@@ -29,6 +31,7 @@ import peachstore.util.Paging;
  * @author 김지민
  * @since 2025-07-29
  */
+@Slf4j
 @Controller
 public class ProductController {
     
@@ -83,6 +86,8 @@ public class ProductController {
 		product.setProductSizes(sizeList);
     	
 		String savePath = request.getServletContext().getRealPath("/data");
+		log.debug("에닮예닮예닮 "+savePath);
+		
 		
 		try {
 			productService.regist(product, savePath);

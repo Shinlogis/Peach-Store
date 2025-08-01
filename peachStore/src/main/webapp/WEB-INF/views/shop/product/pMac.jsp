@@ -46,74 +46,7 @@
 	
 	<!--상품 리스트  -->
 	<div class="content-container-p">
-	     <!--   <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div> -->
-	      
-	   </div>
+	</div>
 	<!--상품 리스트  -->
 </section>
  <!--  product-list-section end -->
@@ -143,12 +76,13 @@ function printCategory(list){
 	
 	
 	for(let i=0;i<list.length;i++){
-		tag+="<div class='p_list'>";
-		tag+="<img src='/static/shop/img/product/iphone.png' class='slide' alt='Slide 1'>";
+		tag+="<a href='/shop/product/detail?productId=" + list[i].productId + "' class='p_list'>";
+		if(list[i].productImgs[0]!=null){
+		tag+="<img src='/data/p_"+list[i].productId+"/"+list[i].productImgs[0].filename+"' class='slide' alt='Slide 1'>";
+		}
 		tag+="<div class='p_name'>" + list[i].productName +"</div>";
 		tag+="<div class='p_price'>" + list[i].price +"</div>";
-		tag+="<a href='' class='item-btn'>쇼핑하기</a>";
-		tag+="</div>";
+		tag+="</a>";
 	}
 	
 	$(".content-container-p").html(tag);  // innerHTML=태그 동일
