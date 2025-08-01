@@ -2,6 +2,8 @@ package peachstore.repository.product;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import peachstore.domain.Product;
 /**
  * 상품 DAO
@@ -40,4 +42,8 @@ public interface ProductDAO {
      * @param product 삭제할 상품 객체
      */
     public void delete(Product product);
+    
+    public List<Product> selectAllWithPaging(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+    
+    public int count();
 }
