@@ -106,6 +106,8 @@
 												<th>제품</th>
 												<th>이미지</th>
 												<th>리뷰 상세 내용</th>
+												<th>상태</th>
+												<th>리뷰관리</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -152,6 +154,26 @@
 												리뷰이미지 추가 필요<br>
 												<%= review.getContent() %>
 												</td>
+												<td>
+													<% if (review.getStatus().equals("활성")) {	%> 
+														<span class="badge badge-success">활성</span> 
+													<%} else {%> 
+														<span class="badge badge-secondary">숨김</span> 
+													<%
+														 }
+													 %>
+												</td>
+												<td>
+												  <div class="dropdown">
+												    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="reviewManageDropdown<%= review.getReviewId() %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												      관리
+												    </button>
+												    <div class="dropdown-menu" aria-labelledby="reviewManageDropdown<%= review.getReviewId() %>">
+												      <a class="dropdown-item" href="#" onclick="hideReview(<%= review.getReviewId() %>); return false;">리뷰 숨김</a>
+												      <a class="dropdown-item text-danger" href="#" onclick="deleteReview(<%= review.getReviewId() %>); return false;">리뷰 삭제</a>
+												    </div>
+												  </div>
+												</td>
 											</tr>
 										<%} %>
 										</tbody>
@@ -189,6 +211,24 @@
 <%@ include file="../inc/footer_link.jsp"%>
 
 <script src="/static/admin/custom/ProductImg.js"></script>
+<script>
+	function hideReview(reviewId) {
+	    if (confirm('이 리뷰를 숨기시겠습니까?')) {
+	      // AJAX 요청 또는 폼 제출 로직 넣기
+	      alert('리뷰 숨김 기능: 리뷰ID = ' + reviewId);
+	      // 예) $.post('/admin/review/hide', {id: reviewId}, function(){ ... });
+	    }
+	  }
+	
+	  function deleteReview(reviewId) {
+	    if (confirm('이 리뷰를 정말 삭제하시겠습니까? 삭제된 데이터는 복구할 수 없습니다.')) {
+	      // AJAX 요청 또는 폼 제출 로직 넣기
+	      alert('리뷰 삭제 기능: 리뷰ID = ' + reviewId);
+	      // 예) $.post('/admin/review/delete', {id: reviewId}, function(){ ... });
+	    }
+  	}
+</script>
+
 </body>
 </html>
                     

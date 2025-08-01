@@ -16,4 +16,18 @@ public interface ReviewService {
 	 * @return
 	 */
 	public List<Review> selectAll();
+	
+	/**
+	 * 리뷰 숨김 처리
+	 * @param reviewId 대상 리뷰 id
+	 * @param status 변경할 상태
+	 */
+	public void deactivate(int reviewId, String status);
+	
+	/**
+	 * pk로 리뷰 찾기
+	 * @param reveiwId 대상 리뷰 id
+	 * @return
+	 */
+	public Review findById(int reveiwId);
 }

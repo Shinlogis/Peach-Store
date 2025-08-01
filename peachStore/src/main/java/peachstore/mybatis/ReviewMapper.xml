@@ -21,7 +21,7 @@
 		</association>
 
 		<association property="orderDetail" javaType="OrderDetail">
-			<id column="order_detail_id" property="orderDetailId" />
+			<id column="order_detail_id" property="order_detail_id" />
 			
 			<association property="snapshot" javaType="SnapShot">
 				<id column="snapshot_id" property="snapshotId" />
@@ -36,6 +36,7 @@
 
 	</resultMap>
 
+	<!-- 전체 조회 -->
 	<select id="selectAll" resultMap="ReviewMap">
 		SELECT
 			r.review_id,
@@ -70,6 +71,20 @@
 			ON r.order_detail_id = od.order_detail_id
 		JOIN snapshot s
 			ON od.snapshot_id = s.snapshot_id
+	</select>
+	
+	<!-- update -->
+	<update id="update" parameterType="Review">
+		update review
+		set status = #{status}
+		where review_id = #{reviewId} 
+	</update>
+	
+	<!-- pk로 조회 -->
+	<select id="selectById" parameterType="int">
+		select *
+		from review
+		where review_id = #{reviewId} 
 	</select>
 
 </mapper>
