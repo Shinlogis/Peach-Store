@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Color;
 import peachstore.domain.Product;
 import peachstore.domain.ProductColor;
@@ -29,6 +31,7 @@ import peachstore.util.Paging;
  * @author 김지민
  * @since 2025-07-29
  */
+@Slf4j
 @Controller
 public class ProductController {
     
@@ -58,7 +61,7 @@ public class ProductController {
 	//상품 등록 요청 처리
 	@PostMapping("/product/regist")
     @ResponseBody
-    public String registform(Product product, int[] color, int[] size, HttpServletRequest request) {
+    public ResponseEntity<String> registform(Product product, int[] color, int[] size, HttpServletRequest request) {
     	List<ProductColor> colorList = new ArrayList<>();
 		List<ProductSize> sizeList = new ArrayList<>();
 		
@@ -84,23 +87,26 @@ public class ProductController {
     	
 		String savePath = request.getServletContext().getRealPath("/data");
 		
-		try {
-			productService.regist(product, savePath);
-		} catch (Exception e) {
-			productService.remove(product, savePath);
-			e.printStackTrace();
-		}
-		
-        return "ok";
+		  try {
+		        productService.regist(product, savePath);
+		        return ResponseEntity.ok("상품 등록 성공");
+		    } catch (Exception e) {
+		        productService.remove(product, savePath);
+		        e.printStackTrace();
+		        return ResponseEntity.status(500).body("상품 등록 실패: " + e.getMessage());
+		    }
     }
     
 	@GetMapping("/product/list")
 	public ModelAndView getList(HttpServletRequest request) {
-	    int totalRecord = productService.getTotalRecord(); // 전체 개수
-	    paging.init(totalRecord, request); // 페이징 계산
-
-	    // 페이징된 결과만 가져오기
-	    List<Product> productList = productService.selectAll(paging.getStartIndex(), paging.getPageSize());
+	    int totalRecord = productService.getTotalRecord(); // 1. 전체 상품 수 가져오기
+	    paging.init(totalRecord, request);                 // 2. 먼저 paging 계산
+	    log.error("📦 [Controller] paging.pageSize after init = {}", paging.getPageSize());
+	    
+	    int startIndex = paging.getStartIndex();           // 3. 이제 값이 정확함
+	    int pageSize = paging.getPageSize();
+	    
+	    List<Product> productList = productService.selectAll(startIndex, pageSize); // 4. 데이터 조회
 
 	    ModelAndView mav = new ModelAndView();
 	    mav.addObject("productList", productList);
@@ -109,7 +115,6 @@ public class ProductController {
 
 	    return mav;
 	}
-	
 	//상세요청에 대한 처리
 	@GetMapping("/product/detail")
 		public String getDetail(int product_id, Model model) {

@@ -80,7 +80,9 @@ public class MybatisProductDAO implements ProductDAO {
         paramMap.put("startIndex", startIndex);
         paramMap.put("pageSize", pageSize);
 
-        return sqlSessionTemplate.selectList("Product.selectAllWithPaging", paramMap);
+        List<Product> result = sqlSessionTemplate.selectList("Product.selectAllWithPaging", paramMap);
+
+        return result;
     }
 
 	@Override

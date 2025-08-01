@@ -36,12 +36,13 @@ public class FileCommonManager {
 	 */
 	public List<String> saveFiles(MultipartFile[] files, String savePath, String subDir) throws Uploadexception {
 		List<String> filenameList = new ArrayList<>();
-
-		// 디렉토리 경로 생성
-		File directory = new File(savePath, subDir);
-		if (!directory.exists()) {
-			directory.mkdirs();
-		}
+        // 디렉토리 경로 생성
+        File directory = new File(savePath, subDir);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        
+        log.info("파일 저장 디렉토리: {}", directory.getAbsolutePath()); // 경로 확인용 로그
 
 		try {
 			for (MultipartFile file : files) {

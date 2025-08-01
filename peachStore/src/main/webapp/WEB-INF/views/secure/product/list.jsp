@@ -99,9 +99,11 @@
                   		int num=paging.getNum();
                   		
                   	%>
-                  	<%
-					  for(int i = 0; i < productList.size(); i++) {
-					    Product product = productList.get(i);
+                  	<% if (productList == null || productList.size() == 0) { %>
+					  <tr><td colspan="7" style="text-align:center;">등록된 상품이 없습니다.</td></tr>
+					<% } else {
+					     for(int i = 0; i < productList.size(); i++) {
+					       Product product = productList.get(i);
 					%>
 					<tr>
 					  <td><%= paging.getNum() - i %></td>
@@ -110,7 +112,7 @@
 					      List<ProductImg> imgs = product.getProductImgs();
 					      if (imgs != null && !imgs.isEmpty() && imgs.get(0).getFilename() != null) {
 					    %>
-					      <img width="40px" src="/data/p_<%=product.getProductId()%>/<%=imgs.get(0).getFilename()%>">
+					      <img width="60%" height="100"  src="/data/product_<%=product.getProductId()%>/<%=imgs.get(0).getFilename()%>">
 					    <% } else { %>
 					      <span style="color: gray;">(이미지 없음)</span>
 					    <% } %>
@@ -143,8 +145,11 @@
 					    %>
 					  </td>
 					</tr>
-					<% } %>
-					                  </tbody>
+					<%
+					 }
+					}
+					%>
+					</tbody>
                 </table>
               </div>
               <!-- /.card-body -->
