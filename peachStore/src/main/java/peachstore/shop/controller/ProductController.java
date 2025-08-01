@@ -49,7 +49,7 @@ public class ProductController {
 	
 	@GetMapping("/shop/product/list")
 	@ResponseBody
-	public List<Product> getList(HttpServletRequest request) {
+	public List<Product> getList(int subid) {
 		//3단계: 목록 가져오기 
 		List productList=productService.selectAll();
 		
@@ -60,14 +60,23 @@ public class ProductController {
 		return productList;
 	}
 	
+//	@GetMapping("/product/detail")
+//	public ModelAndView getProductDetail(int product_id) {
+//		ModelAndView mav=new ModelAndView("shop/detail");
+//		
+//		Product product = productService.select(product_id);
+//		
+//		mav.addObject("product",product);
+//		return mav;
+//	}
 	
 	@GetMapping("/product/detail")
-	public ModelAndView getProductDetail(int product_id) {
-		ModelAndView mav=new ModelAndView("shop/detail");
+	public ModelAndView getProductDetails() {
+		ModelAndView mav=new ModelAndView("shop/product/detail");
 		
-		Product product = productService.select(product_id);
+		//Product product = productService.select(product_id);
 		
-		mav.addObject("product",product);
+		//mav.addObject("product",product);
 		return mav;
 	}
 		
