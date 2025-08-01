@@ -106,6 +106,8 @@
 												<th>제품</th>
 												<th>이미지</th>
 												<th>리뷰 상세 내용</th>
+												<th>상태</th>
+												<th>리뷰관리</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -138,12 +140,12 @@
 												</td>
 												<td>
 													제품이미지 추가 필요<br>
-													<%= review.getOrderDetail().getSnapshot().getProduct_name() %><br>
-													<%= review.getOrderDetail().getSnapshot().getSize()%>&nbsp;
-													<%= review.getOrderDetail().getSnapshot().getCapacity()%>&nbsp;
-													<%= review.getOrderDetail().getSnapshot().getColor()%>
-													<%= (review.getOrderDetail().getSnapshot().getEngraving() != null) ? "<br>각인: " + review.getOrderDetail().getSnapshot().getEngraving() : "" %><br>
-													<span style="color:gray;">구매가:&nbsp;<%= review.getOrderDetail().getSnapshot().getPrice() %></span>
+													<%= review.getOrderDetail().getSnapShot().getProduct_name() %><br>
+													<%= review.getOrderDetail().getSnapShot().getSize()%>&nbsp;
+													<%= review.getOrderDetail().getSnapShot().getCapacity()%>&nbsp;
+													<%= review.getOrderDetail().getSnapShot().getColor()%>
+													<%= (review.getOrderDetail().getSnapShot().getEngraving() != null) ? "<br>각인: " + review.getOrderDetail().getSnapShot().getEngraving() : "" %><br>
+													<span style="color:gray;">구매가:&nbsp;<%= review.getOrderDetail().getSnapShot().getPrice() %></span>
 												</td>
 												<td>
 												  <img width="40px" src="<%= imgSrc %>">
@@ -151,6 +153,26 @@
 												<td>
 												리뷰이미지 추가 필요<br>
 												<%= review.getContent() %>
+												</td>
+												<td>
+													<% if (review.getStatus().equals("활성")) {	%> 
+														<span class="badge badge-success">활성</span> 
+													<%} else {%> 
+														<span class="badge badge-secondary">숨김</span> 
+													<%
+														 }
+													 %>
+												</td>
+												<td>
+												  <div class="dropdown">
+												    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="reviewManageDropdown<%= review.getReviewId() %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												      관리
+												    </button>
+												    <div class="dropdown-menu" aria-labelledby="reviewManageDropdown<%= review.getReviewId() %>">
+												      <a class="dropdown-item" href="#" onclick="hideReview(<%= review.getReviewId() %>); return false;">상태 변경</a>
+												      <a class="dropdown-item text-danger" href="#" onclick="deleteReview(<%= review.getReviewId() %>); return false;">리뷰 삭제</a>
+												    </div>
+												  </div>
 												</td>
 											</tr>
 										<%} %>
@@ -189,6 +211,50 @@
 <%@ include file="../inc/footer_link.jsp"%>
 
 <script src="/static/admin/custom/ProductImg.js"></script>
+<script>
+	function hideReview(reviewId) {
+	    if (confirm('이 리뷰 상태를 변경하시겠습니까?')) {
+	          $.ajax({
+	              url: "/admin/review/toggle",
+	              type: "POST",
+	              data: { reviewId: reviewId },
+	              success: function (result) {
+	                  if (result.success) {
+	                      alert("변경 성공");
+	                      location.reload();
+	                  } else {
+	                      alert("변경 실패");
+	                  }
+	              },
+	              error: function () {
+	                  alert("서버 오류");
+	              }
+	      });
+	    }
+	  }
+	
+	  function deleteReview(reviewId) {
+	    if (confirm('이 리뷰를 정말 삭제하시겠습니까? 삭제된 데이터는 복구할 수 없습니다.')) {
+		          $.ajax({
+		              url: "/admin/review/delete",
+		              type: "POST",
+		              data: { reviewId: reviewId },
+		              success: function (result) {
+		                  if (result.success) {
+		                      alert("삭제 성공");
+		                      location.reload();
+		                  } else {
+		                      alert("삭제 실패");
+		                  }
+		              },
+		              error: function () {
+		                  alert("서버 오류");
+		              }
+		      });
+		    }
+	    }
+</script>
+
 </body>
 </html>
                     

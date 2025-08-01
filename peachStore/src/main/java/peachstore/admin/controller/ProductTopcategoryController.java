@@ -1,9 +1,13 @@
 package peachstore.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,9 +98,26 @@ public class ProductTopcategoryController {
 	 */
 	@PostMapping("/product/topcategory/update")
 	@ResponseBody
-	public String changeName(int productTopcategoryId, String productTopcategoryName) {
-        productTopcategoryService.changeName(productTopcategoryId, productTopcategoryName);
-        return "success";
+	public ResponseEntity<Map<String, Object>> change(
+			@RequestParam("productTopcategoryId") int productTopcategoryId, 
+		 	@RequestParam("productTopcategoryName") String productTopcategoryName,
+			@RequestParam("photo") MultipartFile photo,
+			HttpServletRequest request) {
+		// 파일 저장 경로
+		String savePath = request.getServletContext().getRealPath("/data");
+		Map<String, Object> response = new HashMap<>();
+				
+        try {
+			productTopcategoryService.change(productTopcategoryId, productTopcategoryName, savePath, photo);
+			response.put("success", true);
+			response.put("message", "상위 카테고리가 성공적으로 업데이트되었습니다.");
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	/**

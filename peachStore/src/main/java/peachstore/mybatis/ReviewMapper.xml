@@ -21,9 +21,9 @@
 		</association>
 
 		<association property="orderDetail" javaType="OrderDetail">
-			<id column="order_detail_id" property="orderDetailId" />
+			<id column="order_detail_id" property="order_detail_id" />
 			
-			<association property="snapshot" javaType="SnapShot">
+			<association property="snapShot" javaType="SnapShot">
 				<id column="snapshot_id" property="snapshot_id" />
     			<result column="product_name" property="product_name" />
     			<result column="price" property="price" />
@@ -36,6 +36,7 @@
 
 	</resultMap>
 
+	<!-- 전체 조회 -->
 	<select id="selectAll" resultMap="ReviewMap">
 		SELECT
 			r.review_id,
@@ -71,5 +72,56 @@
 		JOIN snapshot s
 			ON od.snapshot_id = s.snapshot_id
 	</select>
+	
+	<!-- update -->
+	<update id="update" parameterType="Review">
+		update review
+		set status = #{status}
+		where review_id = #{reviewId} 
+	</update>
+	
+	<!-- pk로 조회 -->
+	<select id="selectById" parameterType="int" resultMap="ReviewMap">
+	    SELECT
+	        r.review_id,
+	        r.content,
+	        r.regdate,
+	        r.status,
+	
+	        u.user_id AS user_id,
+	        u.id AS id,
+	        u.email AS email,
+	        u.user_name AS user_name,
+	
+	        ug.user_grade_id AS userGradeId,
+	        ug.user_grade_name AS userGradeName,
+	
+	        od.order_detail_id AS orderDetailId,
+	
+	        s.snapshot_id AS snapshotId,
+	        s.product_name AS product_name,
+	        s.price AS price,
+	        s.size AS size,
+	        s.capacity AS capacity,
+	        s.color AS color,
+	        s.engraving AS engraving
+	
+	    FROM review r
+	    JOIN user u 
+	        ON r.user_id = u.user_id
+	    JOIN user_grade ug 
+	        ON u.user_grade_id = ug.user_grade_id
+	    JOIN order_detail od 
+	        ON r.order_detail_id = od.order_detail_id
+	    JOIN snapshot s
+	        ON od.snapshot_id = s.snapshot_id
+	    WHERE r.review_id = #{reviewId}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete 
+		from review 
+		where review_id = #{reviewId}
+	</delete>
 
 </mapper>
