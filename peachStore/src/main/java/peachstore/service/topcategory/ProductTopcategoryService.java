@@ -40,7 +40,7 @@ public interface ProductTopcategoryService {
 	 * @param productTopCategoryId
 	 * @param productTopCategoryName
 	 */
-	public void changeName(int productTopCategoryId, String productTopCategoryName);
+	public void change(int productTopCategoryId, String productTopCategoryName, String savePath, MultipartFile photo);
 	
 	/**
 	 * 제품 상위카테고리 비활성화

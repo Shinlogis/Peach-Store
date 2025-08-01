@@ -1,3 +1,4 @@
+<%@page import="peachstore.domain.OrderReceipt"%>
 <%@page import="peachstore.domain.OrderDetail"%>
 <%@page import="peachstore.domain.Inquiry"%>
 <%@page import="peachstore.domain.User"%>
@@ -7,7 +8,7 @@
 <% User user = (User)session.getAttribute("user"); 
 	
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
-	List<OrderDetail> orderDetail = (List)request.getAttribute("orderDetail");
+	List<OrderReceipt> receiptList = (List)request.getAttribute("receiptList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,62 +73,64 @@
         <col style="width: 20%;">
     </colgroup>
     <thead>
-        <br><br>
         <tr style="border-bottom: 1px solid black;">
             <th style="font-weight: bold; font-size: 20px;">상품정보</th>
             <th style="font-weight: bold; font-size: 20px;">진행상태</th>
             <th style="font-weight: bold; font-size: 20px;">주문취소</th>
         </tr>
     </thead>
-            <%for(OrderDetail detail : orderDetail){ %>
     <tbody>
-        <tr>
-            <!-- 상품정보 -->
-            <td>
-                <div style="display: flex; gap: 120px;">
-                    <img src="data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename() %>" style="width: 100px; height: 100px; object-fit: cover;">
-                    <div>
-                        <div  style="margin-bottom: 12px;"> <strong><%=detail.getSnapShot().getProduct_name() %></strong></div>
+        <% for(OrderReceipt orderReceipt : receiptList) { %>
+          <tr style="background-color: #f5f5f5; ">
+		    <!-- 왼쪽: 주문정보 (2칸 합치기) -->
+		    <td colspan="2" style = "font-weight: bold; height: 20px;">
+		        주문번호: <%=orderReceipt.getOrder_receipt_id()%> /
+		        상태: <%=orderReceipt.getOrder_status()%> /
+		        주문일자: <%=orderReceipt.getOrderdate().toLocalDate()%>
+		    </td>
+		
+		    <!-- 오른쪽: 주문취소 버튼 -->
+		    <td style="margin-right:20px;">
+		        <form method="post" action="/shop/order/cancle" onsubmit="return confirm('주문취소 하시겠습니까?')" style="margin: 0;">
+		            <input type="hidden" name="user.user_id" value="<%=user.getUser_id()%>">
+		            <input type="hidden" name="order_receipt_id" value="<%=orderReceipt.getOrder_receipt_id()%>">
+		            <button type="submit" class="btn btn-danger">주문취소</button>
+		        </form>
+		    </td>
+		</tr>
+
+
+            
+            <% for(OrderDetail detail : orderReceipt.getOrderList()) { %>
+            <tr>
+                <!-- 상품정보 -->
+                <td>
+                    <div style="display: flex; gap: 20px;">
+                        <img src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename()%>" style="width: 100px; height: 100px; object-fit: cover;">
                         <div>
-                             <%=detail.getSnapShot().getSize() %> &nbsp;&nbsp;
-                             <%=detail.getSnapShot().getColor() %>
+                            <div style="margin-bottom: 8px;"><strong><%=detail.getSnapShot().getProduct_name()%></strong></div>
+                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getSize()%> / <%=detail.getSnapShot().getColor()%></div>
+                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getPrice()%>원 / <%=detail.getOrder_quantity()%>개</div>
+                            <div><strong>각인:</strong> <%=detail.getSnapShot().getEngraving()%></div>
                         </div>
-                        <div style="margin-bottom: 12px;">
-                             <%=detail.getSnapShot().getPrice() %>원 &nbsp;&nbsp;
-                            <%=detail.getOrder_quantity() %>개
-                        </div style="margin-bottom: 12px;">
-                        <div><strong>각인:</strong> <%=detail.getSnapShot().getEngraving() %></div>
                     </div>
-                </div>
-            </td>
-           
+                </td>
+                
+                <!-- 진행상태 (각 detail마다 같은 orderReceipt status) -->
+                <td><%=orderReceipt.getOrder_status()%></td>
 
-            <!-- 진행상태 -->
-            <td>
-                <div style="margin-bottom: 12px;"> <%=detail.getOrderReceipt().getOrder_status() %></div>
-                <di style="margin-bottom: 12px;"> 2025-07-28</div>
-            </td>
-				<form method="post" id="cancle" action="/shop/order/cancle">
-				 <input type="hidden" name="user.user_id" value="<%= user.getUser_id()%>">
-				 <%for(OrderDetail order : orderDetail) {%>
-				 <input type="hidden" name="order_receipt_id" value="<%=order.getOrderReceipt().getOrder_receipt_id()%>">
-				 <%} %>
-				 </form>
-
-            <!-- 주문취소 -->
-            <%if(detail.getOrderReceipt().getOrder_status().equals("발송완료")) {%>
-            <td>
-                <button onclick="if(confirm('주문취소 하시겠습니까?')) document.getElementById('cancle').submit();" class="btn btn-danger">
-                    주문취소
-                </button>
-            </td>
-            <%} %>
-        </tr>
+                <!-- 주문취소 버튼 -->
+                <td>
+                    
+                </td>
+            </tr>
+            <% } %>
+            <!-- 주문 단위 블럭 끝 -->
+        <% } %>
     </tbody>
-     <%} %>
 </table>
 
-								</table>
+
 							</div>
 						</div>
 					</div>
@@ -140,13 +143,6 @@
 		</div>
 	</div>
 	
-	
-	<script type="text/javascript">
-	
-		function cancelOrder() {
-			
-		}
-	</script>
 	
 
 	<!-- Footer Section Begin -->

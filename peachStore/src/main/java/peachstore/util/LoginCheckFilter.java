@@ -34,27 +34,30 @@ public class LoginCheckFilter implements Filter{
 			//세션안에 회원정보가 들어있다면, 원래 가던곳으로 그대로 보내주고
 			//세션안에 회원정보가 없다면 로그인폼으로 자동 전달
 			
-			log.warn("필터가 동작함");
 		
 			//클라이언트의 요청이 /shop/cart/list, /shop/member/mypage 등등의 로그인이 피룡한 서비스인 경우엔
 			//세션 정보가 없다면ㅡ 아래의 chain.doFilter()를 만나지 않도록 처리, 내부의 서블릿을 만나지도 못하고
 			//톰캣으로 하여금 로그인 폼을 응답정보로 보내도록 하자.
 			String uri=request.getRequestURI();
 			if(//회원이 아니어도 접속이 가능한 uri
-				uri.equals("/shop/shop/main")||
-				uri.equals("/shop/member/loginform")||
-				uri.equals("/shop/member/kakao/authurl")||
-				uri.equals("/shop/member/google/authurl")||
-				uri.equals("/shop/member/naver/authurl")||
+				uri.equals("/shop/main")||
+				uri.equals("/shop/user/loginform")||
+				uri.equals("/shop/user/kakao/authurl")||
+				uri.equals("/shop/user/google/authurl")||
+				uri.equals("/shop/user/naver/authurl")||
 				uri.equals("/shop/callback/sns/google")||
 				uri.equals("/shop/callback/sns/naver")||
 				uri.equals("/shop/callback/sns/kakao")||
-				uri.equals("/shop/member/logout")||
+				uri.equals("/shop/user/logout")||
 				uri.equals("/shop/product/list")||
 				uri.equals("/shop/product/detail")||
-				uri.equals("/shop/member/registerform")||
-				uri.equals("/shop/member/register")||
-				uri.equals("/shop/member/login")
+				uri.equals("/shop/user/registerform")||
+				uri.equals("/shop/user/register")||
+				uri.equals("/shop/user/login")||
+				uri.equals("/shop/product/list")||
+				uri.equals("/shop/product")||
+				uri.equals("/shop/product/detail")
+				
 				
 				
 				
@@ -66,11 +69,11 @@ public class LoginCheckFilter implements Filter{
 			}
 			
 			HttpSession session = request.getSession(false);//기존의 세션을 얻어옴(false), true : 새로운 세션생성
-			boolean isLoggined = (session != null && session.getAttribute("member") != null); 
+			boolean isLoggined = (session != null && session.getAttribute("user") != null); 
 				
 			if(isLoggined == false) {//로그인 하지 않은 경우엔 강제로 loginform만나게 하자.
 				HttpServletResponse response=(HttpServletResponse)res;
-				response.sendRedirect("/shop/member/loginform");
+				response.sendRedirect("/shop/user/loginform");
 			}else {
 				chain.doFilter(req,res);
 			}
