@@ -27,13 +27,16 @@ public class InquiryImgServiceImpl implements InquiryImgService{
 
 	@Override
 	public void update(InquiryImg inquiryImg) throws InquiryImgException {
-		inquiryImgDAO.update(inquiryImg);
+		inquiryImgDAO.deleteByFilename(inquiryImg);
+		
 	}
 
 	@Override
 	public void delete(int inquiry_id)throws InquiryImgException {
 		inquiryImgDAO.delete(inquiry_id);
 	}
+
+
 	
 
 	

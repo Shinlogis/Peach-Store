@@ -15,4 +15,5 @@ public interface InquiryImgService {
 	
 	public void delete(int inquiry_id);
 	
+	
 }
