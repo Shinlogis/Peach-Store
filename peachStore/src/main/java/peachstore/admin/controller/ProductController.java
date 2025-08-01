@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,6 @@ import peachstore.domain.Color;
 import peachstore.domain.Product;
 import peachstore.domain.ProductColor;
 import peachstore.domain.ProductSize;
-import peachstore.domain.ProductSubcategory;
 import peachstore.domain.Size;
 import peachstore.service.product.ProductService;
 import peachstore.service.topcategory.ProductTopcategoryService;
@@ -36,7 +36,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     
-    @Autowired
+    @Autowired	
 	private ProductTopcategoryService ProductTopCategoryService;
     
 	//페이징 처리 객체를 보유 
@@ -96,18 +96,29 @@ public class ProductController {
     
 	@GetMapping("/product/list")
 	public ModelAndView getList(HttpServletRequest request) {
-		List productList = productService.selectAll();
-		
-		paging.init(productList, request);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("productList", productList); 
-		mav.addObject("paging", paging); 
+	    int totalRecord = productService.getTotalRecord(); // 전체 개수
+	    paging.init(totalRecord, request); // 페이징 계산
 
-		mav.setViewName("/product/list");
-		
-		return mav;
+	    // 페이징된 결과만 가져오기
+	    List<Product> productList = productService.selectAll(paging.getStartIndex(), paging.getPageSize());
+
+	    ModelAndView mav = new ModelAndView();
+	    mav.addObject("productList", productList);
+	    mav.addObject("paging", paging);
+	    mav.setViewName("/product/list");
+
+	    return mav;
 	}
 	
+	//상세요청에 대한 처리
+	@GetMapping("/product/detail")
+		public String getDetail(int product_id, Model model) {
+			//3단계: 상세 내용 가져오기
+			Product product = productService.select(product_id);
+			
+			//4단계: 저장하기
+			model.addAttribute("product", product);
+			return "/product/detail";
+		}
 
 }

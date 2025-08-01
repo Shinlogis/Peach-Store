@@ -19,9 +19,6 @@
     
 </head>
 <body>
-    <!-- Offcanvas Menu Begin -->
-<%@ include file="./inc/offcanvas.jsp" %>
-    <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
 <%@ include file="./inc/header.jsp" %>

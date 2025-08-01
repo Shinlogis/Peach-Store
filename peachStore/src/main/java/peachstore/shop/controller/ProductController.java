@@ -47,9 +47,9 @@ public class ProductController {
 		return mav;
 	}
 	
-	@GetMapping("/shop/product/list")
+	@GetMapping("/product/list")
 	@ResponseBody
-	public List<Product> getList(int subid) {
+	public List<Product> getList() {
 		//3단계: 목록 가져오기 
 		List productList=productService.selectAll();
 		

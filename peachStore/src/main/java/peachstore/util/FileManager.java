@@ -12,6 +12,7 @@ import peachstore.domain.Inquiry;
 import peachstore.domain.InquiryImg;
 import peachstore.domain.Product;
 import peachstore.domain.ProductImg;
+import peachstore.exception.InquiryImgException;
 import peachstore.exception.Uploadexception;
 
 /**
@@ -121,6 +122,18 @@ public class FileManager {
 			throw new Uploadexception("파일 업로드 실패", e);
 		}
 	}
+	//삭제 대상 파일 처리
+	public void deleteImg(Inquiry inquiry, String savePath) throws InquiryImgException{
+		for(int i=0; i<inquiry.getImgList().size(); i++) {
+			File file = new File(savePath, "p_" + inquiry.getInquiry_id()+ "/" + inquiry.getImgList().get(i).getFilename());
+			boolean deleted = file.delete();
+			
+			if(deleted == false) {
+				throw new InquiryImgException("사진 삭제 실패");
+			}
+		}
+	}
+	
 	
 	public void remove(Product product, String savePath) {
 		File directory = new File(savePath, "p_"+product.getProductId());
