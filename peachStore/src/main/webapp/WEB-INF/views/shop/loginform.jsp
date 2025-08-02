@@ -30,7 +30,7 @@
 				<div class="row">
 					<div class="col">
 						<input class="a" type="text" name="id" placeholder="Userid" required>
-						<input class="a" type="password" name="password" placeholder="Password" required>
+						<input class="a" type="password" name="hashedpassword" placeholder="Password" required>
 						<input class="a" type="submit" value="Login" id="bt_login">
 					</div>
 				</div>

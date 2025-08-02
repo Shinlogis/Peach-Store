@@ -672,12 +672,7 @@ VALUES
     ('정말 마음에 들어요! 배송도 빨랐어요.', '활성', 2, 6),
     ('상품이 설명과 같고 만족스러워요.', '활성', 3, 6),
     ('가성비 최고네요. 다음에도 구매할게요!', '활성', 4, 6);
-
-
-select * from order_detail;
-select * from snapshot;
-order_detail_id 안에 있는 snapshot_id 안에 있는  product_id값은 친구 
-
+    
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
 SHOW TABLES;

@@ -25,11 +25,6 @@
 		select * from user where id = #{id}
 	</select>
 	
-	<select id="select" parameterType="int" resultType="User">
-		select * from user where user_id = #{user_id}
-		
-	</select>
-	
 	<select id="selectAll" resultMap="userResultMap">
 		select * from user
 	</select>

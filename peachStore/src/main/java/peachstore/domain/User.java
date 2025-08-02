@@ -17,6 +17,5 @@ public class User {
     private String created_at;
     private UserGrade user_grade;
     private SnsProvider sns_provider;
-// 마이바티스에서 매핑 해야함.
 
 }

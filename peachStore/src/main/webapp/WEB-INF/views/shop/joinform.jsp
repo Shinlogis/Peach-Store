@@ -24,7 +24,7 @@
 					<div class="col">
 						<input class="a" type="text" id="id" name="id" placeholder="아이디" required>
 						<span id="idcheck-message"></span>
-						<input class="a" type="password" id="password" name="password" placeholder="비밀번호" required>
+						<input class="a" type="password" id="hashedpassword" name="hashedpassword" placeholder="비밀번호" required>
 						<input class="a" type="password" id="passwordconfirm" placeholder="비밀번호 확인" required>
 						<span id="pwcheck-message"></span>
 						<input class="a" type="email" id="email" name="email" placeholder="이메일" required>
@@ -99,7 +99,7 @@
 		$(()=>{
 			//회원가입 버튼이벤트
 			$("#bt_join").click(()=>{
-				const pw = $('#password').val();
+				const pw = $('#hashedpassword').val();
 				const confirm = $('#passwordconfirm').val();
 				if(pw === confirm && idDuplicated == false){
 					userJoin();
@@ -107,7 +107,6 @@
 					alert('회원가입 정보를 다시 확인해 주십시오');
 					return;
 				}
-				
 			});
 			
 			$('#id').on('change', function() {
@@ -136,8 +135,8 @@
 			});
 			 
 			//비밀번호 중복검사
-			$('#password, #passwordconfirm').on('change', function() {
-		        const pw = $('#password').val();
+			$('#hashedpassword, #passwordconfirm').on('change', function() {
+		        const pw = $('#hashedpassword').val();
 		        const confirm = $('#passwordconfirm').val();
 
 		        if (pw === '' || confirm === '') {
