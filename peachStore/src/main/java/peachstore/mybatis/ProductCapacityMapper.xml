@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductCapacity">
+
+		<insert id ="insert" parameterType="ProductCapacity">
+			insert into product_capacity(product_id, capacity_id) values(#{product.productId}, #{capacity.capacity_id})
+		</insert>
+		
+		<resultMap type="ProductCapacity" id="capacityMap">
+		  <id column="product_capacity_id" property="product_capacity_id"/>
+		  <association column="capacity_id" property="capacity" javaType="Capacity" select="Capacity.select"/>
+		</resultMap>
+		
+		<select id="selectByProductId" parameterType="int" resultMap="capacityMap">
+		  select product_capacity_id, product_id, capacity_id
+		  from product_capacity
+		  where product_id = #{productId}
+		</select>
+
+</mapper>

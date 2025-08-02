@@ -7,19 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * ColorDAO 인터페이스를 구현하며,
- * MyBatis의 SqlSessionTemplate을 사용해 색상 목록을 조회
+ * CapacityDAO 인터페이스를 구현하며,  
+ * 상품 등록 시 선택된 용량 정보를 DB에 저장하는 기능을 담당 
  * @author 김지민
- * @since 2025-07-29
+ * @since 2025-08-01
  */
 @Repository
-public class MybatisColorDAO implements ColorDAO {
+public class MybatisCapacityDAO implements CapacityDAO{
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
+	
+	@Override
+	public List selectAll() {
+		return sqlSessionTemplate.selectList("Capacity.selectAll");
+	}
 
-    @Override
-    public List selectAll() {
-        return sqlSessionTemplate.selectList("Color.selectAll");
-    }
 }

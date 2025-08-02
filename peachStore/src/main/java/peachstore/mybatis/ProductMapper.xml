@@ -31,7 +31,10 @@
 			select="ProductColor.selectByProductId"/>
 		
 		<collection column="product_id" property="productSizes" javaType="java.util.List" ofType="ProductSize"
-			select="ProductSize.selectByProductId"/>	
+			select="ProductSize.selectByProductId"/>
+			
+		<collection column="product_id" property="productCapacities" javaType="java.util.List" ofType="ProductCapacity"
+			select="ProductCapacity.selectByProductId"/>		
 			
 		<collection column="product_id" property="productImgs" javaType="java.util.List" ofType="ProductImg"
 			select="ProductImg.selectByProductId"/>
@@ -40,16 +43,16 @@
 	
 
 	<select id="selectAll" resultMap="joinMap">
-		select <include refid="columns"/> from product order by product_id desc
+		select <include refid="columns"/> from product where is_deleted = false order by product_id desc
 	</select>
 	
 	<select id="select" parameterType="int" resultMap="joinMap">
 		select <include refid="columns"/> from product 
-		where product_id=#{productId}
+		where product_id=#{productId} and is_deleted = false
 	</select>
 	
 	<select id="selectBySubcategoyId" parameterType="int" resultType="Product">
-		select * from product 
+		select <include refid="columns"/>  from product 
 		where product_subcategory_id=#{product_subcategory_id}
 	</select>
 	

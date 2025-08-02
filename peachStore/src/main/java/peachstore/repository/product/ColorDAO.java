@@ -10,9 +10,5 @@ import java.util.List;
  */
 public interface ColorDAO {
 
-    /**
-     * 색상 전체 목록 조회
-     * @return 색상 목록 리스트
-     */
     public List selectAll();
 }

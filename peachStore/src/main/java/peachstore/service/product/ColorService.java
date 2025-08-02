@@ -9,10 +9,5 @@ import java.util.List;
  * @since 2025-07-29
  */
 public interface ColorService {
-
-    /**
-     * 색상 전체 목록 조회
-     * @return 색상 목록 리스트
-     */
     public List selectAll();
 }

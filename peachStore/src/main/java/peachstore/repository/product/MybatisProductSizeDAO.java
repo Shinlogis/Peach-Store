@@ -19,11 +19,6 @@ public class MybatisProductSizeDAO implements ProductSizeDAO {
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
 
-    /**
-     * 상품 사이즈 정보 등록
-     * @param productSize 등록할 상품 사이즈 객체
-     * @throws ProductSizeException 등록 실패 시 예외 발생
-     */
     public void insert(ProductSize productSize) throws ProductSizeException {
         int result = sqlSessionTemplate.insert("ProductSize.insert", productSize);
         if (result < 1) {

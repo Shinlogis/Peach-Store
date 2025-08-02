@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
+import peachstore.domain.Capacity;
 import peachstore.domain.Color;
 import peachstore.domain.Product;
+import peachstore.domain.ProductCapacity;
 import peachstore.domain.ProductColor;
 import peachstore.domain.ProductSize;
 import peachstore.domain.Size;
@@ -61,9 +63,10 @@ public class ProductController {
 	//상품 등록 요청 처리
 	@PostMapping("/product/regist")
     @ResponseBody
-    public ResponseEntity<String> registform(Product product, int[] color, int[] size, HttpServletRequest request) {
+    public ResponseEntity<String> registform(Product product, int[] color, int[] size, int[] capacity, HttpServletRequest request) {
     	List<ProductColor> colorList = new ArrayList<>();
 		List<ProductSize> sizeList = new ArrayList<>();
+		List<ProductCapacity> capacityList = new ArrayList<>();
 		
 		for(int c : color) {
 			Color cc = new Color();
@@ -81,9 +84,18 @@ public class ProductController {
 			sizeList.add(productSize);
 		}
 		
+		for(int cp : capacity) {
+			Capacity capa = new Capacity();
+			capa.setCapacity_id(cp);
+			ProductCapacity productCapacity = new ProductCapacity();	
+			productCapacity.setCapacity(capa);	
+			capacityList.add(productCapacity);
+		}
+		
 		//매핑완료 후, Product 에 대입 
 		product.setProductColors(colorList);
 		product.setProductSizes(sizeList);
+		product.setProductCapacities(capacityList);
     	
 		String savePath = request.getServletContext().getRealPath("/data");
 		
@@ -99,11 +111,9 @@ public class ProductController {
     
 	@GetMapping("/product/list")
 	public ModelAndView getList(HttpServletRequest request) {
-	    int totalRecord = productService.getTotalRecord(); // 1. 전체 상품 수 가져오기
-	    paging.init(totalRecord, request);                 // 2. 먼저 paging 계산
-	    log.error("📦 [Controller] paging.pageSize after init = {}", paging.getPageSize());
-	    
-	    int startIndex = paging.getStartIndex();           // 3. 이제 값이 정확함
+	    int totalRecord = productService.getTotalRecord(); 
+	    paging.init(totalRecord, request);                 
+	    int startIndex = paging.getStartIndex();           
 	    int pageSize = paging.getPageSize();
 	    
 	    List<Product> productList = productService.selectAll(startIndex, pageSize); // 4. 데이터 조회

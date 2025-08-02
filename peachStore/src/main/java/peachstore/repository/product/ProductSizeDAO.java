@@ -9,10 +9,5 @@ import peachstore.domain.ProductSize;
  * @since 2025-07-29
  */
 public interface ProductSizeDAO {
-
-    /**
-     * 상품 사이즈 정보 등록
-     * @param productSize 등록할 상품 사이즈 객체
-     */
     public void insert(ProductSize productSize);
 }
