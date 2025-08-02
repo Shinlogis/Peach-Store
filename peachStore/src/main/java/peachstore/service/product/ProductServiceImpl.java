@@ -143,4 +143,9 @@ public class ProductServiceImpl implements ProductService {
 	public int getTotalRecord() {
 		return productDAO.count(); 
 	}
+
+	@Override
+	public List<Product> selectBySubId(int subId) {
+		return productDAO.selectBySubId(subId);
+	}
 }

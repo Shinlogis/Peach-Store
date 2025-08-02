@@ -48,7 +48,7 @@
 		where product_id=#{productId}
 	</select>
 	
-	<select id="selectBySubcategoyId" parameterType="int" resultType="Product">
+	<select id="selectBySubId" parameterType="int" resultMap="joinMap">
 		select * from product 
 		where product_subcategory_id=#{product_subcategory_id}
 	</select>

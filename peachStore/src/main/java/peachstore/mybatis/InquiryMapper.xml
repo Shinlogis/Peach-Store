@@ -27,6 +27,41 @@
 		
 	</resultMap>
 	
+	<!-- 관리자용 resultMap -->
+	<resultMap type="Inquiry" id="inquiryAdminMap">
+		<id column="inquiry_id" property="inquiry_id"/>
+		<result column="title" property="title"/>
+		<result column="inquiry_text" property="inquiry_text"/>
+		<result column="created_at" property="created_at"/>
+		<result column="answer_text" property="answer_text"/>
+		<result column="answered_at" property="answered_at"/>
+		<result column="is_active" property="is_active"/>
+		
+		<association property="user" javaType="User">
+			<id column="user_id" property="user_id" />
+			<result column="id" property="id" />
+			<result column="email" property="email" />
+			<result column="user_name" property="user_name" />
+
+			<association property="user_grade" javaType="UserGrade">
+				<id column="userGradeId" property="userGradeId" />
+				<result column="userGradeName" property="userGradeName" />
+			</association>
+		</association>
+				
+		<association property="admin" javaType="Admin">
+			<id column="admin_id" property="adminId" />
+			<result column="id" property="id" />
+			<result column="email" property="email" />
+			<result column="name" property="name" />
+		</association>
+		
+		<collection column="inquiry_id" property="imgList" javaType="java.util.List" ofType="InquiryImg"
+			select = "InquiryImg.selectByInquiry"
+		/>
+		
+	</resultMap>
+	
 	<!--회원 아이디에 따른 문의 전체 조회 -->
 	<select id="selectAll" parameterType="Inquiry" resultMap="joinMap">
 		select inquiry_id, title, created_at, user_id from inquiry where user_id = #{user.user_id} and is_active = true order by inquiry_id desc
@@ -47,5 +82,24 @@
 	<update id="delete" parameterType="Inquiry">
 		update inquiry set is_active=false where inquiry_id = #{inquiry_id}
 	</update>
+	
+	<!-- 관리자용 전체 문의 조회 -->
+	<select id="selectAllAtAdmin" resultMap="inquiryAdminMap">
+		SELECT 
+			I.*
+		    , U.id
+		    , U.email
+		    , U.user_name
+		    , UG.user_grade_id AS userGradeId
+			, UG.user_grade_name AS userGradeName
+
+		FROM inquiry I
+		JOIN user U
+			ON I.user_id = U.user_id
+		JOIN user_grade UG
+			ON U.user_grade_id = UG.user_grade_id
+		LEFT JOIN admin A
+			ON I.admin_id = A.admin_id
+	</select>
 
 </mapper>
