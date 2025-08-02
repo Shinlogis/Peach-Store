@@ -20,7 +20,7 @@
 		<li><a href="#" style="font-weight:bold;"><%= loginUser.getUser_name() %>님 </a></li>
 		<%} %>      
       <li><a href=""><img src="/static/shop/img/header/search1.png" style="width:13px; height:100%; margin-bottom:3px"></a></li>
-      <li><a href=""><img src="/static/shop/img/header/cart.png" style="width:18px; height:100%; margin-bottom:3px"></a></li>
+      <li><a href="/shop/user/cart"><img src="/static/shop/img/header/cart.png" style="width:18px; height:100%; margin-bottom:3px"></a></li>
       <li><a href="/shop/mypage"><img src="/static/shop/img/header/mypage.png" style="width:16px; height:100%; margin-bottom:3px"></a></li>
     </ul>
     

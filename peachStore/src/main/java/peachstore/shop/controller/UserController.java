@@ -26,7 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
 import peachstore.service.user.SnsProviderService;
 import peachstore.service.user.UserService;
-
+/**
+ * 유저로그인용 컨트롤러 입니다.
+ * @author 이세형
+ * @since 2025-07-30
+ * */
 @Slf4j
 @Controller
 public class UserController {
@@ -49,7 +53,7 @@ public class UserController {
 	// 로그인 폼 요청 처리
 	@GetMapping("/user/loginform")
 	public String getLoginForm() {
-		return "shop/loginform";
+		return "shop/user/loginform";
 	}
 
 	// 로그아웃 요청 처리
@@ -66,7 +70,7 @@ public class UserController {
 		List<User> userList = userService.selectAllJoin();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userList", userList);
-		mav.setViewName("shop/joinform");
+		mav.setViewName("shop/user/joinform");
 		
 		return mav;
 	}
@@ -115,7 +119,7 @@ public class UserController {
 	//에러페이지 리턴
 	@GetMapping("/user/error")
 	public String errorPage() {
-		return "shop/error";
+		return "shop/user/error";
 	}
 	/*
 	 * ========================================================================
@@ -187,8 +191,6 @@ public class UserController {
 	public String naverCallback(@RequestParam("code") String code, String state, HttpSession session)
 			throws ExecutionException, InterruptedException, IOException {
 
-		// IDP가 전송한 code, clientId, Client Secret을 조합하여 토큰 요청
-		// client ID, client Secret은 빈 등록시 이미 등록해 놓은걸 사용한다.
 		OAuth2AccessToken accessToken = naverOAuthService.getAccessToken(code);
 
 		// 발급받은 토큰을 이용하여 회원정보 조회
@@ -202,12 +204,7 @@ public class UserController {
 		String id = userJson.get("id").getAsString();
 		String email = userJson.get("email").getAsString();
 		String name = userJson.get("name").getAsString();
-
-		// 이미 회원정보가 존재하면, 로그인만 처리
-
-		// 아니라면 회원 가입 후 로그인 후..
-
-		// 회원가입 확인 및 등록 : 토큰을 통해 얻은 회원정보가 우리 쇼핑몰에 등록되어 있는지 체크
+		
 		User user = userService.selectById(id);
 		if (user == null) {
 			// 동일한 계정이 이미 존재한다면 로그인만 처리
@@ -226,61 +223,5 @@ public class UserController {
 
 		return "redirect:/shop/main";
 	}
-
-	/*
-	 * ==================================================
-	 * 카카오 관련
-	 * =================================================
-	 */
-	@GetMapping("/user/kakao/authurl")
-	@ResponseBody
-	public String getKakaoAuthUrl() {
-		return kakaoOAuthService.getAuthorizationUrl();
-	}
-
-	// 콜백요청 처리
-	@GetMapping("/callback/sns/kakao")
-	public String kakaoCallback(String code, HttpSession session)
-			throws ExecutionException, InterruptedException, IOException {
-		// IDP가 전송한 code, clientId, Client Secret을 조합하여 토큰 요청
-		// client ID, client Secret은 빈 등록시 이미 등록해 놓은걸 사용한다.
-
-		OAuth2AccessToken accessToken = kakaoOAuthService.getAccessToken(code);
-
-		// 발급받은 토큰을 이용하여 회원정보 조회
-		OAuthRequest request = new OAuthRequest(Verb.GET, "https://kapi.kakao.com/v2/user/me");
-		kakaoOAuthService.signRequest(accessToken, request);
-		Response response = kakaoOAuthService.execute(request); // 요청 후 그 결과를 받자
-
-		JsonObject responseJson = JsonParser.parseString(response.getBody()).getAsJsonObject();
-		JsonObject userJson = responseJson.getAsJsonObject("response");
-
-		String id = userJson.get("id").getAsString();
-		String email = userJson.get("email").getAsString();
-		String name = userJson.get("name").getAsString();
-
-		// 이미 회원정보가 존재하면, 로그인만 처리
-
-		// 아니라면 회원 가입 후 로그인 후..
-
-		// 회원가입 확인 및 등록 : 토큰을 통해 얻은 회원정보가 우리 쇼핑몰에 등록되어 있는지 체크
-
-		User user = userService.selectById(id);
-		if (user == null) {
-			// 동일한 계정이 이미 존재한다면 로그인만 처리
-			user = new User();
-
-			// 회원 등록
-			user.setSns_provider(snsProviderService.selectByName("kakao"));
-			user.setId(id);
-			user.setEmail(email);
-			user.setUser_name(name);
-
-			userService.register(user);
-		}
-
-		return "redirect:/shop/main";
-	}
-
 
 }
