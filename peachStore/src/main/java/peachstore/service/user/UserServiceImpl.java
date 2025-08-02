@@ -8,11 +8,15 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
 import peachstore.repository.user.UserDAO;
+import peachstore.util.PasswordUtil;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
+	@Autowired
+	private PasswordUtil passwordUtil;
+	
 	@Autowired
 	private UserDAO userDAO;
 
@@ -47,7 +51,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void userJoin(User user) {
 		log.debug("넘어온 회원가입 id는 : " + user.getUser_id());
-		log.debug("넘어온 회원가입 비밀번호는 : " + user.getPassword());
+		//홈페이지 회원인 경우
+		if(user.getSns_provider()==null) {
+			String salt = passwordUtil.generateSalt();
+			String hashedPassword = passwordUtil.hashPassword(user.getHashedpassword(), salt);
+			user.setSalt(salt);
+			user.setHashedpassword(hashedPassword);
+		}
+		
 		userDAO.userJoin(user);
 		// insert query
 	}

@@ -72,7 +72,8 @@ public class UserController {
 	}
 
 	@PostMapping("/user/join")
-	public String userJoin(User user) {
+	public String userJoin(User user,String password) {
+		
 		userService.userJoin(user);
 		return "redirect:/shop/main";
 	}

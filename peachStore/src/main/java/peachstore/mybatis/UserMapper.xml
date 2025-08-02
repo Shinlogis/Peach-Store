@@ -6,7 +6,8 @@
 		<id column="user_id" property="user_id"/>
 		<result column="id" property="id"/>
 		<result column="email" property="email"/>
-		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="hashedpassword" property="hashedpassword"/>
 		<result column="user_name" property="user_name"/>
 		<result column="tel" property="tel"/>
 		<result column="address" property="address"/>
@@ -34,19 +35,19 @@
 	</select>
 	
 	<select id="homepageLogin" parameterType="User" resultType="User">
-		select * from user where id = #{id} and password = #{password}
+		select * from user where id = #{id} and hashedpassword = #{hashedpassword}
 	</select>
 	
 	<!-- 소셜로그인 회원가입 쿼리 -->
 	<insert id="snsInsert" parameterType="User">
-		insert into user(id, email, password, user_name, sns_provider_id)
-		values(#{id}, #{email}, #{password}, #{user_name}, #{sns_provider.sns_provider_id})
+		insert into user(id, email, user_name, sns_provider_id)
+		values(#{id}, #{email}, #{user_name}, #{sns_provider.sns_provider_id})
 	</insert>
 	
 	<!-- 사이트 회원가입 쿼리 -->
 	<insert id="userJoin" parameterType="User">
-		insert into user (id, email, password, user_name, tel, address)
-		values (#{id}, #{email}, #{password}, #{user_name}, #{tel}, #{address})
+		insert into user (id, email, salt, hashedpassword, user_name, tel, address)
+		values (#{id}, #{email}, #{salt}, #{hashedpassword}, #{user_name}, #{tel}, #{address})
 	</insert>
 	
 	<!-- mybaits 특성상 resultmap으로는 innerjoin이 원활히 진행되지 않기 때문에 조인문 쿼리 따로작성 -->
