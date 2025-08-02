@@ -43,6 +43,11 @@ public interface ProductDAO {
      */
     public void delete(Product product);
     
+    /**
+     * 상품 서브카테고리로 조회 
+     */
+    public List<Product> selectBySubId(int subId);
+    
     public List<Product> selectAllWithPaging(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
     
     public int count();

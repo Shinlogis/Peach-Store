@@ -1,4 +1,7 @@
 @charset "UTF-8";
+a{
+	text-decoration: none;
+}
 #product-list-section{
 	text-align: center;
 }
@@ -59,6 +62,7 @@
   	font-size: 20px;
     font-weight: bold;
     margin-top: 50px;
+	color:#212529;
 }
 
 .p_price{
@@ -67,23 +71,4 @@
     margin-top: 10px;
     color: gray;
     margin-bottom: 20px;
-}
-
-.item-btn{
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    margin: auto;
-    display: block;
-    padding: 10px 20px;
-    background-color: #0071e3;  
-    color: white;
-    border: none;
-    border-radius: 28px;
-    font-size: 1rem;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: translate(-50%, 10px);
-    text-align: center;
 }
