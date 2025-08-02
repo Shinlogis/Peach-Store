@@ -72,7 +72,8 @@ public class UserController {
 	}
 
 	@PostMapping("/user/join")
-	public String userJoin(User user) {
+	public String userJoin(User user,String password) {
+		
 		userService.userJoin(user);
 		return "redirect:/shop/main";
 	}
@@ -93,18 +94,29 @@ public class UserController {
 	@PostMapping("/user/login")
 	public String homepageLogin(User user, HttpSession session) {
 		log.debug("user 레퍼런스주소" + user);
-		User obj = userService.homepageLogin(user);
+		User obj;
+		try {
+			obj = userService.homepageLogin(user);
 //		if(user==null) {user=null이면 로그인 됨
-		if (obj == null) {
+			if (obj == null) {
 //			존재하지 않는 회원인경우 알림 띄우는 로직 구현하기
-			return "redirect:/shop/user/loginform";
+				return "redirect:/shop/user/loginform";
+			}
+			
+			session.setAttribute("user", obj);
+			return "redirect:/shop/main";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "redirect:/shop/user/error";
 		}
-
-		session.setAttribute("user", obj);
-		return "redirect:/shop/main";
 	}
 
-	
+	//에러페이지 리턴
+	@GetMapping("/user/error")
+	public String errorPage() {
+		return "shop/error";
+	}
 	/*
 	 * ========================================================================
 	 * 구글 로그인 처리

@@ -7,12 +7,17 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
+import peachstore.exception.UserException;
 import peachstore.repository.user.UserDAO;
+import peachstore.util.PasswordUtil;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
+	@Autowired
+	private PasswordUtil passwordUtil;
+	
 	@Autowired
 	private UserDAO userDAO;
 
@@ -26,11 +31,6 @@ public class UserServiceImpl implements UserService {
 		userDAO.insert(user);
 	}
 
-	@Override
-	public User select(int user_id) {
-		return userDAO.select(user_id);
-	}
-
 	// 회원 로그인을 위한 메서드 두개
 	@Override
 	public List<User> selectAll() {
@@ -38,8 +38,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User homepageLogin(User user) {
-		User obj = userDAO.homepageLogin(user);
+	public User homepageLogin(User user) throws UserException{
+		User obj = userDAO.selectById(user.getId());
+		
+		String dbHash = passwordUtil.hashPassword(user.getHashedpassword(), obj.getSalt());
+		if(dbHash.equals(obj.getHashedpassword())==false) {
+			throw new UserException("로그인 정보가 올바르지 않습니다");
+		}
 		return obj;
 	}
 
@@ -47,7 +52,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void userJoin(User user) {
 		log.debug("넘어온 회원가입 id는 : " + user.getUser_id());
-		log.debug("넘어온 회원가입 비밀번호는 : " + user.getPassword());
+		//홈페이지 회원인 경우
+		if(user.getSns_provider()==null) {
+			String salt = passwordUtil.generateSalt();
+			String hashedPassword = passwordUtil.hashPassword(user.getHashedpassword(), salt);
+			user.setSalt(salt);
+			user.setHashedpassword(hashedPassword);
+		}
+		
 		userDAO.userJoin(user);
 		// insert query
 	}

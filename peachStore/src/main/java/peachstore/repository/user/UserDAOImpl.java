@@ -11,6 +11,7 @@ import peachstore.exception.UserException;
 
 @Repository
 public class UserDAOImpl implements UserDAO{
+	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
@@ -28,20 +29,22 @@ public class UserDAOImpl implements UserDAO{
 		}
 
 	}
-	@Override
-	public User select(int user_id) {
-		return sqlSessionTemplate.selectOne("User.select", user_id);
-	}
 	
 	//회원 로그인을 위한 메서드 2개
 	@Override
 	public List<User> selectAll() {
 		return sqlSessionTemplate.selectList("User.selectAll");
 	}
+	
 	@Override
-	public User homepageLogin(User user) {
-		return sqlSessionTemplate.selectOne("User.homepageLogin", user);
+	public User homepageLogin(User user) throws UserException{
+		User obj = sqlSessionTemplate.selectOne("User.homepageLogin", user);
+		if (obj==null) {
+			throw new UserException("로그인 정보가 올바르지 않습니다.");
+		}
+		return obj;
 	}
+	
 	//회원가입을 위한 메서드
 	@Override
 	public void userJoin(User user) {
