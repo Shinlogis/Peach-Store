@@ -6,7 +6,8 @@
 		<id column="user_id" property="user_id"/>
 		<result column="id" property="id"/>
 		<result column="email" property="email"/>
-		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="hashedpassword" property="hashedpassword"/>
 		<result column="user_name" property="user_name"/>
 		<result column="tel" property="tel"/>
 		<result column="address" property="address"/>
@@ -19,18 +20,9 @@
 			javaType="SnsProvider"
 			select="SnsProvider.selectAll"/>
 	</resultMap>
-
-	<select id="selectByName" resultType="User" parameterType="String"> 
-		select * from user where id = #{id}
-	</select>
 	
 	<select id="selectById" resultType="User" parameterType="String"> 
 		select * from user where id = #{id}
-	</select>
-	
-	<select id="select" parameterType="int" resultType="User">
-		select * from user where user_id = #{user_id}
-		
 	</select>
 	
 	<select id="selectAll" resultMap="userResultMap">
@@ -38,17 +30,27 @@
 	</select>
 	
 	<select id="homepageLogin" parameterType="User" resultType="User">
-		select * from user where id = #{id} and password = #{password}
+		select * from user where id = #{id} and hashedpassword = #{hashedpassword}
 	</select>
 	
-	<!-- 소셜로그인 회원가입폼 -->
+	<!-- 소셜로그인 회원가입 쿼리 -->
 	<insert id="snsInsert" parameterType="User">
-		insert into user(id, email, password, user_name, sns_provider_id)
-		values(#{id}, #{email}, #{password}, #{user_name}, #{sns_provider.sns_provider_id})
+		insert into user(id, email, user_name, sns_provider_id)
+		values(#{id}, #{email}, #{user_name}, #{sns_provider.sns_provider_id})
 	</insert>
 	
+	<!-- 사이트 회원가입 쿼리 -->
 	<insert id="userJoin" parameterType="User">
-		insert into user (id, email, password, user_name, tel, address)
-		values (#{id}, #{email}, #{password}, #{user_name}, #{tel}, #{address})
+		insert into user (id, email, salt, hashedpassword, user_name, tel, address)
+		values (#{id}, #{email}, #{salt}, #{hashedpassword}, #{user_name}, #{tel}, #{address})
 	</insert>
+	
+	<!-- mybaits 특성상 resultmap으로는 innerjoin이 원활히 진행되지 않기 때문에 조인문 쿼리 따로작성 -->
+	<!-- outerjoin후 조건에맞추어 다시 select 하는구동방식인듯 -->
+	<select id="selectAllJoin" resultType="User" parameterType="String">
+		select *
+		from user u
+		inner join user_grade ug on u.user_grade_id = ug.user_grade_id
+		inner join sns_provider sp on u.sns_provider_id = sp.sns_provider_id
+	</select>
 </mapper>

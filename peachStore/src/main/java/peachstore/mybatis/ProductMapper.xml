@@ -53,6 +53,11 @@
 	
 	<select id="selectBySubcategoyId" parameterType="int" resultType="Product">
 		select <include refid="columns"/>  from product 
+	</select>	
+		
+	<select id="selectBySubId" parameterType="int" resultMap="joinMap">
+		select * from product 
+
 		where product_subcategory_id=#{product_subcategory_id}
 	</select>
 	

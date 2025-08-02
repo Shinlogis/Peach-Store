@@ -16,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<%@ include file="../inc/head_link.jsp" %>
 	<link rel="stylesheet"  href="/static/shop/css/product/productList.css">
 </head>
@@ -138,7 +139,7 @@
 <script src="/static/admin/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
-<script>
+<script type="text/javascript">
 $(".btn-item").click(function () {
     $(".btn-item").css({
       "background-color": "",

@@ -25,6 +25,7 @@
       <typeAlias type="peachstore.domain.OrderReceipt" alias="OrderReceipt"/>
       <typeAlias type="peachstore.domain.SnapShot" alias="SnapShot"/>
       <typeAlias type="peachstore.domain.Review" alias="Review"/>
+      <typeAlias type="peachstore.domain.Admin" alias="Admin"/>
 
       
    </typeAliases>
@@ -63,5 +64,6 @@
       <mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
       <mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
       <mapper resource="peachstore/mybatis/ReviewMapper.xml"/>
+      <mapper resource="peachstore/mybatis/AdminMapper.xml"/>
    </mappers>
 </configuration>

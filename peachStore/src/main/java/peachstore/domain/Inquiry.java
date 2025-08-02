@@ -22,7 +22,7 @@ public class Inquiry {
 	private LocalDateTime answered_at;
 	private boolean is_active;
 	private User user;
-	private Integer admin_id;
+	private Admin admin;
 	
 	private List<InquiryImg> imgList;
 	private MultipartFile[] photo;

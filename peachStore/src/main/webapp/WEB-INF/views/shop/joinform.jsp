@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+	List<User> userList = (List)request.getAttribute("userList");
 %>
 <!DOCTYPE html>
 <html>
@@ -9,12 +10,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<%@ include file="./inc/head_link.jsp" %>
 	<link rel="stylesheet" href="/static/shop/css/main/login.css">
-</head>
-<body>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
@@ -28,8 +23,10 @@
 				<div class="row">
 					<div class="col">
 						<input class="a" type="text" id="id" name="id" placeholder="아이디" required>
-						<input class="a" type="password" id="password" name="password" placeholder="비밀번호" required>
+						<span id="idcheck-message"></span>
+						<input class="a" type="password" id="hashedpassword" name="hashedpassword" placeholder="비밀번호" required>
 						<input class="a" type="password" id="passwordconfirm" placeholder="비밀번호 확인" required>
+						<span id="pwcheck-message"></span>
 						<input class="a" type="email" id="email" name="email" placeholder="이메일" required>
 						<input class="a" type="text" id="user_name" name="user_name" placeholder="이름" required>
 						<input class="a" type="tel" id="tel" name="tel" placeholder="휴대폰번호" required>
@@ -78,6 +75,8 @@
 		
 	</section>
 	<script type="text/javascript">
+		let idDuplicated = true;
+		
 		function login(sns){
 			$.ajax({
 				url:"/shop/user/"+sns+"/authurl",
@@ -89,17 +88,65 @@
 		}
 		
 		function userJoin(){
+			
 			$("#joinform").attr({
 				action:"/shop/user/join",
 				method:"post"
 			})
 			$("#joinform").submit();
 		}
+		
 		$(()=>{
+			//회원가입 버튼이벤트
 			$("#bt_join").click(()=>{
-				alert("회원가입 요청 들어옴");
-				userJoin();
+				const pw = $('#hashedpassword').val();
+				const confirm = $('#passwordconfirm').val();
+				if(pw === confirm && idDuplicated == false){
+					userJoin();
+				}else{
+					alert('회원가입 정보를 다시 확인해 주십시오');
+					return;
+				}
 			});
+			
+			$('#id').on('change', function() {
+				const userId = $('#id').val();
+			
+				if (userId === '') {
+					$('#idcheck-message').text('').css('color', '');
+				} else {
+					$.ajax({
+						url: '/shop/user/checkid',
+						type: 'GET',
+						data: { id: userId }, // 서버에 id를 쿼리 파라미터로 전달
+						success: function(result) {
+							if (result === 'duplicated') {
+								$('#idcheck-message').text('이미 존재하는 아이디입니다.').css('color', 'red');
+							} else if (result === 'available') {
+								$('#idcheck-message').text('사용 가능한 아이디입니다.').css('color', 'green');
+								idDuplicated = false;
+							}
+						},
+						error: function() {
+							$('#idcheck-message').text('오류가 발생했습니다.').css('color', 'orange');
+						}
+					});
+				}
+			});
+			 
+			//비밀번호 중복검사
+			$('#hashedpassword, #passwordconfirm').on('change', function() {
+		        const pw = $('#hashedpassword').val();
+		        const confirm = $('#passwordconfirm').val();
+
+		        if (pw === '' || confirm === '') {
+		            $('#pwcheck-message').text('').css('color', '');
+		        } else if (pw === confirm) {
+		            $('#pwcheck-message').text('비밀번호가 일치합니다.').css('color', 'green');
+		        } else {
+		            $('#pwcheck-message').text('비밀번호가 일치하지 않습니다.').css('color', 'red');
+		        }
+		    });
 		})
 	</script>
 </body>

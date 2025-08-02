@@ -73,24 +73,11 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h3 class="card-title"><%=grades.size() %>개의 등급</h3>
+									<h3 class="card-title"><%=grades.size() %>개의 결과</h3>
 
 									<div class="card-tools">
 										
-										<div class="input-group input-group-sm" style="width: 150px;">
-											<!--  
-											<input type="text" name="table_search"
-												class="form-control float-right" placeholder="Search">
-											-->
-											<div class="input-group-append">
-												<!-- 
-												<button type="submit" class="btn btn-default">
-													<i class="fas fa-search"></i>
-												</button>
-										 		-->
 										 		<button type="button" class="btn btn-primary" id="bt_regist_top" data-toggle="modal" data-target="#gradeModal">등록</button>
-											</div>
-										</div>
 									</div>
 								</div>
 								<!-- /.card-header -->
@@ -101,10 +88,8 @@
 												<th>등급명</th>
 												<th>할인율</th>
 												<th>누적구매기준</th>
-												<th>활성화상태</th>
-												<th>상태변경</th>
-												<th>수정</th>
-												<th>삭제</th>
+												<th>상태</th>
+												<th>등급관리</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -115,35 +100,41 @@
 												<td><%= grade.getUserGradeName()%></td>
 												<td><%= grade.getDiscountRate()%></td>
 												<td><%= grade.getCriteriaAmount()%></td>
-												<td><%= grade.isActive() ? "Y" : "N" %></td>
 												<td>
-		                                            <button type="button" class="btn btn-warning btn-sm"
-		                                                    data-toggle="modal" data-target="#userGradeToggleActModal"
-		                                                    data-id="<%= grade.getUserGradeId() %>"
-		                                                    data-name="<%= grade.getUserGradeName() %>"
-		                                                    data-act="<%= grade.isActive() %>"
-		                                                    >
-		                                                상태변경
-		                                            </button>
-	                                            </td>
-												<td>
-													<button type="button" class="btn btn-secondary btn-sm"
-	                                                    data-toggle="modal" data-target="#userGradeEditModal"
-	                                                    data-id="<%= grade.getUserGradeId() %>"
-	                                                    data-name="<%= grade.getUserGradeName()%>"
-	                                                    data-discountRate="<%= grade.getDiscountRateAsDouble() %>"
-	                                                    data-criteriaAmount="<%= grade.getCriteriaAmount() %>">
-		                                                수정
-		                                            </button>
+													<% if (grade.isActive()) {	%> 
+													<span class="badge badge-success">활성</span> 
+													<%} else {%> 
+													<span class="badge badge-secondary">비활성</span> 
+													<%
+														 }
+													 %>
 												</td>
 												<td>
-		                                            <button type="button" class="btn btn-danger btn-sm"
-		                                                    data-toggle="modal" data-target="#userGradeDelModal"
-		                                                    data-id="<%= grade.getUserGradeId() %>"
-		                                                    data-name="<%= grade.getUserGradeName() %>">
-		                                                삭제
-		                                            </button>
-                                            	</td>
+												  <div class="dropdown">
+												    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<%= grade.getUserGradeId() %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												      관리
+												    </button>
+												    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton<%= grade.getUserGradeId() %>">
+												      <button class="dropdown-item btn-toggle-act"
+												              data-toggle="modal"
+												              data-target="#userGradeToggleActModal"
+												              data-id="<%= grade.getUserGradeId() %>"
+												              data-name="<%= grade.getUserGradeName() %>"
+												              data-act="<%= grade.isActive() %>">
+												        상태변경
+												      </button>
+												      <button class="dropdown-item btn-edit"
+												              data-toggle="modal"
+												              data-target="#userGradeEditModal"
+												              data-id="<%= grade.getUserGradeId() %>"
+												              data-name="<%= grade.getUserGradeName() %>"
+												              data-discountRate="<%= grade.getDiscountRateAsDouble() %>"
+												              data-criteriaAmount="<%= grade.getCriteriaAmount() %>">
+												        수정
+												      </button>
+												    </div>
+												  </div>
+											</td>
 											<%} %>
 										</tbody>
 									</table>
@@ -197,28 +188,41 @@
                 </div>
                 
                 <!-- 등급 상태변경 모달 -->
-                <div class="modal fade" id="userGradeToggleActModal" tabindex="-1" role="dialog" aria-labelledby="userGradeToggleActModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="userGradeToggleActModal">등급 상태 변경</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-	                        </div>
-	                        <div class="modal-body">
-					         	<p>현재 상태</p>
-					         	<p id="toggleTargetName" class="font-weight-bold"></p>
-					         	<p id="toggleTargetAct" class="font-weight-bold"></p>
-					         	<p id="toggleTarget" class="font-weight-bold"></p>
-					        </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="submitGradeActToggle">확인</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				<div class="modal fade" id="userGradeToggleActModal" tabindex="-1" role="dialog" aria-labelledby="userGradeToggleActModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content shadow-sm border-0">
+				      <div class="modal-header bg-light">
+				        <h5 class="modal-title font-weight-bold" id="userGradeToggleActModalLabel">등급 상태 변경</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				
+				      <div class="modal-body">
+				        <p class="mb-2">아래 등급의 상태를 변경하시겠습니까?</p>
+				
+				        <div class="p-3 border rounded bg-light">
+				          <div class="d-flex justify-content-between mb-2">
+				            <span class="font-weight-bold">등급명</span>
+				            <span id="toggleTargetName" class="text-primary font-weight-bold"></span>
+				          </div>
+				          <div class="d-flex justify-content-between mb-2">
+				            <span class="font-weight-bold">현재 상태</span>
+				            <span id="toggleTargetAct" class="badge badge-info px-2 py-1"></span>
+				          </div>
+				          <div class="d-flex justify-content-between">
+				          </div>
+				        </div>
+				      </div>
+				
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-primary" id="submitGradeActToggle">상태 변경</button>
+				        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
                 
                 <!-- 등급 수정 모달 -->
                 <div class="modal fade" id="userGradeEditModal" tabindex="-1" role="dialog" aria-labelledby="userGradeEditModalLabel" aria-hidden="true">
@@ -257,29 +261,6 @@
 				    </div>
 				  </div>
 				</div>
-				
-				<!-- 등급 삭제 모달 -->
-				<div class="modal fade" id="userGradeDelModal" tabindex="-1" role="dialog" aria-labelledby="userGradeDelModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="userGradeDelModalLabel">등급 삭제</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="닫기">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <p>다음 등급을 삭제합니다.</p>
-                                <p id="delGradeName" class="font-weight-bold"></p>
-                                <p>이 작업은 되돌릴 수 없습니다.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" id="delUserGrade">삭제</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 		</div>
 		<!-- /.content-wrapper -->
@@ -436,37 +417,6 @@
             }
 	    });
 	});
-
-    // 상위 카테고리 삭제 모달 오픈 시 데이터 셋팅
-    $("#userGradeDelModal").on("show.bs.modal", function (e) {
-        let button = $(e.relatedTarget);
-        let id = button.data("id");
-        let name = button.data("name");
-        $(this).data("id", id);
-        $(this).find("#delGradeName").text(name);
-    });
-
-    // 상위 카테고리 삭제
-    $("#delUserGrade").click(() => {
-        let id = $("#userGradeDelModal").data("id");
-        $.ajax({
-            url: "/admin/usergrade/delete",
-            type: "POST",
-            data: { userGradeId: id },
-            success: function (result) {
-                if (result.success) {
-                    alert("삭제 성공");
-                    location.reload();
-                } else {
-                    alert("삭제 실패");
-                }
-            },
-            error: function () {
-                alert("서버 오류");
-            }
-        });
-        $("#topCategoryDelModal").modal('hide');
-    });
 
 </script>
 </body>

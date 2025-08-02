@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
-import peachstore.repository.UserDAO;
+import peachstore.repository.user.UserDAO;
 
 @Slf4j
 @Controller
@@ -29,17 +29,5 @@ public class TestController {
 	public String regist() {
 		
 		return "shop/review/regist";
-	}
-	
-	@GetMapping("/user")
-	public String getUser(HttpSession session) {
-		
-		int user_id = 3;
-		User user = userDAO.select(user_id);
-		session.setAttribute("user", user);
-		log.debug("로그인한 유저는 " + user);
-		
-		return "redirect:/shop/main";
-		
 	}
 }

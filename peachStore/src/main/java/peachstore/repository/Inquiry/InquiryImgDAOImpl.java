@@ -46,6 +46,17 @@ public class InquiryImgDAOImpl implements InquiryImgDAO{
 		}
 	}
 	
+	//사진 파일 삭제
+	@Override
+	public void deleteByFilename(InquiryImg inquiryImg) throws InquiryImgException {
+		int result = sqlSessionTemplate.delete("InquiryImg.deleteByFilename", inquiryImg);
+		
+		if(result<1) {
+			throw new InquiryImgException("사진 삭제 실패");
+		}
+	}
+	
+	
 	
 
 }

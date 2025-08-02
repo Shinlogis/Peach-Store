@@ -24,11 +24,29 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public List<Review> select() {
 		List<Review> list = sqlSessionTemplate.selectList("Review.selectAll");
-		log.debug("select - resultCount: {}", list.size());
-		for (Review review : list) {
-			log.debug("username {} grade {}", review.getUser().getUser_name(), review.getUser().getUser_grade().getUserGradeName());
-		}
+		log.debug("select - count: {}", list.size());
 		return list;
+	}
+
+	@Override
+	public int update(Review review) {
+		int result = sqlSessionTemplate.update("Review.update", review);
+		log.debug("update - count: {}", result);
+		return result;
+	}
+
+	@Override
+	public Review selectById(int reveiwId) {
+		Review result = sqlSessionTemplate.selectOne("Review.selectById", reveiwId);
+		log.debug("result: {}", result);
+		return result;
+	}
+
+	@Override
+	public int delete(int reviewId) {
+		int result = sqlSessionTemplate.delete("Review.delete", reviewId);
+		log.debug("result: {}", result);
+		return result;
 	}
 
 }

@@ -1,3 +1,4 @@
+<%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -5,6 +6,7 @@
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	List<ProductSubcategory> subList=(List)request.getAttribute("subList");
 	String topname=(String)request.getAttribute("topName");
+	List<Product> listAll=(List)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -16,6 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<%@ include file="../inc/head_link.jsp" %>
 	<link rel="stylesheet"  href="/static/shop/css/product/productList.css">
 </head>
@@ -45,74 +48,17 @@
 	
 	<!--상품 리스트  -->
 	<div class="content-container-p">
-	     <!--   <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div>
-	       <div class="p_list">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="p_name">iPhone 16 PRO</div>
-	           <div class="p_price">💲199,0000원</div>
-	           <a href="" class="item-btn">쇼핑하기</a>
-	       </div> -->
-	      
-	   </div>
+		<%for(Product product:listAll){ %>
+		<a href='/shop/product/detail?productId=<%=product.getProductId() %>' class='p_list'>
+		<% if(product.getProductImgs()!=null && !product.getProductImgs().isEmpty()){%>
+			<% String imagePath = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();%>
+			<img src='<%= imagePath %>' class='slide' alt='Slide 1'>
+		<% }%>
+		<div class='p_name'><%=product.getProductName() %></div>
+		<div class='p_price'><%=product.getPrice()%></div>
+		</a>
+		<%} %>
+	</div>
 	<!--상품 리스트  -->
 </section>
  <!--  product-list-section end -->
@@ -136,32 +82,31 @@
 <script src="/static/admin/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
-<script>
+<script type="text/javascript">
 function printCategory(list){
 	let tag="";
 	
 	for(let i=0;i<list.length;i++){
-		tag+="<div class='p_list'>";
-		tag+="<img src='/static/shop/img/product/iphone.png' class='slide' alt='Slide 1'>";
-		tag+="<div class='p_name'>iPhone 16 PRO</div>";
-		tag+="<div class='p_price'>💲199,0000원</div>";
-		tag+="<a href='' class='item-btn'>쇼핑하기</a>";
-		tag+="</div>";
+		tag+="<a href='/shop/product/detail?productId=" + list[i].productId + "' class='p_list'>";
+		if(list[i].productImgs[0]!=null){
+		tag+="<img src='/data/product_"+list[i].productId+"/"+list[i].productImgs[0].filename+"' class='slide' alt='Slide 1'>";
+		}
+		tag+="<div class='p_name'>" + list[i].productName +"</div>";
+		tag+="<div class='p_price'>" + list[i].price +"</div>";
+		tag+="</a>";
 	}
 	
 	$(".content-container-p").html(tag);  // innerHTML=태그 동일
-	
-	//현재 select 객체의 값 설정 
-	/* $(obj).val(v); */
 }
 
 
-function getProductList(){
+function getProductList(subId){
 	$.ajax({
 		url:"/shop/product/list", 
 		type:"GET",
-		data: { subid: subid },
+		data: { subId: subId },
 		success:function(result, status, xhr){
+			console.log(result);
 			printCategory(result);
 		},
 		error:function(xhr, status, err){
@@ -179,9 +124,10 @@ $(".sub-btn").click(function () {
       "background-color": "#1d1d1f",
       "color": "white"
     });
-	getProductList(); 
-/* 	getProductList($(this).val());  */
+    
+ 	getProductList($(this).val());
  });
+ 
 </script>
 </body>
 </html>

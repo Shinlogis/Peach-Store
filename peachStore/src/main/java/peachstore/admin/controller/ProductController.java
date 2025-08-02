@@ -1,5 +1,6 @@
 package peachstore.admin.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +99,8 @@ public class ProductController {
 		product.setProductCapacities(capacityList);
     	
 		String savePath = request.getServletContext().getRealPath("/data");
+		log.debug("에닮예닮예닮 "+savePath);
+		
 		
 		  try {
 		        productService.regist(product, savePath);

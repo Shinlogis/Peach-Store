@@ -20,11 +20,6 @@ public class ProductTopcategory {
     private String productTopcategoryName;
     private String fileDirName;
     private String filename;
-    private Boolean isActive;
+    private boolean isActive;
     private List<ProductSubcategory> productSubcategory;
-    
-    public void deactivate() {
-        this.isActive = false;
-    }
-
 }

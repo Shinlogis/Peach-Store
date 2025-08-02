@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Product;
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.ProductTopcategory;
@@ -25,6 +26,7 @@ import peachstore.service.topcategory.ProductTopcategoryService;
  * @author 서예닮 
  * @since 2025-07-29 
  */
+@Slf4j
 @Controller
 public class ProductController {
 	@Autowired
@@ -39,50 +41,31 @@ public class ProductController {
 		List<ProductSubcategory> subList=productSubcategoryService.findAllByTopcategoryId(topid);
 		ProductTopcategory productTopcategory=productTopcategoryService.findById(topid);
 		String topName=productTopcategory.getProductTopcategoryName();
+		List<Product> list=productService.selectAll();
 		
 		ModelAndView mav = new ModelAndView("shop/product/"+productTopcategory.getProductTopcategoryName());
 		mav.addObject("subList", subList);
 		mav.addObject("topName", topName);
+		mav.addObject("list", list);
 		
 		return mav;
 	}
-	
+
 	@GetMapping("/product/list")
 	@ResponseBody
-	public List<Product> getList() {
-		//3단계: 목록 가져오기 
-		List productList=productService.selectAll();
+	public List<Product> getList(int subId) {
+		List productListbySub=productService.selectBySubId(subId);
 		
-//		paging.init(productList, request);
-		
-		//4단계: 결과 저장
-//		mav.addObject("paging", paging); //페이징 처리 객체도 담기
-		return productList;
+		return productListbySub;
 	}
-	
-//	@GetMapping("/product/detail")
-//	public ModelAndView getProductDetail(int product_id) {
-//		ModelAndView mav=new ModelAndView("shop/detail");
-//		
-//		Product product = productService.select(product_id);
-//		
-//		mav.addObject("product",product);
-//		return mav;
-//	}
 	
 	@GetMapping("/product/detail")
-	public ModelAndView getProductDetails() {
+	public ModelAndView getProductDetails(int productId) {
 		ModelAndView mav=new ModelAndView("shop/product/detail");
 		
-		//Product product = productService.select(product_id);
+		Product product = productService.select(productId);
 		
-		//mav.addObject("product",product);
+		mav.addObject("product",product);
 		return mav;
 	}
-		
-	
-	
-	
-	
-
 }

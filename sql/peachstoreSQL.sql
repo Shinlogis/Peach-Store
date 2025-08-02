@@ -58,14 +58,15 @@ CREATE TABLE USER_GRADE (
 CREATE TABLE user(
    user_id int PRIMARY KEY AUTO_INCREMENT
     , id varchar(100) NOT NULL UNIQUE
-   , email varchar(100) UNIQUE
-   , password varchar(100) 
-   , user_name varchar(10) NOT NULL 
-   , tel varchar(13) UNIQUE
-   , address varchar(255)
-   , is_active boolean  NOT NULL DEFAULT TRUE
-   , created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-   , user_grade_id int NOT NULL DEFAULT 1
+	, email varchar(100) NOT NULL UNIQUE
+    , salt varchar(100) 
+    , hashedpassword varchar(100) 
+	, user_name varchar(10) NOT NULL 
+	, tel varchar(13) UNIQUE
+	, address varchar(255)
+	, is_active boolean  NOT NULL DEFAULT TRUE
+	, created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, user_grade_id int NOT NULL DEFAULT 1
     , sns_provider_id int
    , CONSTRAINT fk_user_user_grade_id
       FOREIGN KEY (user_grade_id)
@@ -450,23 +451,23 @@ VALUES
    
 -- 회원 테이블 인서트(INSERT INTO user)
 -- 나중에 금액이랑 묶으면 user_grade_id는 default로만 insert할것
-INSERT INTO user (id, email, password, user_name, tel, address, user_grade_id, sns_provider_id)
+INSERT INTO user (id, email, salt, hashedpassword, user_name, tel, address, user_grade_id, sns_provider_id)
 VALUES 
-    ('USER01', 'USER01@EXAMPLE.COM', 'PASS01', '홍길동', '010-1234-0001', '서울시 강남구', 1, NULL),
-    ('USER02', 'USER02@EXAMPLE.COM', 'PASS02', '김영희', '010-1234-0002', '서울시 서초구', 2, NULL),
-    ('USER03', 'USER03@EXAMPLE.COM', 'PASS03', '박철수', '010-1234-0003', '서울시 송파구', 3, NULL),
-    ('USER04', 'USER04@EXAMPLE.COM', 'PASS04', '이민호', '010-1234-0004', '서울시 강서구', 4, NULL),
-    ('USER05', 'USER05@EXAMPLE.COM', NULL, '최지우', '010-1234-0005', '서울시 양천구', 1, 1),
-    ('USER06', 'USER06@EXAMPLE.COM', NULL, '정해인', '010-1234-0006', '서울시 노원구', 2, 2),
-    ('USER07', NULL, NULL, '한지민', '010-1234-0007', '서울시 도봉구', 3, 3),
-    ('USER08', 'USER08@EXAMPLE.COM', NULL, '서강준', '010-1234-0008', '서울시 성동구', 4, 1),
-    ('USER09', 'USER09@EXAMPLE.COM', NULL, '김소현', '010-1234-0009', '서울시 마포구', 1, 2),
-    ('USER10', NULL, NULL, '이성경', '010-1234-0010', '서울시 은평구', 2, 3),
-    ('USER11', 'USER11@EXAMPLE.COM', 'PASS11', '조인성', '010-1234-0011', '서울시 구로구', 3, NULL),
-    ('USER12', 'USER12@EXAMPLE.COM', 'PASS12', '배수지', '010-1234-0012', '서울시 금천구', 4, NULL),
-    ('USER13', 'USER13@EXAMPLE.COM', NULL, '윤아', '010-1234-0013', '서울시 중랑구', 1, 2),
-    ('USER14', NULL, NULL, '김태리', '010-1234-0014', '서울시 동작구', 2, 3),
-    ('USER15', 'USER15@EXAMPLE.COM', NULL, '이준기', '010-1234-0015', '서울시 강북구', 3, 1);
+	('user01', 'user01@example.com', 'Z9Lt1yJH', 'a7ac998258a4bc8e74e0f693c7d07b3721d1b1c51a1c586af2577d558acdb45f', '홍길동', '010-1234-0001', '서울시 강남구', 1, NULL),
+	('user02', 'user02@example.com', 'PlkM5sAv', 'f6499cf282165ad79395cf3843172db3999f36ce215b5090d1ed7a4e14f842bb', '김영희', '010-1234-0002', '서울시 서초구', 2, NULL),
+	('user03', 'user03@example.com', 's8Xe4FVr', '67f52f14f6f9fd02923b94a5182635b38e80229f2dfb95e9f1c4a4bcd9aeaad3', '박철수', '010-1234-0003', '서울시 송파구', 3, NULL),
+	('user04', 'user04@example.com', 'YwBq9rLd', '87e716f703264b617b911338bd77499a3c53d0f7d6cf1e2f00c73c6408c31002', '이민호', '010-1234-0004', '서울시 강서구', 4, NULL),
+	('user05', 'user05@example.com', NULL, NULL, '최지우', '010-1234-0005', '서울시 양천구', 1, 1),
+	('user06', 'user06@example.com', NULL, NULL, '정해인', '010-1234-0006', '서울시 노원구', 2, 2),
+	('user07', 'user07@example.com', NULL, NULL, '한지민', '010-1234-0007', '서울시 도봉구', 3, 3),
+	('user08', 'user08@example.com', NULL, NULL, '서강준', '010-1234-0008', '서울시 성동구', 4, 1),
+	('user09', 'user09@example.com', NULL, NULL, '김소현', '010-1234-0009', '서울시 마포구', 1, 2),
+	('user10', 'user10@example.com', NULL, NULL, '이성경', '010-1234-0010', '서울시 은평구', 2, 3),
+	('user11', 'user11@example.com', 'Tsdg6W0o', '4f59b274153f7e4e3c1d558f2ae3c2bb3f6dfe0fe37b4b43f9ab18611750fd8f', '조인성', '010-1234-0011', '서울시 구로구', 3, NULL),
+	('user12', 'user12@example.com', 'Xv0cQ97N', 'd7f3bc3dfb1e82a6df62a63fa99f49b49173386d7f3e6f2e2f573b0dfac0cb44', '배수지', '010-1234-0012', '서울시 금천구', 4, NULL),
+	('user13', 'user13@example.com', NULL, NULL, '윤아', '010-1234-0013', '서울시 중랑구', 1, 2),
+	('user14', 'user14@example.com', NULL, NULL, '김태리', '010-1234-0014', '서울시 동작구', 2, 3),
+	('user15', 'user15@example.com', NULL, NULL, '이준기', '010-1234-0015', '서울시 강북구', 3, 1);
 
 -- 등급 쿠폰 테이블 인서트(INSERT INTO GRADE_COUPON)
 INSERT INTO GRADE_COUPON (USER_GRADE_ID, COUPON_ID, ISSUE_RULE)
@@ -590,7 +591,7 @@ VALUES
 
 -- 제품 이미지 테이블 인서트(INSERT INTO PRODUCT_IMG)
 -- =========인서트 없음
--- 스냅샷 테이블 인서트(INSERT INTO SNAPSHOT)
+
 -- 스냅샷 테이블 인서트(INSERT INTO SNAPSHOT)
 INSERT INTO SNAPSHOT (PRODUCT_ID, PRODUCT_NAME, PRICE, SIZE, CAPACITY, COLOR, ENGRAVING, FILENAME)
 VALUES
@@ -666,7 +667,12 @@ VALUES
     ('상품이 설명과 같고 만족스러워요.', '활성', 3, 5),
     ('가성비 최고네요. 다음에도 구매할게요!', '활성', 4, 5);
 
-
+INSERT INTO review (content, status, user_id, order_detail_id)
+VALUES
+    ('정말 마음에 들어요! 배송도 빨랐어요.', '활성', 2, 6),
+    ('상품이 설명과 같고 만족스러워요.', '활성', 3, 6),
+    ('가성비 최고네요. 다음에도 구매할게요!', '활성', 4, 6);
+    
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
 SHOW TABLES;
