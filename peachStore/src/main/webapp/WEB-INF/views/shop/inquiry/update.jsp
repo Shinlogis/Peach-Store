@@ -67,7 +67,7 @@
 								</div>
 								<div class="form-group">
 									<label >작성자</label> <input type="text" value="<%=user.getId() %>"
-										name="writer" class="form-control" required />
+										name="writer" class="form-control" required readonly />
 								</div>
 								<div class="form-group">
 									<div>

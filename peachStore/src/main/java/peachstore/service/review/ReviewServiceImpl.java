@@ -1,5 +1,6 @@
 package peachstore.service.review;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -7,8 +8,13 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Review;
+import peachstore.domain.ReviewImg;
+import peachstore.domain.User;
 import peachstore.exception.ReviewException;
+import peachstore.exception.ReviewImgException;
 import peachstore.repository.review.ReviewDAO;
+import peachstore.repository.review.ReviewImgDAO;
+import peachstore.util.FileCommonManager;
 
 /**
  * 리뷰 인터페이스
@@ -21,6 +27,8 @@ import peachstore.repository.review.ReviewDAO;
 public class ReviewServiceImpl implements ReviewService{
 
 	private final ReviewDAO reviewDAO;
+	private final ReviewImgDAO reviewImgDAO;
+	private final FileCommonManager fileCommonManager;
 	
 	@Override
 	public List<Review> selectAll() {
@@ -54,6 +62,47 @@ public class ReviewServiceImpl implements ReviewService{
 		if (result == 0) {
 			throw new ReviewException("삭제 실패");
 		}
+	}
+		
+	//리뷰 등록
+	@Override
+	public void regist(Review review, String savePath) throws ReviewException{
+		reviewDAO.insert(review);
+		
+		//디렉토리 생성
+		String subDir = "r_"+review.getReviewId();
+		
+		//이미지 저장
+		List<String> savedFilenames = fileCommonManager.saveFiles(review.getPhoto(), savePath, subDir);
+		
+		List<ReviewImg> imgList = new ArrayList<>(); 
+		for(String filename : savedFilenames) {
+			ReviewImg reviewImg = new ReviewImg();
+			
+			reviewImg.setReview(review);
+			reviewImg.setFilename(filename);
+			reviewImgDAO.insert(reviewImg);
+			
+			imgList.add(reviewImg);
+		}
+		
+		review.setImgList(imgList);
+	}
+	
+	//삭제
+	public void remove(Review review, String savePath) throws ReviewImgException{
+		String subDir = "r_" + review.getReviewId();
+		
+		fileCommonManager.remove(subDir, savePath);
+	}
+
+	//회원별 리뷰 조회
+	@Override
+	public List selectByUserId(User user) {
+		log.debug("매개변수 유저 - {}", user.getUser_id());
+		List<Review> list = reviewDAO.selectByUserId(user);
+
+		return list;
 	}
 	
 }

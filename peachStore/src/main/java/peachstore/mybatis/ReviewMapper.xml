@@ -21,7 +21,7 @@
 		</association>
 
 		<association property="orderDetail" javaType="OrderDetail">
-			<id column="order_detail_id" property="order_detail_id" />
+			<id column="orderDetailId" property="order_detail_id" />
 			
 			<association property="snapShot" javaType="SnapShot">
 				<id column="snapshot_id" property="snapshot_id" />
@@ -32,12 +32,16 @@
     			<result column="color" property="color" />
     			<result column="engraving" property="engraving" />
 			</association>
+		
 		</association>
+		
+		<collection column="review_id" property="imgList" javaType="java.util.List" ofType="ReviewImg"
+			select="ReviewImg.selectByReviewId"/>
 
 	</resultMap>
 
 	<!-- 전체 조회 -->
-	<select id="selectAll" resultMap="ReviewMap">
+	<select id="selectAll" resultMap="ReviewMap" parameterType="User">
 		SELECT
 			r.review_id,
 			r.content,
@@ -71,6 +75,14 @@
 			ON r.order_detail_id = od.order_detail_id
 		JOIN snapshot s
 			ON od.snapshot_id = s.snapshot_id
+			
+		<where>
+			<if test="user_id != null and user_id != ''">
+				and u.user_id = #{user_id}
+			</if>
+		</where>
+		
+		order by r.regdate desc
 	</select>
 	
 	<!-- update -->
@@ -123,5 +135,13 @@
 		from review 
 		where review_id = #{reviewId}
 	</delete>
+	
+	<insert id="insert" parameterType="Review">
+		insert into review (content, status, user_id, order_detail_id) values (#{content},'활성', #{user.user_id}, #{orderDetail.order_detail_id})
+	
+		<selectKey keyColumn="review_id" keyProperty="reviewId" resultType="int" order="AFTER">
+			select last_insert_id() as review_id			
+		</selectKey>
+	</insert>
 
 </mapper>

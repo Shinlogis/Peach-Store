@@ -66,7 +66,7 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 								</div>
 								<div class="form-group">
 									<label >작성자</label> <input type="text" value="<%=user.getUser_name() %>"
-										 class="form-control" required />
+										 class="form-control" required readonly/>
 								</div>
 								<div class="form-group">
 									<div>
