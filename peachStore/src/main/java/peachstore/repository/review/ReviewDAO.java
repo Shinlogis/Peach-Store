@@ -3,6 +3,7 @@ package peachstore.repository.review;
 import java.util.List;
 
 import peachstore.domain.Review;
+import peachstore.domain.User;
 
 /**
  * 리뷰 DAO입니다.
@@ -34,4 +35,7 @@ public interface ReviewDAO {
 	 * @return
 	 */
 	public int delete(int reviewId);
+	public void insert(Review reivew);
+	
+	public List selectByUserId(User user);
 }

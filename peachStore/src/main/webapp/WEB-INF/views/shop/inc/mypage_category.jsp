@@ -22,8 +22,8 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">리뷰 작성</a></li>
-						<li><a href="#">내 리뷰</a></li>
+						<li><a href="/shop/order/ordercompleted">리뷰 작성</a></li>
+						<li><a href="/shop/review/list">내 리뷰</a></li>
 					</ul>
 				</div>
 			</div>

@@ -39,5 +39,10 @@ public class OrderReceiptDAOImpl implements OrderReceiptDAO{
 			throw new OrderException("주문 취소 실패");
 		}
 	}
+	
+	@Override
+	public List completedList(OrderReceipt orderReceipt) {
+		return sqlSessionTemplate.selectList("OrderReceipt.completedList", orderReceipt);
+	}
 
 }
