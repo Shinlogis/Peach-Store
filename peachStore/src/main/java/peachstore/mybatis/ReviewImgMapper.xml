@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReviewImg">
+
+
+	<insert id="insert" parameterType="ReviewImg">
+		insert into review_img (filename, review_id) values (#{filename}, #{review.reviewId})
+	</insert>
+	
+	<select id="selectByReviewId" parameterType="int" resultType="ReviewImg">
+		select review_img_id, filename, review_id from review_img where review_id = #{review_id}
+	</select>
+
+</mapper>

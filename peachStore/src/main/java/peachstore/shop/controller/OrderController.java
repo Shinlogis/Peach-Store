@@ -24,61 +24,77 @@ import peachstore.service.snapshot.SnapShotService;
 @Slf4j
 @Controller
 public class OrderController {
-	
+
 	@Autowired
 	private OrderDetailService orderDetailService;
 	@Autowired
 	private OrderReceiptService orderReceiptService;
 	@Autowired
 	private SnapShotService snapShotService;
-	
+
+	// 주문 리스트
 	@GetMapping("/order/list")
 	public ModelAndView selectAll(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
-		User user = (User)session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		orderReceipt.setUser(user);
-		log.debug("유저 데이터 : {}",user);
-		
+		log.debug("유저 데이터 : {}", user);
+
 		List<OrderReceipt> receiptList = orderReceiptService.selectByUserId(orderReceipt);
-		log.debug("주문요약 데이터 : {}",receiptList);
-		
-		
+		log.debug("주문요약 데이터 : {}", receiptList);
+
 		ModelAndView mav = new ModelAndView();
-		
-		
+
 		mav.addObject("receiptList", receiptList);
-		
+
 		mav.setViewName("shop/order/orderList");
-		
+
 		return mav;
 	}
-	
-	//주문 취소 리스트
+
+	// 주문 취소 리스트
 	@GetMapping("/order/cancle/list")
 	public ModelAndView selectCancle(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
-		User user = (User)session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		orderReceipt.setUser(user);
-		log.debug("유저 데이터 : {}",user);
-		
+		log.debug("유저 데이터 : {}", user);
+
 		List<OrderReceipt> cancleList = orderReceiptService.cancleList(orderReceipt);
-		log.debug("주문요약 데이터 : {}",cancleList);
-		
-		
+		log.debug("주문요약 데이터 : {}", cancleList);
+
 		ModelAndView mav = new ModelAndView();
-		
-		
+
 		mav.addObject("cancleList", cancleList);
-		
+
 		mav.setViewName("shop/order/cancleList");
-		
+
 		return mav;
 	}
-	
-	
+
+	//주문취소
 	@PostMapping("/order/cancle")
 	public String cancle(OrderReceipt orderReceipt) {
 		orderReceiptService.cancle(orderReceipt);
-		
+
 		return "redirect:/shop/order/list";
+	}
+
+	// 발송완료 리스트
+	@GetMapping("/order/ordercompleted")
+	public ModelAndView selectComleted(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		orderReceipt.setUser(user);
+		log.debug("유저 데이터 : {}", user);
+
+		List<OrderReceipt> completedList = orderReceiptService.completedList(orderReceipt);
+		log.debug("주문요약 데이터 : {}", completedList);
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("completedList", completedList);
+
+		mav.setViewName("shop/order/ordercompleted");
+
+		return mav;
 	}
 
 }

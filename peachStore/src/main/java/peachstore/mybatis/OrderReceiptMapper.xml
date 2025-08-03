@@ -35,4 +35,11 @@
 		 from order_receipt where user_id = #{user.user_id} and order_status = '주문취소' order by order_receipt_id desc;
 	</select>
 	
+	<!-- 발송완료 목록 -->
+	<select id="completedList" parameterType="OrderReceipt" resultMap="joinMap">
+		select order_receipt_id, orderdate, order_status, user_id 
+		 from order_receipt where user_id = #{user.user_id} and order_status = '발송완료' order by order_receipt_id desc;
+	</select>
+	
+	
 </mapper>
