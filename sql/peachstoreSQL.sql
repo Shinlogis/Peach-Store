@@ -676,3 +676,35 @@ VALUES
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
 SHOW TABLES;
+
+SELECT
+	        r.review_id,
+	        r.content,
+	        r.regdate,
+	        r.status,
+	        u.user_id AS user_id,
+	        u.id AS id,
+	        u.email AS email,
+	        u.user_name AS user_name,
+	        ug.user_grade_id AS userGradeId,
+	        ug.user_grade_name AS userGradeName,
+	        od.order_detail_id AS orderDetailId,
+	        s.snapshot_id AS snapshotId,
+	        s.product_id as prduct_id,
+	        s.product_name AS product_name,
+	        s.size AS size,
+	        s.capacity AS capacity,
+	        s.color AS color,
+	        s.engraving AS engraving
+	    FROM review r
+	    JOIN user u 
+	        ON r.user_id = u.user_id
+	    JOIN user_grade ug 
+	        ON u.user_grade_id = ug.user_grade_id
+	    JOIN order_detail od 
+	        ON r.order_detail_id = od.order_detail_id
+	    JOIN snapshot s
+	        ON od.snapshot_id = s.snapshot_id
+	    WHERE s.product_id=6;
+
+

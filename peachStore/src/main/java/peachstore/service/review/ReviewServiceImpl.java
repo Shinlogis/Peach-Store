@@ -104,5 +104,13 @@ public class ReviewServiceImpl implements ReviewService{
 
 		return list;
 	}
+
+	//상품별 리뷰 조회
+	@Override
+	public List selectByProductId(int productId) {
+		List<Review> list = reviewDAO.selectByProductId(productId);
+
+		return list;
+	}
 	
 }

@@ -1,3 +1,4 @@
+<%@page import="peachstore.domain.Review"%>
 <%@page import="peachstore.domain.ProductImg"%>
 <%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
@@ -6,6 +7,7 @@
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	Product product = (Product)request.getAttribute("product");
+	List<Review> reviewList = (Review)request.getAttribute("reviewList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -244,7 +246,6 @@
 			
 		});
 		
-		  
 		$(document).ready(function () {
 			$(".review-img").each(function () {
 				$(this).children("img").hide().eq(0).show();  // 첫 번째 이미지만 보이게

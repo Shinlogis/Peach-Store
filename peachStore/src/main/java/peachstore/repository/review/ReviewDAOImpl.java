@@ -49,7 +49,8 @@ public class ReviewDAOImpl implements ReviewDAO{
 		int result = sqlSessionTemplate.delete("Review.delete", reviewId);
 		log.debug("result: {}", result);
 		return result;
-		
+	}
+	
 	public void insert(Review review) throws ReviewException{
 		int result = sqlSessionTemplate.insert("Review.insert", review);
 		
@@ -61,6 +62,11 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public List selectByUserId(User user) {
 		return sqlSessionTemplate.selectList("Review.selectAll",user);
+	}
+
+	@Override
+	public List selectByProductId(int productId) {
+		return  sqlSessionTemplate.selectList("Review.selectByProductId",productId);
 	}
 
 }

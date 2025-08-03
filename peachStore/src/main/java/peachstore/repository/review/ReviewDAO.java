@@ -38,4 +38,11 @@ public interface ReviewDAO {
 	public void insert(Review reivew);
 	
 	public List selectByUserId(User user);
+	
+	/**
+	 * 상품pk로 리뷰 조회 
+	 * @param productId
+	 * @return
+	 */
+	public List selectByProductId(int productId);
 }

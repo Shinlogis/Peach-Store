@@ -43,4 +43,6 @@ public interface ReviewService {
 	public void remove(Review review, String savePath);
 	
 	public List selectByUserId(User user);
+	
+	public List selectByProductId(int productId);
 }
