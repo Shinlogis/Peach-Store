@@ -7,7 +7,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<%@ include file="./inc/head_link.jsp" %>
+<%@ include file="../inc/head_link.jsp" %>
 <link rel="stylesheet" href="/static/shop/css/main/login.css">
 
 </head>
@@ -19,7 +19,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-	<%@ include file="./inc/header.jsp" %>
+	<%@ include file="../inc/header.jsp" %>
 	<section style="padding: 40px 0px 50px;">
 		<div style="text-align:center;">
 			<div class="login-title">Peach에 오신것을 환영합니다.</div>
@@ -30,7 +30,7 @@
 				<div class="row">
 					<div class="col">
 						<input class="a" type="text" name="id" placeholder="Userid" required>
-						<input class="a" type="password" name="password" placeholder="Password" required>
+						<input class="a" type="password" name="hashedpassword" placeholder="Password" required>
 						<input class="a" type="submit" value="Login" id="bt_login">
 					</div>
 				</div>

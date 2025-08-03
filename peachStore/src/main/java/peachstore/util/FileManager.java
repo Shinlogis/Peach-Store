@@ -30,6 +30,11 @@ public class FileManager {
 
 		// 디렉토리 생성
 		File directory = new File(savePath, "p_" + inquiry.getInquiry_id());
+		
+		// 디렉토리 생성
+		if (!directory.exists()) {
+		    directory.mkdirs(); 
+		}
 
 		MultipartFile[] photo = inquiry.getPhoto();
 

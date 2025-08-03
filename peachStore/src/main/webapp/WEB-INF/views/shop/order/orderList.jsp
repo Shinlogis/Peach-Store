@@ -94,7 +94,9 @@
 		        <form method="post" action="/shop/order/cancle" onsubmit="return confirm('주문취소 하시겠습니까?')" style="margin: 0;">
 		            <input type="hidden" name="user.user_id" value="<%=user.getUser_id()%>">
 		            <input type="hidden" name="order_receipt_id" value="<%=orderReceipt.getOrder_receipt_id()%>">
+		            <%if(orderReceipt.getOrder_status().equals("상품 준비 전")||orderReceipt.getOrder_status().equals("상품 준비 중")){ %>
 		            <button type="submit" class="btn btn-danger">주문취소</button>
+		            <%} %>
 		        </form>
 		    </td>
 		</tr>

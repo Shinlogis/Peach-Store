@@ -3,6 +3,7 @@ package peachstore.service.review;
 import java.util.List;
 
 import peachstore.domain.Review;
+import peachstore.domain.User;
 
 /**
  * 리뷰 서비스 인터페이스
@@ -37,4 +38,9 @@ public interface ReviewService {
 	 * @return
 	 */
 	public void delete(int reviewId);
+	public void regist(Review review, String savePath);
+	
+	public void remove(Review review, String savePath);
+	
+	public List selectByUserId(User user);
 }

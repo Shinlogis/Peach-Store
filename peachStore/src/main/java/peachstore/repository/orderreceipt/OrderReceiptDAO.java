@@ -13,4 +13,6 @@ public interface OrderReceiptDAO {
 	public void cancle(OrderReceipt orderReceipt);
 	
 	public OrderReceipt selectById(int orderReceiptId);
+	
+	public List  completedList(OrderReceipt orderReceipt);
 }

@@ -37,8 +37,8 @@ public class InquiryServiceImpl implements InquiryService{
 	@Autowired
 	private FileManager fileManager;
 	
-	@Autowired
-	private InquiryImgService inquiryImgService;
+//	@Autowired
+//	private InquiryImgService inquiryImgService;
 	@Autowired
 	private AdminService adminService;
 
@@ -64,7 +64,7 @@ public class InquiryServiceImpl implements InquiryService{
 				List<InquiryImg> imgList = inquiry.getImgList();
 				for(InquiryImg inquiryImg : imgList) {
 					inquiryImg.setInquiry(inquiry);
-					inquiryImgService.insert(inquiryImg);
+//					inquiryImgService.insert(inquiryImg);
 				}
 			}
 	}
@@ -87,12 +87,12 @@ public class InquiryServiceImpl implements InquiryService{
 		List<InquiryImg> imgList = inquiry.getImgList();
 		for(InquiryImg inquiryImg : imgList) {
 			inquiryImg.setInquiry(inquiry);
-			inquiryImgService.insert(inquiryImg);
+			inquiryImgDAO.insert(inquiryImg);
 		}
 	}
 	
 	@Override
-	public void remove(Inquiry inquiry, String savePath) {
+	public void remove(Inquiry inquiry, String savePath) throws InquiryImgException, InquiryException {
 		inquiryImgDAO.delete(inquiry.getInquiry_id());
 		fileManager.remove(inquiry, savePath);
 		inquiryDAO.delete(inquiry);
