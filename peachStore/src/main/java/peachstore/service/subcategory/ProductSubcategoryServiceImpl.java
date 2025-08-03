@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
+import peachstore.advice.ShopGlobalModelAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.ProductSubcategory;
@@ -23,6 +23,7 @@ import peachstore.util.FileCommonManager;
 @Service
 @RequiredArgsConstructor
 public class ProductSubcategoryServiceImpl implements ProductSubcategoryService {
+
 
 	private final ProductSubcategoryDAO productSubcategoryDAO;
 	private final ProductTopcategoryService productTopcategoryService;
@@ -96,14 +97,16 @@ public class ProductSubcategoryServiceImpl implements ProductSubcategoryService 
 	    // 기존 이미지 폴더를 백업해둘 폴더명
 	    String backupDirName = originalFileDirName + "_backup";
 	    
-	    // 기존 이미지 폴더 백업
-	    try {
-			fileManager.move(originalFileDirName, backupDirName, savePath, false);
-		} catch (IOException e) {
-			throw new ProductTopcategoryException("기존 이미지 백업 중 오류 발생", e);
-		}
-	    
-	    List<String> imgList;
+	    // 이미지도 변경하는 경우
+	    if (photo != null && !photo.isEmpty()) {
+		    // 기존 이미지 폴더 백업
+		    try {
+				fileManager.move(originalFileDirName, backupDirName, savePath, false);
+			} catch (IOException e) {
+				throw new ProductTopcategoryException("기존 이미지 백업 중 오류 발생", e);
+			}
+		    
+		    List<String> imgList;
 		try {
 			// 새로운 이미지 저장
 		    Map<String, Object> imgMap = imageFileService.saveImage(photo, originalFileDirName, savePath);
@@ -117,22 +120,28 @@ public class ProductSubcategoryServiceImpl implements ProductSubcategoryService 
 	    
 		// 변경한 파일명, 새로 저장한 이미지를 도메인에 세팅
 		String newFilename = imgList.get(0);
-		productSubcategory.setProductSubcategoryName(newName);
 		productSubcategory.setFileDirName(originalFileDirName);
 		productSubcategory.setFilename(newFilename);
+	    }
+	    productSubcategory.setProductSubcategoryName(newName);
 
 		// DB 업데이트
 		int result = productSubcategoryDAO.update(productSubcategory);
 		if (result == 0) {
-			fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
-			// 자바 객체도 복구 (혹시몰라서)
-			productSubcategory.setFileDirName(originalFileDirName);
-			productSubcategory.setFilename(originalFilename);
+			// 이미지 수정 시 복원 시도
+			if (photo != null && !photo.isEmpty()) {
+				fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
+				// 자바 객체도 복구 (혹시몰라서)
+				productSubcategory.setFileDirName(originalFileDirName);
+				productSubcategory.setFilename(originalFilename);
+			}
 			throw new ProductTopcategoryException("DB 업데이트 실패");
 		}
 
-		// 성공 시 백업 이미지 폴더 삭제
-		fileManager.remove(backupDirName, savePath);
+		 // 성공 시 백업 이미지 폴더 삭제 (이미지 수정 시에만)
+	    if (photo != null && !photo.isEmpty()) {
+	        fileManager.remove(backupDirName, savePath);
+	    }
 	}
 	
 	
@@ -152,6 +161,7 @@ public class ProductSubcategoryServiceImpl implements ProductSubcategoryService 
 	public void toggleActivation(int subcategoryId) throws ProductSubcategoryException {
 		// 해당 서브 카테고리 조회
 		ProductSubcategory productSubcategory = findById(subcategoryId);
+		log.debug("productSubcategory.setActive(!{})", productSubcategory.isActive());
 		productSubcategory.setActive(!productSubcategory.isActive());
 		
 		int result = productSubcategoryDAO.update(productSubcategory);

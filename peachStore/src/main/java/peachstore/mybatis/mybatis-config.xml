@@ -22,12 +22,14 @@
 		<typeAlias type="peachstore.domain.OrderDetail" alias="OrderDetail"/>
 		<typeAlias type="peachstore.domain.OrderReceipt" alias="OrderReceipt"/>
 		<typeAlias type="peachstore.domain.SnapShot" alias="SnapShot"/>
+		<typeAlias type="peachstore.domain.ReviewImg" alias="ReviewImg"/>
 		<typeAlias type="peachstore.domain.Review" alias="Review"/>
 		<typeAlias type="peachstore.domain.Admin" alias="Admin"/>
 		<typeAlias type="peachstore.domain.Cart" alias="Cart"/>
 		<typeAlias type="peachstore.domain.CartItem" alias="CartItem"/>
 		<typeAlias type="peachstore.domain.ProductEngraving" alias="ProductEngraving"/>
 		<typeAlias type="peachstore.domain.CustomOption" alias="CustomOption"/>
+		   <typeAlias type="peachstore.domain.Tosspayment" alias="Tosspayment"/>
 	</typeAliases>
 
    <environments default="development">
@@ -39,8 +41,6 @@
          </dataSource>
       </environment>
    </environments>
-
-
 	<mappers>
 		<mapper resource="peachstore/mybatis/ProductTopcategoryMapper.xml"/> 
 		<mapper resource="peachstore/mybatis/ProductSubcategoryMapper.xml"/> 
@@ -61,12 +61,14 @@
 		<mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
 		<mapper resource="peachstore/mybatis/OrderReceiptMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
+		<mapper resource="peachstore/mybatis/ReviewImgMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ReviewMapper.xml"/>
 		<mapper resource="peachstore/mybatis/AdminMapper.xml"/>
 		<mapper resource="peachstore/mybatis/CartMapper.xml"/>
 		<mapper resource="peachstore/mybatis/CartItemMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ProductEngravingMapper.xml"/>
 		<mapper resource="peachstore/mybatis/CustomOptionMapper.xml"/>
+		<mapper resource="peachstore/mybatis/TosspaymentMapper.xml"/>
 	</mappers>
 
 </configuration>

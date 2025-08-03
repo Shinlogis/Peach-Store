@@ -23,7 +23,6 @@ public class Inquiry {
 	private boolean is_active;
 	private User user;
 	private Admin admin;
-	
 	private List<InquiryImg> imgList;
 	private MultipartFile[] photo;
 
