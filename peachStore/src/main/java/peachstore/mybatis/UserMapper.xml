@@ -40,7 +40,7 @@
 	</insert>
 	
 	<!-- 사이트 회원가입 쿼리 -->
-	<insert id="userJoin" parameterType="User">
+	<insert id="userJoin" parameterType="User" useGeneratedKeys="true" keyProperty="user_id">
 		insert into user (id, email, salt, hashedpassword, user_name, tel, address)
 		values (#{id}, #{email}, #{salt}, #{hashedpassword}, #{user_name}, #{tel}, #{address})
 	</insert>
