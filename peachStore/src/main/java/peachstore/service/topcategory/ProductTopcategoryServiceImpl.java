@@ -72,43 +72,52 @@ public class ProductTopcategoryServiceImpl implements ProductTopcategoryService{
 	    // 기존 이미지 폴더를 백업해둘 폴더명
 	    String backupDirName = originalFileDirName + "_backup";
 	    
-	    // 기존 이미지 폴더 백업
-	    try {
-			fileManager.move(originalFileDirName, backupDirName, savePath, false);
-		} catch (IOException e) {
-			throw new ProductTopcategoryException("기존 이미지 백업 중 오류 발생", e);
-		}
+	    // 이미지도 변경하는 경우
+	    if (photo != null && !photo.isEmpty()) {
+		    // 기존 이미지 폴더 백업
+		    try {
+				fileManager.move(originalFileDirName, backupDirName, savePath, false);
+			} catch (IOException e) {
+				throw new ProductTopcategoryException("기존 이미지 백업 중 오류 발생", e);
+			}
 	    
-	    List<String> imgList;
-		try {
-			// 새로운 이미지 저장
-		    Map<String, Object> imgMap = imageFileService.saveImage(photo, originalFileDirName, savePath);
-			// 저장된 이미지들의 이름 꺼내기
-			imgList = (List<String>) imgMap.get("savedFiles");
-		} catch (Exception e) {
-			// 백업본 이미지 복원
-			fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
-			throw new ProductTopcategoryException("새 이미지 저장 실패", e);
-		}
+		    List<String> imgList;
+			try {
+				// 새로운 이미지 저장
+			    Map<String, Object> imgMap = imageFileService.saveImage(photo, originalFileDirName, savePath);
+				// 저장된 이미지들의 이름 꺼내기
+				imgList = (List<String>) imgMap.get("savedFiles");
+			} catch (Exception e) {
+				// 백업본 이미지 복원
+				fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
+				throw new ProductTopcategoryException("새 이미지 저장 실패", e);
+			}
+	    
 	    
 		// 변경한 파일명, 새로 저장한 이미지를 도메인에 세팅
 		String newFilename = imgList.get(0);
-		productTopcategory.setProductTopcategoryName(newName);
 		productTopcategory.setFileDirName(originalFileDirName);
 		productTopcategory.setFilename(newFilename);
+	    }
+	    productTopcategory.setProductTopcategoryName(newName);
 
 		// DB 업데이트
 		int result = productTopCategoryDAO.update(productTopcategory);
 		if (result == 0) {
-			fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
-			// 자바 객체도 복구 (혹시몰라서)
-			productTopcategory.setFileDirName(originalFileDirName);
-			productTopcategory.setFilename(originalFilename);
+			// 이미지 수정 시 복원 시도
+			if (photo != null && !photo.isEmpty()) {
+				fileManager.restoreBackupImage(backupDirName, originalFileDirName, savePath);
+				// 자바 객체도 복구 (혹시몰라서)
+				productTopcategory.setFileDirName(originalFileDirName);
+				productTopcategory.setFilename(originalFilename);
+			}
 			throw new ProductTopcategoryException("DB 업데이트 실패");
 		}
 
-		// 성공 시 백업 이미지 폴더 삭제
-		fileManager.remove(backupDirName, savePath);
+		 // 성공 시 백업 이미지 폴더 삭제 (이미지 수정 시에만)
+	    if (photo != null && !photo.isEmpty()) {
+	        fileManager.remove(backupDirName, savePath);
+	    }
 	}
 	
 	@Override

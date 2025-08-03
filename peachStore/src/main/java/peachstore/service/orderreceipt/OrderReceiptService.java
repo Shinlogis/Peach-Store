@@ -11,4 +11,11 @@ public interface OrderReceiptService {
 	public List cancleList(OrderReceipt orderReceipt);
 	
 	public void cancle(OrderReceipt orderReceipt);
+	
+	/**
+	 * pk로 조회
+	 * @param orderReceiptId
+	 * @return
+	 */
+	public OrderReceipt selectById(int orderReceiptId);
 }

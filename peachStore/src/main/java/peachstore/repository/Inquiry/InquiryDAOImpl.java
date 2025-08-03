@@ -1,6 +1,7 @@
 package peachstore.repository.Inquiry;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +62,25 @@ public class InquiryDAOImpl implements InquiryDAO{
 	}
 
 	@Override
-	public List<Inquiry> selectAllAtAdmin() {
-		List<Inquiry> list = sqlSessionTemplate.selectList("Inquiry.selectAllAtAdmin");
+	public List<Inquiry> selectAllAtAdmin(Map<String, Object> searchMap) {
+		List<Inquiry> list = sqlSessionTemplate.selectList("Inquiry.selectAllAtAdmin", searchMap);
 		log.debug("resultCount: {}", list.size());
 		return list;
+	}
+
+	@Override
+	public int updateAnswer(Inquiry inquiry) {
+		log.debug("답변 등록 시도: {}", inquiry);
+		int result = sqlSessionTemplate.update("Inquiry.answer", inquiry);
+		log.debug("count: {}", result);
+		return result;
+	}
+
+	@Override
+	public Inquiry selectById(int inquiry_id) {
+		Inquiry result = sqlSessionTemplate.selectOne("Inquiry.selectById", inquiry_id);
+		log.debug("count: {}", result);
+		return result;
 	}
 
 }

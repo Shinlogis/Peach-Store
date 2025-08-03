@@ -24,6 +24,7 @@
       <typeAlias type="peachstore.domain.SnapShot" alias="SnapShot"/>
       <typeAlias type="peachstore.domain.Review" alias="Review"/>
       <typeAlias type="peachstore.domain.Admin" alias="Admin"/>
+      <typeAlias type="peachstore.domain.Tosspayment" alias="Tosspayment"/>
 
       
    </typeAliases>
@@ -61,5 +62,6 @@
       <mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
       <mapper resource="peachstore/mybatis/ReviewMapper.xml"/>
       <mapper resource="peachstore/mybatis/AdminMapper.xml"/>
+      <mapper resource="peachstore/mybatis/TosspaymentMapper.xml"/>
    </mappers>
 </configuration>

@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Admin">
 
+	<resultMap id="AdminMap" type="peachstore.domain.Admin">
+	    <id property="adminId" column="admin_id"/>
+	    <result property="email" column="email"/>
+	    <result property="id" column="id"/>
+	    <result property="password" column="password"/>
+	    <result property="name" column="name"/>
+	    <result property="role" column="role"/>
+	    <result property="isActive" column="is_active"/>
+	</resultMap>
+
+
 	<!-- 전체 조회 -->
 	<select id="selectAll">
 		select *
@@ -9,10 +20,10 @@
 	</select>
 		
 	<!-- pk로 조회 -->
-	<select id="selectById">
+	<select id="selectById" parameterType="int" resultMap="AdminMap">
 		select *
 		from admin
-		where admin_id = #{adminId}
+		where admin_id = #{value}
 	</select>
 </mapper>
 
