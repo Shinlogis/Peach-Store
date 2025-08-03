@@ -64,7 +64,7 @@ public class InquiryServiceImpl implements InquiryService{
 				List<InquiryImg> imgList = inquiry.getImgList();
 				for(InquiryImg inquiryImg : imgList) {
 					inquiryImg.setInquiry(inquiry);
-//					inquiryImgService.insert(inquiryImg);
+					inquiryImgDAO.insert(inquiryImg);
 				}
 			}
 	}
