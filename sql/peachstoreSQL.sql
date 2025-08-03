@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS review; -- 리뷰
 DROP TABLE IF EXISTS order_detail; -- 주문상세
 DROP TABLE IF EXISTS cart_item; -- 장바구니 제품
 DROP TABLE IF EXISTS custom_option; -- 제품 커스텀
+DROP TABLE IF EXISTS toss_payment; -- 토스 결제 정보
 DROP TABLE IF EXISTS order_receipt; -- 주문내역
 DROP TABLE IF EXISTS inquiry_img; -- 문의 이미지
 DROP TABLE IF EXISTS snapshot; -- 스냅샷
@@ -28,7 +29,6 @@ DROP TABLE IF EXISTS product_engraving; -- 제품 각인
 DROP TABLE IF EXISTS product_topcategory; -- 제품 상위 카테고리
 DROP TABLE IF EXISTS coupon; -- 쿠폰
 DROP TABLE IF EXISTS sns_provider; -- snsprovider
-DROP TABLE IF EXISTS toss_payment; -- 토스 결제 정보
 
 -- 관리자 테이블 생성(CREATE TABLE admin)
 CREATE TABLE admin(
