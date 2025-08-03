@@ -24,6 +24,7 @@ import com.google.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
+import peachstore.service.cart.CartService;
 import peachstore.service.user.SnsProviderService;
 import peachstore.service.user.UserService;
 /**
@@ -49,6 +50,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CartService cartService;
 
 	// 로그인 폼 요청 처리
 	@GetMapping("/user/loginform")
@@ -79,6 +83,8 @@ public class UserController {
 	public String userJoin(User user,String password) {
 		
 		userService.userJoin(user);
+		log.debug("새로 생성되는 유저의 pk는"+user.getUser_id());
+		cartService.createCart(user.getUser_id());
 		return "redirect:/shop/main";
 	}
 	
@@ -166,6 +172,7 @@ public class UserController {
 			user.setUser_name(name);
 
 			userService.register(user);
+			cartService.createCart(user.getUser_id());
 		}
 		// 없으면 가입 후, 있으면 로그인
 		// session에 user라는 이름의 객체를 저장
@@ -217,6 +224,7 @@ public class UserController {
 			user.setUser_name(name);
 
 			userService.register(user);
+			cartService.createCart(user.getUser_id());
 		}
 		// 없으면 가입 후, 있으면 로그인
 		session.setAttribute("user", user);// 세션이 살아있는 한, Member를 사용할 수 있음

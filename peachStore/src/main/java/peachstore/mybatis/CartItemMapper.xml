@@ -7,9 +7,9 @@
 		<result column="quantity" property="quantity"/>
 		<association column="custom_option_id" property="custom_option" javaType="CustomOption"
 			select="CustomOption.selectAll"/>
-		<collection column="cart_id" property="cart" javaType="Cart"
-			select="Cart.selectById"/>
-		<collection column="product_id" property="product" javaType="Product"
+		<association column="cart_id" property="cart" javaType="Cart"
+    		select="Cart.selectById"/>
+		<association column="product_id" property="product" javaType="Product"
 			select="Product.select"/>
 	</resultMap>
 
@@ -19,6 +19,6 @@
 	</insert>
 	
 	<select id="selectCartItemByCartId" resultMap="selectCartItemByCartId">
-		select * from cart_item where cart_id = #{cart.cart_id}
+		select * from cart_item where cart_id = #{cart_id}
 	</select>
 </mapper>

@@ -10,9 +10,14 @@ import peachstore.domain.Cart;
 public class CartDAOImpl implements CartDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
+
 	@Override
 	public Cart selectById(int user_id) {
 		return sqlSessionTemplate.selectOne("Cart.selectById", user_id);
+	}
+
+	@Override
+	public void createCart(int user_id) {
+		sqlSessionTemplate.insert("Cart.insert", user_id);
 	}
 }
