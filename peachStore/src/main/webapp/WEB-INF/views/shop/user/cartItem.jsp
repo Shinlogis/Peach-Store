@@ -97,8 +97,8 @@ h6{
                                         <div class="cart__product__item__title">
                                             <h6><%=cartItemList.get(i).getProduct().getProductName() %></h6>
                                             <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"><%=cartItemList.get(i).getCustom_option().getProduct_color().getColor().getColor_name() %></i>
+                                                <i class="fa fa-star"><%=cartItemList.get(i).getCustom_option().getProduct_size() %></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -108,7 +108,11 @@ h6{
                                     <%if(cartItemList.get(i).getCustom_option()==null){ %>
                                     <td class="cart__price"><%= cartItemList.get(i).getProduct().getPrice()%></td>
                                     <%}else if(cartItemList.get(i).getCustom_option()!=null){ %>
-                                    <td class="cart__price"><%= cartItemList.get(i).getProduct().getPrice() + cartItemList.get(i).getCustom_option().getProduct_engraving().getEngraving_price()%></td>
+                                        <%if(cartItemList.get(i).getCustom_option().getProduct_engraving()!=null){ %>
+                                        <td class="cart__price"><%= cartItemList.get(i).getProduct().getPrice() + cartItemList.get(i).getCustom_option().getProduct_engraving().getEngraving_price()%></td>
+                                        <%}else{ %>
+                                        <td class="cart__price"><%= cartItemList.get(i).getProduct().getPrice()%></td>
+                                        <%} %>
                                     <%} %>
                                     <td class="cart__quantity">
                                         <div class="pro-qty">

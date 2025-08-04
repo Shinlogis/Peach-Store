@@ -8,13 +8,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
+import antlr.TokenWithIndex;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Cart;
+import peachstore.domain.CartItem;
+import peachstore.domain.CustomOption;
+import peachstore.domain.Product;
+import peachstore.domain.ProductColor;
+import peachstore.domain.ProductSize;
 import peachstore.domain.User;
 import peachstore.service.cart.CartItemService;
 import peachstore.service.cart.CartService;
+import peachstore.service.customOption.CustomOptionService;
 
 /* 
  * 장바구니용 컨트롤러 입니다.
@@ -29,6 +34,9 @@ public class CartController {
 	private CartService cartService;
 	@Autowired
 	private CartItemService cartItemService;
+	
+	@Autowired
+	private CustomOptionService customOptionService;
 	
 	@GetMapping("/user/cart")
 	public String getCart(HttpSession session) {
@@ -53,10 +61,34 @@ public class CartController {
 	}
 	
 	@PostMapping("/cart/insert")
-	public String addToCart(String color,int size) {
-		//int customId = customService.insertAndGetId(product_id, color, size);
+	public String addToCart(int product_id,int product_color_id,int product_size_id,HttpSession httpSession) {
+		User user1 = (User) httpSession.getAttribute("user");
+		Cart cart = cartService.selectById(user1.getUser_id());
+		int cart_id=cart.getCart_id();
+		
+		//customoption insert
+		CustomOption option = new CustomOption();
+		ProductColor color = new ProductColor();
+		ProductSize size = new ProductSize();
+		
+		color.setProduct_color_id(product_color_id);
+		size.setProduct_size_id(product_size_id);
+		
+		option.setProduct_color(color);
+		option.setProduct_size(size);
 
-//		cartService.insertCart(장바구니 Id , product_id, customId);
+		customOptionService.regist(option); //selectkey에 의해 pk가 채워짐 
+		
+		//cartItem insert
+		Product product = new Product();
+		CartItem cartItem=new CartItem();
+		
+		product.setProductId(product_id);
+		
+		cartItem.setCart(cart);
+		cartItem.setProduct(product);
+		cartItem.setCustom_option(option);
+		cartItemService.insertCartItem(cartItem);
 
 		return "redirect:/shop/user/cart";
 	} 

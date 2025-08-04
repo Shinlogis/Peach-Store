@@ -231,9 +231,9 @@ CREATE TABLE PRODUCT_IMG(
 -- 제품 커스텀 옵션 테이블 생성(CREATE TABLE CUSTOM_OPTION)
 CREATE TABLE CUSTOM_OPTION(
     CUSTOM_OPTION_ID INT PRIMARY KEY AUTO_INCREMENT
-    , PRODUCT_SIZE_ID INT NOT NULL
-    , PRODUCT_COLOR_ID INT NOT NULL
-    , PRODUCT_CAPACITY_ID INT NOT NULL
+    , PRODUCT_SIZE_ID INT  
+    , PRODUCT_COLOR_ID INT  
+    , PRODUCT_CAPACITY_ID INT  
     , PRODUCT_ENGRAVING_ID INT
     , CONSTRAINT FK_CUSTOM_OPTION_PRODUCT_SIZE_ID
         FOREIGN KEY (PRODUCT_SIZE_ID)
@@ -559,6 +559,7 @@ VALUES
     (0, 2, 11),
     (500, 1, 12);
 
+
 -- 제품 색상 테이블 인서트(INSERT INTO PRODUCT_COLOR)
 INSERT INTO PRODUCT_COLOR (COLOR_ID, PRODUCT_ID)
 VALUES
@@ -588,6 +589,8 @@ VALUES
     (15000, 2, 7),
     (25000, 3, 8),
     (35000, 4, 9);
+
+
 
 -- 제품 이미지 테이블 인서트(INSERT INTO PRODUCT_IMG)
 -- =========인서트 없음
@@ -754,7 +757,8 @@ select * from order_detail;
 select * from product;
 select * from cart;
 select * from cart_item;
-
+select * from custom_option;
+select * from 
 select * from review;
 
 
@@ -770,5 +774,12 @@ VALUES
    (2, 11, 13),
    (1, 10, 14),
    (2, 12, 15);
+
+select * from product_size;
+select * from product_capacity;
+select * from product_color;
+select * from cart;
+select * from cart_item;
+select * from user;
 
 

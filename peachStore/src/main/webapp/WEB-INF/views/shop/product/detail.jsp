@@ -71,7 +71,7 @@
 							<legend>사이즈 </legend>
 							<%for(ProductSize productSize :product.getProductSizes()){ %>
 							<div>
-								<input type="radio" id="size<%=productSize.getSize().getSize_id() %>" name="size" value="<%=productSize.getSize().getSize_id()%>">
+								<input type="radio" id="size<%=productSize.getSize().getSize_id() %>" name="product_size_id" value="<%=productSize.getSize().getSize_id()%>">
 								<label for="size<%=productSize.getSize().getSize_id() %>"><%=productSize.getSize().getSize_name() %></label>
 							</div>
 							<%} %>
@@ -81,7 +81,7 @@
 							<legend id="color-title">색상</legend>
 							<%for(ProductColor productColor:product.getProductColors()){ %>
 							<div class="color-box">
-								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="color" value="<%=productColor.getColor().getColor_name()%>">
+								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="product_color_id" value="<%=productColor.getColor().getColor_id()%>" data-color-name="<%=productColor.getColor().getColor_id()%>">
 								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_name() %>;"></label>
 							</div>
 							<%} %>
@@ -96,6 +96,7 @@
 							</div>
 							<%} %>
 						</fieldset> --%>
+						<input type="hidden" name ="product_id" value="<%=product.getProductId()%>">
 						<input type="button" value="장바구니에 담기">
 					</form>
 				</div>
@@ -200,7 +201,7 @@
 		
 		/* 선택된 색상  */
 		$(".color-box input").click(function(){
-			let selectedColor=$('.color-box input[type="radio"]:checked').val();
+			let selectedColor=$('.color-box input[type="radio"]:checked').data('color-name');
 			 $('#color-title').html('색상 - <strong>' + selectedColor + '</strong>');
 		})
 
