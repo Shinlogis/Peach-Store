@@ -664,31 +664,6 @@ VALUES
    (1, 4, 6),
    (1, 5, 7),
    (2, 5, 8);
-   
-
--- 장바구니 제품 테이블 인서트(INSERT INTO CART_ITEM)
-INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
-VALUES
-    (1, 7, NULL),
-    (2, 3, NULL),
-    (4, 1, NULL),
-    (5, 11, NULL),
-    (6, 9, 2),
-    (7, 2, NULL),
-    (9, 7, NULL),
-    (10, 6, 3),
-    (11, 4, 4),
-    (13, 5, NULL),
-    (14, 8, NULL),
-    (15, 12, NULL);
-
-INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
-VALUES  (16, 6, NULL);
-select * from cart_item;
-select * from custom_option;
-select * from product_size;
-select * from user;
-select * from cart;
 
 -- 리뷰 테이블 인서트 (INSERT INTO review)
 INSERT INTO review (content, status, user_id, order_detail_id)
@@ -705,41 +680,6 @@ VALUES
     
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
-SHOW TABLES;
-
- SELECT
-	        r.review_id,
-	        r.content,
-	        r.regdate,
-	        r.status,
-	        u.user_id AS user_id,
-	        u.id AS id,
-	        u.email AS email,
-	        u.user_name AS user_name,
-	        ug.user_grade_id AS userGradeId,
-	        ug.user_grade_name AS userGradeName,
-	        od.order_detail_id AS orderDetailId,
-	        s.snapshot_id AS snapshotId,
-	        s.product_id AS product_id,
-	        s.product_name AS product_name,
-	        s.price AS price,
-	        s.size AS size,
-	        s.capacity AS capacity,
-	        s.color AS color,
-	        s.engraving AS engraving
-	    FROM review r
-	    JOIN user u 
-	        ON r.user_id = u.user_id
-	    JOIN user_grade ug 
-	        ON u.user_grade_id = ug.user_grade_id
-	    JOIN order_detail od 
-	        ON r.order_detail_id = od.order_detail_id
-	    JOIN snapshot s
-	        ON od.snapshot_id = s.snapshot_id
-	    WHERE s.product_id=4;
-
-
-select * from user;
 
 INSERT INTO order_receipt (order_status, user_id)
 VALUES  ('상품 준비 전', 16),
@@ -769,20 +709,22 @@ VALUES
     (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp');
 
 
-SELECT * FROM order_receipt ore JOIN order_detail od   ON ore.order_receipt_id = od.order_receipt_id WHERE ore.user_id = 16;
-
-select * from snapshot;
-select * from order_detail;
-select * from product;
-select * from cart;
-select * from cart_item;
-select * from custom_option;
-select * from 
-select * from review;
-
-
-
-
+-- 장바구니 제품 테이블 인서트(INSERT INTO CART_ITEM)
+INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
+VALUES
+    (1, 7, NULL),
+    (2, 3, NULL),
+    (4, 1, NULL),
+    (5, 11, NULL),
+    (6, 9, 2),
+    (7, 2, NULL),
+    (9, 7, NULL),
+    (10, 6, 3),
+    (11, 4, 4),
+    (13, 5, NULL),
+    (14, 8, NULL),
+    (15, 12, NULL),
+    (16, 6, NULL);
 
 INSERT INTO order_detail (order_quantity, order_receipt_id, snapshot_id)
 VALUES
@@ -793,12 +735,4 @@ VALUES
    (2, 11, 13),
    (1, 10, 14),
    (2, 12, 15);
-
-select * from product_size;
-select * from product_capacity;
-select * from product_color;
-select * from cart;
-select * from cart_item;
-select * from user;
-
 
