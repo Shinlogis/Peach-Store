@@ -175,7 +175,6 @@ h6{
 							    <td class="cart__delete" data-id="<%= item.getCart_item_id() %>">X</td>
 							</tr>
 							<% } %>
-
                             </tbody>
                         </table>
                     </div>
