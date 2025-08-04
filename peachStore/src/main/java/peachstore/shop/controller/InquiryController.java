@@ -102,7 +102,7 @@ public class InquiryController {
 	// 수정
 	@PostMapping("/inquiry/update")
 	@ResponseBody
-	public String update(Inquiry inquiry, HttpServletRequest request, HttpSession session) {
+	public String update(Inquiry inquiry, HttpServletRequest request) {
 		
 		log.debug("수정 컨트롤러에 도달");
 
@@ -117,8 +117,9 @@ public class InquiryController {
 	
 	//삭제
 	@PostMapping("/inquiry/delete")
-	public String delete(Inquiry inquiry, String savePath) {
+	public String delete(Inquiry inquiry, HttpServletRequest request) {
 		
+		String savePath = request.getServletContext().getRealPath("/data");
 		inquiryService.remove(inquiry, savePath);
 		
 		return "redirect:/shop/inquiry/list";

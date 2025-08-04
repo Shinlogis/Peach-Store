@@ -49,6 +49,7 @@ public class InquiryServiceImpl implements InquiryService{
 		return inquiryDAO.select(inquiry);
 	}
 
+	@Transactional
 	@Override
 	public void regist(Inquiry inquiry, String savePath) throws InquiryException, InquiryImgException, Uploadexception{
 		inquiryDAO.insert(inquiry);

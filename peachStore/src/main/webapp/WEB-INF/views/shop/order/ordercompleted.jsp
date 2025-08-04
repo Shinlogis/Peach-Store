@@ -1,3 +1,4 @@
+<%@page import="peachstore.domain.Review"%>
 <%@page import="peachstore.domain.OrderReceipt"%>
 <%@page import="peachstore.domain.OrderDetail"%>
 <%@page import="peachstore.domain.Inquiry"%>
@@ -9,6 +10,7 @@
 	
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	List<OrderReceipt> completedList = (List)request.getAttribute("completedList");
+	List<Review> writtenReview = (List)request.getAttribute("writtenReview");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +25,9 @@
 <%@ include file="../inc/head_link.jsp"%>
 <link rel="stylesheet" href="/static/shop/css/mypage.css">
 <style type="text/css">
-#img{
-	width: 50px;
-	height: 50px;
+.btn-link{
+	font-size: 14px; !important;
+	text-align: center; !important;
 }
 </style>
 
@@ -75,7 +77,7 @@
 							        <tr style="border-bottom: 1px solid black;">
 							            <th style="font-weight: bold; font-size: 20px;">상품정보</th>
 							            <th style="font-weight: bold; font-size: 20px;">진행상태</th>
-							            <th style="font-weight: bold; font-size: 20px;">주문취소</th>
+							            <th style="font-weight: bold; font-size: 20px;">리뷰작성</th>
 							        </tr>
 							    </thead>
 							    <tbody>
@@ -94,7 +96,7 @@
 							            <tr>
 							                <!-- 상품정보 -->
 							                <td>
-							                    <div style="display: flex; gap: 20px;">
+							                    <div style="display: flex; gap: 100px;">
 							                        <img src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename()%>" style="width: 100px; height: 100px; object-fit: cover;">
 							                        <div>
 							                            <div style="margin-bottom: 8px;"><strong><%=detail.getSnapShot().getProduct_name()%></strong></div>
@@ -112,14 +114,21 @@
 							                <td><%=orderReceipt.getOrder_status()%></td>
 							
 							                <!--리뷰 버튼 -->
-											 <td style="margin-right:20px;">
-												<form method="post" action="/shop/order/cancle" onsubmit="return confirm('주문취소 하시겠습니까?')" style="margin: 0;">
-													<input type="hidden" name="user.user_id" value="<%=user.getUser_id()%>">
-											        <input type="hidden" name="order_receipt_id" value="<%=orderReceipt.getOrder_receipt_id()%>">
-											        <input type="hidden" name="order_detail_id" value="<%=detail.getOrder_detail_id()%>">
-												   <a href="/shop/review/registform?order_detail_id=<%=detail.getOrder_detail_id()%>"> <button type="button" class="btn btn-secondary">리뷰쓰기</button></a>
+											<td style="margin-right:20px;">
+										    <% if (writtenReview != null && writtenReview.contains(detail.getOrder_detail_id())) {%>
+										    	이미 작성된 리뷰 입니다.
+										    <%} else {%>
+										        <form method="post" action="/shop/order/cancle" style="margin: 0;">
+										            <input type="hidden" name="user.user_id" value="<%=user.getUser_id()%>">
+										            <input type="hidden" name="order_receipt_id" value="<%=orderReceipt.getOrder_receipt_id()%>">
+										            <input type="hidden" name="order_detail_id" value="<%=detail.getOrder_detail_id()%>">
+										            <a href="/shop/review/registform?order_detail_id=<%=detail.getOrder_detail_id()%>">
+										                <button type="button" class="btn btn-link">리뷰작성</button>
+										            </a>
 										        </form>
-										    </td>
+										    <%}%>
+										</td>
+
 							            </tr>
 							            <% } %>
 							            <!-- 주문 단위 블럭 끝 -->

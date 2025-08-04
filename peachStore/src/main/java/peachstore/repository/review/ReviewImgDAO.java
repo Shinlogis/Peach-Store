@@ -5,4 +5,6 @@ import peachstore.domain.ReviewImg;
 public interface ReviewImgDAO {
 
 	public void insert(ReviewImg reviewImg);
+	
+	public void delete(int reviewId);
 }
