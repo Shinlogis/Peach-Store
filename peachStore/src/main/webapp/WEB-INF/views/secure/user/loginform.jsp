@@ -16,14 +16,14 @@
 		</div>
 
 		<div class="container" style="text-align:center">
-			<form id="form1" action="/shop/user/login" method="post">
+			<form id="form1" action="/admin/user/login" method="post">
 				<h2 style="text-align:center; color:#494949; font-size:24px; font-weight: 600;">
 					Peach Store에 로그인하세요
 				</h2>
 				<div class="row">
 					<div class="col">
-						<input class="a" type="text" name="id" placeholder="Userid" required>
-						<input class="a" type="password" name="hashedpassword" placeholder="Password" required>
+						<input class="a" type="text" name="id" placeholder="Adminid" required>
+						<input class="a" type="password" name="password" placeholder="Password" required>
 						<input class="a" type="submit" value="Login" id="bt_login">
 					</div>
 				</div>

@@ -9,7 +9,7 @@
       </a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="index3.html" class="nav-link">Home</a>
+      <a href="/admin/main" class="nav-link">Home</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
       <a href="#" class="nav-link">Contact</a>
@@ -49,11 +49,11 @@
 	%>
 	<li class="nav-item">
 	  <% if (user == null) { %>
-	    <a class="nav-link" href="/shop/user/loginform" role="button">
+	    <a class="nav-link" href="/admin/user/loginform" role="button">
 	      <i class="fas fa-sign-in-alt"></i> 로그인
 	    </a>
 	  <% } else { %>
-	    <a class="nav-link" href="/shop/user/logout" role="button">
+	    <a class="nav-link" href="/admin/user/logout" role="button">
 	      <i class="fas fa-sign-out-alt"></i> 로그아웃
 	    </a>
 	  <% } %>
