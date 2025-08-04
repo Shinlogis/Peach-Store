@@ -80,15 +80,16 @@ public class UserController {
 		return mav;
 	}
 
+	//회원가입 요청 처리
 	@PostMapping("/user/join")
 	public String userJoin(User user,String password) {
-		
 		userService.userJoin(user);
 		log.debug("새로 생성되는 유저의 pk는"+user.getUser_id());
 		cartService.createCart(user.getUser_id());
 		return "redirect:/shop/main";
 	}
 	
+	//유저 아이디 중복 체크
     @GetMapping("/user/checkid")
     @ResponseBody
     public String checkId(@RequestParam("id") String id) {
@@ -100,8 +101,7 @@ public class UserController {
         }
     }
     
-	// 가입 회원 로그인 로직
-    
+	// 홈페이지 회원 로그인 로직
 	@PostMapping("/user/login")
 	public String homepageLogin(User user, HttpSession session) {
 		log.debug("user 레퍼런스주소" + user);
@@ -122,7 +122,19 @@ public class UserController {
 			return "redirect:/shop/user/error";
 		}
 	}
-
+	//유저 정보 수정 페이지 호출
+	@GetMapping("/user/editform")
+	public String getEditForm() {
+		return "shop/user/useredit";
+	}
+	
+	//유저 정보 수정 로직
+	@PostMapping("/user/edit")
+						//여기서 정의해 주어야 할 파라미터는 jsp에서 받아와야 하는 값
+	public String userEdit(HttpSession session) {
+		return null;
+	}
+	
 	//에러페이지 리턴
 	@GetMapping("/user/error")
 	public String errorPage() {

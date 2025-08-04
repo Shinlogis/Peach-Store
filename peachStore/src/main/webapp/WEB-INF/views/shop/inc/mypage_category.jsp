@@ -33,7 +33,7 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">회원정보 수정</a></li>
+						<li><a href="/shop/user/editform">회원정보 수정</a></li>
 					</ul>
 				</div>
 			</div>
