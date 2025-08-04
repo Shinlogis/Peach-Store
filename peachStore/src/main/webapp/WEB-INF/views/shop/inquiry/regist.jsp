@@ -6,6 +6,7 @@
 <%
 User user = (User)session.getAttribute("user"); 
 List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+
 %>
 <!DOCTYPE html>
 <html lang="zxx">

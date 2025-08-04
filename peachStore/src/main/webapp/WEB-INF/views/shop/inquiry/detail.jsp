@@ -8,6 +8,8 @@
 User user = (User) session.getAttribute("user");
 Inquiry inquiry = (Inquiry) request.getAttribute("inquiry");
 List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+User userGrade = (User)request.getAttribute("userGrade");
+Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 %>
 <!DOCTYPE html>
 <html lang="en">

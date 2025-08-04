@@ -11,6 +11,8 @@
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	List<OrderReceipt> completedList = (List)request.getAttribute("completedList");
 	List<Review> writtenReview = (List)request.getAttribute("writtenReview");
+	User userGrade = (User)request.getAttribute("userGrade");
+	Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 %>
 <!DOCTYPE html>
 <html lang="en">

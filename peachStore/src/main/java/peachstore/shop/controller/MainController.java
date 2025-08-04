@@ -1,5 +1,7 @@
 package peachstore.shop.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
+import peachstore.domain.OrderReceipt;
 import peachstore.domain.User;
-import peachstore.domain.UserGrade;
-import peachstore.service.userGrade.UserGradeService;
+import peachstore.service.orderreceipt.OrderReceiptService;
+import peachstore.service.review.ReviewService;
+import peachstore.service.user.UserService;
 
 /**
  * 메인 페이지 컨트롤러
@@ -23,29 +27,32 @@ import peachstore.service.userGrade.UserGradeService;
 public class MainController {
 
 	@Autowired
-	private UserGradeService userGradeService;
-
+	private UserService userService;
+	@Autowired
+	private ReviewService reviewService;
+	@Autowired
+	private OrderReceiptService orderReceiptService;
+	
 	@GetMapping("/main")
 	public String main() {
 		return "shop/index";
 	}
 
 	@GetMapping("/mypage")
-	public ModelAndView myPage(UserGrade userGrade, HttpSession session) {
+	public ModelAndView myPage(HttpSession session) {
+		User user = (User)session.getAttribute("user");
 
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("user");
-		log.debug("마이페이지 접근 유저 정보{}", user);
-		
-		int userGradeId = user.getUser_grade().getUserGradeId();
-		log.debug("유저 등급 정보", userGradeId);
+		// 유저 정보로 주문 리스트 불러오기
+		OrderReceipt orderReceipt = new OrderReceipt();
+		orderReceipt.setUser(user);
+		List<OrderReceipt> receiptList = orderReceiptService.selectByUserId(orderReceipt);
 
-		//UserGrade ug = userGradeService.select(userGradeId);
-		
-		//mav.addObject("userGrade", ug);
+		mav.addObject("receiptList", receiptList);  // 주문 내역 추가
+
 		mav.setViewName("shop/mypage/mypage");
-
 		return mav;
 	}
+
 
 }

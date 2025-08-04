@@ -76,6 +76,15 @@ public class ReviewDAOImpl implements ReviewDAO{
 				
 	}
 
+	//리뷰 갯수 조회
+	@Override
+	public int countByUserId(int userId) {
+		return sqlSessionTemplate.selectOne("Review.countByUserId", userId);
+	}
+	
+	
+	
+
 
 		
 	
