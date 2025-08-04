@@ -83,7 +83,7 @@ public class FileManager {
 		if(directory.exists()&&directory.isDirectory()) {
 			File[] files = directory.listFiles();
 			
-			if(files!= null) {
+			if(files!= null && files.length >0) {
 				for(File file : files) {
 					boolean deleted = file.delete();
 					log.debug(file.getName() + "를 삭제한 결과" + deleted);
@@ -92,8 +92,10 @@ public class FileManager {
 			
 			boolean result = directory.delete();
 			
-			if(result == false) {
+			if(!result) {
 				log.warn("디렉토리 삭제 실패" + directory.getAbsolutePath());
+			}else {
+				log.warn("디렉토리 삭제 성공" + directory.getAbsolutePath());
 			}
 		}
 	}

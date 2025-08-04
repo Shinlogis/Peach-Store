@@ -1,5 +1,7 @@
 package peachstore.repository.review;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,6 +32,11 @@ public class ReviewImgDAOImpl implements ReviewImgDAO{
 		if(result<1) {
 			throw new ReviewImgException("사진 삭제 실패");
 		}
+	}
+
+	@Override
+	public List select(int review_id) {
+		return sqlSessionTemplate.selectList("ReviewImg.selectByReviewId", review_id);
 	}
 
 }

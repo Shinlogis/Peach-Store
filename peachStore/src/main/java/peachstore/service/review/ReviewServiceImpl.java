@@ -98,7 +98,12 @@ public class ReviewServiceImpl implements ReviewService {
 		String subDir = "r_" + review.getReviewId();
 
 		log.debug("리뷰 삭제할 아이디 " + review.getReviewId());
-		reviewImgDAO.delete(review.getReviewId());
+		
+		List<ReviewImg> img = reviewImgDAO.select(review.getReviewId());
+		if(img != null && !img.isEmpty()) {
+			reviewImgDAO.delete(review.getReviewId());
+		}
+		
 		fileCommonManager.remove(subDir, savePath);
 		
 		review = findById(review.getReviewId());
@@ -125,8 +130,11 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void updateReview(Review review, String savePath) {
 
-		// 기존 이미지 레코드 삭제
-		reviewImgDAO.delete(review.getReviewId());
+		List<ReviewImg> img = reviewImgDAO.select(review.getReviewId());
+		if(img != null && !img.isEmpty()) {
+			//기존 이미지 삭제
+			reviewImgDAO.delete(review.getReviewId());
+		}
 
 		// 폴더 안의 기존 파일 삭제
 		String subDir = "r_" + review.getReviewId();
