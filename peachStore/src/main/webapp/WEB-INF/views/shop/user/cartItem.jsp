@@ -48,11 +48,20 @@
    color:white;
 }
 h6{
-   font-size:20px;
+   font-size:28px;
 }
 
 .rating{
-	font-size:12px;
+	margin-top:35px;
+}
+
+.rating span{
+	font-size:18px;
+}
+
+.cart__product__item img{
+	width:150px;
+	height:100%;
 }
 </style>
 <body>
