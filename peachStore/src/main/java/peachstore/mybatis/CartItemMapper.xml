@@ -26,4 +26,9 @@
 		insert into cart_item(cart_id, product_id, custom_option_id)
 		values(#{cart.cart_id},#{product.productId},#{custom_option.custom_option_id})
 	</insert>
+	
+	<delete id="deleteCartItem" >
+		
+	</delete>
+	
 </mapper>
