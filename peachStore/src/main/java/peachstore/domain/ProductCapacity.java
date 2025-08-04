@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class ProductCapacity {
 	private int product_capacity_id;  
-//	private int additional_price;  
+	private int additional_price;  
 	private Capacity capacity;
 	private Product product;
 	
