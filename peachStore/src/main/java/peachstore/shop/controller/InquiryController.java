@@ -50,6 +50,7 @@ public class InquiryController {
 			log.debug("문의 아이디는 : " + inquiry.getInquiry_id());
 			responseData = "success";
 		} catch (Exception e) {
+			log.debug("inquiry.regist catch 내부 진입 - {}", e);
 			inquiryService.remove(inquiry, savePath);
 			e.printStackTrace();
 		}

@@ -1,6 +1,7 @@
 package peachstore.repository.Inquiry;
 
 import java.util.List;
+import java.util.Map;
 
 import peachstore.domain.Inquiry;
 /**
@@ -23,5 +24,19 @@ public interface InquiryDAO {
 	/**
 	 * 관리자용 전체조회
 	 */
-	public List<Inquiry> selectAllAtAdmin();
+	public List<Inquiry> selectAllAtAdmin(Map<String, Object> searchMap);
+	
+	/**
+	 * 문의 답변
+	 * @param inquiry
+	 * @return
+	 */
+	public int updateAnswer(Inquiry inquiry);
+	
+	/**
+	 * pk를 통한 조회
+	 * @param inquiry_id
+	 * @return
+	 */
+	public Inquiry selectById(int inquiry_id);
 }

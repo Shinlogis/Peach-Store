@@ -45,4 +45,9 @@ public class OrderReceiptDAOImpl implements OrderReceiptDAO{
 		return sqlSessionTemplate.selectList("OrderReceipt.completedList", orderReceipt);
 	}
 
+	@Override
+	public OrderReceipt selectById(int orderReceiptId) {
+		return sqlSessionTemplate.selectOne("OrderReceipt.select", orderReceiptId);
+	}
+
 }

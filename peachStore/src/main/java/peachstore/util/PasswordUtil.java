@@ -37,13 +37,4 @@ public class PasswordUtil {
       }
       return result;
    }
-   
-   
-   public static void main(String[] args) {
-      String salt = generateSalt();
-      log.warn(salt);
-      String password = "123";
-      String result = hashPassword(password, salt);
-      log.warn("리절트는" +result);
-   }
 }
