@@ -84,7 +84,9 @@
 	<update id="update" parameterType="User">
 		update user
 		set 
-			user_grade_id = #{user_grade.userGradeId}
+			user_grade_id = #{user_grade.userGradeId},
+			tel = #{tel},
+			address = #{address}
 		where user_id = #{user_id}
 	</update>
 

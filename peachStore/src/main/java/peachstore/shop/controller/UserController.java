@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +24,7 @@ import com.google.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
+import peachstore.domain.UserGrade;
 import peachstore.service.cart.CartService;
 import peachstore.service.user.SnsProviderService;
 import peachstore.service.user.UserService;
@@ -130,11 +130,27 @@ public class UserController {
 	
 	//유저 정보 수정 로직
 	@PostMapping("/user/edit")
-						//여기서 정의해 주어야 할 파라미터는 jsp에서 받아와야 하는 값
-	public String userEdit(HttpSession session) {
-		return null;
+	public String userEdit(String user_tel, String user_address ,int user_grade_id, HttpSession session) {
+	    User obj = (User) session.getAttribute("user");
+
+	    // 등급 객체가 null이면 새로 만들고 id만 세팅
+	    if (obj.getUser_grade() == null) {
+	        UserGrade grade = new UserGrade();
+	        grade.setUserGradeId(user_grade_id);
+	        obj.setUser_grade(grade);
+	    } else {
+	        obj.getUser_grade().setUserGradeId(user_grade_id);
+	    }
+
+	    obj.setTel(user_tel);
+	    obj.setAddress(user_address);
+
+	    userService.update(obj);
+
+	    session.setAttribute("user", obj);
+	    return "redirect:/shop/user/editform";
 	}
-	
+
 	//에러페이지 리턴
 	@GetMapping("/user/error")
 	public String errorPage() {
