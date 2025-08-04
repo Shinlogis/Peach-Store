@@ -20,5 +20,11 @@
 		<delete id="deleteByProductId" parameterType="int">
 		  delete from product_capacity where product_id = #{productId}
 		</delete>
+		
+		<select id="selectById" parameterType="int" resultMap="capacityMap">
+		  select product_capacity_id, capacity_id
+		  from product_capacity
+		  where product_capacity_id = #{product_capacity_id}
+		</select>
 
 </mapper>

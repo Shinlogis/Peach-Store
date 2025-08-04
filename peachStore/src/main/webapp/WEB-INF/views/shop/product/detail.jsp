@@ -72,7 +72,7 @@
 							<%for(ProductSize productSize :product.getProductSizes()){ %>
 							<div>
 								<input type="radio" id="size<%=productSize.getSize().getSize_id() %>" name="product_size_id" value="<%=productSize.getSize().getSize_id()%>">
-								<label for="size<%=productSize.getSize().getSize_id() %>"><%=productSize.getSize().getSize_name() %></label>
+								<label for="size<%=productSize.getSize().getSize_id() %>"><%=productSize.getSize().getSize_name() %> 모델  <%=productSize.getAdditional_price() %></label>
 							</div>
 							<%} %>
 						</fieldset>
@@ -82,20 +82,21 @@
 							<%for(ProductColor productColor:product.getProductColors()){ %>
 							<div class="color-box">
 								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="product_color_id" value="<%=productColor.getColor().getColor_id()%>" data-color-name="<%=productColor.getColor().getColor_name()%>">
-								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_name() %>;"></label>
+								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_value() %>;"></label>
 							</div>
 							<%} %>
 						</fieldset>
 							
-						<%--<fieldset>
+						<fieldset>
 							<legend>용량</legend>
-							<%for(ProductCapacity prdocutCapacity:product.getProductCapacities()){ %>
+							<%for(ProductCapacity productCapacity:product.getProductCapacities()){ %>
 							<div>
-								<input type="radio" id="<%=prdocutCapacity.getCapacity().getCapacity_id() %>" name="group1" value="html">
-								<label for="<%=prdocutCapacity.getCapacity().getCapacity_id() %>"><%=prdocutCapacity.getCapacity().getCapacity_name() %></label>
+								<input type="radio" id="<%=productCapacity.getCapacity().getCapacity_id() %>" name="product_capacity_id" value="<%=productCapacity.getCapacity().getCapacity_id() %>">
+								<label for="<%=productCapacity.getCapacity().getCapacity_id() %>"><%=productCapacity.getCapacity().getCapacity_name() %><%=productCapacity.getAdditional_price() %></label>
 							</div>
 							<%} %>
-						</fieldset> --%>
+						</fieldset> 
+						
 						<input type="hidden" name ="product_id" value="<%=product.getProductId()%>">
 						<input type="button" value="장바구니에 담기">
 					</form>
@@ -118,7 +119,7 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<h6>Description</h6>
-								<p>detail></p>
+								<%=product.getDetail() %>
 							</div>
 							<div class="tab-pane" id="tabs-2" role="tabpanel" style="padding: 20px 20px;">
 								<h6>총 리뷰 수 : <%=reviewList.size()%> 개</h6>
