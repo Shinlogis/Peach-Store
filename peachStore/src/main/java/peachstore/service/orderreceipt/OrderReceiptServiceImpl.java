@@ -30,4 +30,13 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 		orderReceiptDAO.cancle(orderReceipt);
 	}
 
+	@Override
+	public OrderReceipt selectById(int orderReceiptId) {
+		return orderReceiptDAO.selectById(orderReceiptId);
+	}
+	
+	public List completedList(OrderReceipt orderReceipt) {
+		return orderReceiptDAO.completedList(orderReceipt);
+	}
+
 }

@@ -36,7 +36,13 @@ public class FileCommonManager {
 	 */
 	public List<String> saveFiles(MultipartFile[] files, String savePath, String subDir) throws Uploadexception {
 		List<String> filenameList = new ArrayList<>();
-        // 디렉토리 경로 생성
+        
+		 if (files == null || files.length == 0) {
+		        // 사진 파일이 없으면 빈 리스트 반환 (예외 없이 그냥 넘어감)
+		        return filenameList;
+		    }
+		
+		// 디렉토리 경로 생성
         File directory = new File(savePath, subDir);
         if (!directory.exists()) {
             directory.mkdirs();

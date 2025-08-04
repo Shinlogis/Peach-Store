@@ -17,7 +17,12 @@ public class MainController {
 	
 		@GetMapping("/main")                                          
 		public String main() {                                       	
-		return "shop/index";                                         
+			return "shop/index";                                         
+		}
+		
+		@GetMapping("/mypage")
+		public String myPage() {
+			return "shop/mypage/mypage";
 		}
 	
 }

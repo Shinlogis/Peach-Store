@@ -7,7 +7,7 @@
 		<result column="orderdate" property="orderdate"/>
 		<result column="order_status" property="order_status"/>
 		
-		<association column="user_id" property="user" javaType="User" select="User.select"/>
+		<association column="user_id" property="user" javaType="User" select="User.selectById"/>
 		
 		 <collection column="order_receipt_id" property="orderList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderReceiptId"/> 
 	</resultMap>
@@ -34,5 +34,12 @@
 		select order_receipt_id, orderdate, order_status, user_id 
 		 from order_receipt where user_id = #{user.user_id} and order_status = '주문취소' order by order_receipt_id desc;
 	</select>
+	
+	<!-- 발송완료 목록 -->
+	<select id="completedList" parameterType="OrderReceipt" resultMap="joinMap">
+		select order_receipt_id, orderdate, order_status, user_id 
+		 from order_receipt where user_id = #{user.user_id} and order_status = '발송완료' order by order_receipt_id desc;
+	</select>
+	
 	
 </mapper>

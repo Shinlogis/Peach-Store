@@ -99,9 +99,9 @@ public class ProductTopcategoryController {
 	@PostMapping("/product/topcategory/update")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> change(
-			@RequestParam("productTopcategoryId") int productTopcategoryId, 
-		 	@RequestParam("productTopcategoryName") String productTopcategoryName,
-			@RequestParam("photo") MultipartFile photo,
+			int productTopcategoryId, 
+		 	String productTopcategoryName,
+			MultipartFile photo,
 			HttpServletRequest request) {
 		// 파일 저장 경로
 		String savePath = request.getServletContext().getRealPath("/data");

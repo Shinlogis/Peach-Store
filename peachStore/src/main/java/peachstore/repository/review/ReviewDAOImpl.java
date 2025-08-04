@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Review;
+import peachstore.domain.User;
+import peachstore.exception.ReviewException;
 
 /**
  * 리뷰 DAO 구현체
@@ -48,5 +50,38 @@ public class ReviewDAOImpl implements ReviewDAO{
 		log.debug("result: {}", result);
 		return result;
 	}
+		
+	public void insert(Review review) throws ReviewException{
+		int result = sqlSessionTemplate.insert("Review.insert", review);
+		
+		if(result<1) {
+			throw new ReviewException("리뷰 등록 실패");
+		}
+	}
 
+	//회원별 리뷰 조회
+	@Override
+	public List selectByUserId(User user) {
+		return sqlSessionTemplate.selectList("Review.selectByUser",user);
+	}
+
+	//리뷰 수정
+	@Override
+	public void updateReview(Review review)throws ReviewException {
+		int result = sqlSessionTemplate.update("Review.updateReview", review);
+		if(result <1) {
+			throw new ReviewException("리뷰 수정 실패");
+		}
+		
+				
+	}
+
+
+		
+	
+	
+
+	
+	
+	
 }

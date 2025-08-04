@@ -124,9 +124,18 @@ public class ProductSubcategoryController {
 	 */
 	@PostMapping("/product/subcategory/deactive")
 	@ResponseBody
-	public String deactivate(int productSubcategoryId) {
-		productSubcategoryService.toggleActivation(productSubcategoryId);
-		return "success";
+	public ResponseEntity<Map<String, Object>> deactivate(int productSubcategoryId) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			productSubcategoryService.toggleActivation(productSubcategoryId);
+			response.put("success", true);
+			response.put("message", "하위 카테고리가 성공적으로 업데이트되었습니다.");
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	/**

@@ -66,8 +66,8 @@
 										id="title" name="title" class="form-control" required />
 								</div>
 								<div class="form-group">
-									<label >작성자</label> <input type="text" value="<%=user.getId() %>"
-										name="writer" class="form-control" required />
+									<label >작성자</label> <input type="text" value="<%=user.getUser_name() %>"
+										name="writer" class="form-control" required readonly />
 								</div>
 								<div class="form-group">
 									<div>
@@ -149,20 +149,15 @@
 			$.ajax({
 				url:"/data/"+dir+"/"+filename, 
 				type:"GET",
-				//서버로부터 가져온 이미지 정보는 img src로 표현되려면, 
-				//1) 서버로 부터 가져온 정보를 Blob 형태로 가져와서
-				//2) 웹브라우저 지원 객체인 File 로 변환 
-				//3) 이 파일을 읽어들인 후 e.target.result 형태로 img src에 대입
-				//XMLHttpRequest 객체를 이용해야 함
+
 				xhr: function(){
 					const xhr = new XMLHttpRequest();
 					xhr.responseType="blob"; //blob 형태의 데이터 요청 
-					//blob 이란? Binary Large Object 의 준말로, 이미지, 비디오, 오디오, 일반 파일 등의 이진 데이터
-					//를 담을 수 있는 자바스크립트 객체
 					return xhr;
 				},
 				success:function(result, status, xhr){
 					console.log("서버로부터 받은 바이너리 정보는 ",result);
+					
 					//서버로 부터 전송받은 바이너리 데이터를 이용하여 File 객체로 만들기 
 					const file = new File([result], filename, {type: result.type});
 					

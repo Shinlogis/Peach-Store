@@ -1,18 +1,23 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="peachstore.domain.Inquiry"%>
 <%@page import="peachstore.util.Paging"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<Inquiry> inquiries = (List)request.getAttribute("inquiries");
-	Paging paging = (Paging)request.getAttribute("paging");
-	int firstPage = paging.getFirstPage();
-	int lastPage = paging.getLastPage();
-	int currentPage = paging.getCurrentPage();
-	int totalPage = paging.getTotalPage();
-	
-    String searchKey = (String) request.getAttribute("searchKey"); // 검색어 받아오기
-    if (searchKey == null) searchKey = "";
-    
+List<Inquiry> inquiries = (List) request.getAttribute("inquiries");
+Paging paging = (Paging) request.getAttribute("paging");
+int firstPage = paging.getFirstPage();
+int lastPage = paging.getLastPage();
+int currentPage = paging.getCurrentPage();
+int totalPage = paging.getTotalPage();
+
+String searchKey = request.getParameter("searchKey") != null ? request.getParameter("searchKey") : "";
+String searchCondition = request.getParameter("searchCondition") != null
+		? request.getParameter("searchCondition")
+		: "userId";
+String filterNoAnswer = request.getParameter("filterNoAnswer") != null ? request.getParameter("filterNoAnswer") : "";
+String baseParams = "&searchCondition=" + URLEncoder.encode(searchCondition, "UTF-8") + "&searchKey="
+		+ URLEncoder.encode(searchKey, "UTF-8") + (filterNoAnswer.equals("true") ? "&filterNoAnswer=true" : "");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,27 +27,30 @@
 <title>문의 관리</title>
 <%@ include file="../inc/head_link.jsp"%>
 <style>
-    .category-btn-group button {
-        margin-left: 5px;
-    }
+.category-btn-group button {
+	margin-left: 5px;
+}
 </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+	<div class="wrapper">
 
-    <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="/static/admin/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60" />
-    </div>
+		<!-- Preloader -->
+		<div
+			class="preloader flex-column justify-content-center align-items-center">
+			<img class="animation__shake"
+				src="/static/admin/dist/img/AdminLTELogo.png" alt="AdminLTELogo"
+				height="60" width="60" />
+		</div>
 
-    <!-- Navbar -->
-    <%@ include file="../inc/navbar.jsp"%>
-    <!-- /.navbar -->
+		<!-- Navbar -->
+		<%@ include file="../inc/navbar.jsp"%>
+		<!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
-    <%@ include file="../inc/left_bar.jsp"%>
-    
-    <!-- Content Wrapper. Contains page content -->
+		<!-- Main Sidebar Container -->
+		<%@ include file="../inc/left_bar.jsp"%>
+
+		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 
 			<!-- Content Header (Page header) -->
@@ -67,30 +75,46 @@
 			</div>
 			<!-- /.content-header -->
 
-
 			<!-- Main content -->
 			<section class="content">
 				<div class="container-fluid">
 
-					<!-- 상품 목록 -->
+					<!-- 문의 목록 -->
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
-								<div class="card-header">
-									<h3 class="card-title"><%=inquiries.size() %>개의 결과</h3>
+								<div class="card-header d-flex align-items-center">
+									<h3 class="card-title mb-0"><%=inquiries.size()%>개의 결과
+									</h3>
+									<form method="get" action="/admin/inquiry/list"
+										class="d-flex align-items-center ml-auto">
+										<div class="form-check mb-0 mr-3">
+											<input class="form-check-input" type="checkbox"
+												id="filterNoAnswer" name="filterNoAnswer" value="true"
+												<%=request.getParameter("filterNoAnswer") != null ? "checked" : ""%>
+												onchange="this.form.submit();"> <label
+												class="form-check-label" for="filterNoAnswer"> 답변대기만
+												보기 </label>
+										</div>
 
-									<div class="card-tools">
-										<div class="input-group input-group-sm" style="width: 150px;">
-											<input type="text" name="table_search"
-												class="form-control float-right" placeholder="Search">
-
+										<div class="input-group input-group-sm" style="width: 300px;">
+											<select name="searchCondition" class="form-control"
+												style="max-width: 120px;">
+												<option value="userId"
+													<%="userId".equals(searchCondition) ? "selected" : ""%>>
+													고객 ID</option>
+												<option value="content"
+													<%="content".equals(searchCondition) ? "selected" : ""%>>
+													문의내용</option>
+											</select> <input type="text" name="searchKey" class="form-control"
+												placeholder="Search" value="<%=searchKey%>">
 											<div class="input-group-append">
 												<button type="submit" class="btn btn-default">
 													<i class="fas fa-search"></i>
 												</button>
 											</div>
 										</div>
-									</div>
+									</form>
 								</div>
 								<!-- /.card-header -->
 								<div class="card-body table-responsive p-0">
@@ -100,131 +124,233 @@
 												<th>NO</th>
 												<th>문의날짜</th>
 												<th>제목</th>
-												<th>사용자명</th>
-												<th>문의내용</th>
-												<th>답변자</th>
-												<th>답변내용</th>
+												<th>고객정보</th>
+												<th>답변 여부</th>
 											</tr>
 										</thead>
 										<tbody>
-										<%
+											<%
 											int curPos = paging.getCurPos();
 											int num = paging.getNum();
-										%>
-										<%for (int i=0; i<paging.getPageSize(); i++){ %>
-										<% if(num<1) break; %>
-										<% Inquiry inquiry = inquiries.get(curPos++); %>
-											<tr>
-												<td><%= num-- %>
-												<%
-												    String imgSrc = "/static/admin/dist/img/default.png"; // 기본 이미지 경로
-//												    if (review != null &&
-	//											        product.getProductImgList() != null &&
-		//										        !product.getProductImgList().isEmpty() &&
-			//									        product.getProductImgList().get(0) != null &&
-				//								        product.getProductImgList().get(0).getFilename() != null) {
-												
-					//							        imgSrc = "/data/p_" + product.getProduct_id() + "/" +
-						//						                 product.getProductImgList().get(0).getFilename();
-							//					    }
-												%>
-												<td><%= inquiry.getCreated_at() %></td>
-												<td><%= inquiry.getTitle() %></td>
-												<td><%= inquiry.getUser().getUser_name() %></td>
-												<td><%= inquiry.getInquiry_text() %></td>
-												<td><%= inquiry.getAdmin().getName() %></td>
-												<td>
-												  <div class="dropdown">
-												    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="reviewManageDropdown<%= inquiry.getInquiry_id() %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												      관리
-												    </button>
-												    <div class="dropdown-menu" aria-labelledby="reviewManageDropdown<%= inquiry.getInquiry_id() %>">
-												      <a class="dropdown-item" href="#" onclick="hideReview(<%=  inquiry.getInquiry_id() %>); return false;">상태 변경</a>
-												      <a class="dropdown-item text-danger" href="#" onclick="deleteReview(<%=  inquiry.getInquiry_id() %>); return false;">리뷰 삭제</a>
-												    </div>
-												  </div>
+
+											for (int i = 0; i < paging.getPageSize(); i++) {
+												if (num < 1)
+													break;
+												Inquiry inquiry = inquiries.get(curPos++);
+												boolean hasAnswer = (inquiry.getAdmin() != null);
+											%>
+											<!-- 메인 줄 -->
+											<tr class="inquiry-row" data-toggle="collapse"
+												data-target="#detailRow<%=inquiry.getInquiry_id()%>"
+												style="cursor: pointer;">
+												<td><%=num--%></td>
+												<td><%=inquiry.getCreated_at()%></td>
+												<td><%=inquiry.getTitle()%></td>
+												<td><%=inquiry.getUser().getUser_name()%><br> <span
+													style="color: gray;"><%=inquiry.getUser().getId()%></span><br>
+													<%=inquiry.getUser().getUser_grade().getUserGradeName()%></td>
+												<td><span
+													class="badge <%=hasAnswer ? "badge-success" : "badge-warning"%>">
+														<%=hasAnswer ? "답변완료" : "답변대기"%>
+												</span></td>
+											</tr>
+
+											<tr id="detailRow<%=inquiry.getInquiry_id()%>"
+												class="collapse bg-light">
+												<td colspan="5">
+													<div class="p-3 border rounded shadow-sm">
+														<h6 class="font-weight-bold mb-2 text-primary">문의 내용</h6>
+														<div class="mb-3" style="white-space: pre-wrap;"><%=inquiry.getInquiry_text()%></div>
+														<%
+														if (hasAnswer) {
+														%>
+														<h6 class="font-weight-bold mb-2 text-success">답변</h6>
+														<ul class="list-unstyled mb-0">
+															<li><strong>답변자:</strong> <%=inquiry.getAdmin().getName()%></li>
+															<li><strong>답변날짜:</strong> <%=inquiry.getAnswered_at()%></li>
+														</ul>
+														<div class="mt-2" style="white-space: pre-wrap;"><%=inquiry.getAnswer_text()%></div>
+														<%
+														} else {
+														%>
+														<div
+															class="p-2 mt-3 mb-0 text-muted bg-light border rounded small"
+															style="font-size: 0.9rem;">아직 답변이 등록되지 않았습니다.</div>
+														<button type="button" class="btn btn-sm btn-primary mt-2"
+															onclick="openAnswerModal(
+												          <%=inquiry.getInquiry_id()%>, 
+												          '<%=inquiry.getTitle().replace("'", "\\'")%>', 
+												          '<%=inquiry.getInquiry_text().replace("'", "\\'").replace("\r\n", "\\n")%>',
+												          `<%=inquiry.getUser().getUser_name()%>
+												           (<%=inquiry.getUser().getId()%>)
+												           <%=inquiry.getUser().getUser_grade().getUserGradeName()%>`
+												        )">
+															답변하기</button>
+														<%
+														}
+														%>
+													</div>
 												</td>
 											</tr>
-										<%} %>
+											<%
+											}
+											%>
 										</tbody>
 									</table>
+
 								</div>
 								<!-- /.card-body -->
-								<div class="card-footer clearfix">
-									<ul class="pagination pagination-sm m-0 justify-content-center">
-										<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-										<% for (int i=paging.getFirstPage(); i<=paging.getLastPage(); i++){ %>
-										<% if (i>paging.getTotalPage()) break;%>
-										<li class="page-item"><a class="page-link" href="#"><%=i %></a></li>
-										<%} %>
-										<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+								<div class="card-footer d-flex justify-content-center">
+									<ul class="pagination pagination-sm m-0">
+										<!-- 이전 페이지 버튼 -->
+										<li
+											class="page-item <%=(firstPage <= 1 ? "disabled" : "")%>">
+											<a class="page-link"
+											href="<%=(firstPage > 1) ? ("/admin/inquiry/list?currentPage=" + (firstPage - 1) + baseParams) : "#"%>">&laquo;</a>
+										</li>
+										<!-- 페이지 번호 목록 -->
+										<%
+										for (int i = firstPage; i <= lastPage && i <= totalPage; i++) {
+										%>
+										<li
+											class="page-item <%=(i == currentPage ? "active" : "")%>">
+											<a class="page-link"
+											href="/admin/inquiry/list?currentPage=<%=i%><%=baseParams%>"><%=i%></a>
+										</li>
+										<%
+										}
+										%>
+
+										<!-- 다음 페이지 버튼 -->
+										<li
+											class="page-item <%=(lastPage >= totalPage ? "disabled" : "")%>">
+											<a class="page-link"
+											href="<%=(lastPage < totalPage) ? ("/admin/inquiry/list?currentPage=" + (lastPage + 1) + baseParams) : "#"%>">&raquo;</a>
+										</li>
 									</ul>
 								</div>
+
 							</div>
 							<!-- /.card -->
 						</div>
 					</div>
-					<!-- /.상품 목록 -->
+					<!-- /.문의 목록 -->
 				</div>
 				<!-- /.container-fluid -->
 			</section>
 			<!-- /.content -->
+
+			<!-- 답변하기 모달 -->
+			<div class="modal fade" id="answerModal" tabindex="-1"
+				aria-labelledby="answerModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<form id="answerForm">
+							<div class="modal-header">
+								<h5 class="modal-title" id="answerModalLabel">문의 답변하기</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<input type="hidden" id="modalInquiryId" name="inquiryId" /> <input
+									type="hidden" id="modalAdminId" name="adminId" />
+
+								<div class="mb-3">
+									<label class="form-label"><strong>문의 제목</strong></label>
+									<div id="modalTitle" class="border p-2 rounded bg-light"></div>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label"><strong>고객정보</strong></label>
+									<div id="modalUser" class="border p-2 rounded bg-light"></div>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label"><strong>문의 내용</strong></label>
+									<div id="modalInquiryText"  style="white-space: pre-wrap; font-size: 20px !important; color: black;">
+								</div>
+
+								<div class="mb-3">
+									<label for="answerText" class="form-label"><strong>답변
+											내용</strong></label>
+									<textarea id="answerText" name="answerText"
+										class="form-control" rows="6" required></textarea>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">닫기</button>
+								<button type="submit" class="btn btn-primary">답변 등록</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<!-- /.content-wrapper -->
-		
 
-    <%@ include file="../inc/footer.jsp"%>
+		<%@ include file="../inc/footer.jsp"%>
 
-</div>
-<!-- ./wrapper -->
+	</div>
+	<!-- ./wrapper -->
 
-<%@ include file="../inc/footer_link.jsp"%>
+	<%@ include file="../inc/footer_link.jsp"%>
 
-<script src="/static/admin/custom/ProductImg.js"></script>
-<script>
-	function hideReview(reviewId) {
-	    if (confirm('이 리뷰 상태를 변경하시겠습니까?')) {
-	          $.ajax({
-	              url: "/admin/review/toggle",
-	              type: "POST",
-	              data: { reviewId: reviewId },
-	              success: function (result) {
-	                  if (result.success) {
-	                      alert("변경 성공");
-	                      location.reload();
-	                  } else {
-	                      alert("변경 실패");
-	                  }
-	              },
-	              error: function () {
-	                  alert("서버 오류");
-	              }
-	      });
-	    }
+	<script src="/static/admin/custom/ProductImg.js"></script>
+	<script>
+	  // 모달 띄우기 함수
+	  function openAnswerModal(inquiryId, title, inquiryText, user) {
+	    // 값 세팅
+	    document.getElementById('modalInquiryId').value = inquiryId;
+	    document.getElementById('modalTitle').textContent = title;
+	    document.getElementById('modalInquiryText').textContent = inquiryText;
+	    document.getElementById('modalUser').textContent = user;
+
+	    // 모달 열기 
+	    var answerModal = new bootstrap.Modal(document.getElementById('answerModal'));
+	    answerModal.show();
+
 	  }
-	
-	  function deleteReview(reviewId) {
-	    if (confirm('이 리뷰를 정말 삭제하시겠습니까? 삭제된 데이터는 복구할 수 없습니다.')) {
-		          $.ajax({
-		              url: "/admin/review/delete",
-		              type: "POST",
-		              data: { reviewId: reviewId },
-		              success: function (result) {
-		                  if (result.success) {
-		                      alert("삭제 성공");
-		                      location.reload();
-		                  } else {
-		                      alert("삭제 실패");
-		                  }
-		              },
-		              error: function () {
-		                  alert("서버 오류");
-		              }
-		      });
-		    }
+	  
+	  // 답변 폼 제출 처리
+	  document.getElementById('answerForm').addEventListener('submit', function(e) {
+	    e.preventDefault();
+	    var inquiryId = document.getElementById('modalInquiryId').value;
+	    var adminId = document.getElementById('modalAdminId').value;
+	    var answerText = document.getElementById('answerText').value.trim();
+
+	    if (!answerText) {
+	      alert('답변 내용을 입력해주세요.');
+	      return;
 	    }
+
+	    // 답변 등록 요청
+	    $.ajax({
+	      url: '/admin/inquiry/answer',
+	      type: 'POST',
+	      data: {
+	        inquiry_id: inquiryId,
+	        // TODO: 로그인 기능 구현 후 수정 필요
+	        admin_id: 1,
+	        answer_text: answerText
+	      },
+	      success: function (result) {
+              if (result.success) {
+                  alert(result.message);
+                  location.reload();
+              } else {
+            	  alert(result.message);
+              }
+          },
+          error: function () {
+              alert("서버 오류");
+          }
+	    });
+	  });
 </script>
 
 </body>
 </html>
-                    

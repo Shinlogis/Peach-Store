@@ -1,5 +1,7 @@
 package peachstore.repository.Inquiry;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,11 +23,11 @@ public class InquiryImgDAOImpl implements InquiryImgDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public void insert(InquiryImg inquiryImg) throws InquiryImgException {
+	public void insert(InquiryImg inquiryImg) throws Uploadexception {
 		int result = sqlSessionTemplate.insert("InquiryImg.insert", inquiryImg);
 		log.debug("inquiry_img insert result: " + result); 
 
-		if(result<1)throw new InquiryImgException("사진 등록 실페");
+		if(result<1)throw new Uploadexception("사진 등록 실페");
 	}
 
 	@Override
@@ -54,6 +56,12 @@ public class InquiryImgDAOImpl implements InquiryImgDAO{
 		if(result<1) {
 			throw new InquiryImgException("사진 삭제 실패");
 		}
+	}
+
+	//문의 삭제 시 사진 삭제 없는 경우를 위한 select생성
+	@Override
+	public List select(int inquiry_id) {
+		return sqlSessionTemplate.selectList("InquiryImg.selectByInquiry", inquiry_id);
 	}
 	
 	
