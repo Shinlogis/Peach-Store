@@ -32,14 +32,15 @@
 
 
 	<!-- 로그인 여부 체킹필터 -->
-<!-- 	<filter>
+	<filter>
 		<filter-name>loginCheck</filter-name>
 		<filter-class>peachstore.util.LoginCheckFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>loginCheck</filter-name>
 		<url-pattern>/shop/*</url-pattern>
-	</filter-mapping> -->
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping> 
 
 
 	<servlet>

@@ -117,8 +117,8 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
-								<h6>Description</h6>
-								<p>detail></p>
+							    <h6>Description</h6>
+							    <%= product.getDetail() %>
 							</div>
 							<div class="tab-pane" id="tabs-2" role="tabpanel" style="padding: 20px 20px;">
 								<h6>총 리뷰 수 : <%=reviewList.size()%> 개</h6>

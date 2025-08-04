@@ -14,7 +14,7 @@
           <img src="/static/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">사용자명</a>
+          <a href="#" class="d-block">${user.adminName}</a>
         </div>
       </div>
 
@@ -87,7 +87,41 @@
             </ul>
           </li>
           <!--리뷰관리 메뉴 끝-->
-      
+      	
+      		<!-- 회원관리 메뉴 끝 -->
+
+			<!-- 관리자관리 메뉴 시작 -->
+			<li class="nav-item menu-open">
+			  <a href="#" class="nav-link">
+			    <i class="nav-icon fas fa-user-shield"></i>
+			    <p>
+			      관리자 관리
+			      <i class="right fas fa-angle-left"></i>
+			    </p>
+			  </a>
+			  <ul class="nav nav-treeview">
+			    <li class="nav-item">
+			      <a href="/admin/user/adminlist" class="nav-link">
+			        <i class="far fa-circle nav-icon"></i>
+			        <p>관리자 목록</p>
+			      </a>
+			    </li>
+			    <li class="nav-item">
+			      <a href="/admin/user/registform" class="nav-link">
+			        <i class="far fa-circle nav-icon"></i>
+			        <p>관리자 등록</p>
+			      </a>
+			    </li>
+			    <li class="nav-item">
+			      <a href="/admin/user/changepasswordform" class="nav-link">
+			        <i class="far fa-circle nav-icon"></i>
+			        <p>비밀번호 변경</p>
+			      </a>
+			    </li>
+			  </ul>
+			</li>
+			<!-- 관리자관리 메뉴 끝 -->
+      	
           <!--회원관리 메뉴 시작-->
           <li class="nav-item menu-open">
             <a href="#" class="nav-link">

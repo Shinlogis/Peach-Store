@@ -1,57 +1,66 @@
 package peachstore.repository.admin;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Admin;
-import peachstore.util.PasswordUtil;
 
-/**
- * 관리자 dao 구현체입니다.
- * @author 김예진
- * @since 2025-08-02
- */
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class AdminDAOImpl implements AdminDAO{
+public class AdminDAOImpl implements AdminDAO {
 
-	private final SqlSessionTemplate sqlSessionTemplate;
+    private final SqlSessionTemplate sqlSessionTemplate;
+    private static final String NAMESPACE = "Admin";
 
-	@Override
-	public Admin selectById(int adminId) {
-		Admin admin = sqlSessionTemplate.selectOne("Admin.selectById", adminId);
-		log.debug("selectById result - {}", admin);
-		return admin;
-	}
-	
-	
-	 @Override
-	    public Admin selectByLogin(String id) {
-	        Admin admin = sqlSessionTemplate.selectOne("Admin.selectByLogin", id);
-	        log.debug("selectByLogin result - {}", admin);
-	        return admin;
-	    }
+    @Override
+    public Admin selectById(int adminId) {
+        Admin admin = sqlSessionTemplate.selectOne(NAMESPACE + ".selectById", adminId);
+        return admin;
+    }
 
-	    @Override
-	    public Admin login(String id, String password) {
-	        Admin admin = selectByLogin(id); // DAO 내 메서드 호출
-	        if (admin != null) {
-	            try {
-	                String hashed = PasswordUtil.hashPassword(password, admin.getEmail()); // email을 salt로
-	                if (hashed.equals(admin.getPassword())) {
-	                    return admin;
-	                } else {
-	                    log.warn("비밀번호 불일치: 입력값={}, 기대값={}", hashed, admin.getPassword());
-	                }
-	            } catch (Exception e) {
-	                log.error("비밀번호 암호화 실패", e);
-	            }
-	        }
-	        return null;
-	    }
-	
-	
+    @Override
+    public int insertAdmin(Admin admin) {
+        int result = sqlSessionTemplate.insert(NAMESPACE + ".insertAdmin", admin);
+        return result;
+    }
+
+    @Override
+    public Admin selectAdminByLogin(Map<String, Object> map) {
+        Admin admin = sqlSessionTemplate.selectOne(NAMESPACE + ".selectByLogin", map);
+        return admin;
+    }
+
+    @Override
+    public List<Admin> selectAll() {
+        List<Admin> list = sqlSessionTemplate.selectList(NAMESPACE + ".selectAll");
+        return list;
+    }
+
+    @Override
+    public int updatePassword(Map<String, Object> map) {
+        int result = sqlSessionTemplate.update(NAMESPACE + ".updatePassword", map);
+        return result;
+    }
+
+    @Override
+    public int updateIsActive(Map<String, Object> map) {
+        int result = sqlSessionTemplate.update(NAMESPACE + ".updateIsActive", map);
+        return result;
+    }
+
+    @Override
+    public int updateAdminInfo(Admin admin) {
+        int result = sqlSessionTemplate.update(NAMESPACE + ".updateAdminInfo", admin);
+        return result;
+    }
+    
+    public Admin selectAdminByEmail(String email) {
+        return sqlSessionTemplate.selectOne("Admin.selectAdminByEmail", email);
+    }
 }
