@@ -65,6 +65,11 @@ public class ReviewDAOImpl implements ReviewDAO{
 		return sqlSessionTemplate.selectList("Review.selectByUser",user);
 	}
 
+	@Override
+	public List selectByProductId(int productId) {
+		return  sqlSessionTemplate.selectList("Review.selectByProductId",productId);
+	}
+
 	//리뷰 수정
 	@Override
 	public void updateReview(Review review)throws ReviewException {
@@ -72,16 +77,5 @@ public class ReviewDAOImpl implements ReviewDAO{
 		if(result <1) {
 			throw new ReviewException("리뷰 수정 실패");
 		}
-		
-				
 	}
-
-
-		
-	
-	
-
-	
-	
-	
 }

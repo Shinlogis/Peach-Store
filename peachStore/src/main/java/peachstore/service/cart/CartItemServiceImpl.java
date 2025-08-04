@@ -18,5 +18,10 @@ public class CartItemServiceImpl implements CartItemService{
 		
 		return cartItemDAO.selectCartItemByCartId(cart_id);
 	}
+
+	@Override
+	public void insertCartItem(CartItem cartItem) {
+		cartItemDAO.insertCartItem(cartItem);
+	}
 	
 }
