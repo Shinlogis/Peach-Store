@@ -78,4 +78,22 @@ public class ReviewDAOImpl implements ReviewDAO{
 			throw new ReviewException("리뷰 수정 실패");
 		}
 	}
+
+	//리뷰 갯수 조회
+	@Override
+	public int countByUserId(int userId) {
+		return sqlSessionTemplate.selectOne("Review.countByUserId", userId);
+	}
+	
+	
+	
+
+
+		
+	
+	
+
+	
+	
+	
 }

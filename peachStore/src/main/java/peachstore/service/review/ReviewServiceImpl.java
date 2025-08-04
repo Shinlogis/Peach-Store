@@ -168,4 +168,9 @@ public class ReviewServiceImpl implements ReviewService {
 		review.setImgList(imgList);
 	}
 
+	@Override
+	public int countByUserId(int userId) {
+		return reviewDAO.countByUserId(userId);
+	}
+
 }

@@ -201,6 +201,18 @@
 		update review set content=#{content}, status = '활성' where review_id = #{reviewId}
 	</update>
 
+
+	<!--  리뷰 갯수 조회 -->
+	<select id="countByUserId" resultType="int" parameterType="int">
+		SELECT COUNT(*) 
+			FROM review r
+			JOIN user u ON r.user_id = u.user_id
+		WHERE r.status = '활성'
+	  	AND u.user_id = #{userId}
+</select>
+	
+	
+	
 	<!-- 상품 id로 조회 -->
 	<select id="selectByProductId" parameterType="int" resultMap="ReviewMap">
 	    SELECT
