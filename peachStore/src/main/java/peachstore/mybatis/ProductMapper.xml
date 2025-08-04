@@ -43,34 +43,54 @@
 	
 
 	<select id="selectAll" resultMap="joinMap">
-		select <include refid="columns"/> from product where is_deleted = false order by product_id desc
+		select <include refid="columns"/> from product where is_deleted = 0 order by product_id desc
 	</select>
 	
 	<select id="select" parameterType="int" resultMap="joinMap">
 		select <include refid="columns"/> from product 
-		where product_id=#{productId} and is_deleted = false
+		where product_id=#{productId} and is_deleted = 0
 	</select>
 	
 	<select id="selectBySubcategoyId" parameterType="int" resultType="Product">
-		select <include refid="columns"/>  from product 
+		select <include refid="columns"/> from product
+		where product_subcategory_id = #{product_subcategory_id}
+		and is_deleted = 0
 	</select>	
 		
 	<select id="selectBySubId" parameterType="int" resultMap="joinMap">
 		select * from product 
-
-		where product_subcategory_id=#{product_subcategory_id}
+	    where product_subcategory_id = #{product_subcategory_id}
+	    and is_deleted = 0
 	</select>
 	
 	<select id="selectAllWithPaging" resultMap="joinMap">
 	    select <include refid="columns"/> 
 	    from product 
+	    WHERE is_deleted = 0
 	    order by product_id desc
 	    limit #{pageSize} offset #{startIndex}
 	</select>
 	
 	<select id="count" resultType="int">
-	    SELECT COUNT(*) FROM product
+	    SELECT COUNT(*) FROM product where is_deleted = 0
 	</select>
+	
+	<update id="softDelete" parameterType="int">
+	  UPDATE product
+	  SET is_deleted = 1
+	  WHERE product_id = #{product_id}
+	</update>
+	
+	<update id="update" parameterType="Product">
+    UPDATE product
+    SET product_name = #{productName},
+        price = #{price},
+        introduce = #{introduce},
+        detail = #{detail},
+        product_subcategory_id = #{productSubcategory.productSubcategoryId}
+    WHERE product_id = #{productId}
+</update>
+	
 	
 </mapper>
 

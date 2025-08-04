@@ -9,7 +9,6 @@ import peachstore.repository.product.ColorDAO;
 
 /**
  * 색상(Color) 관련 서비스 구현체
- * 색상 목록 조회 시 ColorDAO를 통해 DB에 접근
  * @author 김지민
  * @since 2025-07-29
  */

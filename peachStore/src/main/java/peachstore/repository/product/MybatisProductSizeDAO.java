@@ -8,8 +8,7 @@ import peachstore.domain.ProductSize;
 import peachstore.exception.ProductSizeException;
 
 /**
- * ProductSizeDAO 인터페이스를 구현하며,  
- * 상품 등록 시 선택된 사이즈 정보를 DB에 저장하는 기능을 담당 
+ * ProductSizeDAO 인터페이스를 구현
  * @author 김지민
  * @since 2025-07-29
  */
@@ -25,4 +24,9 @@ public class MybatisProductSizeDAO implements ProductSizeDAO {
             throw new ProductSizeException("상품 사이즈 등록 실패");
         }
     }
+
+	@Override
+	public void deleteByProductId(int productId) {
+		sqlSessionTemplate.delete("ProductSize.deleteByProductId", productId);
+	}
 }

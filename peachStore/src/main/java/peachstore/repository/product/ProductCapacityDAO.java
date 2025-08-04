@@ -8,4 +8,5 @@ import peachstore.domain.ProductCapacity;
  */
 public interface ProductCapacityDAO {
 	public void insert(ProductCapacity productCapacity);
+	public void deleteByProductId(int productId);
 }

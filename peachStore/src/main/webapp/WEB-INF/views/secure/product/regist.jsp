@@ -342,6 +342,7 @@
 			   contentType: false,
 			   success: function (result) {
 			       alert("✅ 등록 성공");
+			       location.href = "/admin/product/list";
 			   },
 			   error: function (xhr) {
 			       alert("❌ 등록 실패");

@@ -31,4 +31,9 @@ public class MybatisProductCapacityDAO implements ProductCapacityDAO {
         }
 		
 	}
+
+	@Override
+	public void deleteByProductId(int productId) {
+		sqlSessionTemplate.delete("ProductCapacity.deleteByProductId", productId);
+	}
 }
