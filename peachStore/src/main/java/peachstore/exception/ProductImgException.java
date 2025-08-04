@@ -1,6 +1,6 @@
 package peachstore.exception;
 /**
- * 상품 이미지 등록 예외
+ * 상품 이미지 등록 예외처리
  * @author 김지민
  * @since 2025-07-30
  */

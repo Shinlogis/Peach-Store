@@ -7,23 +7,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import peachstore.service.product.SizeService;
+import peachstore.service.product.CapacityService;
 
 /**
- * 사이즈 관련 컨트롤러
- * 상품 등록 시 선택 가능한 사이즈 목록을 제공
+ * 용량 관련 컨트롤러
+ * 상품 등록 시 선택할 수 있는 용량 목록을 제공
  * @author 김지민
- * @since 2025-07-29
+ * @since 2025-08-01
  */
 @Controller
-public class SizeController {
+public class CapacityController {
 	
 	@Autowired
-	private SizeService sizeService;
+	private CapacityService capacityService;
 
-	@GetMapping("/size/list")
+	@GetMapping("/capacity/list")
 	@ResponseBody
 	public List selectAll() {
-		return sizeService.selectAll();
+		return capacityService.selectAll();
 	}
 }

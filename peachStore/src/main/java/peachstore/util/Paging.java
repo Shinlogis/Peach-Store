@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
-@Data
-@Component
+@Data	
 public class Paging {
 	private int totalRecord;
 	private int pageSize=10;

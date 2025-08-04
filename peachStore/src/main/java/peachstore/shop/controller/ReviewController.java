@@ -1,5 +1,6 @@
 package peachstore.shop.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +66,7 @@ public class ReviewController {
 		User user = (User)session.getAttribute("user");
 		review.setUser(user);
 		
-		List reviewList = reviewService.selectByUserId(user);
+		List<Review> reviewList = reviewService.selectByUserId(user);
 		
 		log.debug("리뷰 쓸 user_id 는 " + user.getUser_id());
 		ModelAndView mav = new ModelAndView();
@@ -75,7 +76,41 @@ public class ReviewController {
 		return mav;
 	}
 	
+	//수정 폼
+	@GetMapping("review/updateform")
+	public ModelAndView updateForm(int reviewId) {
+		
+		Review review = reviewService.findById(reviewId);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("review", review);
+		mav.setViewName("/shop/review/update");
+		
+		return mav;
+	}
 	
+	
+	//수정
+	@PostMapping("/review/update")
+	@ResponseBody
+	public String update(Review review, HttpServletRequest request) {
+		
+		String savePath = request.getServletContext().getRealPath("/data");
+		reviewService.updateReview(review, savePath);
+		
+		return "ok";
+	}
+	
+	
+	//삭제
+	@PostMapping("review/delete")
+	public String delete(Review review, HttpServletRequest request) {
+		
+		String savePath = request.getServletContext().getRealPath("/data");
+		reviewService.remove(review, savePath);
+		
+		return "redirect:/shop/review/list";
+	}
 	
 	
 	

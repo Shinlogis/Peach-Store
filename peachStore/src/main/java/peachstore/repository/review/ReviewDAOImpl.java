@@ -59,9 +59,29 @@ public class ReviewDAOImpl implements ReviewDAO{
 		}
 	}
 
+	//회원별 리뷰 조회
 	@Override
 	public List selectByUserId(User user) {
-		return sqlSessionTemplate.selectList("Review.selectAll",user);
+		return sqlSessionTemplate.selectList("Review.selectByUser",user);
 	}
 
+	//리뷰 수정
+	@Override
+	public void updateReview(Review review)throws ReviewException {
+		int result = sqlSessionTemplate.update("Review.updateReview", review);
+		if(result <1) {
+			throw new ReviewException("리뷰 수정 실패");
+		}
+		
+				
+	}
+
+
+		
+	
+	
+
+	
+	
+	
 }

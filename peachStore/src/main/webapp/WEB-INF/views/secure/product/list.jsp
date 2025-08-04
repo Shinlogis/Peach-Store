@@ -1,3 +1,6 @@
+<%@page import="peachstore.domain.ProductCapacity"%>
+<%@page import="peachstore.service.product.CapacityServiceImpl"%>
+<%@page import="peachstore.domain.Capacity"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="peachstore.domain.ProductImg"%>
 <%@page import="peachstore.util.Paging"%>
@@ -16,7 +19,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>PeachStore 관리자</title>
 	<%@ include file="../inc/head_link.jsp" %>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -91,6 +94,8 @@
                       <th>가격</th>
                       <th>색상</th>
                       <th>사이즈</th>
+                      <th>용량</th>                      
+                      <th>관리</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -143,6 +148,22 @@
 					      }
 					      out.print(sb.toString());
 					    %>
+					  </td>
+					  <td>
+					    <%
+					      List<ProductCapacity> capacityList = product.getProductCapacities();
+					      sb.setLength(0);
+					      for (int j = 0; j < capacityList.size(); j++) {
+					        Capacity capacity = capacityList.get(j).getCapacity();
+					        sb.append(capacity.getCapacity_name());
+					        if (j < capacityList.size() - 1) sb.append(", ");
+					      }
+					      out.print(sb.toString());
+					    %>
+					  </td>
+					  <td>
+						<a href="/admin/product/editform?product_id=<%=product.getProductId()%>" class="btn btn-sm btn-warning">수정</a>
+						<button class="btn btn-sm btn-danger" onclick="deleteProduct(<%=product.getProductId()%>)">삭제</button>
 					  </td>
 					</tr>
 					<%
@@ -354,6 +375,22 @@
 	   });
 	   
 	});
+	function deleteProduct(productId) {
+	    if (!confirm("정말 이 상품을 삭제하시겠습니까?")) return;
+
+	    $.ajax({
+	      url: '/admin/product/delete',
+	      type: 'POST',
+	      data: { product_id: productId },
+	      success: function() {
+	        alert("삭제 성공");
+	        location.reload();
+	      },
+	      error: function(xhr) {
+	        alert("삭제 실패: " + xhr.responseText);
+	      }
+	    });
+	  }
 	</script>
 	
 </body>

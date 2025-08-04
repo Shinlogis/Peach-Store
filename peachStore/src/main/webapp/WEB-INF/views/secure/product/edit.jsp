@@ -77,29 +77,30 @@
             <h3 class="card-title">상품 상세</h3>
           </div>
           <form id="form1">
+          	<input type="hidden" name="productId" value="<%= product.getProductId() %>">
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>상위 카테고리</label>
-                    <select class="form-control" id="topcategory"></select>
+                    <select class="form-control" name="productTopcategory_id" id="topcategory"></select>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>하위 카테고리</label>
-                    <select class="form-control" name="subCategory.subcategory_id" id="subcategory"></select>
+                    <select class="form-control" name="productSubcategory_id" id="subcategory"></select>
                   </div>
                 </div>
               </div>
 
               <div class="form-group">
                 <label>상품코드</label>
-                <input type="text" class="form-control" name="product_code" value="<%= product.getProductCode() %>">
+                <input type="text" class="form-control" name="productCode" value="<%= product.getProductCode() %>">
               </div>
               <div class="form-group">
                 <label>상품명</label>
-                <input type="text" class="form-control" name="product_name" value="<%= product.getProductName() %>">
+                <input type="text" class="form-control" name="productName" value="<%= product.getProductName() %>">
               </div>
               <div class="form-group">
                 <label>가격</label>
@@ -147,8 +148,9 @@
               </div>
             </div>
             <div class="card-footer">
-              <button type="button" class="btn btn-primary" id="bt_list">목록보기</button>
-            </div>
+			  <button type="button" class="btn btn-success" id="bt_edit">수정하기</button>
+			  <button type="button" class="btn btn-secondary" id="bt_list">목록보기</button>
+			</div>
           </form>
         </div>
       </div>
@@ -189,8 +191,11 @@
 
   $("#bt_list").click(() => location.href = "/admin/product/list");
 
+  $("#bt_edit").click(() => edit());
+  
   let selectedFile = [];
-
+  let deletedFilenames = [];
+  
   $("#photo").change(function(e){
     let files = e.target.files;
     for(let i=0; i<files.length; i++){
@@ -216,10 +221,59 @@
 	      const file = new File([result], filename, {type: result.type});
 	      const reader = new FileReader();
 	      reader.onload = function(e){
-	        //console.log("Loaded image src:", e.target.result); // 디버깅용 출력
-	        new ProductImg(document.getElementById("preview"), file, e.target.result, 100, 100);
-	      }
+	        const container = document.getElementById("preview");
+
+	        const wrapper = document.createElement("div");
+	        wrapper.style.position = "relative";
+	        wrapper.style.display = "inline-block";
+	        wrapper.style.margin = "5px";
+
+	        new ProductImg(wrapper, file, e.target.result, 100, 100);
+
+	        const delBtn = document.createElement("button");
+	        delBtn.innerText = "X";
+	        delBtn.style.position = "absolute";
+	        delBtn.style.top = "0";
+	        delBtn.style.right = "0";
+	        delBtn.style.backgroundColor = "red";
+	        delBtn.style.color = "white";
+	        delBtn.onclick = () => {
+	          wrapper.remove(); // 화면에서 제거
+	          deletedFilenames.push(filename); // 삭제 리스트에 추가
+	        };
+
+	        wrapper.appendChild(delBtn);
+	        container.appendChild(wrapper);
+	      };
 	      reader.readAsDataURL(file);
+	    }
+	  });
+	}
+	
+  function edit(){
+	  let formData = new FormData(document.getElementById("form1"));
+
+	  formData.delete("photo");
+	  for(let i=0; i<selectedFile.length; i++){
+	    formData.append("photo", selectedFile[i]);
+	  }
+
+	  for (let filename of deletedFilenames) {
+	    formData.append("deleteFiles", filename); 
+	  }
+
+	  $.ajax({
+	    url: "/admin/product/edit",
+	    type: "post",
+	    data: formData,
+	    processData: false,
+	    contentType: false,
+	    success: function(){
+	      alert("수정 성공");
+	      location.href = "/admin/product/list";
+	    },
+	    error: function(err){
+	      console.error("❌ 수정 실패", err);
 	    }
 	  });
 	}

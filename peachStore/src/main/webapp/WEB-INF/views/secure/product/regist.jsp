@@ -99,6 +99,12 @@
                        </select>
 	              </div>
 	              
+	               <div class="form-group">
+				  	   <label for="size">용량 선택</label>
+                       <select class="form-control" name="capacity" id="capacity" multiple="multiple">
+                       </select>
+	              </div>
+	              
                   <div class="form-group">
 					<!-- 편집 시작 -->
 			      	<textarea id="summernote" name="detail"></textarea>
@@ -161,6 +167,8 @@
 				tag+="<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
 			}else if(obj=="#size"){
 				tag+="<option value='"+list[i].size_id+"'>"+list[i].size_name+"</option>";
+			}else if(obj=="#capacity"){
+				tag+="<option value='"+list[i].capacity_id+"'>"+list[i].capacity_name+"</option>";
 			}
 		}
 		
@@ -221,6 +229,20 @@
 		});
 	}
 	
+	function getCapacityList(){
+		$.ajax({
+			url:"/admin/capacity/list",
+			type:"get",
+			success:function(result, status, xhr){ //200번대의 성공 응답 시, 이 함수 실행
+				console.log("서버로부터 받은 결과는 ", result);
+				//화면에 출력하기 
+				printCategory("#capacity",result);
+			},
+			error:function(xhr, status, err){
+			}
+		});
+	}
+	
 	$(()=>{
 	   $('#summernote').summernote({
 		height:200,
@@ -231,6 +253,7 @@
 	   getTopCategory(); //상위 카테고리 가져오기
 	   getColorList(); //색상 목록 가져오기
 	   getSizeList(); //사이즈 목록 가져오기
+	   getCapacityList();
 	   
 	   //파일 컴포넌트의 값 변경 시 이벤트 연결
 	   $("#photo").change(function(e){
@@ -264,6 +287,8 @@
 		   const subcategory = $("#subcategory").val(); 
 		   const color = $("#color").val();
 		   const size = $("#size").val();
+		   const capacity = $("#capacity").val();
+		   
 		   if (!topcategory) {
 			     alert("⚠️ 상위 카테고리를 선택해주세요.");
 			     return;
@@ -296,6 +321,11 @@
 		     return;
 		   }
 		   
+		   if (!capacity || capacity.length === 0) {
+			  alert("⚠️ 용량을 하나 이상 선택해주세요.");
+			  return;
+		   }
+		   
 		   let formData = new FormData(document.getElementById("form1"));
 		   formData.delete("photo");
 		   
@@ -312,6 +342,7 @@
 			   contentType: false,
 			   success: function (result) {
 			       alert("✅ 등록 성공");
+			       location.href = "/admin/product/list";
 			   },
 			   error: function (xhr) {
 			       alert("❌ 등록 실패");
