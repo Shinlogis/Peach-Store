@@ -24,5 +24,9 @@ public class CartItemDAOImpl implements CartItemDAO{
 		sqlSessionTemplate.insert("CartItem.insertCartItem", cartItem);
 	}
 
+	@Override
+	public void deleteCartItem(int cart_item_id) {
+		sqlSessionTemplate.delete("CartItem.deleteCartItem", cart_item_id);
+	}
 	
 }

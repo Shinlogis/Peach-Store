@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import antlr.TokenWithIndex;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Cart;
 import peachstore.domain.CartItem;
@@ -91,5 +91,12 @@ public class CartController {
 		cartItemService.insertCartItem(cartItem);
 
 		return "redirect:/shop/user/cart";
-	} 
+	}
+	
+	@PostMapping("/cart/delete")
+	public String deleteCartItem(@RequestParam("cartItemId")int cart_item_id) {
+		cartItemService.deleteCartItem(cart_item_id);
+		return "redirect:/shop/user/cart";
+	}
+	
 }
