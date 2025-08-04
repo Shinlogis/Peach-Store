@@ -21,8 +21,31 @@
 			select="SnsProvider.selectAll"/>
 	</resultMap>
 	
+	
+	<resultMap type="User" id="userSimpleMap">
+		<id column="user_id" property="user_id"/>
+		<result column="id" property="id"/>
+		<result column="email" property="email"/>
+		<result column="salt" property="salt"/>
+		<result column="hashedpassword" property="hashedpassword"/>
+		<result column="user_name" property="user_name"/>
+		<result column="tel" property="tel"/>
+		<result column="address" property="address"/>
+		<result column="is_active" property="is_active"/>
+		<result column="created_at" property="created_at"/>
+		<association column="user_grade_id" property="user_grade"
+		    javaType="UserGrade"
+		    select="UserGrade.selectById"/>
+	</resultMap>
+	
+	<!-- 로그인 id로 회원 조회 -->
 	<select id="selectById" resultType="User" parameterType="String"> 
 		select * from user where id = #{id}
+	</select>
+	
+	<!-- pk로 회원 조회 -->
+	<select id="selectByUserId" resultMap="userSimpleMap" parameterType="int"> 
+		select * from user where user_id = #{userId}
 	</select>
 	
 	<select id="selectAll" resultMap="userResultMap">
@@ -53,4 +76,13 @@
 		inner join user_grade ug on u.user_grade_id = ug.user_grade_id
 		inner join sns_provider sp on u.sns_provider_id = sp.sns_provider_id
 	</select>
+	
+	<!-- update -->
+	<!-- parameterType을 User로 해놓았으니, 추후 수정할 컬럼이 더 생길 경우 set에 추가만 해주면 됩니다 -->
+	<update id="update" parameterType="User">
+		update user
+		set 
+			user_grade_id = #{user_grade.userGradeId}
+		where user_id = #{user_id}
+	</update>
 </mapper>

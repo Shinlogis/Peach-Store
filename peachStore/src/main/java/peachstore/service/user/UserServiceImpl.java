@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
+import peachstore.domain.UserGrade;
 import peachstore.exception.UserException;
 import peachstore.repository.user.UserDAO;
 import peachstore.util.PasswordUtil;
@@ -68,6 +69,22 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> selectAllJoin() {
 		return userDAO.selectAllJoin();
+	}
+
+	/**
+	 * pk로 유저 조회
+	 */
+	@Override
+	public User selectByUserId(int userId) {
+		return userDAO.selectByUserId(userId);
+	}
+
+	@Override
+	public void update(User user) throws UserException{
+		 int result = userDAO.update(user);
+		 if (result == 0) {
+			 throw new UserException("업데이트 실패");
+		 }
 	}
 
 }

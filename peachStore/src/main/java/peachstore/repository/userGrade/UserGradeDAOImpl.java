@@ -1,6 +1,7 @@
 package peachstore.repository.userGrade;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -52,6 +53,21 @@ public class UserGradeDAOImpl implements UserGradeDAO{
 		int result = sqlSessionTemplate.delete("UserGrade.delete", userGradeId);
 		log.info("delete id={}", userGradeId);
 		return result;
+	}
+
+	@Override
+	public List<UserGrade> gradeSelectByAmount() {
+		List<UserGrade> list = sqlSessionTemplate.selectList("UserGrade.gradeSelectByAmount");
+        log.debug("gradeSelectByAmount - listCount: {}", list.size());
+        return list;
+	}
+
+	@Override
+	public Long selectTotalAmountByUserId(int userId) {
+		 log.debug("selectTotalAmountByUser 진입");
+		Long result = sqlSessionTemplate.selectOne("UserGrade.selectTotalAmountByUser", userId);
+        log.debug("selectTotalAmountByUser - result: {}", result);
+        return result;
 	}
 
 }

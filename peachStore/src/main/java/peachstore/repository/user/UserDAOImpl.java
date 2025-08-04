@@ -5,15 +5,25 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
 
+import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
+import peachstore.domain.UserGrade;
 import peachstore.exception.UserException;
 
+@Slf4j
 @Repository
 public class UserDAOImpl implements UserDAO{
+
+    private final PlatformTransactionManager platformTransactionManager;
 	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+
+    UserDAOImpl(PlatformTransactionManager platformTransactionManager) {
+        this.platformTransactionManager = platformTransactionManager;
+    }
 	
 	@Override
 	public User selectById(String id) {
@@ -59,5 +69,15 @@ public class UserDAOImpl implements UserDAO{
 	public List<User> selectAllJoin() {
 		return sqlSessionTemplate.selectList("User.selectAllJoin");
 	}
-	
+
+	@Override
+	public User selectByUserId(int userId) {
+		log.debug("selectByUserId - userId: {}", userId);
+		return sqlSessionTemplate.selectOne("User.selectByUserId", userId);
+	}
+
+	@Override
+	public int update(User user) {
+		return sqlSessionTemplate.update("User.update", user);
+	}
 }
