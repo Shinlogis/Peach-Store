@@ -681,14 +681,6 @@ VALUES
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
 
-INSERT INTO order_receipt (order_status, user_id)
-VALUES  ('상품 준비 전', 16),
- ('상품 준비 중', 16),
-('발송완료', 16),
- ('상품 준비 중', 16),
-('발송완료', 16);
-
-
 INSERT INTO product (product_code, product_name, price, introduce, detail, product_subcategory_id)
 VALUES
    ('P14P-BLK', 'pPhone 14 Pro 블랙', 1350000, '고성능 스마트폰', '6.1인치 디스플레이 / A16 Bionic', 1),
