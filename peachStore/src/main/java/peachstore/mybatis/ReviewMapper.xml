@@ -133,12 +133,61 @@
 	    WHERE r.review_id = #{reviewId}
 	</select>
 	
+	<!--  회원별 리뷰 조회 -->
+	<select id="selectByUser" resultMap="ReviewMap" parameterType="User">
+		SELECT
+			r.review_id,
+			r.content,
+			r.regdate,
+			r.status,
+	
+			u.user_id AS user_id,
+			u.id AS id,
+			u.email AS email,
+			u.user_name AS user_name,
+	
+			ug.user_grade_id AS userGradeId,
+			ug.user_grade_name AS userGradeName,
+	
+			od.order_detail_id AS orderDetailId,
+			
+			s.snapshot_id AS snapshotId,
+			s.product_name AS product_name,
+			s.price AS price,
+			s.size AS size,
+			s.capacity AS capacity,
+			s.color AS color,
+			s.engraving AS engraving
+
+		FROM review r
+		JOIN user u 
+			ON r.user_id = u.user_id
+		JOIN user_grade ug 
+			ON u.user_grade_id = ug.user_grade_id
+		JOIN order_detail od 
+			ON r.order_detail_id = od.order_detail_id
+		JOIN snapshot s
+			ON od.snapshot_id = s.snapshot_id
+			
+		<where>
+			<if test="user_id != null and user_id != ''">
+				and u.user_id = #{user_id}
+			</if>
+			AND r.status = '활성'
+		</where>
+		
+		order by r.regdate desc
+	</select>
+	
+	
+	
 	<delete id="delete" parameterType="int">
 		delete 
 		from review 
 		where review_id = #{reviewId}
 	</delete>
 	
+	<!-- 리뷰 등록 -->
 	<insert id="insert" parameterType="Review">
 		insert into review (content, status, user_id, order_detail_id) values (#{content},'활성', #{user.user_id}, #{orderDetail.order_detail_id})
 	
@@ -146,6 +195,11 @@
 			select last_insert_id() as review_id			
 		</selectKey>
 	</insert>
+	
+	<!-- 리뷰 내용 수정 -->
+	<update id="updateReview" parameterType="Review">
+		update review set content=#{content}, status = '활성' where review_id = #{reviewId}
+	</update>
 
 	<!-- 상품 id로 조회 -->
 	<select id="selectByProductId" parameterType="int" resultMap="ReviewMap">

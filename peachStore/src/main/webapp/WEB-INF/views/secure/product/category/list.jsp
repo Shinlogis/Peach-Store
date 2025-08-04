@@ -494,9 +494,11 @@
 		// 기존의 photo 대신, selectedFile 배열로 대체
 		formData.delete("photo");
 		let files = selectedFiles["#preview_top_edit_image"];
-		for (let i = 0; i < files.length; i++) {
-		    formData.append("photo", files[i]);
-		}
+		if (files && files.length > 0) {
+    	    for (let i = 0; i < files.length; i++) {
+    	        formData.append("photo", files[i]);
+    	    }
+    	}
 		// 나머지 데이터 설정
 	    formData.set("productTopcategoryId", $("#topCategoryEditModal").data("id"));
     	       
@@ -621,12 +623,14 @@
     	let modal = $("#subCategoryEditModal");
     	
     	let formData = new FormData(document.getElementById("topCategoryEditForm"));
-    	
     	formData.delete("photo");
-		let files = selectedFiles["#preview_sub_edit_image"];
-		for (let i = 0; i < files.length; i++) {
-		    formData.append("photo", files[i]);
-		}
+    	let files = selectedFiles["#preview_sub_edit_image"];
+    	if (files && files.length > 0) {
+    	    for (let i = 0; i < files.length; i++) {
+    	        formData.append("photo", files[i]);
+    	    }
+    	}
+
 		// 나머지 데이터 설정
 	    formData.set("productSubcategoryId", $("#subCategoryEditModal").data("id"));
 	    formData.set("productSubcategoryName", $("#editSubCategoryName").val());
@@ -670,10 +674,10 @@
             data: { productSubcategoryId: id },
             success: function (result) {
                 if (result.success) {
-                    alert("변경 성공");
+                    alert(result.message);
                     location.reload();
                 } else {
-                    alert("변경 실패");
+                    alert(result.message);
                 }
             },
             error: function () {

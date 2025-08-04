@@ -22,9 +22,17 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 <%@ include file="../inc/head_link.jsp"%>
 <link rel="stylesheet" href="/static/shop/css/mypage.css">
 <style type="text/css">
-#img {
-	width: 50px;
-	height: 50px;
+ .review-content p {
+    font-size: 16px !important;
+    color: black !important;
+}
+
+.btn-secondary{
+	height: 30px; !important;
+	width: 50px; !important;
+	font-size: 13px; !important;
+	text-align: center; !important;
+	margin-top: 20px;
 }
 </style>
 
@@ -94,8 +102,7 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 														}
 														%>
 													</div> <!-- 내용 -->
-													<div
-														style="white-space: pre-wrap; font-size: 20px !important; color: black;">
+													<div class="review-content">
 														<%=inquiry.getInquiry_text()%>
 													</div>
 													

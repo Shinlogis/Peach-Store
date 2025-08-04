@@ -21,10 +21,6 @@ public class ColorController {
 	@Autowired
 	private ColorService colorService;
 
-	/**
-	 * 색상 전체 목록 조회
-	 * @return 색상 리스트(JSON 배열 형태)
-	 */
 	@GetMapping("/color/list")
 	@ResponseBody
 	public List selectAll() {

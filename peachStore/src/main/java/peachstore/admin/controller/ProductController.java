@@ -1,6 +1,5 @@
 package peachstore.admin.controller;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +12,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
+import peachstore.domain.Capacity;
 import peachstore.domain.Color;
 import peachstore.domain.Product;
+import peachstore.domain.ProductCapacity;
 import peachstore.domain.ProductColor;
 import peachstore.domain.ProductSize;
+import peachstore.domain.ProductSubcategory;
 import peachstore.domain.Size;
 import peachstore.service.product.ProductService;
 import peachstore.service.topcategory.ProductTopcategoryService;
@@ -43,16 +47,8 @@ public class ProductController {
     @Autowired	
 	private ProductTopcategoryService ProductTopCategoryService;
     
-	//페이징 처리 객체를 보유 
-	@Autowired
 	private Paging paging;
 
-    /**
-     * 상품 등록 페이지 진입
-     * 상품 등록 화면에 진입할 때,
-     * 상위 카테고리 등의 데이터를 초기 로딩하기 위한 페이지로 이동.
-     * @return 상품 등록 JSP 경로
-     */
 	@RequestMapping(value="/product/registform")
 	public String regsitForm() {
 		
@@ -62,9 +58,10 @@ public class ProductController {
 	//상품 등록 요청 처리
 	@PostMapping("/product/regist")
     @ResponseBody
-    public ResponseEntity<String> registform(Product product, int[] color, int[] size, HttpServletRequest request) {
+    public ResponseEntity<String> registform(Product product, int[] color, int[] size, int[] capacity, HttpServletRequest request) {
     	List<ProductColor> colorList = new ArrayList<>();
 		List<ProductSize> sizeList = new ArrayList<>();
+		List<ProductCapacity> capacityList = new ArrayList<>();
 		
 		for(int c : color) {
 			Color cc = new Color();
@@ -82,9 +79,18 @@ public class ProductController {
 			sizeList.add(productSize);
 		}
 		
+		for(int cp : capacity) {
+			Capacity capa = new Capacity();
+			capa.setCapacity_id(cp);
+			ProductCapacity productCapacity = new ProductCapacity();	
+			productCapacity.setCapacity(capa);	
+			capacityList.add(productCapacity);
+		}
+		
 		//매핑완료 후, Product 에 대입 
 		product.setProductColors(colorList);
 		product.setProductSizes(sizeList);
+		product.setProductCapacities(capacityList);
     	
 		String savePath = request.getServletContext().getRealPath("/data");
 		log.debug("에닮예닮예닮 "+savePath);
@@ -102,15 +108,16 @@ public class ProductController {
     
 	@GetMapping("/product/list")
 	public ModelAndView getList(HttpServletRequest request) {
-	    int totalRecord = productService.getTotalRecord(); // 1. 전체 상품 수 가져오기
-	    paging.init(totalRecord, request);                 // 2. 먼저 paging 계산
-	    log.error("📦 [Controller] paging.pageSize after init = {}", paging.getPageSize());
-	    
-	    int startIndex = paging.getStartIndex();           // 3. 이제 값이 정확함
-	    int pageSize = paging.getPageSize();
-	    
-	    List<Product> productList = productService.selectAll(startIndex, pageSize); // 4. 데이터 조회
+	    int totalRecord = productService.getTotalRecord(); 
 
+	    Paging paging = new Paging();
+	    paging.init(totalRecord, request);
+
+	    int currentPage = paging.getCurrentPage(); // ex) 2
+	    int pageSize = paging.getPageSize();       // ex) 10
+
+	    List<Product> productList = productService.selectAll(currentPage, pageSize); 
+	    
 	    ModelAndView mav = new ModelAndView();
 	    mav.addObject("productList", productList);
 	    mav.addObject("paging", paging);
@@ -118,6 +125,7 @@ public class ProductController {
 
 	    return mav;
 	}
+	
 	//상세요청에 대한 처리
 	@GetMapping("/product/detail")
 		public String getDetail(int product_id, Model model) {
@@ -126,7 +134,105 @@ public class ProductController {
 			
 			//4단계: 저장하기
 			model.addAttribute("product", product);
+			  log.debug("📦 productCapacities size = {}", product.getProductCapacities().size()); // ← 상품 등록 직후
 			return "/product/detail";
 		}
+	
+	@GetMapping("/product/editform")
+	public String editForm(int product_id, Model model) {
+	    Product product = productService.select(product_id);
+	    model.addAttribute("product", product);
+	    return "/product/edit"; // JSP 파일 위치
+	}
+	
+	@PostMapping("/product/edit")
+	@ResponseBody
+	public ResponseEntity<String> edit(
+	    @RequestParam("productId") Integer productId,
+	    @RequestParam("productCode") String productCode,
+	    @RequestParam("productName") String productName,
+	    @RequestParam("price") int price,
+	    @RequestParam("introduce") String introduce,
+	    @RequestParam("detail") String detail,
+	    @RequestParam("productSubcategory_id") int productSubcategoryId,
+	    @RequestParam("color") int[] color,
+	    @RequestParam("size") int[] size,
+	    @RequestParam("capacity") int[] capacity,
+	    @RequestParam(value = "photo", required = false) MultipartFile[] photo,
+	    @RequestParam(value = "deleteFiles", required = false) List<String> deleteFiles, // ✅ 
+	    HttpServletRequest request
+	) {
 
+	    // 1. Product 조립
+	    Product product = new Product();
+	    product.setProductId(productId);
+	    product.setProductCode(productCode);
+	    product.setProductName(productName);
+	    product.setPrice(price);
+	    product.setIntroduce(introduce);
+	    product.setDetail(detail);
+
+	    // 2. 하위 카테고리
+	    ProductSubcategory sub = new ProductSubcategory();
+	    sub.setProductSubcategoryId(productSubcategoryId);
+	    product.setProductSubcategory(sub);
+
+	    // 3. 옵션들 조립
+	    List<ProductColor> colorList = new ArrayList<>();
+	    if (color != null) {
+	        for (int c : color) {
+	            Color cc = new Color();
+	            cc.setColor_id(c);
+	            ProductColor productColor = new ProductColor();
+	            productColor.setColor(cc);
+	            colorList.add(productColor);
+	        }
+	    }
+
+	    List<ProductSize> sizeList = new ArrayList<>();
+	    if (size != null) {
+	        for (int s : size) {
+	            Size ss = new Size();
+	            ss.setSize_id(s);
+	            ProductSize productSize = new ProductSize();
+	            productSize.setSize(ss);
+	            sizeList.add(productSize);
+	        }
+	    }
+
+	    List<ProductCapacity> capacityList = new ArrayList<>();
+	    if (capacity != null) {
+	        for (int cp : capacity) {
+	            Capacity cc = new Capacity();
+	            cc.setCapacity_id(cp);
+	            ProductCapacity productCapacity = new ProductCapacity();
+	            productCapacity.setCapacity(cc);
+	            capacityList.add(productCapacity);
+	        }
+	    }
+
+	    product.setProductColors(colorList);
+	    product.setProductSizes(sizeList);
+	    product.setProductCapacities(capacityList);
+	    product.setPhoto(photo);
+
+	    // 4. 경로 처리
+	    String savePath = request.getServletContext().getRealPath("/data");
+
+	    try {
+	    	productService.edit(product, photo, savePath, deleteFiles);
+	        return ResponseEntity.ok("상품 수정 성공");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(500).body("상품 수정 실패: " + e.getMessage());
+	    }
+	}
+	
+	 @PostMapping("/product/delete")
+	    public String deleteProduct(@RequestParam("product_id") int productId) {
+	        productService.softDelete(productId);
+	        return "redirect:/admin/product/list";
+	    }
+
+	
 }

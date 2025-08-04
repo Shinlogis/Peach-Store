@@ -18,5 +18,9 @@
 		<select id="selectById" parameterType="int" resultMap="colorMap">
 			select product_color_id, color_id, product_id from product_color where product_color_id = #{product_color_id}
 		</select>
+		
+		<delete id="deleteByProductId" parameterType="int">
+		  delete from product_color where product_id = #{productId}
+		</delete>
 
 </mapper>

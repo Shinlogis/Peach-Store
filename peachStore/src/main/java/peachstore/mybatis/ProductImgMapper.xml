@@ -10,4 +10,7 @@
 		select product_img_id, product_id, filename from product_img where product_id=#{productId}
 	</select>
 	
+	<delete id="deleteByFilename" parameterType="String">
+	  DELETE FROM product_img WHERE filename = #{filename}
+	</delete>
 </mapper>

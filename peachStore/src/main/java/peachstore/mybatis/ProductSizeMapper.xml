@@ -15,6 +15,10 @@
 		select product_size_id, product_id, size_id from product_size where product_id=#{productId}
 	</select>
 	
+	<delete id="deleteByProductId" parameterType="int">
+		  delete from product_size where product_id = #{productId}
+	</delete>
+	
 	<select id="selectById" parameterType="int" resultMap="sizeMap"> 
 		select product_size_id, product_id, size_id from product_size where product_size_id=#{product_size_id}
 	</select>

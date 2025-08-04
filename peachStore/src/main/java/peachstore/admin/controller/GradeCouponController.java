@@ -33,5 +33,6 @@ public class GradeCouponController {
 		model.addAttribute(coupons);
 		return "/coupon/list";
 	}
+	
 
 }
