@@ -1,6 +1,6 @@
 package peachstore.exception;
 /**
- * 상품 예외처리
+ * 상품 용량 예외처리
  * @author 김지민 
  * @since 2025-07-29
  */

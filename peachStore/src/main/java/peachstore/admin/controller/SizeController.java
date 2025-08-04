@@ -21,10 +21,6 @@ public class SizeController {
 	@Autowired
 	private SizeService sizeService;
 
-	/**
-	 * 사이즈 전체 목록 조회
-	 * @return 사이즈 리스트(JSON 배열 형태)
-	 */
 	@GetMapping("/size/list")
 	@ResponseBody
 	public List selectAll() {

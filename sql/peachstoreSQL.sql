@@ -167,6 +167,7 @@ CREATE TABLE PRODUCT_SUBCATEGORY(
 -- 제품 테이블 생성(CREATE TABLE product)
 CREATE TABLE product(
    product_id int PRIMARY KEY AUTO_INCREMENT
+   , is_deleted BOOLEAN DEFAULT FALSE
    , product_code varchar(100) NOT NULL
    , product_name varchar(100) NOT NULL
    , price int NOT NULL
