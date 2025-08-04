@@ -123,6 +123,25 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 														
 												</td>
 											</tr>
+											
+											<!-- 답변 내용 표시 -->
+											<% if (inquiry.getAnswer_text() != null && !inquiry.getAnswer_text().trim().isEmpty()) {%>
+											    <tr>
+											        <td colspan="5" style="padding-top: 20px;">
+											            <table style="width: 100%; border-top: 1px solid #ddd; padding-top: 10px;">
+											                <tr>
+											                    <td style="font-weight: bold; font-size: 16px; padding: 10px 0;">📢 관리자 답변</td>
+											                </tr>
+											                <tr>
+											                    <td style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
+											                        <%=inquiry.getAnswer_text()%>
+											                    </td>
+											                </tr>
+											            </table>
+											        </td>
+											    </tr>
+											<% }%>
+											
 										</tbody>
 									</table>
 								</div>

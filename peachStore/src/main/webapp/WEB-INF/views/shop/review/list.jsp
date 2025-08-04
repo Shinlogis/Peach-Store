@@ -92,7 +92,6 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 													         style="width: 20px; height: 20px; margin-right: 5px;">
 													    <div><%=review.getOrderDetail().getSnapShot().getProduct_name() %></div>
 													  </div>
-													  <div><%=review.getReviewId() %></div>
 													  
 													  <div style="display: flex; gap:10px">
 													  <div><%=review.getOrderDetail().getSnapShot().getColor() %></div>
