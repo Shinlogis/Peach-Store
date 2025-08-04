@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +24,7 @@ import com.google.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
+import peachstore.domain.UserGrade;
 import peachstore.service.cart.CartService;
 import peachstore.service.user.SnsProviderService;
 import peachstore.service.user.UserService;
@@ -80,15 +80,16 @@ public class UserController {
 		return mav;
 	}
 
+	//회원가입 요청 처리
 	@PostMapping("/user/join")
 	public String userJoin(User user,String password) {
-		
 		userService.userJoin(user);
 		log.debug("새로 생성되는 유저의 pk는"+user.getUser_id());
 		cartService.createCart(user.getUser_id());
 		return "redirect:/shop/main";
 	}
 	
+	//유저 아이디 중복 체크
     @GetMapping("/user/checkid")
     @ResponseBody
     public String checkId(@RequestParam("id") String id) {
@@ -100,8 +101,7 @@ public class UserController {
         }
     }
     
-	// 가입 회원 로그인 로직
-    
+	// 홈페이지 회원 로그인 로직
 	@PostMapping("/user/login")
 	public String homepageLogin(User user, HttpSession session) {
 		log.debug("user 레퍼런스주소" + user);
@@ -121,6 +121,34 @@ public class UserController {
 			e.printStackTrace();
 			return "redirect:/shop/user/error";
 		}
+	}
+	//유저 정보 수정 페이지 호출
+	@GetMapping("/user/editform")
+	public String getEditForm() {
+		return "shop/user/useredit";
+	}
+	
+	//유저 정보 수정 로직
+	@PostMapping("/user/edit")
+	public String userEdit(String user_tel, String user_address ,int user_grade_id, HttpSession session) {
+	    User obj = (User) session.getAttribute("user");
+
+	    // 등급 객체가 null이면 새로 만들고 id만 세팅
+	    if (obj.getUser_grade() == null) {
+	        UserGrade grade = new UserGrade();
+	        grade.setUserGradeId(user_grade_id);
+	        obj.setUser_grade(grade);
+	    } else {
+	        obj.getUser_grade().setUserGradeId(user_grade_id);
+	    }
+
+	    obj.setTel(user_tel);
+	    obj.setAddress(user_address);
+
+	    userService.update(obj);
+
+	    session.setAttribute("user", obj);
+	    return "redirect:/shop/user/editform";
 	}
 
 	//에러페이지 리턴

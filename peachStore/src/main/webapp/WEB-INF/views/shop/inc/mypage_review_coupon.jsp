@@ -26,7 +26,7 @@
 					<div class="card review-card">
 						<div class="review-header">
 							<h5 class="grade-title" style="margin-top: 20px; padding-left: 20px;">
-							<a href="#" style="color: white;">리뷰</a></h5>
+							<a href="#" style="color: white;">나의 리뷰</a></h5>
 						</div>
 						<div class="card-body">
 							<table>
