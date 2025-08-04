@@ -11,6 +11,8 @@
 			select="ProductColor.selectById"/>
 		<association column="product_size_id" property="product_size" javaType="ProductSize"
 			select="ProductSize.selectById"/>
+		<association column="product_capacity_id" property="product_capacity" javaType="ProductCapacity"
+			select="ProductCapacity.selectById"/>
 	</resultMap>
 	
 	<select id="selectById" resultMap="customOptionMap">
@@ -18,7 +20,7 @@
 	</select>
 	
 	<insert id="insert" parameterType="CustomOption">
-		insert into custom_option(product_color_id,product_size_id) values(#{product_color.product_color_id},#{product_size.product_size_id})
+		insert into custom_option(product_color_id,product_size_id,product_capacity_id) values(#{product_color.product_color_id},#{product_size.product_size_id},#{product_capacity.product_capacity_id})
 		<selectKey keyColumn="custom_option_id" keyProperty="custom_option_id" resultType="int" order="AFTER">
 			select last_insert_id() as custom_option_id
 		</selectKey>
