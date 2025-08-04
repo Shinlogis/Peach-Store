@@ -56,9 +56,13 @@ public class LoginCheckFilter implements Filter{
 				uri.equals("/shop/user/login")||
 				uri.equals("/shop/product/list")||
 				uri.equals("/shop/product")||
-				uri.equals("/shop/product/detail")
+				uri.equals("/shop/product/detail")||
 				
-				
+				 // admin용
+				uri.equals("/admin/main")||
+			    uri.equals("/admin/user/loginform") ||
+			    uri.equals("/admin/user/login") ||
+			    uri.equals("/admin/user/logout") 
 				
 				
 			) {
@@ -71,13 +75,20 @@ public class LoginCheckFilter implements Filter{
 			HttpSession session = request.getSession(false);//기존의 세션을 얻어옴(false), true : 새로운 세션생성
 			boolean isLoggined = (session != null && session.getAttribute("user") != null); 
 				
-			if(isLoggined == false) {//로그인 하지 않은 경우엔 강제로 loginform만나게 하자.
-				HttpServletResponse response=(HttpServletResponse)res;
-				response.sendRedirect("/shop/user/loginform");
-			}else {
-				chain.doFilter(req,res);
+			if (!isLoggined) {
+			    HttpServletResponse response = (HttpServletResponse) res;
+
+			    // admin 경로면 admin 로그인폼으로, 아니면 shop 로그인폼으로
+			    if (uri.startsWith("/admin/")) {
+			        response.sendRedirect("/admin/user/loginform");
+			    } else {
+			        response.sendRedirect("/shop/user/loginform");
+			    }
+			    return; 
+				} else {
+				    chain.doFilter(req, res);
+				}
 			}
-		}
 
 		@Override
 		public void destroy() {

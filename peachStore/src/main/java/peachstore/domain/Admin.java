@@ -11,12 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Admin {
-
-	private int adminId; // pk
-	private String email;
-	private String id; // 로그인 id
-	private String password;
-	private String name;
-	private String role;
-	private boolean isActive;
+    private int adminId; 
+    private String email;
+    private String password;
+    private String salt;      
+    private String adminName; 
+    private String role;
+    private boolean isActive;
 }

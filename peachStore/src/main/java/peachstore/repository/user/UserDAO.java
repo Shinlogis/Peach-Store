@@ -28,4 +28,14 @@ public interface UserDAO {
 	 * @return
 	 */
 	public int update(User user);
+	
+	/**
+	 * 회원 상태 활성/비활성 변경
+	 * @param userId
+	 * @param isActive
+	 */
+	public void updateIsActive(int userId, boolean isActive);
+	
+	public List<User> selectAllJoinV2();
+	
 }

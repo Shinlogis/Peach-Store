@@ -1,5 +1,8 @@
 package peachstore.repository.admin;
 
+import java.util.List;
+import java.util.Map;
+
 import peachstore.domain.Admin;
 
 /**
@@ -14,19 +17,11 @@ public interface AdminDAO {
 	 * @return
 	 */
 	public Admin selectById(int adminId);
-	
-	  /**
-     * ID로 관리자 정보 조회 (로그인용)
-     * @param id
-     * @return
-     */
-    public Admin selectByLogin(String id);
-
-    /**
-     * 로그인 시 해시 검증 포함 처리
-     * @param id
-     * @param password
-     * @return
-     */
-    public Admin login(String id, String password); 
+	public int insertAdmin(Admin admin);
+	public Admin selectAdminByLogin(Map<String, Object> map); // email 기반
+	public List<Admin> selectAll();
+	public int updatePassword(Map<String, Object> map);
+	public int updateIsActive(Map<String, Object> map);
+	public int updateAdminInfo(Admin admin);
+	public Admin selectAdminByEmail(String email);
 }
