@@ -38,7 +38,7 @@ public class ShopGlobalExceptionHandler {
 		return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 	}
 
-	// 리뷰 관련 실패 처리
+	// 사진 관련 실패 처리
 	@ExceptionHandler(Uploadexception.class )
 	public ResponseEntity<Map<String, Object>> upload(Exception e) {
 
