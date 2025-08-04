@@ -2,6 +2,7 @@ package peachstore.service.userGrade;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import peachstore.domain.UserGrade;
 
@@ -47,4 +48,10 @@ public interface UserGradeService {
 	 * @param subcategoryId
 	 */
 	public void delete(int userGradeId);
+	
+	/**
+	 * 해당 사용자의 등급 갱신 여부 계산
+	 * @param userId
+	 */
+	public void calUserGrade(int userId);
 }

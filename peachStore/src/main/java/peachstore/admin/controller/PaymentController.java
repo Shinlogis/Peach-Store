@@ -45,12 +45,14 @@ public class PaymentController {
 	 * 결제 입장
 	 */
 	@GetMapping("/payment/start")
-	public String paymentPage(Model model, String orderId, int orderReceiptId, Long amount, String userName) {
+	public String paymentPage(Model model, int orderReceiptId, Long amount, String userName) {
 		String successUrl = "http://localhost:8888/admin/payment/success-handler?orderReceiptId=" + orderReceiptId;
 		String failUrl = "http://localhost:8888/admin/payment/fail";
+		String orderId = String.valueOf(System.currentTimeMillis());
 
 		log.debug("paymentPage orderId - {}, orderReceiptId - {}, amount - {}, userName - {}", orderId, orderReceiptId,
 				amount, userName);
+		
 		model.addAttribute("orderReceiptId", orderReceiptId);
 		model.addAttribute("orderId", orderId);
 		model.addAttribute("amount", amount);

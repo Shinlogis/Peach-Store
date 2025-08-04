@@ -38,7 +38,7 @@
          
           <!--상품관리 메뉴 시작-->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                상품관리
@@ -47,7 +47,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/product/list" class="nav-link active">
+                <a href="/admin/product/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>상품목록</p>
                 </a>
@@ -61,42 +61,16 @@
               <li class="nav-item">
                 <a href="/admin/product/category/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>상품 카테고리</p>
+                  <p>카테고리 관리</p>
                 </a>
               </li>
             </ul>
           </li>
           <!--상품관리 메뉴 끝-->
       
-          <!--주문관리 메뉴 시작-->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                주문관리
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/static/admin/index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>주문내역</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/static/admin/index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>취소내역</p>
-                </a>
-              </li>
-  
-            </ul>
-          </li>
-          <!--주문관리 메뉴 끝-->
             <!--리뷰관리 메뉴 시작-->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 리뷰관리
@@ -105,7 +79,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/review/list" class="nav-link active">
+                <a href="/admin/review/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>리뷰내역</p>
                 </a>
@@ -116,7 +90,7 @@
       
           <!--회원관리 메뉴 시작-->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 회원관리
@@ -125,27 +99,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/static/admin/index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>회원목록</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/static/admin/index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>회원등록</p>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="/admin/usergrade/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>회원등급</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/static/admin/index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>메일발송</p>
+                  <p>멤버십 등급</p>
                 </a>
               </li>
             </ul>
@@ -154,7 +110,7 @@
       
           <!--고객센터 메뉴 시작-->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                고객센터
@@ -163,21 +119,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/static/admin/index.html" class="nav-link active">
+                <a href="/admin/inquiry/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>QnA</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/static/admin/index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>공지사항</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/static/admin/index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQ</p>
+                  <p>문의관리</p>
                 </a>
               </li>
             </ul>
@@ -185,33 +129,6 @@
           <!--고객센터 메뉴 끝-->
         
       
-          <!--상점관리 메뉴 시작-->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                상점관리
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/static/admin/index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>상점정보</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/static/admin/index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>디자인관리</p>
-                </a>
-              </li>
-
-            </ul>
-          </li>
-          <!--상점관리 메뉴 끝-->
-        
         
         </ul>
       </nav>
