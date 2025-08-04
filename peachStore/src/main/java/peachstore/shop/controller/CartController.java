@@ -55,7 +55,7 @@ public class CartController {
 	public ModelAndView getCartItem(int cart_id) {
 		ModelAndView mav = new ModelAndView();
 		
-		mav.addObject(cartItemService.selectCartItemByCartId(cart_id));
+		mav.addObject("cartItemList",cartItemService.selectCartItemByCartId(cart_id));
 		mav.setViewName("shop/user/cartItem");
 		return mav;
 	}

@@ -50,6 +50,10 @@
 h6{
    font-size:20px;
 }
+
+.rating{
+	font-size:12px;
+}
 </style>
 <body>
    <!-- Offcanvas Menu Begin -->
@@ -97,11 +101,20 @@ h6{
                                         <div class="cart__product__item__title">
                                             <h6><%=cartItemList.get(i).getProduct().getProductName() %></h6>
                                             <div class="rating">
-                                                <i class="fa fa-star"><%=cartItemList.get(i).getCustom_option().getProduct_color().getColor().getColor_name() %></i>
-                                                <i class="fa fa-star"><%=cartItemList.get(i).getCustom_option().getProduct_size() %></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                            <% if (cartItemList.get(i).getCustom_option() != null){%>
+                                               <% if (cartItemList.get(i).getCustom_option().getProduct_capacity() !=null){%>
+                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_capacity().getCapacity().getCapacity_name() %></span>
+                                                <%} %>
+                                               <% if (cartItemList.get(i).getCustom_option().getProduct_color() !=null){%>
+                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_color().getColor().getColor_name()%></span>
+                                                <%} %>
+                                               <% if (cartItemList.get(i).getCustom_option().getProduct_size() !=null){%>
+                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_size().getSize().getSize_name() %></span>
+                                                <%} %>
+                                               <% if (cartItemList.get(i).getCustom_option().getProduct_engraving() !=null){%>
+                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_engraving().getEngraving_text() %></span>
+                                                <%} %>
+                                            <%} %>
                                             </div>
                                         </div>
                                     </td>
