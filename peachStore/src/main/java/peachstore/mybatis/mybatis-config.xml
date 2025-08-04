@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
 	<typeAliases>
 		<typeAlias type="peachstore.domain.ProductTopcategory" alias="ProductTopcategory" />
 		<typeAlias type="peachstore.domain.ProductSubcategory" alias="ProductSubcategory" />
@@ -12,9 +13,11 @@
 		<typeAlias type="peachstore.domain.Product" alias="Product"/>
 		<typeAlias type="peachstore.domain.Color" alias="Color"/>
 		<typeAlias type="peachstore.domain.Size" alias="Size"/>
+		<typeAlias type="peachstore.domain.Capacity" alias="Capacity"/>
 		<typeAlias type="peachstore.domain.ProductSize" alias="ProductSize"/>
 		<typeAlias type="peachstore.domain.ProductColor" alias="ProductColor"/>
 		<typeAlias type="peachstore.domain.ProductImg" alias="ProductImg"/>
+		<typeAlias type="peachstore.domain.ProductCapacity" alias="ProductCapacity"/>
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 		<typeAlias type="peachstore.domain.GradeCoupon" alias="GradeCoupon"/>
@@ -41,6 +44,7 @@
          </dataSource>
       </environment>
    </environments>
+   
 	<mappers>
 		<mapper resource="peachstore/mybatis/ProductTopcategoryMapper.xml"/> 
 		<mapper resource="peachstore/mybatis/ProductSubcategoryMapper.xml"/> 
@@ -50,8 +54,10 @@
 		<mapper resource="peachstore/mybatis/ProductMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ColorMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SizeMapper.xml"/>
+		<mapper resource="peachstore/mybatis/CapacityMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ProductColorMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ProductSizeMapper.xml"/>
+		<mapper resource="peachstore/mybatis/ProductCapacityMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ProductImgMapper.xml"/>
 		<mapper resource="peachstore/mybatis/SnsProviderMapper.xml"/>
 		<mapper resource="peachstore/mybatis/UserGradeMapper.xml"/>

@@ -166,4 +166,14 @@ public class FileCommonManager {
 			log.error("백업 이미지 복원 실패", e);
 		}
 	}
+	
+	/**
+	 * 특정 사진 삭제
+	 */
+	public void deleteFile(String savePath, String subDir, String filename) {
+	    File file = new File(savePath + File.separator + subDir + File.separator + filename);
+	    if (file.exists()) {
+	        file.delete();
+	    }
+	}
 }

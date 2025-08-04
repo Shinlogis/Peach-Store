@@ -91,7 +91,7 @@
     	from product_subcategory ps
     	join product_topcategory pt
     		on ps.product_topcategory_id = pt.product_topcategory_id
-    	where ps.product_subcategory_id = #{productSubCategory}
+    	where ps.product_subcategory_id = #{value}
 	</select>
 	
 	<!-- TopcategoryId 상위 카테고리의 모든 하위 카테고리 -->

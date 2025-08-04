@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service;
 import peachstore.domain.ProductImg;
 import peachstore.exception.ProductImgException;
 
+/**
+ * ProductImgDAO 인터페이스를 구현
+ * @author 김지민
+ * @since 2025-07-29
+ */
+
 @Repository
 public class MybatisProductImgDAO implements ProductImgDAO{
 
@@ -29,6 +35,12 @@ public class MybatisProductImgDAO implements ProductImgDAO{
 	@Override
 	public List<ProductImg> selectByProductId(int productId) {
 	    return sqlSessionTemplate.selectList("ProductImg.selectByProductId", productId);
+	}
+
+
+	@Override
+	public void deleteByFilename(String filename) {
+		sqlSessionTemplate.delete("ProductImg.deleteByFilename", filename);
 	}
 
 }
