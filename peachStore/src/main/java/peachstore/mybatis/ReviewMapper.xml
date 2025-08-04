@@ -60,6 +60,7 @@
 			od.order_detail_id AS orderDetailId,
 			
 			s.snapshot_id AS snapshotId,
+			s.product_id AS product_id,
 			s.product_name AS product_name,
 			s.price AS price,
 			s.size AS size,
@@ -182,7 +183,6 @@
 	        ON r.order_detail_id = od.order_detail_id
 	    JOIN snapshot s
 	        ON od.snapshot_id = s.snapshot_id
-	    <!-- WHERE s.product_id=#{product_id} -->
-	    WHERE s.product_id=6
+	    WHERE s.product_id=#{productId}
 	</select>
 </mapper>

@@ -253,7 +253,7 @@ CREATE TABLE CUSTOM_OPTION(
 CREATE TABLE CART_ITEM(
     CART_ITEM_ID INT PRIMARY KEY AUTO_INCREMENT
     , QUANTITY INT NOT NULL DEFAULT 1 CHECK(QUANTITY >= 1)
-    , CART_ID INT NOT NULL UNIQUE
+    , CART_ID INT NOT NULL
     , PRODUCT_ID INT NOT NULL
     , CUSTOM_OPTION_ID INT
     , CONSTRAINT FK_CART_ITEM_CART_ID
@@ -660,6 +660,14 @@ VALUES
     (14, 8, NULL),
     (15, 12, NULL);
 
+INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
+VALUES  (16, 6, NULL);
+select * from cart_item;
+select * from custom_option;
+select * from product_size;
+select * from user;
+select * from cart;
+
 -- 리뷰 테이블 인서트 (INSERT INTO review)
 INSERT INTO review (content, status, user_id, order_detail_id)
 VALUES
@@ -677,7 +685,7 @@ VALUES
 -- =========인서트 없음
 SHOW TABLES;
 
-SELECT
+ SELECT
 	        r.review_id,
 	        r.content,
 	        r.regdate,
@@ -690,8 +698,9 @@ SELECT
 	        ug.user_grade_name AS userGradeName,
 	        od.order_detail_id AS orderDetailId,
 	        s.snapshot_id AS snapshotId,
-	        s.product_id as prduct_id,
+	        s.product_id AS product_id,
 	        s.product_name AS product_name,
+	        s.price AS price,
 	        s.size AS size,
 	        s.capacity AS capacity,
 	        s.color AS color,
@@ -705,6 +714,61 @@ SELECT
 	        ON r.order_detail_id = od.order_detail_id
 	    JOIN snapshot s
 	        ON od.snapshot_id = s.snapshot_id
-	    WHERE s.product_id=6;
+	    WHERE s.product_id=4;
+
+
+select * from user;
+
+INSERT INTO order_receipt (order_status, user_id)
+VALUES  ('상품 준비 전', 16),
+ ('상품 준비 중', 16),
+('발송완료', 16),
+ ('상품 준비 중', 16),
+('발송완료', 16);
+
+
+INSERT INTO product (product_code, product_name, price, introduce, detail, product_subcategory_id)
+VALUES
+   ('P14P-BLK', 'pPhone 14 Pro 블랙', 1350000, '고성능 스마트폰', '6.1인치 디스플레이 / A16 Bionic', 1),
+   ('P15-WHT', 'pPhone 15 화이트', 1250000, '차세대 아이폰', '6.1인치 / USB-C / 다이나믹 아일랜드', 2),
+   ('PSE3-RED', 'pPhone SE 3 레드', 650000, '보급형 아이폰', '4.7인치 / Touch ID / A15 Bionic', 3),
+    ('PAIR5-GRY', 'pPad Air 5 스페이스 그레이', 850000, 'M1 칩 탑재 태블릿', '10.9인치 / Apple Pencil 2 지원', 4),
+   ('PMINI6-PNK', 'pPad Mini 6 핑크', 770000, '컴팩트 태블릿', '8.3인치 / USB-C 포트', 5);
+
+
+INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving, filename)
+VALUES
+    (13, 'pPhone 14 Pro 블랙', 1350000, '6.1인치', '128GB', 'Black', '각 인입니다1', '1753859785461.webp'),
+    (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg'),
+    (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp'),
+    (16, 'pPad Air 5 스페이스 그레이', 850000, '10.9인치', '256GB', 'Red', '각인이므니다', '1753859785461.webp'),
+    (17, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3', '1753859785475.webp'),
+    (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg'),
+    (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp');
+
+
+SELECT * FROM order_receipt ore JOIN order_detail od   ON ore.order_receipt_id = od.order_receipt_id WHERE ore.user_id = 16;
+
+select * from snapshot;
+select * from order_detail;
+select * from product;
+select * from cart;
+select * from cart_item;
+
+select * from review;
+
+
+
+
+
+INSERT INTO order_detail (order_quantity, order_receipt_id, snapshot_id)
+VALUES
+   (2, 2, 9),
+   (1, 8, 10),
+   (3, 8, 11),
+   (1, 9, 12),
+   (2, 11, 13),
+   (1, 10, 14),
+   (2, 12, 15);
 
 

@@ -5,7 +5,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Cart;
@@ -48,4 +51,13 @@ public class CartController {
 		mav.setViewName("shop/user/cartItem");
 		return mav;
 	}
+	
+	@PostMapping("/cart/insert")
+	public String addToCart(String color,int size) {
+		//int customId = customService.insertAndGetId(product_id, color, size);
+
+//		cartService.insertCart(장바구니 Id , product_id, customId);
+
+		return "redirect:/shop/user/cart";
+	} 
 }
