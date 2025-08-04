@@ -81,7 +81,7 @@
 							<legend id="color-title">색상</legend>
 							<%for(ProductColor productColor:product.getProductColors()){ %>
 							<div class="color-box">
-								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="product_color_id" value="<%=productColor.getColor().getColor_id()%>" data-color-name="<%=productColor.getColor().getColor_id()%>">
+								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="product_color_id" value="<%=productColor.getColor().getColor_id()%>" data-color-name="<%=productColor.getColor().getColor_name()%>">
 								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_name() %>;"></label>
 							</div>
 							<%} %>

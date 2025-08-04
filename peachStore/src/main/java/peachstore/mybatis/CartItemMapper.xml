@@ -8,7 +8,7 @@
 		<association column="custom_option_id" property="custom_option" javaType="CustomOption"
 			select="CustomOption.selectById"/>
 		<association column="cart_id" property="cart" javaType="Cart"
-    		select="Cart.selectById"/>
+    		select="Cart.selectByCartId"/>
 		<association column="product_id" property="product" javaType="Product"
 			select="Product.select"/>
 	</resultMap>
