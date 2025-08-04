@@ -103,19 +103,19 @@
 			    <li class="nav-item">
 			      <a href="/admin/user/adminlist" class="nav-link">
 			        <i class="far fa-circle nav-icon"></i>
-			        <p>관리자 목록</p>
+			        <p>관리자목록</p>
 			      </a>
 			    </li>
 			    <li class="nav-item">
 			      <a href="/admin/user/registform" class="nav-link">
 			        <i class="far fa-circle nav-icon"></i>
-			        <p>관리자 등록</p>
+			        <p>관리자등록</p>
 			      </a>
 			    </li>
 			    <li class="nav-item">
 			      <a href="/admin/user/changepasswordform" class="nav-link">
 			        <i class="far fa-circle nav-icon"></i>
-			        <p>비밀번호 변경</p>
+			        <p>비밀번호변경</p>
 			      </a>
 			    </li>
 			  </ul>
@@ -132,6 +132,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="/admin/member/memberlist" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>회원목록</p>
+                </a>
+            </li>   
               <li class="nav-item">
                 <a href="/admin/usergrade/list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

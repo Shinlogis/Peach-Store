@@ -1,6 +1,8 @@
 package peachstore.repository.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.User;
-import peachstore.domain.UserGrade;
 import peachstore.exception.UserException;
 
 @Slf4j
@@ -65,6 +66,16 @@ public class UserDAOImpl implements UserDAO{
 
 	}
 	
+
+	@Override
+	public void updateIsActive(int userId, boolean isActive) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("userId", userId);
+	    paramMap.put("isActive", isActive);
+	    sqlSessionTemplate.update("User.updateIsActive", paramMap);
+	}
+
+	
 	@Override
 	public List<User> selectAllJoin() {
 		return sqlSessionTemplate.selectList("User.selectAllJoin");
@@ -80,4 +91,9 @@ public class UserDAOImpl implements UserDAO{
 	public int update(User user) {
 		return sqlSessionTemplate.update("User.update", user);
 	}
+	
+	 @Override
+	 public List<User> selectAllJoinV2() {
+	    return sqlSessionTemplate.selectList("User.selectAllJoin_v2");
+	 }
 }

@@ -7,21 +7,34 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Admin;
+import peachstore.domain.User;
 import peachstore.repository.admin.AdminDAOImpl;
+import peachstore.service.user.UserService;
 import peachstore.util.PasswordUtil;
 
+/**
+ * 어드민페이지 로그인 관련 컨트롤러
+ * @author 김지민
+ * @since 2025-08-04
+ */
 @Slf4j
 @Controller
 public class AdminUserController {
 
+	@Autowired
+    private UserService userService;	
+	
     @Autowired
     private AdminDAOImpl adminDAOImpl;
 
@@ -199,5 +212,26 @@ public class AdminUserController {
         List<Admin> adminList = adminDAOImpl.selectAll();
         model.addAttribute("adminList", adminList);
         return "/user/adminlist";
+    }
+    
+    @GetMapping("/member/memberlist")
+    public String memberList(Model model) {
+    	List<User> userList = userService.getAllUsersJoinV2();
+    	System.out.println("==== 1st User ==== ");
+    	System.out.println(userList.get(0));
+    	System.out.println(userList.get(0).getSns_provider());
+    	if(userList.get(0).getSns_provider() != null) {
+    	    System.out.println(userList.get(0).getSns_provider().getProvider_name());
+    	}
+        model.addAttribute("userList", userList);
+        return "/member/memberlist"; // JSP 경로에 맞게!
+    }
+
+
+    @PostMapping("/member/setactive")
+    public String setActive(@RequestParam("user_id") int userId,
+                            @RequestParam("is_active") boolean isActive) {
+        userService.updateIsActive(userId, isActive);
+        return "redirect:/admin/member/memberlist";
     }
 }
