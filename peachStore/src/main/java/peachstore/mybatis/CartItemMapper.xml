@@ -27,8 +27,8 @@
 		values(#{cart.cart_id},#{product.productId},#{custom_option.custom_option_id})
 	</insert>
 	
-	<delete id="deleteCartItem" >
-		
+	<delete id="deleteCartItem" parameterType="int">
+		delete from cart_item where cart_item_id = #{cart_item_id}
 	</delete>
 	
 </mapper>
