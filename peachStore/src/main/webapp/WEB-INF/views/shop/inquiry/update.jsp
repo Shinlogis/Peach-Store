@@ -66,7 +66,7 @@
 										id="title" name="title" class="form-control" required />
 								</div>
 								<div class="form-group">
-									<label >작성자</label> <input type="text" value="<%=user.getId() %>"
+									<label >작성자</label> <input type="text" value="<%=user.getUser_name() %>"
 										name="writer" class="form-control" required readonly />
 								</div>
 								<div class="form-group">

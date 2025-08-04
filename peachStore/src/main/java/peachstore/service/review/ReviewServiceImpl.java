@@ -103,7 +103,7 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		review = findById(review.getReviewId());
 		// 상태를 수정
-		review.setStatus((review.getStatus().equals("활성")) ? "비활성" : "활성");
+		review.setStatus((review.getStatus().equals("활성")) ? "숨김" : "활성");
 
 		
 		// 리뷰 업데이트
