@@ -72,7 +72,7 @@
 							<%for(ProductSize productSize :product.getProductSizes()){ %>
 							<div>
 								<input type="radio" id="size<%=productSize.getSize().getSize_id() %>" name="product_size_id" value="<%=productSize.getSize().getSize_id()%>">
-								<label for="size<%=productSize.getSize().getSize_id() %>"><%=productSize.getSize().getSize_name() %></label>
+								<label for="size<%=productSize.getSize().getSize_id() %>"><%=productSize.getSize().getSize_name() %> 모델</label>
 							</div>
 							<%} %>
 						</fieldset>
@@ -82,12 +82,12 @@
 							<%for(ProductColor productColor:product.getProductColors()){ %>
 							<div class="color-box">
 								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="product_color_id" value="<%=productColor.getColor().getColor_id()%>" data-color-name="<%=productColor.getColor().getColor_name()%>">
-								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_name() %>;"></label>
+								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_value() %>;"></label>
 							</div>
 							<%} %>
 						</fieldset>
 							
-						<%--<fieldset>
+						<fieldset>
 							<legend>용량</legend>
 							<%for(ProductCapacity prdocutCapacity:product.getProductCapacities()){ %>
 							<div>
@@ -95,7 +95,8 @@
 								<label for="<%=prdocutCapacity.getCapacity().getCapacity_id() %>"><%=prdocutCapacity.getCapacity().getCapacity_name() %></label>
 							</div>
 							<%} %>
-						</fieldset> --%>
+						</fieldset> 
+						
 						<input type="hidden" name ="product_id" value="<%=product.getProductId()%>">
 						<input type="button" value="장바구니에 담기">
 					</form>

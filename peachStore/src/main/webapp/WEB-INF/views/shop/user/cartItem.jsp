@@ -106,7 +106,8 @@ h6{
                             <%for(int i =0;i<cartItemList.size();i++){ %>
                                 <tr>
                                     <td class="cart__product__item">
-                                        <img src="/static/shop/img/shop-cart/cp-1.jpg" alt="주문 상품">
+                                    	<%String imgPath=cartItemList.get(i).getProduct().getProductImgs().get(0).getFilename() %>
+                                        <img src="/data/product_<%=cartItemList.get(i).getProduct().getProductId()%>/<%= imgPath %>">
                                         <div class="cart__product__item__title">
                                             <h6><%=cartItemList.get(i).getProduct().getProductName() %></h6>
                                             <div class="rating">
