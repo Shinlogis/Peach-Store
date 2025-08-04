@@ -47,6 +47,7 @@ public interface ReviewService {
 	//리뷰 전체 조회
 	public List selectByUserId(User user);
 	
+	public List selectByProductId(int productId);
 	//리뷰 내용 수정
 	public void updateReview(Review review, String savePath);
 	

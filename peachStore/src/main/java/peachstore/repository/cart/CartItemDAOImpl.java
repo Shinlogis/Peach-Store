@@ -16,6 +16,13 @@ public class CartItemDAOImpl implements CartItemDAO{
 	@Override
 	public List<CartItem> selectCartItemByCartId(int cart_id) {
 //		CartItemMapper.xml과 연결
-		return sqlSessionTemplate.selectList("selectCartItemByCartId", cart_id);
+		return sqlSessionTemplate.selectList("CartItem.selectCartItemByCartId", cart_id);
 	}
+
+	@Override
+	public void insertCartItem(CartItem cartItem) {
+		sqlSessionTemplate.insert("CartItem.insertCartItem", cartItem);
+	}
+
+	
 }

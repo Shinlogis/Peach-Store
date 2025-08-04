@@ -123,11 +123,18 @@ label {
   height: 65px;
   border-radius: 18px;
   border:1px solid #6e6e73;
-  line-height: 83px;
+  line-height: 65px;
   cursor: pointer;
   text-align: left;
   padding-left:20px;
   margin-top:10px;
+}
+
+.color-box label{
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid white;
 }
 
 input[type="radio"]:checked + label {

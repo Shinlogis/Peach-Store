@@ -25,6 +25,7 @@
 			
 			<association property="snapShot" javaType="SnapShot">
 				<id column="snapshot_id" property="snapshot_id" />
+				<id column="product_id" property="product_id" />
     			<result column="product_name" property="product_name" />
     			<result column="price" property="price" />
     			<result column="size" property="size" />
@@ -59,6 +60,7 @@
 			od.order_detail_id AS orderDetailId,
 			
 			s.snapshot_id AS snapshotId,
+			s.product_id AS product_id,
 			s.product_name AS product_name,
 			s.price AS price,
 			s.size AS size,
@@ -111,6 +113,7 @@
 	        od.order_detail_id AS orderDetailId,
 	
 	        s.snapshot_id AS snapshotId,
+	        s.product_id AS product_id,
 	        s.product_name AS product_name,
 	        s.price AS price,
 	        s.size AS size,
@@ -210,4 +213,42 @@
 	
 	
 	
+	<!-- 상품 id로 조회 -->
+	<select id="selectByProductId" parameterType="int" resultMap="ReviewMap">
+	    SELECT
+	        r.review_id,
+	        r.content,
+	        r.regdate,
+	        r.status,
+	
+	        u.user_id AS user_id,
+	        u.id AS id,
+	        u.email AS email,
+	        u.user_name AS user_name,
+	
+	        ug.user_grade_id AS userGradeId,
+	        ug.user_grade_name AS userGradeName,
+	
+	        od.order_detail_id AS orderDetailId,
+	
+	        s.snapshot_id AS snapshotId,
+	        s.product_id AS product_id,
+	        s.product_name AS product_name,
+	        s.price AS price,
+	        s.size AS size,
+	        s.capacity AS capacity,
+	        s.color AS color,
+	        s.engraving AS engraving
+	
+	    FROM review r
+	    JOIN user u 
+	        ON r.user_id = u.user_id
+	    JOIN user_grade ug 
+	        ON u.user_grade_id = ug.user_grade_id
+	    JOIN order_detail od 
+	        ON r.order_detail_id = od.order_detail_id
+	    JOIN snapshot s
+	        ON od.snapshot_id = s.snapshot_id
+	    WHERE s.product_id=#{productId}
+	</select>
 </mapper>

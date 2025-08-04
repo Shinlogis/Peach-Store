@@ -28,6 +28,7 @@
 		<typeAlias type="peachstore.domain.ReviewImg" alias="ReviewImg"/>
 		<typeAlias type="peachstore.domain.Review" alias="Review"/>
 		<typeAlias type="peachstore.domain.Admin" alias="Admin"/>
+		<typeAlias type="peachstore.domain.ReviewImg" alias="ReviewImg"/>
 		<typeAlias type="peachstore.domain.Cart" alias="Cart"/>
 		<typeAlias type="peachstore.domain.CartItem" alias="CartItem"/>
 		<typeAlias type="peachstore.domain.ProductEngraving" alias="ProductEngraving"/>
@@ -69,6 +70,7 @@
 		<mapper resource="peachstore/mybatis/SnapShotMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ReviewImgMapper.xml"/>
 		<mapper resource="peachstore/mybatis/ReviewMapper.xml"/>
+		<mapper resource="peachstore/mybatis/ReviewImgMapper.xml"/>
 		<mapper resource="peachstore/mybatis/AdminMapper.xml"/>
 		<mapper resource="peachstore/mybatis/CartMapper.xml"/>
 		<mapper resource="peachstore/mybatis/CartItemMapper.xml"/>

@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Product;
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.ProductTopcategory;
+import peachstore.domain.Review;
 import peachstore.service.product.ProductService;
+import peachstore.service.review.ReviewService;
 import peachstore.service.subcategory.ProductSubcategoryService;
 import peachstore.service.topcategory.ProductTopcategoryService;
 
@@ -35,6 +37,8 @@ public class ProductController {
 	ProductTopcategoryService productTopcategoryService;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	ReviewService reviewService;
 	
 	@GetMapping("/product")
 	public ModelAndView phone(int topid) {
@@ -64,8 +68,10 @@ public class ProductController {
 		ModelAndView mav=new ModelAndView("shop/product/detail");
 		
 		Product product = productService.select(productId);
+		List reviewList  =  reviewService.selectByProductId(productId);
 		
 		mav.addObject("product",product);
+		mav.addObject("reviewList",reviewList);
 		return mav;
 	}
 }
