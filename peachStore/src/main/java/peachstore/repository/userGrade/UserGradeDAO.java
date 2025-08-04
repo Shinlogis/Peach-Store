@@ -54,4 +54,5 @@ public interface UserGradeDAO {
 	 * @return
 	 */
 	public Long selectTotalAmountByUserId(int userId);
+
 }

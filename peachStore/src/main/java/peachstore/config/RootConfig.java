@@ -63,7 +63,7 @@ public class RootConfig {
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-		resolver.setMaxUploadSize(10*1024*1024); //10M
+		resolver.setMaxUploadSize(20*1024*1024); //10M
 		
 		return resolver;
 	}

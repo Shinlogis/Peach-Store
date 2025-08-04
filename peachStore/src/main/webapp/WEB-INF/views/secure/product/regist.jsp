@@ -243,11 +243,26 @@
 		});
 	}
 	
-	$(()=>{
-	   $('#summernote').summernote({
-		height:200,
-		placeholder:"상품 상세 설명을 채우세요"
-	   });
+	$('#summernote').summernote({
+		  height: 200,
+		  placeholder: "상품 상세 설명을 채우세요",
+		  callbacks: {
+		    onImageUpload: function(files) {
+		      let data = new FormData();
+		      data.append('file', files[0]);
+		      $.ajax({
+		        url: '/admin/product/uploadImage', // 여기에 백엔드 API 경로!
+		        method: 'POST',
+		        data: data,
+		        contentType: false,
+		        processData: false,
+		        success: function(url) {
+		          $('#summernote').summernote('insertImage', url); // URL을 에디터에 삽입
+		        }
+		      });
+		    }
+		  }
+		});
 	   
 	   //상위 카테고리 가져오기 
 	   getTopCategory(); //상위 카테고리 가져오기
@@ -363,7 +378,6 @@
 	   //목록 버튼 이벤트 연결
 	   $("#bt_list").click(()=>{
 		  $(location).attr("href", "/admin/product/list");
-	   });
 	});
 	</script>
 	

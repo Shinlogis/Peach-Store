@@ -50,5 +50,8 @@ public interface ReviewDAO {
 	public List selectByProductId(int productId);
 	//리뷰 내용 수정
 	public void updateReview(Review review);
+	
+	//리뷰 갯수 조회
+	public int countByUserId(int userId);
 
 }
