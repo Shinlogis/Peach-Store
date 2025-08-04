@@ -15,6 +15,7 @@
 		<typeAlias type="peachstore.domain.ProductSize" alias="ProductSize"/>
 		<typeAlias type="peachstore.domain.ProductColor" alias="ProductColor"/>
 		<typeAlias type="peachstore.domain.ProductImg" alias="ProductImg"/>
+		<typeAlias type="peachstore.domain.ProductCapacity" alias="ProductCapacity"/>
 		<typeAlias type="peachstore.domain.SnsProvider" alias="SnsProvider"/>
 		<typeAlias type="peachstore.domain.UserGrade" alias="UserGrade"/>
 		<typeAlias type="peachstore.domain.GradeCoupon" alias="GradeCoupon"/>

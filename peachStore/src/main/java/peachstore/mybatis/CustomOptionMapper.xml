@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CustomOption">
+	<resultMap type="CustomOption" id="selectAllJoin">
+	<id column="cutom_option_id" property="custom_option_id"/>
+	<association column="product_size" property="product_size" javaType="ProductSize"/>
+	<association column="product_color" property="product_color" javaType="ProductColor"/>
+	<association column="product_capacity" property="product_capacity" javaType="ProductCapacity"/>
+	<association column="product_engraving" property="product_engraving" javaType="ProductEngraving"/>
+	
+	
+	</resultMap>
+
+
+
 	<select id="selectAll" resultType="CustomOption">
 		select * from custom_option
 	</select>
+	
+	<insert id="insert" parameterType="CustomOption">
+		insert into custom_option(product_color_id_,product_size_id) values(#{product_color.product_color_id},#{product_size.product_size_id})
+		<selectKey keyColumn="custom_option_id" keyProperty="custom_option_id" resultType="int" order="AFTER">
+			select last_insert_id() as custom_option_id
+		</selectKey>
+	</insert>
+	
+	<select id="selectAllJoin" resultMap="selectAllJoin">
+		select * from  custom_option
+	</select>
+	
+	
 </mapper>

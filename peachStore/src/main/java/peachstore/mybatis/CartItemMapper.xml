@@ -18,7 +18,17 @@
 		values(#{cart.cart_id},#{product.product_id},#{custom_option_id},#{quantity})
 	</insert>
 	
-	<select id="selectCartItemByCartId" resultMap="selectCartItemByCartId">
+	<select id="selectCartItemByCartIsd" resultMap="selectCartItemByCartId">
 		select * from cart_item where cart_id = #{cart_id}
 	</select>
+	
+	<select id="selectCartItemByCartId" parameterType="int" resultType="CartItem">
+		SELECT *
+		FROM cart_item ci
+		LEFT JOIN custom_option co ON ci.custom_option_id = co.custom_option_id
+		LEFT JOIN cart c ON ci.cart_id = c.cart_id
+		LEFT JOIN product p ON ci.product_id = p.product_id
+		WHERE ci.cart_id = #{cart_id};
+	</select>
+	
 </mapper>

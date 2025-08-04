@@ -1,5 +1,7 @@
 package peachstore.shop.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Cart;
+import peachstore.domain.CartItem;
 import peachstore.domain.User;
 import peachstore.service.cart.CartItemService;
 import peachstore.service.cart.CartService;
@@ -46,8 +47,11 @@ public class CartController {
 	@GetMapping("/user/cartitem")
 	public ModelAndView getCartItem(int cart_id) {
 		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject(cartItemService.selectCartItemByCartId(cart_id));
+		log.debug("getCartItem 로드 완료");
+		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(cart_id);
+		if(cartItemList == null) log.debug("null!!!!!!!!");
+		log.debug("cartItemList: " + cartItemList);
+		mav.addObject("cartItemList", cartItemList);
 		mav.setViewName("shop/user/cartItem");
 		return mav;
 	}
