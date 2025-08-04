@@ -168,9 +168,26 @@
 </script>
 
 <script>
-  $('#summernote').summernote({
-    height: 200,
-  });
+$('#summernote').summernote({
+	  height: 200,
+	  placeholder: "상품 상세 설명을 채우세요",
+	  callbacks: {
+	    onImageUpload: function(files) {
+	      let data = new FormData();
+	      data.append('file', files[0]);
+	      $.ajax({
+	        url: '/admin/product/uploadImage', // 여기에 백엔드 API 경로!
+	        method: 'POST',
+	        data: data,
+	        contentType: false,
+	        processData: false,
+	        success: function(url) {
+	          $('#summernote').summernote('insertImage', url); // URL을 에디터에 삽입
+	        }
+	      });
+	    }
+	  }
+	});
   $("#summernote").summernote("code", '<%= product != null ? product.getDetail() : "" %>');
 
   getTopCategory(<%= topCategoryId %>);

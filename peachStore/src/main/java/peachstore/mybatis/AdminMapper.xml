@@ -5,7 +5,6 @@
 	<resultMap id="AdminMap" type="peachstore.domain.Admin">
 	    <id property="adminId" column="admin_id"/>
 	    <result property="email" column="email"/>
-	    <result property="id" column="id"/>
 	    <result property="password" column="password"/>
 	    <result property="name" column="name"/>
 	    <result property="role" column="role"/>
@@ -24,6 +23,11 @@
 		select *
 		from admin
 		where admin_id = #{value}
+	</select>
+	
+	<select id="selectByLogin" parameterType="map" resultMap="AdminMap">
+		select * from admin
+		where email = #{email}
 	</select>
 </mapper>
 

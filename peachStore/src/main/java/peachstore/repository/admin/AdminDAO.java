@@ -14,4 +14,19 @@ public interface AdminDAO {
 	 * @return
 	 */
 	public Admin selectById(int adminId);
+	
+	  /**
+     * ID로 관리자 정보 조회 (로그인용)
+     * @param id
+     * @return
+     */
+    public Admin selectByLogin(String id);
+
+    /**
+     * 로그인 시 해시 검증 포함 처리
+     * @param id
+     * @param password
+     * @return
+     */
+    public Admin login(String id, String password); 
 }
