@@ -11,44 +11,13 @@ import peachstore.domain.Product;
  * @since 2025-07-28
  */
 public interface ProductDAO {
-
-    /**
-     * 상품 전체 목록 조회
-     * @return 전체 상품 목록 (List<Product>)
-     */
-    public List<Product> selectAll();
-
-    /**
-     * 특정 상품 상세 조회
-     * @param product_id 조회할 상품의 ID
-     * @return 해당 ID에 해당하는 Product 객체
-     */
+	
+	List<Product> selectAll();
     public Product select(int product_id);
-
-    /**
-     * 신규 상품 등록
-     * @param product 등록할 상품 객체
-     */
     public void insert(Product product);
-
-    /**
-     * 상품 정보 수정
-     * @param product 수정할 상품 객체
-     */
     public void update(Product product);
-
-    /**
-     * 상품 삭제
-     * @param product 삭제할 상품 객체
-     */
-    public void delete(Product product);
-    
-    /**
-     * 상품 서브카테고리로 조회 
-     */
-    public List<Product> selectBySubId(int subId);
-    
-    public List<Product> selectAllWithPaging(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
-    
+    public void softDelete(int product_id);
+    public List<Product> selectBySubId(int subId);   
+    public List<Product> selectAllWithPaging(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);   
     public int count();
 }

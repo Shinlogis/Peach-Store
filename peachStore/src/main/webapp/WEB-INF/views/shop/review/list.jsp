@@ -1,3 +1,4 @@
+<%@page import="com.mysql.cj.x.protobuf.MysqlxConnection.CapabilitiesGetOrBuilder"%>
 <%@page import="peachstore.domain.ReviewImg"%>
 <%@page import="peachstore.domain.Review"%>
 <%@page import="peachstore.domain.InquiryImg"%>
@@ -23,11 +24,20 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 <title>Ashion | Template</title>
 <%@ include file="../inc/head_link.jsp"%>
 <link rel="stylesheet" href="/static/shop/css/mypage.css">
-<style type="text/css">
-#img {
-	width: 50px;
-	height: 50px;
+<style>
+ .review-content p {
+    font-size: 16px !important;
+    color: black !important;
 }
+
+.btn-secondary{
+	height: 30px; !important;
+	width: 50px; !important;
+	font-size: 13px; !important;
+	text-align: center; !important;
+	margin-top: 20px;
+}
+
 </style>
 
 </head>
@@ -75,11 +85,21 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 										<%for(Review review : reviewList){ %>
 											<tr>
 												<td colspan="5">
-												
-													<div><%=review.getOrderDetail().getOrder_detail_id() %></div>
-													<div><%=review.getOrderDetail().getSnapShot().getProduct_name() %></div>
-													<div><%=review.getOrderDetail().getSnapShot().getColor() %></div>
-													<div><%=review.getOrderDetail().getSnapShot().getCapacity() %></div>
+													<div style="display: flex; flex-direction: column; background-color: #f5f5f5;">
+													  <!-- 사진 + 상품 이름 한 줄 -->
+													  <div style="display: flex; gap:20px;">
+													    <img src="/data/r_<%=review.getOrderDetail().getSnapShot().getSnapshot_id()%>/<%=review.getOrderDetail().getSnapShot().getFilename()%>" 
+													         style="width: 20px; height: 20px; margin-right: 5px;">
+													    <div><%=review.getOrderDetail().getSnapShot().getProduct_name() %></div>
+													  </div>
+													  <div><%=review.getReviewId() %></div>
+													  
+													  <div style="display: flex; gap:10px">
+													  <div><%=review.getOrderDetail().getSnapShot().getColor() %></div>
+													  <div><%=review.getOrderDetail().getSnapShot().getCapacity() %></div>
+													  </div>
+													</div>
+													
 													<!-- 작성일 -->
 													<div
 														style="text-align: right; color: gray; font-size: 14px; margin-bottom: 10px;">
@@ -101,25 +121,25 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 														%>
 														
 													</div> <!-- 내용 -->
-													<div
-														style="white-space: pre-wrap; font-size: 20px !important; color: black;">
+													<div class="review-content">
 														<%=review.getContent()%>
 													</div>
 													
 													<div style="display: flex; gap: 10px;">
 														
 														<button type="button" class="btn btn-secondary" 
-														onclick="location.href='/shop/inquiry/updateform?inquiry_id=<%=review.getReviewId()%>'">
-														수정</button>
+														onclick="location.href='/shop/review/updateform?reviewId=<%=review.getReviewId()%>'">
+														 수정</button>
 														
-														<form method="post" id="delete" action="/shop/inquiry/delete">
+														<form method="post" id="delete_<%=review.getReviewId()%>" action="/shop/review/delete">
 														<input  type="hidden" name="reviewId" value="<%=review.getReviewId()%>">
 														<input type="hidden" name="user.user_id" value="<%=user.getUser_id()%>">
 														</form>
 														
 														<button type="button" class="btn btn-secondary"
-														onclick="if(confirm('삭제하시겠습니까?')) document.getElementById('delete').submit();">
+														onclick="if(confirm('삭제하시겠습니까?')) document.getElementById('delete_<%=review.getReviewId()%>').submit();">
 														삭제</button>
+													</div>
 														
 												</td>
 											</tr>

@@ -10,5 +10,9 @@
 	<select id="selectByReviewId" parameterType="int" resultType="ReviewImg">
 		select review_img_id, filename, review_id from review_img where review_id = #{review_id}
 	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from review_img where review_id = #{reviewId}
+	</delete>
 
 </mapper>

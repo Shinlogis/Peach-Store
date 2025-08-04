@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS review; -- 리뷰
 DROP TABLE IF EXISTS order_detail; -- 주문상세
 DROP TABLE IF EXISTS cart_item; -- 장바구니 제품
 DROP TABLE IF EXISTS custom_option; -- 제품 커스텀
+DROP TABLE IF EXISTS toss_payment; -- 토스 결제 정보
 DROP TABLE IF EXISTS order_receipt; -- 주문내역
 DROP TABLE IF EXISTS inquiry_img; -- 문의 이미지
 DROP TABLE IF EXISTS snapshot; -- 스냅샷
@@ -28,6 +29,7 @@ DROP TABLE IF EXISTS product_engraving; -- 제품 각인
 DROP TABLE IF EXISTS product_topcategory; -- 제품 상위 카테고리
 DROP TABLE IF EXISTS coupon; -- 쿠폰
 DROP TABLE IF EXISTS sns_provider; -- snsprovider
+
 -- 관리자 테이블 생성(CREATE TABLE admin)
 CREATE TABLE admin(
    admin_id int PRIMARY KEY AUTO_INCREMENT
@@ -165,6 +167,7 @@ CREATE TABLE PRODUCT_SUBCATEGORY(
 -- 제품 테이블 생성(CREATE TABLE product)
 CREATE TABLE product(
    product_id int PRIMARY KEY AUTO_INCREMENT
+   , is_deleted BOOLEAN DEFAULT FALSE
    , product_code varchar(100) NOT NULL
    , product_name varchar(100) NOT NULL
    , price int NOT NULL
@@ -320,7 +323,7 @@ CREATE TABLE review(
     review_id int PRIMARY KEY AUTO_INCREMENT
     , content text NOT NULL
     , regdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-    , status varchar(10) NOT NULL CHECK(status in('활성', '비활성'))
+    , status varchar(10) NOT NULL CHECK(status in('활성', '숨김'))
     , user_id int NOT NULL
     , order_detail_id int NOT NULL
     , CONSTRAINT fk_review_user_id
@@ -356,6 +359,22 @@ CREATE TABLE GRADE_COUPON (
         FOREIGN KEY (COUPON_ID)
         REFERENCES COUPON(COUPON_ID)
 );
+
+
+-- 토스 결제 정보 테이블
+CREATE TABLE toss_payment (
+    payment_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    order_receipt_id int NOT NULL UNIQUE,
+    toss_order_id VARCHAR(255) NOT NULL,
+    toss_payment_key VARCHAR(255) NOT NULL UNIQUE,
+    toss_payment_method VARCHAR(255) NOT NULL,
+    toss_payment_status VARCHAR(255) NOT NULL,
+    total_amount BIGINT NOT NULL,
+    approved_at DATETIME(6) DEFAULT NULL,
+    requested_at DATETIME(6) NOT NULL,
+    CONSTRAINT fk_order_receipt_id FOREIGN KEY (order_receipt_id) REFERENCES order_receipt(order_receipt_id)
+);
+
 
 -- ------인서트시작-------------------------------------------------
 

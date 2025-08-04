@@ -38,11 +38,17 @@ public interface ReviewService {
 	 * @return
 	 */
 	public void delete(int reviewId);
+	
+	//리뷰 등록
 	public void regist(Review review, String savePath);
 	
 	public void remove(Review review, String savePath);
-	
+
+	//리뷰 전체 조회
 	public List selectByUserId(User user);
 	
 	public List selectByProductId(int productId);
+	//리뷰 내용 수정
+	public void updateReview(Review review, String savePath);
+	
 }

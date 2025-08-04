@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Tosspayment">
+
+  <!-- resultMap -->
+  <resultMap id="TosspaymentMap" type="Tosspayment">
+    <id column="payment_id" property="paymentId" />
+    <result column="toss_payment_key" property="tossPaymentKey" />
+    <result column="toss_order_id" property="tossOrderId" />
+    <result column="toss_payment_method" property="tossPaymentMethod" />
+    <result column="toss_payment_status" property="tossPaymentStatus" />
+    <result column="total_amount" property="totalAmount" />
+    <result column="requested_at" property="requestedAt" />
+    <result column="approved_at" property="approvedAt" />
+
+    <association property="orderReceipt" javaType="OrderReceipt" column="order_receipt_id" select="OrderReceipt.select" />
+  </resultMap>
+
+  <!-- INSERT -->
+  <insert id="insert" parameterType="Tosspayment">
+    INSERT INTO toss_payment (
+      order_receipt_id,
+      toss_order_id,
+      toss_payment_key,
+      toss_payment_method,
+      toss_payment_status,
+      total_amount,
+      approved_at,
+      requested_at
+    ) VALUES (
+      #{orderReceipt.order_receipt_id},
+      #{tossOrderId},
+      #{tossPaymentKey},
+      #{tossPaymentMethod},
+      #{tossPaymentStatus},
+      #{totalAmount},
+      #{approvedAt},
+      #{requestedAt}
+    )
+  </insert>
+
+  <!-- payment 키로 조회 -->
+  <select id="selectByPaymentKey" parameterType="String" resultMap="TosspaymentMap">
+    SELECT *
+    FROM toss_payment
+    WHERE toss_payment_key = #{tossPaymentKey}
+  </select>
+
+  <!-- 주문전표 키로 조회 -->
+  <select id="selectByOrderReceiptId" parameterType="int" resultMap="TosspaymentMap">
+    SELECT *
+    FROM toss_payment
+    WHERE order_receipt_id = #{orderReceiptId}
+  </select>
+
+</mapper>

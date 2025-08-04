@@ -50,10 +50,8 @@
 		</association>
 				
 		<association property="admin" javaType="Admin">
-			<id column="admin_id" property="adminId" />
-			<result column="id" property="id" />
-			<result column="email" property="email" />
-			<result column="name" property="name" />
+			<id column="adminId" property="adminId" />
+			<result column="adminName" property="name" />
 		</association>
 		
 		<collection column="inquiry_id" property="imgList" javaType="java.util.List" ofType="InquiryImg"
@@ -64,12 +62,47 @@
 	
 	<!--회원 아이디에 따른 문의 전체 조회 -->
 	<select id="selectAll" parameterType="Inquiry" resultMap="joinMap">
-		select inquiry_id, title, created_at, user_id from inquiry where user_id = #{user.user_id} and is_active = true order by inquiry_id desc
+		SELECT 
+				I.*
+			    , U.id
+			    , U.email
+			    , U.user_name
+			    , UG.user_grade_id AS userGradeId
+				, UG.user_grade_name AS userGradeName
+				, A.admin_id AS adminId
+				, A.admin_name AS adminName
+	
+			FROM inquiry I
+			JOIN user U
+				ON I.user_id = U.user_id
+			JOIN user_grade UG
+				ON U.user_grade_id = UG.user_grade_id
+			LEFT JOIN admin A
+				ON I.admin_id = A.admin_id
+			where U.user_id = #{user.user_id} and I.is_active = true order by I.inquiry_id desc
 	</select>
 	
 	<!--문의 단건 조회 -->
-	<select id="select" parameterType="Inquiry" resultMap="joinMap">
-		select inquiry_id, title, inquiry_text , created_at, user_id from inquiry where inquiry_id=#{inquiry_id}
+	<select id="select" parameterType="Inquiry" resultMap="inquiryAdminMap">
+		SELECT 
+				I.*
+			    , U.id
+			    , U.email
+			    , U.user_name
+			    , UG.user_grade_id AS userGradeId
+				, UG.user_grade_name AS userGradeName
+				, A.admin_id AS adminId
+				, A.admin_name AS adminName
+	
+			FROM inquiry I
+			JOIN user U
+				ON I.user_id = U.user_id
+			JOIN user_grade UG
+				ON U.user_grade_id = UG.user_grade_id
+			LEFT JOIN admin A
+				ON I.admin_id = A.admin_id
+	 		where 
+	 			inquiry_id=#{inquiry_id}
 	</select>
 	
 	<!-- 문의 수정 -->
@@ -83,23 +116,75 @@
 		update inquiry set is_active=false where inquiry_id = #{inquiry_id}
 	</update>
 	
-	<!-- 관리자용 전체 문의 조회 -->
-	<select id="selectAllAtAdmin" resultMap="inquiryAdminMap">
+	<!-- 전체 문의 조회 -->
+	<select id="selectAllAtAdmin" resultMap="inquiryAdminMap" parameterType="map">
 		SELECT 
-			I.*
-		    , U.id
-		    , U.email
-		    , U.user_name
-		    , UG.user_grade_id AS userGradeId
-			, UG.user_grade_name AS userGradeName
+				I.*
+			    , U.id
+			    , U.email
+			    , U.user_name
+			    , UG.user_grade_id AS userGradeId
+				, UG.user_grade_name AS userGradeName
+				, A.admin_id AS adminId
+				, A.admin_name AS adminName
+	
+			FROM inquiry I
+			JOIN user U
+				ON I.user_id = U.user_id
+			JOIN user_grade UG
+				ON U.user_grade_id = UG.user_grade_id
+			LEFT JOIN admin A
+				ON I.admin_id = A.admin_id
 
-		FROM inquiry I
-		JOIN user U
-			ON I.user_id = U.user_id
-		JOIN user_grade UG
-			ON U.user_grade_id = UG.user_grade_id
-		LEFT JOIN admin A
-			ON I.admin_id = A.admin_id
+			<where>
+		    <!-- 답변 시간이 없는 것만 검색 -->
+		    <if test="filterNoAnswer != null and filterNoAnswer == true">
+		      AND I.answered_at IS NULL
+		    </if>
+		
+		    <!-- 사용자 id 검색 -->
+		    <if test="searchCondition != null and searchCondition == 'userId' and searchKey != null and searchKey != ''">
+		      AND U.id LIKE CONCAT('%', #{searchKey}, '%')
+		    </if>
+		
+		    <!-- 문의 내용 검색 -->
+		    <if test="searchCondition != null and searchCondition == 'inquiryText' and searchKey != null and searchKey != ''">
+		      AND I.inquiry_text LIKE CONCAT('%', #{searchKey}, '%')
+		    </if>
+		  </where>				
 	</select>
-
+	
+	<!-- 답변 등록 -->
+	<update id="answer" parameterType="Inquiry">
+		update inquiry 
+		set 
+			answer_text=#{answer_text}
+		    , admin_id = #{admin.adminId}
+		    , answered_at = #{answered_at}
+		where inquiry_id = #{inquiry_id}
+	</update>
+	
+	<!--문의 단건 조회 -->
+	<select id="selectById" parameterType="int" resultMap="inquiryAdminMap">
+		SELECT 
+				I.*
+			    , U.id
+			    , U.email
+			    , U.user_name
+			    , UG.user_grade_id AS userGradeId
+				, UG.user_grade_name AS userGradeName
+				, A.admin_id AS adminId
+				, A.admin_name AS adminName
+	
+			FROM inquiry I
+			JOIN user U
+				ON I.user_id = U.user_id
+			JOIN user_grade UG
+				ON U.user_grade_id = UG.user_grade_id
+			LEFT JOIN admin A
+				ON I.admin_id = A.admin_id
+	 		where 
+	 			inquiry_id=#{value}
+	</select>
+	
 </mapper>

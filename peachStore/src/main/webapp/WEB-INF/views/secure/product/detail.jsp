@@ -24,8 +24,19 @@
     }
     String colorJson = mapper.writeValueAsString(colorArray);
  	
+    int[] sizeArray = new int[product.getProductSizes().size()];
+    for (int i = 0; i < sizeArray.length; i++) {
+        sizeArray[i] = product.getProductSizes().get(i).getSize().getSize_id();
+    }
+    String sizeJson = mapper.writeValueAsString(sizeArray);
     
-    
+    int[] capacityArray = new int[product.getProductCapacities().size()];
+    for (int i = 0; i < capacityArray.length; i++) {
+        capacityArray[i] = product.getProductCapacities().get(i).getCapacity().getCapacity_id();
+    }
+    String capacityJson = mapper.writeValueAsString(capacityArray);
+
+  	
 %>
 
 <!DOCTYPE html>
@@ -83,16 +94,16 @@
               </div>
 
               <div class="form-group">
+                <label>상품코드</label>
+                <input type="text" class="form-control" name="product_code" value="<%= product.getProductCode() %>">
+              </div>
+              <div class="form-group">
                 <label>상품명</label>
-                <input type="text" class="form-control" name="product_name" value="<%= product != null ? product.getProductName() : "" %>">
+                <input type="text" class="form-control" name="product_name" value="<%= product.getProductName() %>">
               </div>
               <div class="form-group">
                 <label>가격</label>
-                <input type="text" class="form-control" name="price" value="<%= product != null ? product.getPrice() : "" %>">
-              </div>
-              <div class="form-group">
-                <label>할인가</label>
-                <input type="text" class="form-control" name="discount" value="<%= product != null ? product.getPrice() : "" %>">
+                <input type="text" class="form-control" name="price" value="<%= product.getPrice() %>">
               </div>
               <div class="form-group">
                 <label>간단소개</label>
@@ -101,13 +112,16 @@
               <div class="form-group">
                 <label>색상</label>
                 <select class="form-control" name="color" id="color" multiple="multiple">
-                  <option>색상 선택</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>사이즈</label>
                 <select class="form-control" name="size" id="size" multiple="multiple">
-                  <option>사이즈 선택</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>용량</label>
+                <select class="form-control" name="capacity" id="capacity" multiple="multiple">
                 </select>
               </div>
               <div class="form-group">
@@ -133,7 +147,6 @@
               </div>
             </div>
             <div class="card-footer">
-              <button type="button" class="btn btn-primary" id="bt_regist">등록</button>
               <button type="button" class="btn btn-primary" id="bt_list">목록보기</button>
             </div>
           </form>
@@ -161,7 +174,8 @@
   getTopCategory(<%= topCategoryId %>);
   getSubCategory(<%= topCategoryId %>, <%= subCategoryId %>);
   getColorList(<%= colorJson%>);
-  getSizeList<%= sizeJson%>();
+  getSizeList(<%= sizeJson%>);
+  getCapacityList(<%= capacityJson %>);
 
   <% if (product != null && product.getProductImgs() != null) {
        for(ProductImg productImg : product.getProductImgs()) { %>
@@ -173,7 +187,6 @@
     getSubCategory($(this).val());
   });
 
-  $("#bt_regist").click(() => regist());
   $("#bt_list").click(() => location.href = "/admin/product/list");
 
   let selectedFile = [];
@@ -189,25 +202,6 @@
       reader.readAsDataURL(files[i]);
     }
   });
-
-  function regist(){
-    let formData = new FormData(document.getElementById("form1"));
-    formData.delete("photo");
-    for(let i=0; i<selectedFile.length; i++){
-      formData.append("photo", selectedFile[i]);
-    }
-
-    $.ajax({
-      url: "/admin/product/regist",
-      type: "post",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function(){
-        alert("등록 성공");
-      }
-    });
-  }
 
   function getImgList(dir, filename){
 	  $.ajax({
@@ -269,20 +263,31 @@
         printCategory("#size", result, v);
       }
     });
-  }xk
+  }
 
+  function getCapacityList(v){
+	    $.ajax({
+	      url: "/admin/capacity/list",
+	      type: "get",
+	      success: function(result){
+	        printCategory("#capacity", result, v);
+	      }
+	    });
+	  }
   function printCategory(obj, list, v){
 	console.log(">> render", obj, "target:", v);
     let tag = "<option value='0'>카테고리 선택</option>";
     for(let i=0; i<list.length; i++){
       if(obj === "#topcategory"){
-        tag += "<option value='"+list[i].topcategory_id+"'>"+list[i].top_name+"</option>";
+        tag += "<option value='"+list[i].productTopcategoryId+"'>"+list[i].productTopcategoryName+"</option>";
       } else if(obj === "#subcategory"){
-        tag += "<option value='"+list[i].subcategory_id+"'>"+list[i].sub_name+"</option>";
+        tag += "<option value='"+list[i].productSubcategoryId+"'>"+list[i].productSubcategoryName+"</option>";
       } else if(obj === "#color"){
         tag += "<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
       } else if(obj === "#size"){
         tag += "<option value='"+list[i].size_id+"'>"+list[i].size_name+"</option>";
+      } else if(obj === "#capacity"){
+        tag += "<option value='"+list[i].capacity_id+"'>"+list[i].capacity_name+"</option>";
       }
     }
     $(obj).html(tag);

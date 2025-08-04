@@ -35,8 +35,11 @@ public interface ReviewDAO {
 	 * @return
 	 */
 	public int delete(int reviewId);
+	
+	//리뷰 등록
 	public void insert(Review reivew);
 	
+	//회원별 리뷰 조회
 	public List selectByUserId(User user);
 	
 	/**
@@ -45,4 +48,7 @@ public interface ReviewDAO {
 	 * @return
 	 */
 	public List selectByProductId(int productId);
+	//리뷰 내용 수정
+	public void updateReview(Review review);
+
 }
