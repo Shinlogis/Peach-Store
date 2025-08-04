@@ -1,11 +1,11 @@
-<%@page import="peachstore.domain.InquiryImg"%>
-<%@page import="peachstore.domain.Inquiry"%>
+<%@page import="peachstore.domain.ReviewImg"%>
+<%@page import="peachstore.domain.Review"%>
 <%@page import="peachstore.domain.User"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <% User user = (User)session.getAttribute("user");
-	Inquiry inquiry = (Inquiry)request.getAttribute("inquiry");
+	Review review = (Review)request.getAttribute("review");
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 %>
 <!DOCTYPE html>
@@ -60,11 +60,8 @@
 					<div class="card">
 						<div class="card-body">
 							<form id="form1">
-							<input type="hidden" value="<%= inquiry.getInquiry_id()%>" name="inquiry_id">
-								<div class="form-group">
-									<label >제목</label> <input type="text" value="<%=inquiry.getTitle()%>"
-										id="title" name="title" class="form-control" required />
-								</div>
+							<input type="hidden" value="<%= review.getReviewId()%>" name="reviewId">
+								
 								<div class="form-group">
 									<label >작성자</label> <input type="text" value="<%=user.getUser_name() %>"
 										name="writer" class="form-control" required readonly />
@@ -72,7 +69,7 @@
 								<div class="form-group">
 									<div>
 									<label >내용</label> 
-									<textarea id="summernote" name="inquiry_text"></textarea>
+									<textarea id="summernote" name="content"></textarea>
 								</div>
 								
 								<div class="form-group">
@@ -88,7 +85,7 @@
 								
 								
 								<div class="form-group">
-									<button type="button" class="btn btn-primary" id="bt_update">문의 수정</button>
+									<button type="button" class="btn btn-primary" id="bt_update">리뷰 수정</button>
 								</div>
 							</form>
 						</div>
@@ -129,7 +126,7 @@
 		console.log("수정 폼데이터 ", formData)
 		
 		$.ajax({
-			url:"/shop/inquiry/update",
+			url:"/shop/review/update",
 			type:"post",
 			data:formData,
 			processData:false, /*form을 이루는 데이터를 대상으로 문자열로 변환되는 것을 방지(바이너리 파일이 포함되어 있어서)*/
@@ -182,12 +179,12 @@
 	$('#summernote').summernote({
 		height:300
 	});
-	$("#summernote").summernote("code","<%= inquiry.getInquiry_text() %>")
+	$("#summernote").summernote("code","<%= review.getContent() %>")
 	
 	 //  기존 이미지 출력 - 서버에서 렌더링할 때, 파일명만 배열에 저장하고 InquiryImg 생성
 	  
-	 <% for(InquiryImg inquiryImg : inquiry.getImgList()){%>
-		  getImgList("p_<%=inquiry.getInquiry_id()%>","<%=inquiryImg.getFilename()%>");	  
+	 <% for(ReviewImg reviewImg : review.getImgList()){%>
+		  getImgList("r_<%=review.getReviewId()%>","<%=reviewImg.getFilename()%>");	  
 	 <%} %>
 	
 
