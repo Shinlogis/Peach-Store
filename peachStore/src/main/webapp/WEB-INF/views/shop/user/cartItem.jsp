@@ -113,15 +113,19 @@ h6{
                                             <div class="rating">
                                             <% if (cartItemList.get(i).getCustom_option() != null){%>
                                                <% if (cartItemList.get(i).getCustom_option().getProduct_capacity() !=null){%>
+                                               <!-- capacity 불러오기 -->
                                                 <span><%=cartItemList.get(i).getCustom_option().getProduct_capacity().getCapacity().getCapacity_name() %></span>
                                                 <%} %>
                                                <% if (cartItemList.get(i).getCustom_option().getProduct_color() !=null){%>
+                                               <!-- color 불러오기 -->
                                                 <span><%=cartItemList.get(i).getCustom_option().getProduct_color().getColor().getColor_name()%></span>
                                                 <%} %>
                                                <% if (cartItemList.get(i).getCustom_option().getProduct_size() !=null){%>
+                                               <!-- size 불러오기 -->
                                                 <span><%=cartItemList.get(i).getCustom_option().getProduct_size().getSize().getSize_name() %></span>
                                                 <%} %>
                                                <% if (cartItemList.get(i).getCustom_option().getProduct_engraving() !=null){%>
+                                               <!-- engraving 불러오기 -->
                                                 <span><%=cartItemList.get(i).getCustom_option().getProduct_engraving().getEngraving_text() %></span>
                                                 <%} %>
                                             <%} %>
