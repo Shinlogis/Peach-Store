@@ -31,15 +31,15 @@ DROP TABLE IF EXISTS coupon; -- 쿠폰
 DROP TABLE IF EXISTS sns_provider; -- snsprovider
 
 -- 관리자 테이블 생성(CREATE TABLE admin)
-CREATE TABLE admin(
-   admin_id int PRIMARY KEY AUTO_INCREMENT
-   , email VARCHAR(100) NOT NULL UNIQUE
-   , password varchar(100) NOT NULL
-   , admin_name varchar(100) NOT NULL
-   , role varchar(10) NOT NULL DEFAULT 'admin' CHECK(role in('super', 'admin'))
-   , is_active boolean NOT NULL DEFAULT TRUE
+CREATE TABLE admin (
+   admin_id INT PRIMARY KEY AUTO_INCREMENT,
+   email VARCHAR(100) NOT NULL UNIQUE,
+   password VARCHAR(100) NOT NULL,
+   salt VARCHAR(100) NOT NULL, -- 추가됨
+   admin_name VARCHAR(100) NOT NULL,
+   role VARCHAR(10) NOT NULL DEFAULT 'admin' CHECK(role IN ('super', 'admin')),
+   is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
-
 -- snsprovider 테이블 생성(CREATE TABLE sns_provider)
 CREATE TABLE sns_provider(
    sns_provider_id int PRIMARY KEY auto_increment
@@ -173,7 +173,7 @@ CREATE TABLE product(
    , product_name varchar(100) NOT NULL
    , price int NOT NULL
    , introduce varchar(100) NOT NULL
-   , detail varchar(100) NOT NULL
+   , detail LongText NOT NULL
    , product_subcategory_id int
    , CONSTRAINT fk_product_product_subcategory_id
       FOREIGN KEY (product_subcategory_id)
@@ -386,7 +386,7 @@ INSERT INTO SIZE (SIZE_NAME) VALUES ('ProMax');
 INSERT INTO SIZE (SIZE_NAME) VALUES ('13인치');
 INSERT INTO SIZE (SIZE_NAME) VALUES ('17인치');
 INSERT INTO SIZE (SIZE_NAME) VALUES ('11');
-INSERT INTO SIZE (SIZE_NAME) VALUES ('13');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('13')
 
 -- 색상 테이블 인서트 (INSERT INTO COLOR)
 INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('스페이스 블랙','#2C2C2E ');
@@ -440,23 +440,23 @@ VALUES
    ('zz', 12.00, 9999, false);
 
 -- 관리자 테이블 인서트 (INSERT INTO ADMIN)
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('SUPER@ADMIN.COM', 'SUPERPASS123', '김수현', 'SUPER');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('SUPER@ADMIN.COM', 'SUPERPASS123', '1', '김수현', 'SUPER');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN1@EXAMPLE.COM', 'ADMINPASS1', '이정민', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN1@EXAMPLE.COM', 'ADMINPASS1', '1', '이정민', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN2@EXAMPLE.COM', 'ADMINPASS2', '박지은', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN2@EXAMPLE.COM', 'ADMINPASS2', '1', '박지은', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN3@EXAMPLE.COM', 'ADMINPASS3', '최민석', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN3@EXAMPLE.COM', 'ADMINPASS3', '1', '최민석', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN4@EXAMPLE.COM', 'ADMINPASS4', '정다은', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN4@EXAMPLE.COM', 'ADMINPASS4', '1', '정다은', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN5@EXAMPLE.COM', 'ADMINPASS5', '오세훈', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN5@EXAMPLE.COM', 'ADMINPASS5', '1', '오세훈', 'ADMIN');
 
 -- 쿠폰 테이블 인서트(INSERT INTO COUPON)
 INSERT INTO COUPON (COUPON_NAME, DISCOUNT_AMOUNT, VALID_DAYS, USE_CONDITION)
@@ -688,14 +688,6 @@ VALUES
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
 
-INSERT INTO order_receipt (order_status, user_id)
-VALUES  ('상품 준비 전', 16),
- ('상품 준비 중', 16),
-('발송완료', 16),
- ('상품 준비 중', 16),
-('발송완료', 16);
-
-
 INSERT INTO product (product_code, product_name, price, introduce, detail, product_subcategory_id)
 VALUES
    ('P14P-BLK', 'pPhone 14 Pro 블랙', 1350000, '고성능 스마트폰', '6.1인치 디스플레이 / A16 Bionic', 1),
@@ -742,7 +734,3 @@ VALUES
    (2, 11, 13),
    (1, 10, 14),
    (2, 12, 15);
-
-
-select * from size;
-
