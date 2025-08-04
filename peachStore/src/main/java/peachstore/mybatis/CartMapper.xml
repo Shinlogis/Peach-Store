@@ -8,8 +8,11 @@
 			select="User.selectById"/>
 	</resultMap>
 
-	<select id="selectById" resultMap="selectCartByUserId">
+<!-- 	<select id="selectById" resultMap="selectCartByUserId">
 		select * from cart where user_id = #{user.user_id}
+	</select> -->
+	<select id="selectById" resultMap="selectCartByUserId">
+		select * from cart where cart_id = #{cart_id}
 	</select>
 	<insert id="insert" parameterType="int">
 		insert into cart (user_id) values (#{user_id})

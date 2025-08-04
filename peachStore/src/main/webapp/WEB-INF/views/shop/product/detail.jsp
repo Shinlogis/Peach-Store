@@ -1,3 +1,8 @@
+<%@page import="peachstore.domain.ProductSize"%>
+<%@page import="peachstore.domain.ProductCapacity"%>
+<%@page import="peachstore.domain.ProductColor"%>
+<%@page import="peachstore.domain.ReviewImg"%>
+<%@page import="peachstore.domain.Review"%>
 <%@page import="peachstore.domain.ProductImg"%>
 <%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
@@ -6,6 +11,7 @@
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	Product product = (Product)request.getAttribute("product");
+	List<Review> reviewList = (List)request.getAttribute("reviewList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,32 +66,39 @@
 					<div><%=product.getIntroduce() %></div>
 				</div>
 				<div class="detail-option-wrapper">
-					<div class="detail-option-group">
+					<form id="cartForm" action="/shop/cart/insert" method="post">
 						<fieldset>
-							<legend>선택해라</legend>
+							<legend>사이즈 </legend>
+							<%for(ProductSize productSize :product.getProductSizes()){ %>
 							<div>
-								<input type="radio" id="html1" name="group1" value="html">
-								<label for="html1">HTML</label>
+								<input type="radio" id="size<%=productSize.getSize().getSize_id() %>" name="product_size_id" value="<%=productSize.getSize().getSize_id()%>">
+								<label for="size<%=productSize.getSize().getSize_id() %>"><%=productSize.getSize().getSize_name() %></label>
 							</div>
-							<div>
-								<input type="radio" id="html2" name="group1" value="aaa">
-								<label for="html2">aaa</label>
+							<%} %>
+						</fieldset>
+						
+						<fieldset style="display:flex; gap:15px;">
+							<legend id="color-title">색상</legend>
+							<%for(ProductColor productColor:product.getProductColors()){ %>
+							<div class="color-box">
+								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="product_color_id" value="<%=productColor.getColor().getColor_id()%>" data-color-name="<%=productColor.getColor().getColor_id()%>">
+								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_name() %>;"></label>
 							</div>
+							<%} %>
 						</fieldset>
 							
-						<fieldset>
-							<legend>너도 선택해라</legend>
+						<%--<fieldset>
+							<legend>용량</legend>
+							<%for(ProductCapacity prdocutCapacity:product.getProductCapacities()){ %>
 							<div>
-								<input type="radio" id="a" name="group2" value="kim">
-								<label for="a">김지민바보</label>
+								<input type="radio" id="<%=prdocutCapacity.getCapacity().getCapacity_id() %>" name="group1" value="html">
+								<label for="<%=prdocutCapacity.getCapacity().getCapacity_id() %>"><%=prdocutCapacity.getCapacity().getCapacity_name() %></label>
 							</div>
-							<div>
-								<input type="radio" id="b" name="group2" value="seo">
-								<label for="b">서예닮바보</label>
-							</div>
-						</fieldset>
+							<%} %>
+						</fieldset> --%>
+						<input type="hidden" name ="product_id" value="<%=product.getProductId()%>">
 						<input type="button" value="장바구니에 담기">
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -108,35 +121,27 @@
 								<p>detail></p>
 							</div>
 							<div class="tab-pane" id="tabs-2" role="tabpanel" style="padding: 20px 20px;">
-								<h6>Reviews ( 2 )</h6>
+								<h6>총 리뷰 수 : <%=reviewList.size()%> 개</h6>
 								<ul class="review-list">
+									<%for(Review review:reviewList) {%>
 									<li class="review-item" id="item1">
 										<div class="review-intro">
-											<div class="review-writer">예닮</div>
-											<div class="review-date">2025-07-31</div>
+											<div class="review-writer"><%=review.getUser().getUser_name() %></div>
+											<div class="review-date"><%=review.getRegdate() %></div>
 										</div>
 										<div class="review-content">
-											<div class="review-text">정말 좋은 제품이에요 사주세요 미니 너무 배터리가 빨리 닳아요 제발요정말 좋은 제품이에요 사주세요 미니 너무 배터리가 빨리 닳아요 빨리 닳아요 제발요정 빨리 닳아요 제발요정 제발요 </div>
+											<div class="review-text"><%=review.getContent() %></div>
 											<div class="review-img">
-												<img src="/static/shop/img/logo1.png">
-												<img src="/static/shop/img/logo1.png">
+												<%List<ReviewImg> imgList=review.getImgList();
+												for (ReviewImg img : imgList) {
+									                String imagePath = "/data/r_" + review.getReviewId() + "/" + img.getFilename();
+									    		%>
+									                <img src="<%= imagePath %>" alt="리뷰 이미지" style="max-width: 200px; margin-right: 10px;">
+									    		<%}%>
 											</div>
 										</div>
 									</li>
-									<li class="review-item">
-										<div class="review-intro">
-											<div class="review-writer">예닮</div>
-											<div class="review-date">2025-07-31</div>
-										</div>
-										<div class="review-content">
-											<div class="review-text">정말 좋은 제품이에요!</div>
-											<div class="review-img">
-												<img src="/static/shop/img/logo1.png">
-												<img src="/static/shop/img/logo1.png">
-												<img src="/static/shop/img/logo1.png">
-											</div>
-										</div>
-									</li>
+									<%} %>
 								</ul>
 							</div>
 						</div>
@@ -193,6 +198,12 @@
 			slides[slideIndex-1].classList.add("fade");
 			dots[slideIndex-1].className += " active";
 		}
+		
+		/* 선택된 색상  */
+		$(".color-box input").click(function(){
+			let selectedColor=$('.color-box input[type="radio"]:checked').data('color-name');
+			 $('#color-title').html('색상 - <strong>' + selectedColor + '</strong>');
+		})
 
 		/* 리뷰  */
 		$(".review-item").click(function () {
@@ -244,10 +255,13 @@
 			
 		});
 		
-		  
 		$(document).ready(function () {
 			$(".review-img").each(function () {
 				$(this).children("img").hide().eq(0).show();  // 첫 번째 이미지만 보이게
+			});
+			
+			$("input[type='button']").click(function () {
+				  $("#cartForm").submit();
 			});
 		});
 	</script>

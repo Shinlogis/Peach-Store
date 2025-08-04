@@ -6,4 +6,5 @@ import peachstore.domain.CartItem;
 
 public interface CartItemDAO {
 	public List<CartItem> selectCartItemByCartId(int cart_id);
+	public void insertCartItem(CartItem cartItem);
 }

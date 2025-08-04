@@ -4,4 +4,26 @@
 	<select id="selectAll" resultType="CustomOption">
 		select * from custom_option
 	</select>
+	
+	<resultMap type="CustomOption" id="customOptionMap">
+		<id column="custom_option_id" property="custom_option_id"/>
+		<association column="product_color_id" property="product_color" javaType="ProductColor"
+			select="ProductColor.selectById"/>
+		<association column="product_size_id" property="product_size" javaType="ProductSize"
+			select="ProductSize.selectById"/>
+	</resultMap>
+	
+	<select id="selectById" resultMap="customOptionMap">
+		select * from custom_option where custom_option_id=#{custom_option_id}
+	</select>
+	
+	<insert id="insert" parameterType="CustomOption">
+		insert into custom_option(product_color_id,product_size_id) values(#{product_color.product_color_id},#{product_size.product_size_id})
+		<selectKey keyColumn="custom_option_id" keyProperty="custom_option_id" resultType="int" order="AFTER">
+			select last_insert_id() as custom_option_id
+		</selectKey>
+	</insert>
+	
+	
+	
 </mapper>

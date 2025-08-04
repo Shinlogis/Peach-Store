@@ -42,6 +42,12 @@ public interface ReviewDAO {
 	//회원별 리뷰 조회
 	public List selectByUserId(User user);
 	
+	/**
+	 * 상품pk로 리뷰 조회 
+	 * @param productId
+	 * @return
+	 */
+	public List selectByProductId(int productId);
 	//리뷰 내용 수정
 	public void updateReview(Review review);
 
