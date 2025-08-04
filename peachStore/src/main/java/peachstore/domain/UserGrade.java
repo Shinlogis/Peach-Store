@@ -30,6 +30,7 @@ public class UserGrade {
 	private boolean isActive;
 
 	private List<GradeCoupon> gradeCoupons;
+	private List<User> users;
 	
 	public double getDiscountRateAsDouble() {
 	    return discountRate != null ? discountRate.doubleValue() : 0.0;

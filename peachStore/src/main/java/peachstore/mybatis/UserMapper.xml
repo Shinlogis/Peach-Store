@@ -19,6 +19,8 @@
 		<association column="sns_provider_id" property="sns_provider"
 			javaType="SnsProvider"
 			select="SnsProvider.selectAll"/>
+			
+			
 	</resultMap>
 	
 	
@@ -85,4 +87,5 @@
 			user_grade_id = #{user_grade.userGradeId}
 		where user_id = #{user_id}
 	</update>
+
 </mapper>

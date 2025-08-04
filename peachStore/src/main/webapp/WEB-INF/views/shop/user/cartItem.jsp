@@ -7,6 +7,7 @@
 <%
    List<ProductTopcategory> topList =(List)request.getAttribute("topList");
    List<CartItem> cartItemList = (List)request.getAttribute("cartItemList");
+/*    String cartItemPk; */
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -141,8 +142,8 @@ h6{
                                             <input type="text" value="<%= cartItemList.get(i).getQuantity()%>">
                                         </div>
                                     </td>
-                                    <td class="cart__total">1,000,000</td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
+									<td class="cart__total">1,000,000</td>
+									<td class="cart__delete" data-id="<%= cartItemList.get(i).getCart_item_id() %>">X</td>
                                 </tr>
                                <%} %>
                             </tbody>
@@ -193,8 +194,26 @@ h6{
 
    <!-- Js Plugins -->
    <%@ include file="../inc/footer_link.jsp" %>
-   <script type="text/javascript">
-      
-   </script>
+	<script type="text/javascript">
+		$(() => {
+			$(".shop__cart__table").on("click", ".cart__delete", function () {
+				const cartItemId = $(this).data("id");
+				if (confirm("이 항목을 삭제하시겠습니까?")) {
+					$.ajax({
+						url: "/shop/cart/delete",
+						type: "POST",
+						data: { cartItemId: cartItemId },
+						success: function(response) {
+							// 성공 시 페이지 새로고침 또는 해당 행 삭제
+							location.reload();
+						},
+						error: function(err) {
+							alert("삭제 중 오류가 발생했습니다.");
+						}
+					});
+				}
+			});
+		});
+	</script>
 </body>
 </html>
