@@ -64,7 +64,9 @@ public class PaymentController {
 	@GetMapping("/payment/payment-ready")
 	public String getMethodName(Model model, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
-		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(user.getUser_id());
+//		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(user.getUser_id());
+		List<SnapShot> snapshotList = (List<SnapShot>)httpSession.getAttribute("cartSnapshots");
+		log.debug("스냅샷 리스트는======="+snapshotList);
 		
 		String successUrl = "http://localhost:8888/shop/payment/success-handler";
 		String failUrl = "http://localhost:8888/shop/payment/fail";
@@ -76,9 +78,9 @@ public class PaymentController {
 		model.addAttribute("successUrl", successUrl);
 		model.addAttribute("failUrl", failUrl);
 		model.addAttribute("orderName", "주문번호 " + orderId + " 결제");
+		model.addAttribute("snapshotList", snapshotList);
 		
-		
-		model.addAttribute("cartItemList", cartItemList);
+//		model.addAttribute("cartItemList", cartItemList);
 		model.addAttribute("user", user);
 		return "/shop/payment/payment-ready";
 	}
@@ -153,10 +155,10 @@ public class PaymentController {
 	    }
 	    log.warn("세션에 넘어온 스냅샷 리스트는" + snapshotList);
 		// TODO OrderDetail DB 저장
-//		for (CartItem snapShot : snapshotList) {
-//			log.debug(snapShot.getProduct().getProductName());
-//			orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
-//		}
+	    
+		for (SnapShot snapShot : snapshotList) {
+			orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
+		}
 		
 		// 세션에서 주소 삭제
 		httpSession.removeAttribute("postCode");
