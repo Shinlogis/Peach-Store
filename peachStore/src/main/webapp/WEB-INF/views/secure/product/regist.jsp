@@ -520,7 +520,41 @@
 	<%@ include file="../inc/footer_link.jsp" %>
 	<script src="/static/admin/custom/ProductImg.js"></script>
 	<script>  
+	$(document).ready(function() {
+		  $('#summernote').summernote({
+		    height: 200,
+		    placeholder: "상품 상세 설명을 채우세요",
+		    dialogsInBody: true, // (모달 레이어 오류 방지)
+		    callbacks: {
+		      onImageUpload: function(files) {
+		        // Summernote의 모든 이미지 업로드(드래그/붙여넣기/버튼 클릭)는 이 콜백에서 처리
+		        for (let i = 0; i < files.length; i++) {
+		          sendFile(files[i]);
+		        }
+		      }
+		    }
+		  });
 
+		  function sendFile(file) {
+		    let data = new FormData();
+		    data.append('file', file);
+		    $.ajax({
+		      url: '/admin/product/uploadImage', // 서버에서 이미지 저장하고, url만 반환!
+		      type: 'POST',
+		      data: data,
+		      contentType: false,
+		      processData: false,
+		      success: function(res) {
+		        let imageUrl = typeof res === "string" ? res : res.url;
+		        $('#summernote').summernote('insertImage', imageUrl);
+		      },
+		      error: function() {
+		        alert('이미지 업로드 실패!');
+		      }
+		    });
+		  }
+		});
+	
 	let selectedFile=[];
 	   
 	function printCategory(obj, list){
@@ -610,27 +644,6 @@
 			}
 		});
 	}
-	
-	$('#summernote').summernote({
-		  height: 200,
-		  placeholder: "상품 상세 설명을 채우세요",
-		  callbacks: {
-		    onImageUpload: function(files) {
-		      let data = new FormData();
-		      data.append('file', files[0]);
-		      $.ajax({
-		        url: '/admin/product/uploadImage', // 여기에 백엔드 API 경로!
-		        method: 'POST',
-		        data: data,
-		        contentType: false,
-		        processData: false,
-		        success: function(url) {
-		          $('#summernote').summernote('insertImage', url); // URL을 에디터에 삽입
-		        }
-		      });
-		    }
-		  }
-		});
 	   
 	   //상위 카테고리 가져오기 
 	   getTopCategory(); //상위 카테고리 가져오기

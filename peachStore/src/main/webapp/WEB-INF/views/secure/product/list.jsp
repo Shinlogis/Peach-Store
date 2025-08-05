@@ -552,7 +552,49 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<%@ include file="../inc/footer_link.jsp" %>
+	<script>
+	function deleteProduct(productId) {
+	    Swal.fire({
+	        title: '상품 삭제',
+	        text: '정말로 이 상품을 삭제하시겠습니까?',
+	        icon: 'warning',
+	        showCancelButton: true,
+	        confirmButtonColor: '#dc3545',
+	        cancelButtonColor: '#6c757d',
+	        confirmButtonText: '네, 삭제하겠습니다',
+	        cancelButtonText: '취소',
+	        reverseButtons: true
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            $.ajax({
+	                url: '/admin/product/delete',
+	                type: 'POST',
+	                data: { product_id: productId },
+	                success: function() {
+	                    Swal.fire({
+	                        icon: 'success',
+	                        title: '삭제 완료',
+	                        text: '상품이 성공적으로 삭제되었습니다.',
+	                        timer: 2000,
+	                        showConfirmButton: false
+	                    }).then(() => {
+	                        location.reload();
+	                    });
+	                },
+	                error: function(xhr) {
+	                    Swal.fire({
+	                        icon: 'error',
+	                        title: '삭제 실패',
+	                        text: '삭제 중 오류가 발생했습니다: ' + xhr.responseText
+	                    });
+	                }
+	            });
+	        }
+	    });
+	}
+	</script>
 	<script src="/static/admin/custom/ProductImg.js"></script>
 	<script>
 	function printCategory(obj, list){
@@ -746,44 +788,5 @@
 			$(location).attr("href", "/admin/product/list");
 	   });
 	
-	function deleteProduct(productId) {
-	    Swal.fire({
-	        title: '상품 삭제',
-	        text: '정말로 이 상품을 삭제하시겠습니까?',
-	        icon: 'warning',
-	        showCancelButton: true,
-	        confirmButtonColor: '#dc3545',
-	        cancelButtonColor: '#6c757d',
-	        confirmButtonText: '네, 삭제하겠습니다',
-	        cancelButtonText: '취소',
-	        reverseButtons: true
-	    }).then((result) => {
-	        if (result.isConfirmed) {
-	            $.ajax({
-	                url: '/admin/product/delete',
-	                type: 'POST',
-	                data: { product_id: productId },
-	                success: function() {
-	                    Swal.fire({
-	                        icon: 'success',
-	                        title: '삭제 완료',
-	                        text: '상품이 성공적으로 삭제되었습니다.',
-	                        timer: 2000,
-	                        showConfirmButton: false
-	                    }).then(() => {
-	                        location.reload();
-	                    });
-	                },
-	                error: function(xhr) {
-	                    Swal.fire({
-	                        icon: 'error',
-	                        title: '삭제 실패',
-	                        text: '삭제 중 오류가 발생했습니다: ' + xhr.responseText
-	                    });
-	                }
-	            });
-	        }
-	    });
-	}
 	
 	
