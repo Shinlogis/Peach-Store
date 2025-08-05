@@ -2,29 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProductCapacity">
 
-		<insert id ="insert" parameterType="ProductCapacity">
-			insert into product_capacity(product_id, capacity_id) values(#{product.productId}, #{capacity.capacity_id})
-		</insert>
-		
-		<resultMap type="ProductCapacity" id="capacityMap">
-		  <id column="product_capacity_id" property="product_capacity_id"/>
-		  <association column="capacity_id" property="capacity" javaType="Capacity" select="Capacity.select"/>
-		</resultMap>
-		
-		<select id="selectByProductId" parameterType="int" resultMap="capacityMap">
-		  select product_capacity_id, product_id, capacity_id
-		  from product_capacity
-		  where product_id = #{productId}
-		</select>
-		
-		<delete id="deleteByProductId" parameterType="int">
-		  delete from product_capacity where product_id = #{productId}
-		</delete>
-		
-		<select id="selectById" parameterType="int" resultMap="capacityMap">
-		  select product_capacity_id, capacity_id
-		  from product_capacity
-		  where product_capacity_id = #{product_capacity_id}
-		</select>
+    <insert id ="insert" parameterType="ProductCapacity">
+	    insert into product_capacity(product_id, capacity_id, additional_price)
+	    values(#{product.productId}, #{capacity.capacity_id}, #{additional_price})
+	</insert>
+
+    <select id="getCapacityIdByName" parameterType="string" resultType="int">
+	    SELECT capacity_id FROM capacity WHERE capacity_name = #{capacity.capacityName}
+	</select>
+
+    <resultMap type="ProductCapacity" id="capacityMap">
+        <id column="product_capacity_id" property="product_capacity_id"/>
+        <result column="additional_price" property="additional_price"/>
+        <association column="capacity_id" property="capacity" javaType="Capacity" select="Capacity.select"/>
+    </resultMap>
+
+    <select id="selectByProductId" parameterType="int" resultMap="capacityMap">
+        SELECT product_capacity_id, product_id, capacity_id, additional_price
+        FROM product_capacity
+        WHERE product_id = #{product.productId}
+    </select>
+
+    <delete id="deleteByProductId" parameterType="int">
+        DELETE FROM product_capacity WHERE product_id = #{product.productId}
+    </delete>
+
+    <select id="selectById" parameterType="int" resultMap="capacityMap">
+        SELECT product_capacity_id, capacity_id, additional_price
+        FROM product_capacity
+        WHERE product_capacity_id = #{product_capacity_id}
+    </select>
 
 </mapper>

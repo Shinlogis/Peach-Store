@@ -17,6 +17,12 @@
 	    JOIN snapshot s ON od.snapshot_id = s.snapshot_id
 	    ORDER BY orc.order_receipt_id DESC
 	  </select>
+		
+		<update id="updateOrderStatus">
+		    UPDATE order_receipt
+		    SET order_status = #{orderStatus}
+		    WHERE order_receipt_id = #{orderReceiptId}
+		</update>
 	
 </mapper>
 
