@@ -82,14 +82,14 @@
 	</update>
 	
 	<update id="update" parameterType="Product">
-    UPDATE product
-    SET product_name = #{productName},
-        price = #{price},
-        introduce = #{introduce},
-        detail = #{detail},
-        product_subcategory_id = #{productSubcategory.productSubcategoryId}
-    WHERE product_id = #{productId}
-</update>
+	    UPDATE product
+	    SET product_name = #{productName},
+	        price = #{price},
+	        introduce = #{introduce},
+	        detail = #{detail},
+	        product_subcategory_id = #{productSubcategory.productSubcategoryId}
+	    WHERE product_id = #{productId}
+	</update>
 	
 	
 </mapper>

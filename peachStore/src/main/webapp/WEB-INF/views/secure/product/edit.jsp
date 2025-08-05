@@ -2,7 +2,6 @@
 <%@page import="com.fasterxml.jackson.databind.ObjectMapper"%>
 <%@page import="peachstore.domain.ProductImg"%>
 <%@page import="peachstore.domain.Product"%>
-<%@ page contentType="text/html; charset=UTF-8"%>
 <%
     Product product = (Product)request.getAttribute("product");
 
@@ -15,7 +14,6 @@
         subCategoryId = product.getProductSubcategory().getProductSubcategoryId();
     }
     
-    // Java를 JSON 문자열로 변환
     ObjectMapper mapper = new ObjectMapper(); // java <> json
     
     int[] colorArray = new int[product.getProductColors().size()];
@@ -35,8 +33,6 @@
         capacityArray[i] = product.getProductCapacities().get(i).getCapacity().getCapacity_id();
     }
     String capacityJson = mapper.writeValueAsString(capacityArray);
-
-  	
 %>
 
 <!DOCTYPE html>
@@ -112,18 +108,16 @@
               </div>
               <div class="form-group">
                 <label>색상</label>
-                <select class="form-control" name="color" id="color" multiple="multiple">
-                </select>
+                <select class="form-control" name="color" id="color" multiple="multiple"></select>
               </div>
               <div class="form-group">
                 <label>사이즈</label>
-                <select class="form-control" name="size" id="size" multiple="multiple">
-                </select>
+                <select class="form-control" name="size" id="size" multiple="multiple"></select>
               </div>
               <div class="form-group">
                 <label>용량</label>
-                <select class="form-control" name="capacity" id="capacity" multiple="multiple">
-                </select>
+                <select class="form-control" name="capacity" id="capacity" multiple="multiple"></select>
+                <div id="capacityNameContainer"></div>
               </div>
               <div class="form-group">
                 <textarea id="summernote" name="detail"></textarea>
@@ -169,201 +163,223 @@
 
 <script>
 $('#summernote').summernote({
-	  height: 200,
-	  placeholder: "상품 상세 설명을 채우세요",
-	  callbacks: {
-	    onImageUpload: function(files) {
-	      let data = new FormData();
-	      data.append('file', files[0]);
-	      $.ajax({
-	        url: '/admin/product/uploadImage', // 여기에 백엔드 API 경로!
-	        method: 'POST',
-	        data: data,
-	        contentType: false,
-	        processData: false,
-	        success: function(url) {
-	          $('#summernote').summernote('insertImage', url); // URL을 에디터에 삽입
+  height: 200,
+  placeholder: "상품 상세 설명을 채우세요",
+  callbacks: {
+    onImageUpload: function(files) {
+      let data = new FormData();
+      data.append('file', files[0]);
+      $.ajax({
+        url: '/admin/product/uploadImage',
+        method: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function(url) {
+          $('#summernote').summernote('insertImage', url);
+        }
+      });
+    }
+  }
+});
+$("#summernote").summernote("code", '<%= product != null ? product.getDetail() : "" %>');
+
+getTopCategory(<%= topCategoryId %>);
+getSubCategory(<%= topCategoryId %>, <%= subCategoryId %>);
+getColorList(<%= colorJson%>);
+getSizeList(<%= sizeJson%>);
+getCapacityList(<%= capacityJson %>);
+
+<% if (product != null && product.getProductImgs() != null) {
+     for(ProductImg productImg : product.getProductImgs()) { %>
+       getImgList("product_<%= product.getProductId() %>", "<%= productImg.getFilename() %>");
+<%   }
+   } %>
+   function appendCapacityNamesToForm() {
+	    $("#capacityNameContainer").empty(); 
+	    
+	    $("#capacity option:selected").each(function() {
+	        let name = $(this).text().trim(); 
+	        if (name && name !== "카테고리 선택") {
+	            $("#capacityNameContainer").append(
+	                `<input type="hidden" name="capacityName" value="${name}">`
+	            );
 	        }
-	      });
-	    }
-	  }
-	});
-  $("#summernote").summernote("code", '<%= product != null ? product.getDetail() : "" %>');
+	    });
+	}
 
-  getTopCategory(<%= topCategoryId %>);
-  getSubCategory(<%= topCategoryId %>, <%= subCategoryId %>);
-  getColorList(<%= colorJson%>);
-  getSizeList(<%= sizeJson%>);
-  getCapacityList(<%= capacityJson %>);
+   appendCapacityNamesToForm();
+   
+$("#topcategory").change(function(){
+  getSubCategory($(this).val());
+});
 
-  <% if (product != null && product.getProductImgs() != null) {
-       for(ProductImg productImg : product.getProductImgs()) { %>
-         getImgList("product_<%= product.getProductId() %>", "<%= productImg.getFilename() %>");
-  <%   }
-     } %>
+$("#bt_list").click(() => location.href = "/admin/product/list");
 
-  $("#topcategory").change(function(){
-    getSubCategory($(this).val());
-  });
+$("#bt_edit").click(() => {
+  appendCapacityNamesToForm();
+  edit();
+});
 
-  $("#bt_list").click(() => location.href = "/admin/product/list");
+let selectedFile = [];
+let deletedFilenames = [];
 
-  $("#bt_edit").click(() => edit());
-  
-  let selectedFile = [];
-  let deletedFilenames = [];
-  
-  $("#photo").change(function(e){
-    let files = e.target.files;
-    for(let i=0; i<files.length; i++){
-      selectedFile[i] = files[i];
+
+$("#photo").change(function(e){
+  let files = e.target.files;
+  for(let i=0; i<files.length; i++){
+    selectedFile[i] = files[i];
+    const reader = new FileReader();
+    reader.onload = function(e){
+      new ProductImg(document.getElementById("preview"), selectedFile[i], e.target.result, 100, 100);
+    }
+    reader.readAsDataURL(files[i]);
+  }
+});
+
+function getImgList(dir, filename){
+  $.ajax({
+    url: "/data/" + dir + "/" + filename,
+    type: "get",
+    xhr: function(){
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = "blob";
+      return xhr;
+    },
+    success: function(result){
+      const file = new File([result], filename, {type: result.type});
       const reader = new FileReader();
       reader.onload = function(e){
-        new ProductImg(document.getElementById("preview"), selectedFile[i], e.target.result, 100, 100);
-      }
-      reader.readAsDataURL(files[i]);
+        const container = document.getElementById("preview");
+
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+        wrapper.style.display = "inline-block";
+        wrapper.style.margin = "5px";
+
+        new ProductImg(wrapper, file, e.target.result, 100, 100);
+
+        const delBtn = document.createElement("button");
+        delBtn.innerText = "X";
+        delBtn.style.position = "absolute";
+        delBtn.style.top = "0";
+        delBtn.style.right = "0";
+        delBtn.style.backgroundColor = "red";
+        delBtn.style.color = "white";
+        delBtn.onclick = () => {
+          wrapper.remove();
+          deletedFilenames.push(filename);
+        };
+
+        wrapper.appendChild(delBtn);
+        container.appendChild(wrapper);
+      };
+      reader.readAsDataURL(file);
     }
   });
+}
 
-  function getImgList(dir, filename){
-	  $.ajax({
-	    url: "/data/" + dir + "/" + filename,
-	    type: "get",
-	    xhr: function(){
-	      const xhr = new XMLHttpRequest();
-	      xhr.responseType = "blob";
-	      return xhr;
-	    },
-	    success: function(result){
-	      const file = new File([result], filename, {type: result.type});
-	      const reader = new FileReader();
-	      reader.onload = function(e){
-	        const container = document.getElementById("preview");
+function edit(){
+  let formData = new FormData(document.getElementById("form1"));
 
-	        const wrapper = document.createElement("div");
-	        wrapper.style.position = "relative";
-	        wrapper.style.display = "inline-block";
-	        wrapper.style.margin = "5px";
-
-	        new ProductImg(wrapper, file, e.target.result, 100, 100);
-
-	        const delBtn = document.createElement("button");
-	        delBtn.innerText = "X";
-	        delBtn.style.position = "absolute";
-	        delBtn.style.top = "0";
-	        delBtn.style.right = "0";
-	        delBtn.style.backgroundColor = "red";
-	        delBtn.style.color = "white";
-	        delBtn.onclick = () => {
-	          wrapper.remove(); // 화면에서 제거
-	          deletedFilenames.push(filename); // 삭제 리스트에 추가
-	        };
-
-	        wrapper.appendChild(delBtn);
-	        container.appendChild(wrapper);
-	      };
-	      reader.readAsDataURL(file);
-	    }
-	  });
-	}
-	
-  function edit(){
-	  let formData = new FormData(document.getElementById("form1"));
-
-	  formData.delete("photo");
-	  for(let i=0; i<selectedFile.length; i++){
-	    formData.append("photo", selectedFile[i]);
-	  }
-
-	  for (let filename of deletedFilenames) {
-	    formData.append("deleteFiles", filename); 
-	  }
-
-	  $.ajax({
-	    url: "/admin/product/edit",
-	    type: "post",
-	    data: formData,
-	    processData: false,
-	    contentType: false,
-	    success: function(){
-	      alert("수정 성공");
-	      location.href = "/admin/product/list";
-	    },
-	    error: function(err){
-	      console.error("❌ 수정 실패", err);
-	    }
-	  });
-	}
-
-
-  function getTopCategory(v){
-    $.ajax({
-      url: "/admin/topcategory/list",
-      type: "get",
-      success: function(result){
-        printCategory("#topcategory", result, v);
-      }
-    });
+  for(let pair of formData.entries()) {
+    console.log("[DEBUG] 전송될 formData", pair[0], pair[1]);
   }
 
-  function getSubCategory(topcategory_id, v){
-    $.ajax({
-      url: "/admin/subcategory/list?topcategory_id=" + topcategory_id,
-      type: "get",
-      success: function(result){
-        printCategory("#subcategory", result, v);
-      }
-    });
+  formData.delete("photo");
+  for(let i=0; i<selectedFile.length; i++){
+    formData.append("photo", selectedFile[i]);
   }
 
-  function getColorList(v){
-    $.ajax({
-      url: "/admin/color/list",
-      type: "get",
-      success: function(result){
-        printCategory("#color", result, v);
-      }
-    });
+  for (let filename of deletedFilenames) {
+    formData.append("deleteFiles", filename);
   }
 
-  function getSizeList(v){
-    $.ajax({
-      url: "/admin/size/list",
-      type: "get",
-      success: function(result){
-        printCategory("#size", result, v);
-      }
-    });
-  }
-
-  function getCapacityList(v){
-	    $.ajax({
-	      url: "/admin/capacity/list",
-	      type: "get",
-	      success: function(result){
-	        printCategory("#capacity", result, v);
-	      }
-	    });
-	  }
-  function printCategory(obj, list, v){
-	console.log(">> render", obj, "target:", v);
-    let tag = "<option value='0'>카테고리 선택</option>";
-    for(let i=0; i<list.length; i++){
-      if(obj === "#topcategory"){
-        tag += "<option value='"+list[i].productTopcategoryId+"'>"+list[i].productTopcategoryName+"</option>";
-      } else if(obj === "#subcategory"){
-        tag += "<option value='"+list[i].productSubcategoryId+"'>"+list[i].productSubcategoryName+"</option>";
-      } else if(obj === "#color"){
-        tag += "<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
-      } else if(obj === "#size"){
-        tag += "<option value='"+list[i].size_id+"'>"+list[i].size_name+"</option>";
-      } else if(obj === "#capacity"){
-        tag += "<option value='"+list[i].capacity_id+"'>"+list[i].capacity_name+"</option>";
-      }
+  $.ajax({
+    url: "/admin/product/edit",
+    type: "post",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function(){
+      alert("수정 성공");
+      location.href = "/admin/product/list";
+    },
+    error: function(err){
+      console.error("❌ 수정 실패", err);
     }
-    $(obj).html(tag);
-    $(obj).val(v);
+  });
+}
+
+function getTopCategory(v){
+  $.ajax({
+    url: "/admin/topcategory/list",
+    type: "get",
+    success: function(result){
+      printCategory("#topcategory", result, v);
+    }
+  });
+}
+
+function getSubCategory(topcategory_id, v){
+  $.ajax({
+    url: "/admin/subcategory/list?topcategory_id=" + topcategory_id,
+    type: "get",
+    success: function(result){
+      printCategory("#subcategory", result, v);
+    }
+  });
+}
+
+function getColorList(v){
+  $.ajax({
+    url: "/admin/color/list",
+    type: "get",
+    success: function(result){
+      printCategory("#color", result, v);
+    }
+  });
+}
+
+function getSizeList(v){
+  $.ajax({
+    url: "/admin/size/list",
+    type: "get",
+    success: function(result){
+      printCategory("#size", result, v);
+    }
+  });
+}
+
+function getCapacityList(v){
+  $.ajax({
+    url: "/admin/capacity/list",
+    type: "get",
+    success: function(result){
+      printCategory("#capacity", result, v);
+    }
+  });
+}
+
+function printCategory(obj, list, v){
+  console.log(">> render", obj, "target:", v);
+  let tag = "<option value='0'>카테고리 선택</option>";
+  for(let i=0; i<list.length; i++){
+    if(obj === "#topcategory"){
+      tag += "<option value='"+list[i].productTopcategoryId+"'>"+list[i].productTopcategoryName+"</option>";
+    } else if(obj === "#subcategory"){
+      tag += "<option value='"+list[i].productSubcategoryId+"'>"+list[i].productSubcategoryName+"</option>";
+    } else if(obj === "#color"){
+      tag += "<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
+    } else if(obj === "#size"){
+      tag += "<option value='"+list[i].size_id+"'>"+list[i].size_name+"</option>";
+    } else if(obj === "#capacity"){
+      tag += "<option value='"+list[i].capacity_id+"'>"+list[i].capacity_name+"</option>";
+    }
   }
+  $(obj).html(tag);
+  $(obj).val(v);
+}
 </script>
 </body>
 </html>
