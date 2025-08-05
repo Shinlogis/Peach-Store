@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.List, peachstore.domain.Admin" %>
+<%@ page import="java.util.List" %>
+<%@ page import="peachstore.domain.Admin" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -392,8 +393,8 @@
                 
                 if(adminList != null) {
                     totalAdmins = adminList.size();
-                    for(peachstore.domain.Admin admin : adminList) {
-                        if(admin.isActive()) {
+                    for(Admin a : adminList) {
+                        if(a.isActive()) {
                             activeAdmins++;
                         } else {
                             inactiveAdmins++;
@@ -444,21 +445,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <% for (peachstore.domain.Admin admin : adminList) { %>
+                        <% for (Admin a : adminList) { %>
                             <tr class="admin-row">
                                 <td>
-                                    <div class="admin-name"><%= admin.getAdminName() %></div>
+                                    <div class="admin-name"><%= a.getAdminName() %></div>
                                 </td>
                                 <td>
-                                    <div class="admin-email"><%= admin.getEmail() %></div>
+                                    <div class="admin-email"><%= a.getEmail() %></div>
                                 </td>
                                 <td>
-                                    <span class="role-badge role-<%= admin.getRole().toLowerCase() %>">
-                                        <%= admin.getRole() %>
+                                    <span class="role-badge role-<%= a.getRole().toLowerCase() %>">
+                                        <%= a.getRole() %>
                                     </span>
                                 </td>
                                 <td>
-                                    <% if(admin.isActive()) { %>
+                                    <% if(a.isActive()) { %>
                                         <div class="status-active">
                                             <span>🟢</span> 활성
                                         </div>
@@ -470,15 +471,15 @@
                                 </td>
                                 <td>
                                     <form action="/admin/user/setactive" method="post" style="display:inline;" class="status-form">
-                                        <input type="hidden" name="adminId" value="<%= admin.getAdminId() %>" />
-                                        <input type="hidden" name="isActive" value="<%= admin.isActive() ? "false" : "true" %>" />
+                                        <input type="hidden" name="adminId" value="<%= a.getAdminId() %>" />
+                                        <input type="hidden" name="isActive" value="<%= a.isActive() ? "false" : "true" %>" />
                                         <button
                                             type="submit"
-                                            class="action-btn <%= admin.isActive() ? "btn-deactivate" : "btn-activate" %>"
-                                            data-admin-name="<%= admin.getAdminName() %>"
-                                            data-admin-active="<%= admin.isActive() %>"
+                                            class="action-btn <%= a.isActive() ? "btn-deactivate" : "btn-activate" %>"
+                                            data-admin-name="<%= a.getAdminName() %>"
+                                            data-admin-active="<%= a.isActive() %>"
                                             onclick="return confirmAction(this)">
-                                            <%= admin.isActive() ? "🚫 비활성화" : "✅ 활성화" %>
+                                            <%= a.isActive() ? "🚫 비활성화" : "✅ 활성화" %>
                                         </button>
                                     </form>
                                 </td>

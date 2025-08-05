@@ -66,22 +66,24 @@ public class LoginCheckFilter implements Filter{
 			}
 			
 			HttpSession session = request.getSession(false);//기존의 세션을 얻어옴(false), true : 새로운 세션생성
-			boolean isLoggined = (session != null && session.getAttribute("user") != null); 
-				
-			if (!isLoggined) {
-			    HttpServletResponse response = (HttpServletResponse) res;
-
-			    // admin 경로면 admin 로그인폼으로, 아니면 shop 로그인폼으로
-			    if (uri.startsWith("/admin/")) {
-			        response.sendRedirect("/admin/user/loginform");
-			    } else {
-			        response.sendRedirect("/shop/user/loginform");
-			    }
-			    return; 
-				} else {
-				    chain.doFilter(req, res);
-				}
-			}
+			 // 1. admin 영역
+		    if (uri.startsWith("/admin/")) {
+		        boolean isAdminLoggined = (session != null && session.getAttribute("admin") != null);
+		        if (!isAdminLoggined) {
+		            ((HttpServletResponse) res).sendRedirect("/admin/user/loginform");
+		            return;
+		        }
+		    }
+		    // 2. shop 영역
+		    else if (uri.startsWith("/shop/")) {
+		        boolean isUserLoggined = (session != null && session.getAttribute("user") != null);
+		        if (!isUserLoggined) {
+		            ((HttpServletResponse) res).sendRedirect("/shop/user/loginform");
+		            return;
+		        }
+		    }
+		    chain.doFilter(req, res);
+		}
 
 		@Override
 		public void destroy() {

@@ -42,10 +42,10 @@
     </li>
 	
 	<%
-	  Object user = session.getAttribute("user");
+	    Object admin = session.getAttribute("admin");
 	%>
 	<li class="nav-item">
-	  <% if (user == null) { %>
+	  <% if (admin == null) { %>
 	    <a class="nav-link" href="/admin/user/loginform" role="button">
 	      <i class="fas fa-sign-in-alt"></i> 로그인
 	    </a>
@@ -55,7 +55,6 @@
 	    </a>
 	  <% } %>
 	</li>
-
 
   </ul>
 </nav>
