@@ -21,7 +21,6 @@ import peachstore.repository.Inquiry.InquiryDAO;
 import peachstore.repository.Inquiry.InquiryImgDAO;
 import peachstore.service.admin.AdminService;
 import peachstore.util.FileCommonManager;
-import peachstore.util.FileManager;
 
 /**
  * 문의하기 service
