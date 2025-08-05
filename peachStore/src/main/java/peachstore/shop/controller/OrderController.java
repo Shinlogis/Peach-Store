@@ -39,6 +39,8 @@ public class OrderController {
 		orderReceipt.setUser(user);
 		log.debug("유저 데이터 : {}", user);
 		Paging paging = new Paging();
+		log.debug("주문한 주소는 : " + orderReceipt.getAddress());
+		log.debug("주문한 주소는 : {}" + orderReceipt);
 		
 		int totalRecord = orderReceiptService.countByUserId(orderReceipt);
 		paging.init(totalRecord, request);

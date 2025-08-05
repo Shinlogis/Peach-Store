@@ -3,7 +3,7 @@
 <mapper namespace="SnapShot">
 
 	<select id="select" resultType="SnapShot">
-		select snapshot_id, product_id, product_name, price, size, capacity, color, engraving, filename
+		select snapshot_id, product_id, product_name, price, size, capacity, color, engraving, filename, order_quantity 
 		 from snapshot where snapshot_id = #{snapshot_id}
 	</select>
 	<resultMap id="SnapshotMap" type="SnapShot">
