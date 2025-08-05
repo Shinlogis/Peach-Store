@@ -162,7 +162,7 @@ h6{
                             <li>총액<span>$ 750.0</span></li>
                             <li>결제할 금액<span>$ 750.0</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="/shop/payment/payment-ready" class="primary-btn">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -185,7 +185,9 @@ h6{
    <!-- Js Plugins -->
    <%@ include file="../inc/footer_link.jsp" %>
    <script type="text/javascript">
-      
+   
+   
+   
    </script>
 </body>
 </html>

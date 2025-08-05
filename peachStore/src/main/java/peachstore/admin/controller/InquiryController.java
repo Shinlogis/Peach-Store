@@ -25,32 +25,35 @@ import peachstore.util.Paging;
 @Slf4j
 @RequiredArgsConstructor
 public class InquiryController {
-	
+
 	private final InquiryService inquiryService;
-	
+
 	/**
 	 * 전체 문의 내역 조회
+	 * 
 	 * @param request
 	 * @param model
 	 * @param searchCondition 검색조건
-	 * @param searchKey 검색어
-	 * @param filterNoAnswer 답변대기만 보기 체크 여부
+	 * @param searchKey       검색어
+	 * @param filterNoAnswer  답변대기만 보기 체크 여부
 	 * @return
 	 */
 	@GetMapping("/inquiry/list")
-	public String listAll(
-			HttpServletRequest request, Model model,
-			 @RequestParam(required=false) String searchCondition,
-			 @RequestParam(required=false) String searchKey,
-			 @RequestParam(required=false, defaultValue="false") boolean filterNoAnswer
-			) {
+	public String listAll(HttpServletRequest request, Model model, 
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate, 
+			@RequestParam(required = false) String searchCondition,
+			@RequestParam(required = false) String searchKey,
+			@RequestParam(required = false, defaultValue = "false") boolean filterNoAnswer) {
+		log.debug("searchCondition - {}, searchKey - {}", searchCondition, searchKey);
+
 		// 검색 조건을 담을 searchMap
 		Map<String, Object> searchMap = new HashMap<>();
 		// 넘어온 검색조건이 있다면 searchMap에 추가
 		if (filterNoAnswer) {
 			searchMap.put("filterNoAnswer", true);
 		}
-		if(searchCondition != null && searchKey != null && !searchKey.trim().isEmpty()) { // 검색 조건이 선택돼있고, 검색어가 비어있지 않은 경우
+		if (searchCondition != null && searchKey != null && !searchKey.trim().isEmpty()) { // 검색 조건이 선택돼있는 경우
 			if (searchCondition.equals("userId")) { // 검색 조건이 사용자 ID인 경우
 				// 검색 조건에 userId, 검색어에 searchKey 추가
 				searchMap.put("searchCondition", "userId");
@@ -62,23 +65,30 @@ public class InquiryController {
 				log.debug("serchKey - {}, condition - {}", searchKey, "innertext");
 			}
 		}
-		
+		if (startDate != null && !startDate.trim().isEmpty()) {
+			searchMap.put("startDate", startDate);
+		}
+		if (endDate != null && !endDate.trim().isEmpty()) {
+			searchMap.put("endDate", endDate);
+		}
+
 		List<Inquiry> inquiries = inquiryService.selectAllAtAdmin(searchMap);
-		
+
 		Paging paging = new Paging();
 		paging.init(inquiries, request);
-		
+
 		model.addAttribute("inquiries", inquiries);
 		model.addAttribute("paging", paging);
-		model.addAttribute("searchCondition", searchCondition); 
+		model.addAttribute("searchCondition", searchCondition);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("filterNoAnswer", filterNoAnswer);
 
 		return "/inquiry/list";
 	}
-	
+
 	/**
 	 * 문의 답변 등록
+	 * 
 	 * @param inquiry_id
 	 * @param admin_id
 	 * @param answer_text
@@ -87,22 +97,18 @@ public class InquiryController {
 	 */
 	@PostMapping("/inquiry/answer")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> answerInquiry(
-			int inquiry_id,
-			int admin_id,
-			String answer_text,
-			HttpServletRequest request
-			){
+	public ResponseEntity<Map<String, Object>> answerInquiry(int inquiry_id, int admin_id, String answer_text,
+			HttpServletRequest request) {
 		log.debug("answerInquiry param - {}, {}, {}", inquiry_id, admin_id, answer_text);
 		Map<String, Object> response = new HashMap<>();
-		
+
 		try {
 			inquiryService.answerInquiry(inquiry_id, admin_id, answer_text);
 			response.put("success", true);
 			response.put("message", "답변이 등록되었습니다.");
 			return new ResponseEntity<>(response, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.error("답변 등록 중 예외 발생", e); 
+			log.error("답변 등록 중 예외 발생", e);
 			response.put("success", false);
 			response.put("message", "답변이 등록되지 않았습니다. 다시 시도해주세요.");
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

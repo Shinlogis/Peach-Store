@@ -39,4 +39,14 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 		return orderReceiptDAO.completedList(orderReceipt);
 	}
 
+	/**
+	 * 주문내역 생성
+	 * @param orderReceipt
+	 * @return
+	 */
+	@Override
+	public int insert(OrderReceipt orderReceipt) {
+		return orderReceiptDAO.insert(orderReceipt);
+	}
+
 }

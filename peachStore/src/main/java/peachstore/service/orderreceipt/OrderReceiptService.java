@@ -20,4 +20,11 @@ public interface OrderReceiptService {
 	public OrderReceipt selectById(int orderReceiptId);
 	
 	public List completedList(OrderReceipt orderReceipt);
+	
+	/**
+	 * 주문내역 생성
+	 * @param orderReceipt
+	 * @return
+	 */
+	public int insert(OrderReceipt orderReceipt);
 }

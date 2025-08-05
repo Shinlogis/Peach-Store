@@ -17,4 +17,5 @@
 	<insert id="insert" parameterType="int">
 		insert into cart (user_id) values (#{user_id})
 	</insert>
+	
 </mapper>
