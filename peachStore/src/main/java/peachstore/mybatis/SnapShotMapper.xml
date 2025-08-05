@@ -17,4 +17,22 @@
 		FROM snapshot
 	</select>
 
+	<insert id="insertSnapshots" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="snapshot_id">
+    	INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving, filename)
+    	VALUES
+    	<foreach collection="list" item="item" separator=",">
+        	(#{item.product_id}, #{item.product_name}, #{item.price}, #{item.size},
+        	 #{item.capacity}, #{item.color}, #{item.engraving}, #{item.filename})
+	    </foreach>
+	</insert>
+
+	<select id="selectSnapshotsByIds" resultType="SnapShot">
+	    SELECT snapshot_id, product_id, product_name, price, size, capacity, color, engraving, filename
+	    FROM snapshot
+	    WHERE snapshot_id IN
+    	<foreach collection="list" item="snapshot_id" open="(" separator="," close=")">
+        	#{snapshot_id}
+    	</foreach>
+	</select>
+
 </mapper>
