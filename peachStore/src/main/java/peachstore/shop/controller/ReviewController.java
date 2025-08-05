@@ -18,6 +18,7 @@ import peachstore.domain.OrderDetail;
 import peachstore.domain.Review;
 import peachstore.domain.User;
 import peachstore.service.review.ReviewService;
+import peachstore.util.Paging;
 
 @Slf4j
 @Controller
@@ -54,15 +55,22 @@ public class ReviewController {
 
 	// 조회
 	@GetMapping("review/list")
-	public ModelAndView getList(HttpSession session, Review review) {
+	public ModelAndView getList(HttpSession session, Review review, HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		review.setUser(user);
+		
+		Paging paging = new Paging();
+		
+		int totalRecord = reviewService.countByUserId(user);
+		paging.init(totalRecord, request);
 
-		List<Review> reviewList = reviewService.selectByUserId(user);
-
+		//List<Review> reviewList = reviewService.selectByUserId(user);
+		List<Review> reviewList = reviewService.paging(user, paging.getStartIndex(), paging.getPageSize());
+		
 		log.debug("리뷰 쓸 user_id 는 " + user.getUser_id());
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("reviewList", reviewList);
+		mav.addObject("paging", paging);
 		mav.setViewName("/shop/review/list");
 
 		return mav;

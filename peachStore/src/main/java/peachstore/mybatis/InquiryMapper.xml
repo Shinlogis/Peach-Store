@@ -206,4 +206,19 @@
 		inquiry_id=#{value}
 	</select>
 
+	<!-- 페이징 -->
+	<select id="count" parameterType="Inquiry" resultType="int">
+		SELECT COUNT(*)
+		FROM inquiry
+		WHERE user_id = #{user.user_id}
+	</select>
+
+	<select id="paging" parameterType="map" resultMap="joinMap">
+		SELECT *
+		FROM inquiry
+		WHERE user_id = #{user.user_id}
+		ORDER BY created_at DESC
+		LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+
 </mapper>
