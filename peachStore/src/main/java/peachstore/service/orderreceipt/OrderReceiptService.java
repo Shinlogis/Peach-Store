@@ -39,5 +39,5 @@ public interface OrderReceiptService {
 	 * @param tosspayment
 	 * @return OrderReceipt 등록한 주문내역 반환
 	 */
-	public OrderReceipt insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment);
+	public OrderReceipt insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment, String postcode, String address, String detailAddress);
 }

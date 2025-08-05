@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="peachstore.repository.statistics.StatisticsDAO">
+	<!-- 통계 모음 mapper -->
+	<!-- 오늘 매출 -->
+	<select id="todayAmount" resultType="int">
+		SELECT SUM(total_amount)
+		FROM toss_payment
+		WHERE DATE(APPROVED_AT) = CURDATE()
+		AND toss_payment_status = "DONE"
+	</select>
+
+	<!-- 오늘 주문 건수 -->
+	<select id="todayReceiptCount"  resultType="int">
+		SELECT COUNT(*)
+		FROM order_receipt
+		WHERE DATE(orderdate) = CURDATE()
+	</select>
+
+	<!-- 오늘 신규회원 수 -->
+	<select id="todayNewUserCount"  resultType="int">
+		SELECT COUNT(*)
+		FROM USER
+		WHERE DATE(CREATED_AT) = curdate()
+	</select>
+	
+		<!-- 미답변 문의 수 -->
+	<select id="noAnsweredInquiryCount" resultType="int">
+		SELECT COUNT(*)
+		FROM INQUIRY
+		WHERE ANSWERED_AT IS NULL
+	</select>
+	
+	<select id="findDailySalesSince" parameterType="int" resultType="map">
+		SELECT 
+			DATE(requested_at) AS salesDate
+			, SUM(total_amount) AS totalAmount
+		FROM toss_payment
+		WHERE DATE(requested_at) >= CURDATE() - INTERVAL #{value} DAY
+		GROUP BY DATE(requested_at)
+	</select>
+
+</mapper>

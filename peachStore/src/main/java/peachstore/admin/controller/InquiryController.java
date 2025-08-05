@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import peachstore.domain.Admin;
 import peachstore.domain.Inquiry;
+import peachstore.domain.User;
 import peachstore.service.inquiry.InquiryService;
 import peachstore.util.Paging;
 
@@ -97,13 +100,12 @@ public class InquiryController {
 	 */
 	@PostMapping("/inquiry/answer")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> answerInquiry(int inquiry_id, int admin_id, String answer_text,
-			HttpServletRequest request) {
-		log.debug("answerInquiry param - {}, {}, {}", inquiry_id, admin_id, answer_text);
+	public ResponseEntity<Map<String, Object>> answerInquiry(int inquiry_id, String answer_text, HttpServletRequest request, HttpSession httpSession) {
+		Admin admin = (Admin) httpSession.getAttribute("admin"); // 세션에서 꺼내오기
 		Map<String, Object> response = new HashMap<>();
 
 		try {
-			inquiryService.answerInquiry(inquiry_id, admin_id, answer_text);
+			inquiryService.answerInquiry(inquiry_id, admin.getAdminId(), answer_text);
 			response.put("success", true);
 			response.put("message", "답변이 등록되었습니다.");
 			return new ResponseEntity<>(response, HttpStatus.CREATED);

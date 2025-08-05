@@ -87,12 +87,15 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 	 * 주문내역 생성
 	 */
 	@Override
-	public OrderReceipt insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment) {
+	public OrderReceipt insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment, String postcode, String address, String detailAddress) {
 		OrderReceipt orderReceipt = new OrderReceipt();
 		orderReceipt.setOrderdate(localDateTime);
 		orderReceipt.setOrder_status(orderStatus);
 		orderReceipt.setUser(user);
 		orderReceipt.setTosspayment(tosspayment);
+		orderReceipt.setPostcode(postcode);
+		orderReceipt.setAddress(address);
+		orderReceipt.setDetailAddress(detailAddress);
 		
 		int result = orderReceiptDAO.insert(orderReceipt);
 		if (result == 0) {
