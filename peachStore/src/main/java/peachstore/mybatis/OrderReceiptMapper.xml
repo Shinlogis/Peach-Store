@@ -56,7 +56,7 @@
 	
 	<!-- 주문내역 생성 -->
 	<insert id="insert" parameterType="OrderReceipt" useGeneratedKeys="true" keyProperty="order_receipt_id">
-		insert into order_receipt(orderdate, order_status, user_id, tosspayment_id)
+		insert into order_receipt(orderdate, order_status, user_id, payment_id)
 		values(#{orderdate}, #{order_status}, #{user.user_id}, #{tosspayment.paymentId})
 	</insert>
 	

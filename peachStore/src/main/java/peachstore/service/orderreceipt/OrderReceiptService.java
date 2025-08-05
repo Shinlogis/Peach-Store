@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import peachstore.domain.OrderReceipt;
+import peachstore.domain.Tosspayment;
 import peachstore.domain.User;
 
 public interface OrderReceiptService {
@@ -32,5 +33,5 @@ public interface OrderReceiptService {
 	 * @param paymentId 결제번호
 	 * @return
 	 */
-	public void insert(LocalDateTime localDateTime, String orderStatus, User user, Long paymentId);
+	public void insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment);
 }

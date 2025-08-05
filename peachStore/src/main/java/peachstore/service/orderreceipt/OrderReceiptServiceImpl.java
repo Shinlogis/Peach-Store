@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.advice.ShopGlobalExceptionHandler;
 import peachstore.domain.OrderReceipt;
+import peachstore.domain.Tosspayment;
 import peachstore.domain.User;
 import peachstore.exception.OrderException;
 import peachstore.exception.OrderReceiptException;
@@ -49,11 +50,12 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 	 * 주문내역 생성
 	 */
 	@Override
-	public void insert(LocalDateTime localDateTime, String orderStatus, User user, Long paymentId) {
+	public void insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment) {
 		OrderReceipt orderReceipt = new OrderReceipt();
 		orderReceipt.setOrderdate(localDateTime);
 		orderReceipt.setOrder_status(orderStatus);
 		orderReceipt.setUser(user);
+		orderReceipt.setTosspayment(tosspayment);
 		
 		int result = orderReceiptDAO.insert(orderReceipt);
 		if (result == 0) {
