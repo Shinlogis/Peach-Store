@@ -2,6 +2,7 @@ package peachstore.admin.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,6 @@ import peachstore.domain.ProductSubcategory;
 import peachstore.domain.Size;
 import peachstore.repository.product.MybatisCapacityDAO;
 import peachstore.service.product.ProductService;
-import peachstore.service.topcategory.ProductTopcategoryService;
 import peachstore.util.Paging;
 
 /**
@@ -61,8 +61,9 @@ public class ProductController {
 	//상품 등록 요청 처리
 	@PostMapping("/product/regist")
     @ResponseBody
-    public ResponseEntity<String> registform(Product product, int[] color, int[] size, int[] capacity, String[] capacityName, HttpServletRequest request) {
-    	List<ProductColor> colorList = new ArrayList<>();
+    public ResponseEntity<String> registform(Product product, int[] color, int[] size, int[] capacity, @RequestParam(value = "capacityName") String[] capacityName, HttpServletRequest request) {
+		
+		List<ProductColor> colorList = new ArrayList<>();
 		List<ProductSize> sizeList = new ArrayList<>();
 		List<ProductCapacity> capacityList = new ArrayList<>();
 		
@@ -82,17 +83,28 @@ public class ProductController {
 			sizeList.add(productSize);
 		}
 		
-		for(int cp : capacity) {
-			Capacity capa = new Capacity();
-			capa.setCapacity_id(cp);
-			ProductCapacity productCapacity = new ProductCapacity();	
-			productCapacity.setCapacity(capa);	
-			capacityList.add(productCapacity);
-		}
-		
-		for(String capName : capacityName) {
-	        mybatisCapacityDAO.insertProductCapacity(product.getProductId(), capName);
+	    for (int i = 0; i < capacity.length; i++) {
+	        int cp = capacity[i];
+	        String name = capacityName[i]; 
+
+	        Capacity capa = new Capacity();
+	        capa.setCapacity_id(cp);
+	        capa.setCapacity_name(name); 
+
+	        ProductCapacity productCapacity = new ProductCapacity();
+	        productCapacity.setCapacity(capa);
+
+	        // (2) 용량명에 따라 추가금액 계산
+	        int additionalPrice = 0;
+	        if (name.contains("256")) additionalPrice = 10000;
+	        else if (name.contains("512") || name.contains("516")) additionalPrice = 20000;
+	        else if (name.contains("1TB")) additionalPrice = 30000;
+	        // 나머지 기본은 0원
+	        productCapacity.setAdditional_price(additionalPrice);
+
+	        capacityList.add(productCapacity);
 	    }
+
 		
 		//매핑완료 후, Product 에 대입 
 		product.setProductColors(colorList);
@@ -163,11 +175,12 @@ public class ProductController {
 	    @RequestParam("color") int[] color,
 	    @RequestParam("size") int[] size,
 	    @RequestParam("capacity") int[] capacity,
+	    @RequestParam(value = "capacityName") String[] capacityName,
 	    @RequestParam(value = "photo", required = false) MultipartFile[] photo,
-	    @RequestParam(value = "deleteFiles", required = false) List<String> deleteFiles, // ✅ 
+	    @RequestParam(value = "deleteFiles", required = false) List<String> deleteFiles, 
 	    HttpServletRequest request
 	) {
-
+		System.out.println("capacityName 배열: " + Arrays.toString(capacityName));
 	    // 1. Product 조립
 	    Product product = new Product();
 	    product.setProductId(productId);
@@ -206,21 +219,40 @@ public class ProductController {
 	    }
 
 	    List<ProductCapacity> capacityList = new ArrayList<>();
-	    if (capacity != null) {
-	        for (int cp : capacity) {
+	    if (capacity != null && capacityName != null && capacity.length > 0 && capacityName.length > 0) {
+	        int count = Math.min(capacity.length, capacityName.length);
+	        for (int i = 0; i < count; i++) {
+	            int cp = capacity[i];
+	            String name = capacityName[i];
+	            System.out.println("[DEBUG] name=" + name);
+
 	            Capacity cc = new Capacity();
 	            cc.setCapacity_id(cp);
+	            cc.setCapacity_name(name);
+
 	            ProductCapacity productCapacity = new ProductCapacity();
 	            productCapacity.setCapacity(cc);
+
+	            int additionalPrice = 0;
+	            if (name != null && name.contains("256")) additionalPrice = 10000;
+	            else if (name != null && (name.contains("512") || name.contains("516"))) additionalPrice = 20000;
+	            else if (name != null && name.contains("1TB")) additionalPrice = 30000;
+	            productCapacity.setAdditional_price(additionalPrice);
+	            productCapacity.setProduct(product);
+
 	            capacityList.add(productCapacity);
 	        }
+	    } else {
+	    	 log.error("용량 정보 전송 오류! ID 개수와 이름 개수가 일치하지 않습니다.");
+	         log.error("Capacity IDs: " + Arrays.toString(capacity));
+	         log.error("Capacity Names: " + Arrays.toString(capacityName));
 	    }
 
 	    product.setProductColors(colorList);
 	    product.setProductSizes(sizeList);
 	    product.setProductCapacities(capacityList);
 	    product.setPhoto(photo);
-
+	    
 	    // 4. 경로 처리
 	    String savePath = request.getServletContext().getRealPath("/data");
 

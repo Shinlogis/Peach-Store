@@ -79,6 +79,7 @@
 		<mapper resource="peachstore/mybatis/CustomOptionMapper.xml"/>
 		<mapper resource="peachstore/mybatis/TosspaymentMapper.xml"/>
 		 <mapper resource="peachstore/mybatis/OrderMapper.xml"/>
+		 <mapper resource="peachstore/mybatis/StatisticsMapper.xml"/>
 	</mappers>
 
 </configuration>

@@ -1,6 +1,7 @@
 package peachstore.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 상품별 크기
@@ -12,5 +13,7 @@ public class ProductSize {
 	private int product_size_id;
 	private int additional_price;
 	private Size size;
+	
+	@ToString.Exclude
 	private Product product;
 }
