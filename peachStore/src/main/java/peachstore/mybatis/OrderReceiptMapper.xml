@@ -21,7 +21,7 @@
 	
 	<select id="select" parameterType="OrderReceipt" resultMap="joinMap">
 		select order_receipt_id, orderdate, order_status, user_id 
-		 from order_receipt where order_receipt_id = #{order_receipt_id} 
+		from order_receipt where order_receipt_id = #{order_receipt_id} 
 	</select>
 	
 	<!-- 주문 취소 -->

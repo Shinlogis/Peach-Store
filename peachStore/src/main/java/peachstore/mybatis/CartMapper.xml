@@ -2,8 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Cart">
 
-	<select id="selectById" parameterType="int" resultType="Cart">
-		select * from cart where user_id = #{user_id}
+	<resultMap type="Cart" id="selectCartByUserId">
+		<id column="cart_id" property="cart_id"/>
+		<association column="user_id" property="user" javaType="User"
+			select="User.selectById"/>
+	</resultMap>
+
+ 	<select id="selectById" resultMap="selectCartByUserId">
+		select * from cart where user_id = #{user.user_id}
+	</select> 
+	
+	<select id="selectByCartId" resultMap="selectCartByUserId">
+		select * from cart where cart_id = #{cart_id}
 	</select>
 	
 	<insert id="insert" parameterType="int">

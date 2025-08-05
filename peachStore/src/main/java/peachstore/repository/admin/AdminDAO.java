@@ -1,5 +1,8 @@
 package peachstore.repository.admin;
 
+import java.util.List;
+import java.util.Map;
+
 import peachstore.domain.Admin;
 
 /**
@@ -14,4 +17,11 @@ public interface AdminDAO {
 	 * @return
 	 */
 	public Admin selectById(int adminId);
+	public int insertAdmin(Admin admin);
+	public Admin selectAdminByLogin(Map<String, Object> map); // email 기반
+	public List<Admin> selectAll();
+	public int updatePassword(Map<String, Object> map);
+	public int updateIsActive(Map<String, Object> map);
+	public int updateAdminInfo(Admin admin);
+	public Admin selectAdminByEmail(String email);
 }

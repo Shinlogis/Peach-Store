@@ -22,4 +22,15 @@ public class CartItemDAOImpl implements CartItemDAO{
 //		CartItemMapper.xml과 연결
 		return sqlSessionTemplate.selectList("CartItem.selectCartItemByCartId", cart_id);
 	}
+
+	@Override
+	public void insertCartItem(CartItem cartItem) {
+		sqlSessionTemplate.insert("CartItem.insertCartItem", cartItem);
+	}
+
+	@Override
+	public void deleteCartItem(int cart_item_id) {
+		sqlSessionTemplate.delete("CartItem.deleteCartItem", cart_item_id);
+	}
+	
 }

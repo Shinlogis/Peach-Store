@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import peachstore.domain.CartItem;
 import peachstore.repository.cart.CartItemDAO;
@@ -19,5 +20,15 @@ public class CartItemServiceImpl implements CartItemService{
 		System.out.println(cartItemDAO.selectCartItemByCartId(cart_id));
 		return cartItemDAO.selectCartItemByCartId(cart_id);
 	}
+
+	@Override
+	public void insertCartItem(CartItem cartItem) {
+		cartItemDAO.insertCartItem(cartItem);
+	}
 	
+	@Transactional
+	@Override
+	public void deleteCartItem(int cart_item_id) {
+		cartItemDAO.deleteCartItem(cart_item_id);
+	}
 }

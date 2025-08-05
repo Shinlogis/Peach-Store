@@ -51,4 +51,6 @@ public interface ReviewService {
 	//리뷰 내용 수정
 	public void updateReview(Review review, String savePath);
 	
+	//리뷰 갯수 조회
+	public int countByUserId(int userId);
 }

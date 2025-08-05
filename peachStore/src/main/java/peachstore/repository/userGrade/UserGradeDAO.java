@@ -2,6 +2,7 @@ package peachstore.repository.userGrade;
 
 
 import java.util.List;
+import java.util.Map;
 
 import peachstore.domain.UserGrade;
 
@@ -41,4 +42,17 @@ public interface UserGradeDAO {
 	 * @return
 	 */
 	public int delete(int userGradeId);
+	
+	/**
+	 * 금액 조건이 높은 등급 순으로 불러오기
+	 * @return
+	 */
+	public List<UserGrade> gradeSelectByAmount();
+
+	/**
+	 * userId 사용자의 총 구매 금액
+	 * @return
+	 */
+	public Long selectTotalAmountByUserId(int userId);
+
 }

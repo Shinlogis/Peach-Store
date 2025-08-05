@@ -59,6 +59,7 @@ public class InquiryController {
 			if (searchCondition.equals("inquiryText")) { // 검색 조건이 문의내용인 경우
 				searchMap.put("searchCondition", "inquiryText");
 				searchMap.put("searchKey", searchKey);
+				log.debug("serchKey - {}, condition - {}", searchKey, "innertext");
 			}
 		}
 		

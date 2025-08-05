@@ -9,6 +9,8 @@
 	
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	List<OrderReceipt> cancleList = (List)request.getAttribute("cancleList");
+	User userGrade = (User)request.getAttribute("userGrade");
+	Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 %>
 <!DOCTYPE html>
 <html lang="en">

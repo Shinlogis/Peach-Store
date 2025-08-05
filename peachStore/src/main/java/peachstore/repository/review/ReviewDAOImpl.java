@@ -50,6 +50,10 @@ public class ReviewDAOImpl implements ReviewDAO{
 		log.debug("result: {}", result);
 		return result;
 	}
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 4d419da10bb80d1411b1bfa703ec5c897ba9e227
 	public void insert(Review review) throws ReviewException{
 		int result = sqlSessionTemplate.insert("Review.insert", review);
 		
@@ -76,7 +80,26 @@ public class ReviewDAOImpl implements ReviewDAO{
 		if(result <1) {
 			throw new ReviewException("리뷰 수정 실패");
 		}
-		
-				
 	}
+<<<<<<< HEAD
+=======
+
+	//리뷰 갯수 조회
+	@Override
+	public int countByUserId(int userId) {
+		return sqlSessionTemplate.selectOne("Review.countByUserId", userId);
+	}
+	
+	
+	
+
+
+		
+	
+	
+
+	
+	
+	
+>>>>>>> 4d419da10bb80d1411b1bfa703ec5c897ba9e227
 }

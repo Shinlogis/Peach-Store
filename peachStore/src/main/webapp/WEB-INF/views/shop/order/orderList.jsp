@@ -10,6 +10,8 @@ User user = (User) session.getAttribute("user");
 
 List<ProductTopcategory> topList = (List) request.getAttribute("topList");
 List<OrderReceipt> receiptList = (List) request.getAttribute("receiptList");
+User userGrade = (User)request.getAttribute("userGrade");
+Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 %>
 <!DOCTYPE html>
 <html lang="en">

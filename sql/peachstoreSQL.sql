@@ -31,15 +31,15 @@ DROP TABLE IF EXISTS coupon; -- 쿠폰
 DROP TABLE IF EXISTS sns_provider; -- snsprovider
 
 -- 관리자 테이블 생성(CREATE TABLE admin)
-CREATE TABLE admin(
-   admin_id int PRIMARY KEY AUTO_INCREMENT
-   , email VARCHAR(100) NOT NULL UNIQUE
-   , password varchar(100) NOT NULL
-   , admin_name varchar(100) NOT NULL
-   , role varchar(10) NOT NULL DEFAULT 'admin' CHECK(role in('super', 'admin'))
-   , is_active boolean NOT NULL DEFAULT TRUE
+CREATE TABLE admin (
+   admin_id INT PRIMARY KEY AUTO_INCREMENT,
+   email VARCHAR(100) NOT NULL UNIQUE,
+   password VARCHAR(100) NOT NULL,
+   salt VARCHAR(100) NOT NULL, 
+   admin_name VARCHAR(100) NOT NULL,
+   role VARCHAR(10) NOT NULL DEFAULT 'admin' CHECK(role IN ('super', 'admin')),
+   is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
-
 -- snsprovider 테이블 생성(CREATE TABLE sns_provider)
 CREATE TABLE sns_provider(
    sns_provider_id int PRIMARY KEY auto_increment
@@ -127,6 +127,7 @@ CREATE TABLE size(
 CREATE TABLE color(
    color_id int PRIMARY KEY AUTO_INCREMENT
    , color_name varchar(100) NOT NULL
+   ,color_value varchar(100)
 );
 
 -- 용량 수치 테이블 생성(CREATE TABLE capacity)
@@ -172,7 +173,7 @@ CREATE TABLE product(
    , product_name varchar(100) NOT NULL
    , price int NOT NULL
    , introduce varchar(100) NOT NULL
-   , detail varchar(100) NOT NULL
+   , detail LongText NOT NULL
    , product_subcategory_id int
    , CONSTRAINT fk_product_product_subcategory_id
       FOREIGN KEY (product_subcategory_id)
@@ -234,9 +235,9 @@ CREATE TABLE PRODUCT_IMG(
 -- 제품 커스텀 옵션 테이블 생성(CREATE TABLE CUSTOM_OPTION)
 CREATE TABLE CUSTOM_OPTION(
     CUSTOM_OPTION_ID INT PRIMARY KEY AUTO_INCREMENT
-    , PRODUCT_SIZE_ID INT
-    , PRODUCT_COLOR_ID INT 
-    , PRODUCT_CAPACITY_ID INT
+    , PRODUCT_SIZE_ID INT  
+    , PRODUCT_COLOR_ID INT  
+    , PRODUCT_CAPACITY_ID INT 
     , PRODUCT_ENGRAVING_ID INT
     , CONSTRAINT FK_CUSTOM_OPTION_PRODUCT_SIZE_ID
         FOREIGN KEY (PRODUCT_SIZE_ID)
@@ -379,25 +380,31 @@ CREATE TABLE toss_payment (
 -- ------인서트시작-------------------------------------------------
 
 -- 사이즈 테이블 인서트 (INSERT INTO SIZE)
-INSERT INTO SIZE (SIZE_NAME) VALUES ('5.5인치');
-INSERT INTO SIZE (SIZE_NAME) VALUES ('6.1인치');
-INSERT INTO SIZE (SIZE_NAME) VALUES ('6.7인치');
-INSERT INTO SIZE (SIZE_NAME) VALUES ('10.2인치');
-INSERT INTO SIZE (SIZE_NAME) VALUES ('13.3인치');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('Basic');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('Pro');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('ProMax');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('13인치');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('17인치');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('11');
+INSERT INTO SIZE (SIZE_NAME) VALUES ('13');
 
 -- 색상 테이블 인서트 (INSERT INTO COLOR)
-INSERT INTO COLOR (COLOR_NAME) VALUES ('RED');
-INSERT INTO COLOR (COLOR_NAME) VALUES ('BLUE');
-INSERT INTO COLOR (COLOR_NAME) VALUES ('GREEN');
-INSERT INTO COLOR (COLOR_NAME) VALUES ('BLACK');
-INSERT INTO COLOR (COLOR_NAME) VALUES ('WHITE');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('스페이스 블랙','#2C2C2E ');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('실버','#C0C0C0');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('울트라 마린','#120A8F');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('블랙','black');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('핑크','pink');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('옐로우','yellow');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('그린','#90EE90');
+INSERT INTO COLOR (COLOR_NAME,color_value) VALUES ('기본','#FFFFF0');
+
 
 -- 용량 테이블 인서트 (INSERT INTO CAPACITY)
-INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('16GB');
-INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('32GB');
-INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('64GB');
+INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('기본');
 INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('128GB');
 INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('256GB');
+INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('516GB');
+INSERT INTO CAPACITY (CAPACITY_NAME) VALUES ('1TB');
 
 -- 제품 각인 테이블 인서트(INSERT INTO PRODUCT_ENGRAVING)
 INSERT INTO PRODUCT_ENGRAVING (ENGRAVING_PRICE, ENGRAVING_TEXT)
@@ -433,23 +440,23 @@ VALUES
    ('zz', 12.00, 9999, false);
 
 -- 관리자 테이블 인서트 (INSERT INTO ADMIN)
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('SUPER@ADMIN.COM', 'SUPERPASS123', '김수현', 'SUPER');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('SUPER@ADMIN.COM', 'SUPERPASS123', '1', '김수현', 'SUPER');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN1@EXAMPLE.COM', 'ADMINPASS1', '이정민', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN1@EXAMPLE.COM', 'ADMINPASS1', '1', '이정민', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN2@EXAMPLE.COM', 'ADMINPASS2', '박지은', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN2@EXAMPLE.COM', 'ADMINPASS2', '1', '박지은', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN3@EXAMPLE.COM', 'ADMINPASS3', '최민석', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN3@EXAMPLE.COM', 'ADMINPASS3', '1', '최민석', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN4@EXAMPLE.COM', 'ADMINPASS4', '정다은', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN4@EXAMPLE.COM', 'ADMINPASS4', '1', '정다은', 'ADMIN');
 
-INSERT INTO ADMIN (EMAIL, PASSWORD, ADMIN_NAME, ROLE)
-VALUES ('ADMIN5@EXAMPLE.COM', 'ADMINPASS5', '오세훈', 'ADMIN');
+INSERT INTO ADMIN (EMAIL, PASSWORD, salt, ADMIN_NAME, ROLE)
+VALUES ('ADMIN5@EXAMPLE.COM', 'ADMINPASS5', '1', '오세훈', 'ADMIN');
 
 -- 쿠폰 테이블 인서트(INSERT INTO COUPON)
 INSERT INTO COUPON (COUPON_NAME, DISCOUNT_AMOUNT, VALID_DAYS, USE_CONDITION)
@@ -578,6 +585,7 @@ VALUES
     (0, 2, 11),
     (500, 1, 12);
 
+
 -- 제품 색상 테이블 인서트(INSERT INTO PRODUCT_COLOR)
 INSERT INTO PRODUCT_COLOR (COLOR_ID, PRODUCT_ID)
 VALUES
@@ -607,6 +615,8 @@ VALUES
     (15000, 2, 7),
     (25000, 3, 8),
     (35000, 4, 9);
+
+
 
 -- 제품 이미지 테이블 인서트(INSERT INTO PRODUCT_IMG)
 -- =========인서트 없음
@@ -661,31 +671,6 @@ VALUES
    (1, 4, 6),
    (1, 5, 7),
    (2, 5, 8);
-   
-
--- 장바구니 제품 테이블 인서트(INSERT INTO CART_ITEM)
-INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
-VALUES
-    (1, 7, NULL),
-    (2, 3, NULL),
-    (4, 1, NULL),
-    (5, 11, NULL),
-    (6, 9, 2),
-    (7, 2, NULL),
-    (9, 7, NULL),
-    (10, 6, 3),
-    (11, 4, 4),
-    (13, 5, NULL),
-    (14, 8, NULL),
-    (15, 12, NULL);
-
-INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
-VALUES  (16, 6, NULL);
-select * from cart_item;
-select * from custom_option;
-select * from product_size;
-select * from user;
-select * from cart;
 
 -- 리뷰 테이블 인서트 (INSERT INTO review)
 INSERT INTO review (content, status, user_id, order_detail_id)
@@ -702,49 +687,6 @@ VALUES
     
 -- 리뷰 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
-SHOW TABLES;
-
- SELECT
-	        r.review_id,
-	        r.content,
-	        r.regdate,
-	        r.status,
-	        u.user_id AS user_id,
-	        u.id AS id,
-	        u.email AS email,
-	        u.user_name AS user_name,
-	        ug.user_grade_id AS userGradeId,
-	        ug.user_grade_name AS userGradeName,
-	        od.order_detail_id AS orderDetailId,
-	        s.snapshot_id AS snapshotId,
-	        s.product_id AS product_id,
-	        s.product_name AS product_name,
-	        s.price AS price,
-	        s.size AS size,
-	        s.capacity AS capacity,
-	        s.color AS color,
-	        s.engraving AS engraving
-	    FROM review r
-	    JOIN user u 
-	        ON r.user_id = u.user_id
-	    JOIN user_grade ug 
-	        ON u.user_grade_id = ug.user_grade_id
-	    JOIN order_detail od 
-	        ON r.order_detail_id = od.order_detail_id
-	    JOIN snapshot s
-	        ON od.snapshot_id = s.snapshot_id
-	    WHERE s.product_id=4;
-
-
-select * from user;
-
-INSERT INTO order_receipt (order_status, user_id)
-VALUES  ('상품 준비 전', 16),
- ('상품 준비 중', 16),
-('발송완료', 16),
- ('상품 준비 중', 16),
-('발송완료', 16);
-
 
 INSERT INTO product (product_code, product_name, price, introduce, detail, product_subcategory_id)
 VALUES
@@ -765,20 +707,34 @@ VALUES
     (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg'),
     (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp');
 
-
-SELECT * FROM order_receipt ore JOIN order_detail od   ON ore.order_receipt_id = od.order_receipt_id WHERE ore.user_id = 16;
-
-select * from snapshot;
-select * from order_detail;
-select * from product;
-select * from cart;
-select * from cart_item;
-
-select * from review;
-
-
+-- 관리자계정 insert
+INSERT INTO admin (email, password, salt, admin_name, role, is_active)
+VALUES (
+  'admin',
+  'F0uSWIMVk+9lQB8zW/8IbLNSgnoTvz3KTGgvz8h9he8=',
+  'QrJRDMLxoc5kaa4Z8WCJ1g==',
+  '관리자',
+  'super',
+  TRUE
+);
 
 
+-- 장바구니 제품 테이블 인서트(INSERT INTO CART_ITEM)
+INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
+VALUES
+    (1, 7, NULL),
+    (2, 3, NULL),
+    (4, 1, NULL),
+    (5, 11, NULL),
+    (6, 9, 2),
+    (7, 2, NULL),
+    (9, 7, NULL),
+    (10, 6, 3),
+    (11, 4, 4),
+    (13, 5, NULL),
+    (14, 8, NULL),
+    (15, 12, NULL),
+    (16, 6, NULL);
 
 INSERT INTO order_detail (order_quantity, order_receipt_id, snapshot_id)
 VALUES
@@ -789,5 +745,4 @@ VALUES
    (2, 11, 13),
    (1, 10, 14),
    (2, 12, 15);
-
 
