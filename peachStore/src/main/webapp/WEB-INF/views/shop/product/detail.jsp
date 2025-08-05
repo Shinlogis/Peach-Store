@@ -25,6 +25,14 @@
 	<title>Ashion | Template</title>
 	<%@ include file="../inc/head_link.jsp" %>
 	<link rel="stylesheet"  href="/static/shop/css/product/productDetail.css">
+	<style>
+	.capacity-label {
+	  	display: flex;
+	  	justify-content: space-between;
+	  	width: 100%;
+	  	padding-right: 15px;
+	}
+	</style>
 </head>
 <body>
 	<!-- Offcanvas Menu Begin -->
@@ -68,11 +76,11 @@
 				<div class="detail-option-wrapper">
 					<form id="cartForm" action="/shop/cart/insert" method="post">
 						<fieldset>
-							<legend>사이즈 </legend>
+							<legend>모델 </legend>
 							<%for(ProductSize productSize :product.getProductSizes()){ %>
 							<div>
 								<input type="radio" id="size<%=productSize.getProduct_size_id() %>" name="product_size_id" value="<%=productSize.getProduct_size_id()%>">
-								<label for="size<%=productSize.getProduct_size_id() %>"><%=productSize.getSize().getSize_name() %> 모델  <%=productSize.getAdditional_price() %></label>
+								<label for="size<%=productSize.getProduct_size_id() %>"><%=productSize.getSize().getSize_name() %> 모델</label>
 							</div>
 							<%} %>
 						</fieldset>
@@ -92,7 +100,10 @@
 							<%for(ProductCapacity productCapacity:product.getProductCapacities()){ %>
 							<div>
 								<input type="radio" id="<%=productCapacity.getProduct_capacity_id() %>" name="product_capacity_id" value="<%=productCapacity.getProduct_capacity_id() %>">
-								<label for="<%=productCapacity.getProduct_capacity_id() %>"><%=productCapacity.getCapacity().getCapacity_name() %><%=productCapacity.getAdditional_price() %></label>
+								<label for="<%=productCapacity.getProduct_capacity_id() %>" class="capacity-label">
+  									<span><%=productCapacity.getCapacity().getCapacity_name() %></span>
+  									<span class="price">추가금액 : <%=productCapacity.getAdditional_price() %></span>
+								</label>
 							</div>
 							<%} %>
 						</fieldset> 
