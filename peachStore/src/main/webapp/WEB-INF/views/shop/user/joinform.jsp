@@ -102,6 +102,7 @@
 				const pw = $('#hashedpassword').val();
 				const confirm = $('#passwordconfirm').val();
 				if(pw === confirm && idDuplicated == false){
+					alert("회원가입이 완료 되었습니다.");
 					userJoin();
 				}else{
 					alert('회원가입 정보를 다시 확인해 주십시오');

@@ -50,6 +50,7 @@ public class LoginCheckFilter implements Filter{
 				uri.equals("/shop/product")||
 				uri.equals("/shop/product/detail")||
 				uri.equals("/shop/user/checkid")||
+				uri.equals("/shop/user/error")||
 				
 				 // admin용
 				uri.equals("/admin/main")||
