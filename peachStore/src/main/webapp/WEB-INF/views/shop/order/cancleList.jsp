@@ -103,7 +103,7 @@
 								                        <div>
 								                            <div style="margin-bottom: 8px;"><strong><%=detail.getSnapShot().getProduct_name()%></strong></div>
 								                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getSize()%> / <%=detail.getSnapShot().getColor()%></div>
-								                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getPrice()%>원 / <%=detail.getOrder_quantity()%>개</div>
+								                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getPrice()%>원 / <%=detail.getSnapShot().getOrder_quantity()%>개</div>
 								                         
 								                        </div>
 								                    </div>

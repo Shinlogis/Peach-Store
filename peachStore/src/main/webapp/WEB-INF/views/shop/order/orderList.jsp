@@ -142,7 +142,7 @@ int totalPage = paging.getTotalPage();
 																<%=detail.getSnapShot().getColor()%></div>
 															<div style="margin-bottom: 8px;"><%=detail.getSnapShot().getPrice()%>원
 																/
-																<%=detail.getOrder_quantity()%>개
+																<%=detail.getSnapShot().getOrder_quantity() %>개
 															</div>
 															
 														</div>
