@@ -51,7 +51,6 @@ public class ReviewDAOImpl implements ReviewDAO{
 		log.debug("result: {}", result);
 		return result;
 	}
-		
 	public void insert(Review review) throws ReviewException{
 		int result = sqlSessionTemplate.insert("Review.insert", review);
 		
@@ -91,15 +90,4 @@ public class ReviewDAOImpl implements ReviewDAO{
 		return sqlSessionTemplate.selectList("Review.selectByUserPaging", param);
 	}
 	
-	
-	
-
-
-		
-	
-	
-
-	
-	
-	
-}
+	}

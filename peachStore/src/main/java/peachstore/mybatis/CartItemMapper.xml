@@ -13,7 +13,7 @@
 			select="Product.select"/>
 	</resultMap>
 
-	<insert id="insert" parameterType="Cart">
+	<insert id="insert" parameterType="CartItem">
 		insert into cart_item(cart_id, product_id, custom_option_id, quantity)
 		values(#{cart.cart_id},#{product.product_id},#{custom_option_id},#{quantity})
 	</insert>

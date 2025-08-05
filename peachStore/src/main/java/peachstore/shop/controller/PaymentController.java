@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.CartItem;
 import peachstore.domain.OrderReceipt;
+import peachstore.domain.SnapShot;
 import peachstore.domain.Tosspayment;
 import peachstore.domain.User;
 import peachstore.dto.ConfirmPaymentRequest;
@@ -48,6 +49,7 @@ public class PaymentController {
 	private final CartItemService cartItemService;
 	private final OrderReceiptService orderReceiptService;
 	private final OrderDetailService orderDetailService;
+	
 
 	private final TossPaymentService tossPaymentService;
 	
@@ -62,7 +64,9 @@ public class PaymentController {
 	@GetMapping("/payment/payment-ready")
 	public String getMethodName(Model model, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
-		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(user.getUser_id());
+//		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(user.getUser_id());
+		List<SnapShot> snapshotList = (List<SnapShot>)httpSession.getAttribute("cartSnapshots");
+		log.debug("스냅샷 리스트는======="+snapshotList);
 		
 		String successUrl = "http://localhost:8888/shop/payment/success-handler";
 		String failUrl = "http://localhost:8888/shop/payment/fail";
@@ -74,9 +78,9 @@ public class PaymentController {
 		model.addAttribute("successUrl", successUrl);
 		model.addAttribute("failUrl", failUrl);
 		model.addAttribute("orderName", "주문번호 " + orderId + " 결제");
+		model.addAttribute("snapshotList", snapshotList);
 		
-		
-		model.addAttribute("cartItemList", cartItemList);
+//		model.addAttribute("cartItemList", cartItemList);
 		model.addAttribute("user", user);
 		return "/shop/payment/payment-ready";
 	}
@@ -144,15 +148,17 @@ public class PaymentController {
 		OrderReceipt orderReceipt = orderReceiptService.insert(response.getApprovedAt().toLocalDateTime(), "상품 준비 전", user, tosspayment, postCode, address, detailAddress);
 		
 		// TODO Snapshot insert
-		// snapshotList 반환
-//		List<CartItem> snapshotList = request.getCartItemList();
-		
-		
+	    List<SnapShot> snapshotList = (List<SnapShot>) httpSession.getAttribute("cartSnapshots");
+	    if (snapshotList == null || snapshotList.isEmpty()) {
+	        log.warn("세션에 스냅샷 정보가 없습니다.");
+	        return ResponseEntity.badRequest().build();
+	    }
+	    log.warn("세션에 넘어온 스냅샷 리스트는" + snapshotList);
 		// TODO OrderDetail DB 저장
-//		for (CartItem snapShot : snapshotList) {
-//			log.debug(snapShot.getProduct().getProductName());
-//			orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
-//		}
+	    
+		for (SnapShot snapShot : snapshotList) {
+			orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
+		}
 		
 		// 세션에서 주소 삭제
 		httpSession.removeAttribute("postCode");
