@@ -27,6 +27,7 @@ import peachstore.domain.ProductColor;
 import peachstore.domain.ProductSize;
 import peachstore.domain.ProductSubcategory;
 import peachstore.domain.Size;
+import peachstore.repository.product.MybatisCapacityDAO;
 import peachstore.service.product.ProductService;
 import peachstore.service.topcategory.ProductTopcategoryService;
 import peachstore.util.Paging;
@@ -44,11 +45,12 @@ public class ProductController {
     // 제품 관련 서비스 의존성 주입
     @Autowired
     private ProductService productService;
-    
-    @Autowired	
-	private ProductTopcategoryService ProductTopCategoryService;
+ 
     
 	private Paging paging;
+	
+	@Autowired
+	private MybatisCapacityDAO mybatisCapacityDAO; // DAO 직접 주입
 
 	@RequestMapping(value="/product/registform")
 	public String regsitForm() {
@@ -59,7 +61,7 @@ public class ProductController {
 	//상품 등록 요청 처리
 	@PostMapping("/product/regist")
     @ResponseBody
-    public ResponseEntity<String> registform(Product product, int[] color, int[] size, int[] capacity, HttpServletRequest request) {
+    public ResponseEntity<String> registform(Product product, int[] color, int[] size, int[] capacity, String[] capacityName, HttpServletRequest request) {
     	List<ProductColor> colorList = new ArrayList<>();
 		List<ProductSize> sizeList = new ArrayList<>();
 		List<ProductCapacity> capacityList = new ArrayList<>();
@@ -88,13 +90,16 @@ public class ProductController {
 			capacityList.add(productCapacity);
 		}
 		
+		for(String capName : capacityName) {
+	        mybatisCapacityDAO.insertProductCapacity(product.getProductId(), capName);
+	    }
+		
 		//매핑완료 후, Product 에 대입 
 		product.setProductColors(colorList);
 		product.setProductSizes(sizeList);
 		product.setProductCapacities(capacityList);
     	
 		String savePath = request.getServletContext().getRealPath("/data");
-		log.debug("에닮예닮예닮 "+savePath);
 		
 		
 		  try {
@@ -114,8 +119,8 @@ public class ProductController {
 	    Paging paging = new Paging();
 	    paging.init(totalRecord, request);
 
-	    int currentPage = paging.getCurrentPage(); // ex) 2
-	    int pageSize = paging.getPageSize();       // ex) 10
+	    int currentPage = paging.getCurrentPage(); 
+	    int pageSize = paging.getPageSize();       
 
 	    List<Product> productList = productService.selectAll(currentPage, pageSize); 
 	    
@@ -135,7 +140,6 @@ public class ProductController {
 			
 			//4단계: 저장하기
 			model.addAttribute("product", product);
-			  log.debug("📦 productCapacities size = {}", product.getProductCapacities().size()); // ← 상품 등록 직후
 			return "/product/detail";
 		}
 	

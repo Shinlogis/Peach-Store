@@ -29,16 +29,21 @@ public class OrderController {
 
     @GetMapping("/order/orderlist")
     public String showOrderList(Model model) {
-        List<Map<String, Object>> rawList = orderService.getAllOrders();
+        
+    	List<Map<String, Object>> rawList = orderService.getAllOrders();
         List<OrderView> orderList = new ArrayList<>();
-
+        
+        if (rawList == null) {
+            model.addAttribute("orderList", new ArrayList<>());
+            return "/order/orderlist";
+        }
+        
         for (Map<String, Object> map : rawList) {
             OrderView ov = new OrderView();
             ov.setOrderReceiptId(((Number) map.get("orderReceiptId")).intValue()); 
             ov.setCustomerName((String) map.get("customerName"));
             ov.setOrderDate((LocalDateTime) map.get("orderDate"));
-            ov.setProductName((String) map.get("productName"));
-            ov.setQuantity(((Number) map.get("quantity")).intValue());     
+            ov.setProductName((String) map.get("productName"));   
             ov.setTotalAmount(((Number) map.get("totalAmount")).intValue()); 
             ov.setOrderStatus((String) map.get("orderStatus"));
             orderList.add(ov);
