@@ -294,6 +294,22 @@
 			}
 	   });
 	   
+	   function appendCapacityNamesToForm() {
+		   // 기존 숨은 필드 제거 (중복 방지)
+		   $("input[name='capacityName']").remove();
+
+		   // 선택된 용량 옵션들에서 텍스트(=용량명) 추출해서 숨은 input으로 추가
+		   $("#capacity option:selected").each(function() {
+		     let capacityName = $(this).text();
+		     let hidden = $("<input>")
+		       .attr("type", "hidden")
+		       .attr("name", "capacityName")
+		       .val(capacityName);
+		     $("#form1").append(hidden);
+		   });
+		 }
+
+	   
 	   function regist(){
 		   const productCode = $("input[name='productCode']").val().trim();
 		   const productName = $("input[name='productName']").val().trim();
@@ -365,6 +381,21 @@
 			});
 	   }
 	   
+	   function appendCapacityNamesToForm() {
+		    $("input[name='capacityName']").remove(); // 기존 히든 input 삭제
+
+		    $("#capacity option:selected").each(function() {
+		        let capacityName = $(this).text();
+		        if(capacityName && capacityName !== "카테고리 선택") {   // 빈값, 안내문구 제외
+		            let hidden = $("<input>")
+		                .attr("type", "hidden")
+		                .attr("name", "capacityName")
+		                .val(capacityName);
+		            $("#form1").append(hidden);
+		        }
+		    });
+		}
+	   
 	   //상위 카테고리의 값을 변경시, 하위 카테고리 가져오기 
 	   $("#topcategory").change(function(){
 			getSubCategory($(this).val());
@@ -372,6 +403,7 @@
 	   
 	   //등록버튼 이벤트 연결
 	   $("#bt_regist").click(()=>{
+		  appendCapacityNamesToForm();
 		  regist(); 
 	   });
 	   

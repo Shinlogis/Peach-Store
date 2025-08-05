@@ -85,29 +85,48 @@ public class FileCommonManager {
 	 * @param savePath 저장 경로
 	 * @throws UploadException
 	 */
-	public void remove(String subDir, String savePath) throws Uploadexception {
-		File directory = new File(savePath, subDir);
-		log.debug("삭제 시도 경로: {}", directory.getAbsolutePath());
+	public void remove(String subDir, String savePath) {
+	    try {
+	        if (subDir == null || savePath == null) {
+	            log.warn("remove 파라미터가 null입니다: subDir={}, savePath={}", subDir, savePath);
+	            return;
+	        }
+	        File directory = new File(savePath, subDir);
+	        log.debug("삭제 시도 경로: {}", directory.getAbsolutePath());
 
-		// 폴더 내 파일이 존재할 경우
-		if (directory.exists() && directory.isDirectory()) {
-			File[] files = directory.listFiles();
+	        // 폴더 내 파일이 존재할 경우
+	        if (directory.exists() && directory.isDirectory()) {
+	            File[] files = directory.listFiles();
 
-			if (files != null) {
-				// 파일 삭제
-				for (File file : files) {
-					boolean deleted = file.delete();
-					log.debug(file.getName() + "삭제 결과 " + deleted);
-				}
-			}
+	            if (files != null) {
+	                // 파일 삭제
+	                for (File file : files) {
+	                    if (file != null) {
+	                        try {
+	                            boolean deleted = file.delete();
+	                            log.debug(file.getName() + " 삭제 결과 " + deleted);
+	                        } catch (Exception ex) {
+	                            log.warn("파일 삭제 중 예외", ex);
+	                        }
+	                    }
+	                }
+	            }
 
-			// 디렉토리 삭제
-			boolean result = directory.delete();
-			if (result == false) {
-				log.warn(directory.getAbsolutePath() + "디렉토리 삭제 실패");
-			}
-		}
+	            // 디렉토리 삭제
+	            try {
+	                boolean result = directory.delete();
+	                if (!result) {
+	                    log.warn(directory.getAbsolutePath() + " 디렉토리 삭제 실패");
+	                }
+	            } catch (Exception dirEx) {
+	                log.warn("디렉토리 삭제 중 예외", dirEx);
+	            }
+	        }
+	    } catch (Exception e) {
+	        log.warn("remove 내부 예외", e);
+	    }
 	}
+
 
 	/**
 	 * 폴더 이름을 바꾸는 메서드

@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 	    "peachstore.repository",
 	    "peachstore.util",
 	})
-
+@MapperScan("peachstore.repository.statistics")
 public class RootConfig {
 	
 	@Bean
