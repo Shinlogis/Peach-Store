@@ -29,17 +29,9 @@ public class LoginCheckFilter implements Filter{
 		public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 				throws IOException, ServletException {
 			HttpServletRequest request = (HttpServletRequest)req;
-			
-			//현재 들어오는 요청 객체가 세션정보를 공유하고 있는지 체크
-			//세션안에 회원정보가 들어있다면, 원래 가던곳으로 그대로 보내주고
-			//세션안에 회원정보가 없다면 로그인폼으로 자동 전달
-			
-		
-			//클라이언트의 요청이 /shop/cart/list, /shop/member/mypage 등등의 로그인이 피룡한 서비스인 경우엔
-			//세션 정보가 없다면ㅡ 아래의 chain.doFilter()를 만나지 않도록 처리, 내부의 서블릿을 만나지도 못하고
-			//톰캣으로 하여금 로그인 폼을 응답정보로 보내도록 하자.
 			String uri=request.getRequestURI();
 			if(//회원이 아니어도 접속이 가능한 uri
+			//이 요청들에서 자체적으로 예외처리가 더 필요할듯
 				uri.equals("/shop/main")||
 				uri.equals("/shop/user/loginform")||
 				uri.equals("/shop/user/kakao/authurl")||

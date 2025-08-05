@@ -86,7 +86,7 @@ h6{
    <!-- Shop Cart Section Begin -->
     <section class="shop-cart-section">
        <div>
-         <span class="title-h1" style="display: block; text-align: center;">장바구니 총액: </span>
+       <span class="title-h1" id="total-price" style="display: block; text-align: center;">장바구니 총액: 0원</span>
       </div>
       <div style="display: block; text-align: center;">모든 주문에 무료 배송 서비스가 제공됩니다</div>
       
@@ -112,6 +112,7 @@ h6{
                             </thead>
                             <tbody>
                             <!-- 전부 fk 설정이므로 참조해서 받아와야함.get().get() -->
+							<% int totalPrice=0;%>
 							<% for (int i = 0; i < cartItemList.size(); i++) {
 							    CartItem item = cartItemList.get(i);
 							    Product product = item.getProduct();
@@ -133,6 +134,7 @@ h6{
 							    }
 							
 							    int finalPrice = price + engravingPrice;
+							    totalPrice += finalPrice;
 							%>
 							<tr 
 							  data-id="<%= item.getCart_item_id() %>"
@@ -170,11 +172,13 @@ h6{
 							
 							    <td class="cart__blank"></td>
 							
-							    <td class="cart__price"><%= finalPrice %></td>
+							    <td class="cart__price"><%= String.format("%,d", finalPrice)%></td>
 							
 							    <td class="cart__delete" data-id="<%= item.getCart_item_id() %>">X</td>
 							</tr>
 							<% } %>
+<!-- 동기방식 사용했기 때문에 위에서 total뿌려주는 건 JS로 -->							
+<script>document.getElementById("total-price").innerText = "장바구니 총액: <%= String.format("%,d", totalPrice) %>원";</script>
                             </tbody>
                         </table>
                     </div>
@@ -193,8 +197,12 @@ h6{
                         <h6>Cart total</h6>
                            <p><%= userGrade.getUser_grade().getUserGradeName()%>회원에게 <%= userGrade.getUser_grade().getDiscountRate()%>%의 할인율이 적용됩니다.</p>
                         <ul>
-                            <li>총액<span>$ 750.0</span></li>
-                            <li>할인된 금액<span>$ 750.0</span></li>
+                            <li>총액<span><%= String.format("%,d", totalPrice)%></span></li>
+                            	<%
+                            		double discountedPrice = 0;
+                            		/* discountedPrice = totalPrice - totalPrice*(userGrade.getUser_grade().getDiscountRate()/100); */
+                            	%>
+                            <li>할인된 금액<span></span></li>
                         </ul>
                         <a href="/shop/payment/payment-ready" class="primary-btn">Proceed to checkout</a>
                     </div>
