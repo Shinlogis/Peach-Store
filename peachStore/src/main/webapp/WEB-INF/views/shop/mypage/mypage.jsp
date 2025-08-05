@@ -80,7 +80,8 @@
 										</tr>
 									</thead>
 									<tbody>
-									<%for(OrderReceipt orderReceipt : order){ %>
+									<%for(int i=0; i<order.size()&&i<3;i++){ %>
+									<%OrderReceipt orderReceipt = order.get(i); %>
 										<tr>
 											<!-- 주문일 -->
 											<td class="cart__price" style="color: black;"><%=orderReceipt.getOrderdate().toLocalDate() %></td>
@@ -105,7 +106,6 @@
 											<%} %>
 										</tr>
 									<%} %>
-										
 									</tbody>
 								</table>
 							</div>

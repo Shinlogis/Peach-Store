@@ -83,4 +83,14 @@ public class InquiryDAOImpl implements InquiryDAO{
 		return result;
 	}
 
+	@Override
+	public int count(Inquiry inquiry) {
+		return sqlSessionTemplate.selectOne("Inquiry.count", inquiry);
+	}
+
+	@Override
+	public List<Inquiry> paging(Map<String, Object> param) {
+		return sqlSessionTemplate.selectList("Inquiry.paging", param);
+	}
+
 }
