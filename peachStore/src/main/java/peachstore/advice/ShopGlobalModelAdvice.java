@@ -34,7 +34,7 @@ public class ShopGlobalModelAdvice {
 			User user = (User)session.getAttribute("user");
 			int count = 0;
 			if(user != null) {
-				 count = reviewService.countByUserId(user.getUser_id());
+				 count = reviewService.countByUserId(user);
 			}
 			return count;
 		}

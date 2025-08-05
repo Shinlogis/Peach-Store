@@ -1,7 +1,9 @@
 package peachstore.service.orderreceipt;
 
+import java.util.HashMap;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,41 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 		return orderReceiptDAO.completedList(orderReceipt);
 	}
 
+	@Override
+	public int countByUserId(OrderReceipt orderReceipt) {
+		return orderReceiptDAO.countByUserId(orderReceipt);
+	}
+
+	@Override
+	public List<OrderReceipt> paging(OrderReceipt orderReceipt, int startIndex, int pageSize) {
+		Map<String, Object> param = new HashMap<>();
+        param.put("user", orderReceipt.getUser());  
+        param.put("startIndex", startIndex);
+        param.put("pageSize", pageSize);
+
+        return orderReceiptDAO.selectByUserIdPaging(param);
+	}
+
+	@Override
+	public List<OrderReceipt> cancleListPaging(OrderReceipt orderReceipt, int startIndex, int pageSize) {
+		Map<String, Object> param = new HashMap<>();
+        param.put("user", orderReceipt.getUser());  
+        param.put("startIndex", startIndex);
+        param.put("pageSize", pageSize);
+
+        return orderReceiptDAO.cancleListPaging(param);
+	}
+
+	@Override
+	public List<OrderReceipt> completedListPaging(OrderReceipt orderReceipt, int startIndex, int pageSize) {
+		Map<String, Object> param = new HashMap<>();
+        param.put("user", orderReceipt.getUser());  
+        param.put("startIndex", startIndex);
+        param.put("pageSize", pageSize);
+
+        return orderReceiptDAO.completedListPaging(param);
+	}
+	
 	/**
 	 * 주문내역 생성
 	 */

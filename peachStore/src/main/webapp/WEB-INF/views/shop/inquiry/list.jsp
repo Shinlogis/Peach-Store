@@ -1,3 +1,4 @@
+<%@page import="peachstore.util.Paging"%>
 <%@page import="peachstore.domain.Inquiry"%>
 <%@page import="peachstore.domain.User"%>
 <%@page import="java.util.List"%>
@@ -8,6 +9,12 @@
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	User userGrade = (User)request.getAttribute("userGrade");
 	Integer reviewCount = (Integer)request.getAttribute("reviewCount");
+	Paging paging = (Paging)request.getAttribute("paging");
+	
+	int firstPage = paging.getFirstPage();
+	int lastPage = paging.getLastPage();
+	int currentPage = paging.getCurrentPage();
+	int totalPage = paging.getTotalPage();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,6 +114,35 @@
 									<%} %>
 									</tbody>
 								</table>
+								<!-- 페이징 처리 -->
+								<div class="card-footer d-flex justify-content-center">
+									<ul class="pagination pagination-sm m-0">
+									<!-- 이전 페이지 버튼 -->
+										<li
+											class="page-item <%=(firstPage <= 1 ? "disabled" : "")%>">
+											<a class="page-link"
+											href="<%=(firstPage > 1) ? ("/shop/inquiry/list?currentPage=" + (firstPage - 1)) : "#"%>">&laquo;</a>
+										</li>
+										<!-- 페이지 번호 목록 -->
+										<%
+										for (int i = firstPage; i <= lastPage && i <= totalPage; i++) {
+										%>
+										<li
+											class="page-item <%=(i == currentPage ? "active" : "")%>">
+											<a class="page-link"
+											href="/shop/inquiry/list?currentPage=<%=i%>"><%=i%></a>
+										</li>
+										<%
+										}
+										%>
+
+										<!-- 다음 페이지 버튼 -->
+										<li
+											class="page-item <%=(lastPage >= totalPage ? "disabled" : "")%>">
+											<a class="page-link"
+											href="<%=(lastPage < totalPage) ? ("/shop/inquiry/list?currentPage=" + (lastPage + 1)) : "#"%>">&raquo;</a>
+										</li>
+									
 							</div>
 						</div>
 					</div>
