@@ -14,7 +14,7 @@ List<Product> productList =(List)request.getAttribute("productList");
 	<div class="banner2">
 		<div class="slider">
 			<ul class="slide-container">
-				<%for(int i=0;i<1; i++){ %>
+				<%for(int i=0;i<6; i++){ %>
 				<li>
 					<a href="#">
 	                   <img src="/static/shop/img/product/slideipone.jpeg">

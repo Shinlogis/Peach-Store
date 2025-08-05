@@ -71,7 +71,7 @@
 			<div class="detail-right">
 				<div class="detail-introduce-wrapper">
 					<div class="introduce-title"><%=product.getProductName() %></div>
-					<div><%=product.getIntroduce() %></div>
+					<div style="word-wrap: break-word; white-space: normal; width:400px"><%=product.getIntroduce() %></div>
 				</div>
 				<div class="detail-option-wrapper">
 					<form id="cartForm" action="/shop/cart/insert" method="post">
@@ -141,8 +141,6 @@
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div style="display:flex; flex-direction: column; align-items: center;">
 									<div class="title-h1" style="margin:10px 0 50px 0;">제품 구성</div>
-									<%=product.getDetail()%>
-									<div class="title-h1" style="margin:140px 0 50px 0;">제품 상세정보</div>
 									<%=product.getDetail()%>
 								</div>
 							</div>
@@ -225,10 +223,18 @@
 			dots[slideIndex-1].className += " active";
 		}
 		
+		$('input[name="product_size_id"], input[name="product_capacity_id"]').on('change', function() {
+		    updatePrice();
+
+		    scrollToNextFieldset(this);
+		});
+		
 		/* 선택된 색상  */
 		$(".color-box input").click(function(){
 			let selectedColor=$('.color-box input[type="radio"]:checked').data('color-name');
 			 $('#color-title').html('색상 - <strong>' + selectedColor + '</strong>');
+			 
+			 scrollToNextFieldset(this);
 		})
 
 		/* 리뷰  */
@@ -319,20 +325,53 @@
 			$("#total-price").text("총 가격: " + totalPrice.toLocaleString() + "원");
 		}
 		
+		
+		function scrollToNextFieldset(currentInput) {
+		    const currentFieldset = currentInput.closest('fieldset');
+		    if (!currentFieldset) return;
+
+		    let targetElement;
+		    const legendText = currentFieldset.querySelector('legend')?.innerText?.trim();
+
+		    // 용량이면 스크롤하지 않고 그냥 return
+		    if (legendText === '용량') return;
+
+		    if (legendText === '용량') {
+		        targetElement = document.querySelector('.price-display');
+		    } else {
+		        const nextFieldset = currentFieldset.nextElementSibling;
+		        targetElement = nextFieldset || document.querySelector('.price-display');
+		    }
+
+		    if (targetElement) {
+		        const offset = 200;  // 덜 스크롤 되게
+		        const rect = targetElement.getBoundingClientRect();
+		        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		        const targetPosition = rect.top + scrollTop - offset;
+
+		        window.scrollTo({
+		            top: targetPosition,
+		            behavior: 'smooth'
+		        });
+		    }
+		}
+		
 		$(document).ready(function () {
 			$(".review-img").each(function () {
 				$(this).children("img").hide().eq(0).show();  // 첫 번째 이미지만 보이게
 			});
 			
-			// 옵션 선택 시 가격 업데이트
+			/* // 옵션 선택 시 가격 업데이트
 			$('input[name="product_size_id"], input[name="product_capacity_id"]').change(function() {
 				updatePrice();
-			});
+			}); */
 			
 			$("input[type='button']").click(function () {
 				  $("#cartForm").submit();
 			});
 		});
+		
+		
 	</script>
 </body>
 </html>

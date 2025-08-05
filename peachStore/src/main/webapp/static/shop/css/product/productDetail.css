@@ -9,6 +9,20 @@
 	margin:50px 165px;
 }
 
+.detail-left {
+    position: sticky;
+    top: 100px; 
+    height: fit-content;
+    flex-shrink: 0;
+}
+
+.detail-right {
+    height: 1000px; 
+    overflow-y: auto;
+    padding-right: 10px;
+    scroll-behavior: smooth;
+}
+
 /* 왼쪽 사이드  */
 * {box-sizing: border-box}
 body {font-family: Verdana, sans-serif; margin:0}
@@ -25,8 +39,8 @@ img {vertical-align: middle;}
 	background:#fafafceb;
 }
 .slideshow-container img{
-    width: auto;
-    height: 90%;
+        width: auto;
+    height: 100%;
 }
 
 .mySlides.fade{

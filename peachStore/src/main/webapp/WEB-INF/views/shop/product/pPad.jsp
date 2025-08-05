@@ -63,7 +63,7 @@
 				<img src='<%= imagePath %>' class='slide' alt='Slide 1'>
 			<% }%>
 				<div class='p_name'><%=product.getProductName() %></div>
-				<div class='p_price'><%=product.getPrice()%></div>
+				<div class='p_price'>₩<%=product.getPrice()%></div>
 			</a>
 			<%} %>
 		<%} else { %>

@@ -63,7 +63,7 @@
 				<img src='<%= imagePath %>' class='slide' alt='Slide 1'>
 			<% }%>
 				<div class='p_name'><%=product.getProductName() %></div>
-				<div class='p_price'><%=product.getPrice()%></div>
+				<div class='p_price'>₩<%=product.getPrice()%></div>
 			</a>
 			<%} %>
 		<%} else { %>
@@ -140,7 +140,7 @@ function printCategory(list){
 		tag+="<img src='/data/product_"+list[i].productId+"/"+list[i].productImgs[0].filename+"' class='slide' alt='Slide 1'>";
 		}
 		tag+="<div class='p_name'>" + list[i].productName +"</div>";
-		tag+="<div class='p_price'>" + list[i].price +"</div>";
+		tag+="<div class='p_price'>₩" + list[i].price +"</div>";
 		tag+="</a>";
 	}
 	

@@ -547,7 +547,4 @@ VALUES (
 	'super',
 	TRUE
 );
-
--- 장바구니 제품 테이블 인서트(INSERT INTO CART_ITEM)
-INSERT INTO CART_ITEM (CART_ID, PRODUCT_ID, CUSTOM_OPTION_ID)
-VALUES (1, 1, 1);
+select 

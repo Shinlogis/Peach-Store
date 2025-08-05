@@ -61,6 +61,7 @@
 		select * from product 
 	    where product_subcategory_id = #{product_subcategory_id}
 	    and is_deleted = 0
+	    order by product_id desc;
 	</select>
 	
 	<select id="selectByTopId" parameterType="int" resultMap="joinMap">
@@ -68,6 +69,7 @@
 		JOIN product_subcategory ps ON p.product_subcategory_id = ps.product_subcategory_id
 		where ps.product_topcategory_id = #{topId}
 		and p.is_deleted = 0
+		order by product_id desc;
 	</select>
 	
 	<select id="selectByTopIdWithPaging" resultMap="joinMap">
