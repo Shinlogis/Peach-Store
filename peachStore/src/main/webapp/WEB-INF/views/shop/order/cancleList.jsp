@@ -73,7 +73,7 @@
 								
 								<div class="card-header"
 							     style="display: flex; justify-content: space-between; border-bottom: 2px solid black;">
-							    <h3 class="card-title" style="font-weight: bold;">주문 내역</h3>
+							    <h3 class="card-title" style="font-weight: bold;">취소 내역</h3>
 							</div>
 
 								<table style="width: 100%; border-collapse: collapse;">
@@ -97,17 +97,32 @@
 								            <% for(OrderDetail detail : orderReceipt.getOrderList()) { %>
 								            <tr>
 								                <!-- 상품정보 -->
-								                <td>
-								                    <div style="display: flex; gap: 100px;">
-								                        <img src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename()%>" style="width: 100px; height: 100px; object-fit: cover;">
-								                        <div>
-								                            <div style="margin-bottom: 8px;"><strong><%=detail.getSnapShot().getProduct_name()%></strong></div>
-								                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getSize()%> / <%=detail.getSnapShot().getColor()%></div>
-								                            <div style="margin-bottom: 8px;"><%=detail.getSnapShot().getPrice()%>원 / <%=detail.getSnapShot().getOrder_quantity()%>개</div>
-								                         
-								                        </div>
-								                    </div>
-								                </td>
+												<td>
+													<div style="display: flex; gap: 100px;">
+														<img
+															src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename()%>"
+															style="width: 100px; height: 100px; object-fit: cover;">
+														<div>
+															<div style="margin-bottom: 8px;">
+																<h4 style="font-weight:bold; font-size:20px;"><%=detail.getSnapShot().getProduct_name()%></h4>
+															</div>
+															<div style="margin-bottom: 8px;">사이즈/색상 : <%=detail.getSnapShot().getSize()%>
+																/
+																<%=detail.getSnapShot().getColor()%></div>
+															<div style="margin-bottom: 8px;">가격/수량 : <%=detail.getSnapShot().getPrice()%>원
+																/
+																<%=detail.getSnapShot().getOrder_quantity() %>개
+															</div>
+															<div style="margin-bottom: 8px;">우편번호 : <%=orderReceipt.getPostcode()%>
+															</div>
+															<div style="margin-bottom: 8px;">주소 : <%=orderReceipt.getAddress()%> <%=orderReceipt.getDetailAddress()%>
+															</div>
+															
+															
+															
+														</div>
+													</div>
+												</td>
 								                
 								                
 								            </tr>
