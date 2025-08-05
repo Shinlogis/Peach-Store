@@ -11,6 +11,9 @@ public class OrderReceipt {
 	private LocalDateTime orderdate;
 	private String order_status; // '상품 준비 전', '상품 준비 중', '발송완료' 중 하나
 	private User user;
+	private String postcode;
+	private String address;
+	private String detailAddress;
 	
 	private List<OrderDetail> orderList;
 	

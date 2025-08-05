@@ -105,8 +105,17 @@ h6 {
 			<p><%= userGrade.getUser_grade().getUserGradeName()%>회원에게
 				<%= userGrade.getUser_grade().getDiscountRate()%>%의 할인율이 적용됩니다.
 			</p>
-
+			
 			모든 주문에 무료 배송 서비스가 제공됩니다
+			<div class="row">
+				<div class="col-lg-10 offset-lg-1">
+					<div class=pay-btn-wrapper>
+						<div class="pay-btn-content">
+							<button class="pay-btn" id="pay-btn" value="">주문하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="container" style="padding: 80px 110px;">
@@ -149,22 +158,33 @@ h6 {
 							    int finalPrice = price + engravingPrice;
 							    totalPrice += finalPrice;
 							%>
-								<tr data-id="<%= item.getCart_item_id() %>"
-									data-name="<%= product.getProductName() %>"
-									data-price="<%= finalPrice %>"
-									data-quantity="<%= item.getQuantity() %>"
-									<%= capacity != null ? "data-capacity=\"" + capacity + "\"" : "" %>
-									<%= color != null ? "data-color=\"" + color + "\"" : "" %>
-									<%= size != null ? "data-size=\"" + size + "\"" : "" %>
-									<%= engraving != null ? "data-engraving=\"" + engraving + "\"" : "" %>>
-									<td class="cart__product__item">
-										<% 
+							<!-- 담긴 데이터들에 동적으로 호출자 속성 부여 -->
+							<tr 
+							  data-itemid="<%= item.getCart_item_id() %>"
+							  data-name="<%= product.getProductName() %>"
+							  data-price="<%= finalPrice %>"
+							  data-quantity="<%= item.getQuantity() %>"
+							  <%= capacity != null ? "data-capacity=\"" + capacity + "\"" : "" %>
+							  <%= color != null ? "data-color=\"" + color + "\"" : "" %>
+							  <%= size != null ? "data-size=\"" + size + "\"" : "" %>
+							  <%= engraving != null ? "data-engraving=\"" + engraving + "\"" : "" %>
+							>
+							    <td class="cart__product__item">
+							<% 
 							String imagePath = "/static/shop/img/no-image.png"; // 기본 이미지
 							if (product.getProductImgs() != null && !product.getProductImgs().isEmpty()) {
 							    imagePath = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();
 							}
-							%> <img src="<%= imagePath %>" alt="장바구니 상품<%= i %>">
-
+							%>
+							<!-- 담긴 이미지 또한 받아오기 동적으로 호출자 속성 부여 -->
+							<img 
+							  src="<%= imagePath %>" 
+							  alt="장바구니 상품<%= i %>"
+							  <%= (product.getProductImgs() != null && !product.getProductImgs().isEmpty()) 
+							        ? "data-filename=\"" + product.getProductImgs().get(0).getFilename() + "\"" 
+							        : "" 
+							  %>
+							>
 										<div class="cart__product__item__title">
 											<h6><%= product.getProductName() %></h6>
 
@@ -198,53 +218,8 @@ h6 {
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-lg-3 offset-lg-8">
-					<div class="cart__btn update__btn">
-						<a href="/shop/main">쇼핑 계속하기</a>
-					</div>
-				</div>
-			</div>
-			
-		<section class="info-section">
-			<h3>배송 상세 정보</h3>
-			변경>
-			<div class="info-grid">
-				<div>
-					<p>
-						<strong>받는사람:</strong>
-						<%=user.getUser_name() %>
-					</p>
-					<p>
-						<strong>주소:</strong> 경기도 어딘시<br>신사면 신장리 신장로1-1 ABC빌딩<br>대한민국
-					</p>
-				</div>
-				<div>
-					<p>
-						<strong>연락처:</strong><%=user.getTel() %>
-					</p>
-					<p>
-						<%=user.getEmail() %></p>
-				</div>
-			</div>
-		</section>
 
-
-		<section class="terms">
-			<p>
-				Peach의 <a href="#">개인정보 처리방침</a>에 따라 정보를 수집하고, 저장하며, 처리하는 것에 동의하셔야	합니다.
-			</p>
-		</section>
 			
-			<div class="row">
-				<div class="col-lg-10 offset-lg-1">
-					<div class=pay-btn-wrapper>
-						<div class="pay-btn-content">
-							<button class="pay-btn" id="pay-btn" value="">결제하기</button>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</section>
 	<!-- Shop Cart Section End -->
@@ -264,39 +239,109 @@ h6 {
 	<!-- Js Plugins -->
 	<%@ include file="../inc/footer_link.jsp"%>
 	  <script src="https://js.tosspayments.com/v1/payment"></script>
-	<script type="text/javascript">
-	 const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
-	 // 결제하기 버튼 클릭 이벤트
-	    document.getElementById("pay-btn").addEventListener("click", () => {
-	      tossPayments.requestPayment("간편결제", {
-	        amount: <%=totalPrice%>,
-	        orderId: '<%=orderId%>',
-	        orderName: '<%=orderName%>',
-	        customerName: '<%=customerName%>',
-	        successUrl: '<%=successUrl%>',
-	        failUrl: '<%=failUrl%>'
-	      });
-	    });
-	
-		$(() => {
-			$(".shop__cart__table").on("click", ".cart__delete", function () {
-				const cartItemId = $(this).data("id");
-				if (confirm("선택 항목을 장바구니에서 삭제하시겠습니까?")) {
-					$.ajax({
-						url: "/shop/cart/delete",
-						type: "POST",
-						data: { cartItemId: cartItemId },
-						success: function(response) {
-							// 성공 시 페이지 새로고침 또는 해당 행 삭제
-							location.reload();
-						},
-						error: function(err) {
-							alert("삭제 중 오류가 발생했습니다.");
-						}
-					});
-				}
-			});
-		});
-	</script>
+	  <script type="text/javascript">
+  const cartSnapshots = [
+    <% for (int i = 0; i < cartItemList.size(); i++) {
+        CartItem item = cartItemList.get(i);
+        Product product = item.getProduct();
+
+        String size = null, capacity = null, color = null, engraving = null, filename = "/static/shop/img/no-image.png";
+
+        if (item.getCustom_option() != null) {
+          if (item.getCustom_option().getProduct_size() != null)
+            size = item.getCustom_option().getProduct_size().getSize().getSize_name();
+          if (item.getCustom_option().getProduct_capacity() != null)
+            capacity = item.getCustom_option().getProduct_capacity().getCapacity().getCapacity_name();
+          if (item.getCustom_option().getProduct_color() != null)
+            color = item.getCustom_option().getProduct_color().getColor().getColor_name();
+          if (item.getCustom_option().getProduct_engraving() != null)
+            engraving = item.getCustom_option().getProduct_engraving().getEngraving_text();
+        }
+
+        if (product.getProductImgs() != null && !product.getProductImgs().isEmpty()) {
+          filename = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();
+        }
+
+        int finalPrice = product.getPrice();
+    %>
+    {
+      "product_id": <%= product.getProductId() %>,
+      "product_name": "<%= product.getProductName() %>",
+      "price": <%= finalPrice %>,
+      "size": <%= size != null ? ("\"" + size + "\"") : "null" %>,
+      "capacity": <%= capacity != null ? ("\"" + capacity + "\"") : "null" %>,
+      "color": <%= color != null ? ("\"" + color + "\"") : "null" %>,
+      "engraving": <%= engraving != null ? ("\"" + engraving + "\"") : "null" %>,
+      "filename": "<%= filename %>"
+    }<%= (i < cartItemList.size() - 1) ? "," : "" %>
+    <% } %>
+  ];
+
+  const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
+
+  $(function () {
+    // ❌ 장바구니 삭제 버튼
+    $(".shop__cart__table").on("click", ".cart__delete", function () {
+      const cartItemId = $(this).data("id");
+      if (confirm("선택 항목을 장바구니에서 삭제하시겠습니까?")) {
+        $.ajax({
+          url: "/shop/cart/delete",
+          type: "POST",
+          data: { cartItemId: cartItemId },
+          success: function () {
+            location.reload();
+          },
+          error: function () {
+            alert("삭제 중 오류가 발생했습니다.");
+          }
+        });
+      }
+    });
+
+    // ✅ 스냅샷 저장 버튼
+$("#pay-btn").on("click", function (e) {
+  e.preventDefault();
+  const $btn = $(this);
+  $btn.prop("disabled", true);
+
+  console.log("보낼 데이터:", cartSnapshots);
+
+  $.ajax({
+    url: '/shop/returnsnapshot',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(cartSnapshots),
+    success: function (result, status, xhr) {
+    		console.dir(result);
+	      window.location.href = '/shop/payment/payment-ready';
+    },
+    error: function (xhr, status, error) {
+      console.error("에러 응답:", xhr.responseText);
+      console.error("상태:", status);
+      console.error("오류:", error);
+      alert('스냅샷 저장 중 오류가 발생했습니다.');
+    },
+    complete: function () {
+      $btn.prop("disabled", false);
+    }
+  });
+});
+
+
+    // 💳 결제하기 버튼
+    $("#paypay-btn").on("click", function () {
+      tossPayments.requestPayment("간편결제", {
+        amount: <%=totalPrice%>,
+        orderId: '<%=orderId%>',
+        orderName: '<%=orderName%>',
+        customerName: '<%=customerName%>',
+        successUrl: '<%=successUrl%>',
+        failUrl: '<%=failUrl%>'
+      });
+    });
+  });
+</script>
+	  
+
 </body>
 </html>

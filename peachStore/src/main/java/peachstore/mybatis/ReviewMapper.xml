@@ -32,6 +32,7 @@
     			<result column="capacity" property="capacity" />
     			<result column="color" property="color" />
     			<result column="engraving" property="engraving" />
+    			<result column="filename" property="filename" />
 			</association>
 		
 		</association>
@@ -157,6 +158,7 @@
 			s.size AS size,
 			s.capacity AS capacity,
 			s.color AS color,
+			s.engraving AS engraving,
 			s.engraving AS engraving
 
 		FROM review r
@@ -199,13 +201,14 @@
 
         od.order_detail_id AS orderDetailId,
 
-        s.snapshot_id AS snapshotId,
+        s.snapshot_id AS snapshot_id,
         s.product_name AS product_name,
         s.price AS price,
         s.size AS size,
         s.capacity AS capacity,
         s.color AS color,
-        s.engraving AS engraving
+        s.engraving AS engraving,
+        s.filename AS filename
 
     FROM review r
     JOIN user u 

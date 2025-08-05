@@ -237,7 +237,7 @@ CREATE TABLE CUSTOM_OPTION(
     CUSTOM_OPTION_ID INT PRIMARY KEY AUTO_INCREMENT
     , PRODUCT_SIZE_ID INT  
     , PRODUCT_COLOR_ID INT  
-    , PRODUCT_CAPACITY_ID INT  
+    , PRODUCT_CAPACITY_ID INT 
     , PRODUCT_ENGRAVING_ID INT
     , CONSTRAINT FK_CUSTOM_OPTION_PRODUCT_SIZE_ID
         FOREIGN KEY (PRODUCT_SIZE_ID)
@@ -305,6 +305,9 @@ CREATE TABLE order_receipt(
    , order_status varchar(10) NOT NULL DEFAULT '상품 준비 전' CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료', '주문취소'))
    , user_id int NOT NULL
    , payment_id BIGINT NOT NULL
+   , postcode int NOT NULL
+   , address varchar(45) NOT NULL
+   , detail_address varchar(45) NOT NULL
    , CONSTRAINT fk_order_receipt_user_id
       FOREIGN KEY (user_id)
       REFERENCES user(user_id)
@@ -658,15 +661,15 @@ INSERT INTO toss_payment (
 
 
 -- 주문내역 테이블 인서트(INSERT INTO ORDER_RECEIPT)
-INSERT INTO ORDER_RECEIPT (ORDER_STATUS, USER_ID, payment_id)
+INSERT INTO ORDER_RECEIPT (ORDER_STATUS, USER_ID, payment_id, postcode, address, detail_address)
 VALUES
-   ('상품 준비 전', 1, 1),
-   ('상품 준비 중', 3, 2),
-   ('발송완료', 5, 3),
-   ('상품 준비 전', 7, 4),
-   ('상품 준비 중', 9, 5),
-   ('발송완료', 2, 6),
-   ('상품 준비 전', 4, 7);
+   ('상품 준비 전', 1, 1, 12345, "주소주소", "상세주소"),
+   ('상품 준비 중', 3, 2, 12645, "주소주소", "상세주소"),
+   ('발송완료', 5, 3, 92345, "주소", "상세"),
+   ('상품 준비 전', 7, 4,  12345, "주소주소", "상세주소"),
+   ('상품 준비 중', 9, 5, 12345, "주소주소", "상세주소"),
+   ('발송완료', 2, 6, 12345, "주소주소", "상세주소"),
+   ('상품 준비 전', 4, 7, 12345, "주소주소", "상세주소");
 
 -- 제품 커스텀 옵션 테이블 인서트(INSERT INTO CUSTOM_OPTION)
 INSERT INTO CUSTOM_OPTION (PRODUCT_SIZE_ID, PRODUCT_COLOR_ID, PRODUCT_CAPACITY_ID, PRODUCT_ENGRAVING_ID)
