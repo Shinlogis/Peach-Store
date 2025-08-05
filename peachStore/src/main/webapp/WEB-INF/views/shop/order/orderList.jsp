@@ -135,15 +135,21 @@ int totalPage = paging.getTotalPage();
 															style="width: 100px; height: 100px; object-fit: cover;">
 														<div>
 															<div style="margin-bottom: 8px;">
-																<strong><%=detail.getSnapShot().getProduct_name()%></strong>
+																<h4 style="font-weight:bold; font-size:20px;"><%=detail.getSnapShot().getProduct_name()%></h4>
 															</div>
-															<div style="margin-bottom: 8px;"><%=detail.getSnapShot().getSize()%>
+															<div style="margin-bottom: 8px;">사이즈/색상 : <%=detail.getSnapShot().getSize()%>
 																/
 																<%=detail.getSnapShot().getColor()%></div>
-															<div style="margin-bottom: 8px;"><%=detail.getSnapShot().getPrice()%>원
+															<div style="margin-bottom: 8px;">가격/수량 : <%=detail.getSnapShot().getPrice()%>원
 																/
 																<%=detail.getSnapShot().getOrder_quantity() %>개
 															</div>
+															<div style="margin-bottom: 8px;">우편번호 : <%=orderReceipt.getPostcode()%>
+															</div>
+															<div style="margin-bottom: 8px;">주소 : <%=orderReceipt.getAddress()%> <%=orderReceipt.getDetailAddress()%>
+															</div>
+															
+															
 															
 														</div>
 													</div>

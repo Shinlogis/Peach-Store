@@ -85,7 +85,7 @@ int totalPage = paging.getTotalPage();
 												<th colspan="5">
 													<div class="card-header"
 														style="display: flex; justify-content: space-between; width: 100%;">
-														<h3 class="card-title" style="font-weight: bold;">리뷰상세</h3>
+														<h3 class="card-title" style="font-weight: bold;">내 리뷰</h3>
 													</div>
 												</th>
 											</tr>
@@ -97,15 +97,17 @@ int totalPage = paging.getTotalPage();
 													<div style="display: flex; flex-direction: column; background-color: #f5f5f5;">
 													  <!-- 사진 + 상품 이름 한 줄 -->
 													  <div style="display: flex; gap:20px;">
-													    <img src="/data/r_<%=review.getOrderDetail().getSnapShot().getSnapshot_id()%>/<%=review.getOrderDetail().getSnapShot().getFilename()%>" 
-													         style="width: 20px; height: 20px; margin-right: 5px;">
-													    <div><%=review.getOrderDetail().getSnapShot().getProduct_name() %></div>
-													  </div>
+													    <img src="/data/p_<%=review.getOrderDetail().getSnapShot().getSnapshot_id()%>/<%=review.getOrderDetail().getSnapShot().getFilename()%>" 
+													         style="width: 50px; height: 50px; margin-right: 5px;">
+													    <div><%=review.getOrderDetail().getSnapShot().getProduct_name() %>
+													  
 													  
 													  <div style="display: flex; gap:10px">
 													  <div><%=review.getOrderDetail().getSnapShot().getColor() %></div>
 													  <div><%=review.getOrderDetail().getSnapShot().getCapacity() %></div>
 													  </div>
+													  </div>
+													</div>
 													</div>
 													
 													<!-- 작성일 -->
