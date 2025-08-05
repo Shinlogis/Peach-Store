@@ -1,5 +1,7 @@
 package peachstore.shop.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +55,26 @@ public class CartController {
 	}
 	
 	@GetMapping("/user/cartitem")
-	public ModelAndView getCartItem(int cart_id) {
+	public ModelAndView getCartItem(int cart_id , HttpSession httpSession) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User) httpSession.getAttribute("user");
+//		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(user.getUser_id());
+		
+		String successUrl = "http://localhost:8888/shop/payment/success-handler";
+		String failUrl = "http://localhost:8888/shop/payment/fail";
+		String orderId = String.valueOf(System.currentTimeMillis());
+
+		log.debug("paymentPage orderId - {}", orderId);
+		
+		mav.addObject("orderId", orderId);
+		mav.addObject("successUrl", successUrl);
+		mav.addObject("failUrl", failUrl);
+		mav.addObject("orderName", "주문번호 " + orderId + " 결제");
+		
+		
+//		mav.addObject("cartItemList", cartItemList);
+		mav.addObject("user", user);
+		
 		mav.addObject("cartItemList",cartItemService.selectCartItemByCartId(cart_id));
 		mav.setViewName("shop/user/cartItem");
 		return mav;

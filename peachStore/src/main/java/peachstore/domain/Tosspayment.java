@@ -15,8 +15,6 @@ public class Tosspayment {
 
     private String tossOrderId;
 
-    private OrderReceipt orderReceipt;
-
     private long totalAmount;
 
     private String tossPaymentMethod;

@@ -1,6 +1,7 @@
 package peachstore.repository.orderdetail;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class OrderDetailDAOImpl implements OrderDetailDAO{
 		List<OrderDetail> list = sqlSessionTemplate.selectList("OrderDetail.selectByOrderReceiptId", order_receipt_id);
 		log.debug("DAO detail {}",list);
 		return list;
+	}
+
+	@Override
+	public int insert(Map<String, Object> param) {
+		return sqlSessionTemplate.insert("OrderDetail.insert", param);
 	}
 
 }

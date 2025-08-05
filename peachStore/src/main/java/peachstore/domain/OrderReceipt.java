@@ -13,4 +13,6 @@ public class OrderReceipt {
 	private User user;
 	
 	private List<OrderDetail> orderList;
+	
+	private Tosspayment tosspayment; // 결제 정보
 }

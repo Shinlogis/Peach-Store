@@ -25,7 +25,7 @@ public class UserGradeController {
 	@GetMapping("/user-grade-update")
 	@ResponseBody
 	public void gradeSelectByAmount(HttpServletRequest request, int userId) {
-		userGradeService.calUserGrade(1);
+		userGradeService.calUserGrade(userId);
 	}
 	
 }

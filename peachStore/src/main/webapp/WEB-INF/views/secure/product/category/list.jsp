@@ -66,15 +66,6 @@
                 <div class="row mb-3">
                     <div class="col-12 d-flex justify-content-between align-items-center">
                         <h5><%= productTopcategories.size() %>개의 결과</h5>
-                        <div class="input-group input-group-sm" style="width: 250px;">
-                            <input type="text" id="searchKey" name="searchKey" class="form-control" placeholder="Search" value="<%= searchKey %>" />
-                            <div class="input-group-append">
-                                <button id="bt_search" type="button" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary ml-3" id="bt_regist_top" data-toggle="modal" data-target="#topCategoryModal">상위 카테고리 등록</button>
                     </div>
                 </div>
 
