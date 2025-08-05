@@ -1,6 +1,7 @@
 package peachstore.repository.orderreceipt;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,30 @@ public class OrderReceiptDAOImpl implements OrderReceiptDAO{
 	@Override
 	public OrderReceipt selectById(int orderReceiptId) {
 		return sqlSessionTemplate.selectOne("OrderReceipt.select", orderReceiptId);
+	}
+
+	//총 페이징 갯수
+	@Override
+	public int countByUserId(OrderReceipt orderReceipt) {
+		return sqlSessionTemplate.selectOne("OrderReceipt.countByUserId",orderReceipt );
+	}
+
+	//전체 페이징
+	@Override
+	public List<OrderReceipt> selectByUserIdPaging(Map<String, Object> param) {
+		return sqlSessionTemplate.selectList("OrderReceipt.selectByUserIdPaging", param);
+	}
+	
+	//취소내역 페이징
+	@Override
+	public List<OrderReceipt> cancleListPaging(Map<String, Object> param) {
+		return sqlSessionTemplate.selectList("OrderReceipt.cancleListPaging", param);
+	}
+
+	//발송완료내역 페이징
+	@Override
+	public List<OrderReceipt> completedListPaging(Map<String, Object> param) {
+		return sqlSessionTemplate.selectList("OrderReceipt.completedListPaging", param);
 	}
 
 }

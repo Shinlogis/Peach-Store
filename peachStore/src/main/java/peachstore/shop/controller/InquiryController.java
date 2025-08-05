@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Inquiry;
 import peachstore.domain.User;
 import peachstore.service.inquiry.InquiryService;
+import peachstore.util.Paging;
 
 /**
  * 문의하기 컨트롤러
@@ -53,15 +55,24 @@ public class InquiryController {
 
 	// 전체 조회
 	@GetMapping("/inquiry/list")
-	public ModelAndView getList(Inquiry inquiry, HttpSession session) {
+	public ModelAndView getList(Inquiry inquiry, HttpSession session, HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		inquiry.setUser(user);
 		log.debug("문의 리스트 유저는 " + user);
-
-		List inquiryList = inquiryService.selectAll(inquiry);
-
 		ModelAndView mav = new ModelAndView();
+		Paging paging = new Paging();
+		
+		int totalRecord = inquiryService.count(inquiry);
+		
+		paging.init(totalRecord, request);
+
+		//List<Inquiry> inquiryList = inquiryService.selectAll(inquiry);
+		 List<Inquiry> inquiryList = inquiryService.paging(inquiry, paging.getStartIndex(), paging.getPageSize());
+		
+		
+		
 		mav.addObject("inquiryList", inquiryList);
+		mav.addObject("paging", paging);
 		mav.setViewName("shop/inquiry/list");
 
 		return mav;

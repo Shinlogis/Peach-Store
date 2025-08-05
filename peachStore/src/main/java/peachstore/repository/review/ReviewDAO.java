@@ -1,7 +1,9 @@
 package peachstore.repository.review;
 
 import java.util.List;
+import java.util.Map;
 
+import peachstore.domain.Inquiry;
 import peachstore.domain.Review;
 import peachstore.domain.User;
 
@@ -52,6 +54,9 @@ public interface ReviewDAO {
 	public void updateReview(Review review);
 	
 	//리뷰 갯수 조회
-	public int countByUserId(int userId);
+	public int countByUserId(User user);
+	
+	//페이징 처리될 리스트 조회
+	public List<Review> paging(Map<String, Object> param);
 
 }

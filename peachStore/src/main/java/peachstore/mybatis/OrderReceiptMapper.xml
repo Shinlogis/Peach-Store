@@ -12,6 +12,46 @@
 		 <collection column="order_receipt_id" property="orderList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderReceiptId"/> 
 	</resultMap>
 
+
+	<!-- 전체 건수 조회 -->
+	<select id="countByUserId" parameterType="OrderReceipt" resultType="int">
+	    SELECT COUNT(*)
+	    FROM order_receipt
+	    WHERE user_id = #{user.user_id}
+	      AND trim(order_status) IN ('상품 준비 전', '상품 준비 중', '발송완료')
+	</select>
+	
+	<!-- 페이징 처리된 전체 목록 조회 -->
+	<select id="selectByUserIdPaging" parameterType="map" resultMap="joinMap">
+	    SELECT order_receipt_id, orderdate, order_status, user_id
+	    FROM order_receipt
+	    WHERE user_id = #{user.user_id}
+	      AND trim(order_status) IN ('상품 준비 전', '상품 준비 중', '발송완료')
+	    ORDER BY order_receipt_id DESC
+	    LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+	
+	
+	<!-- 페이징 처리된 주문취소 목록 조회 -->
+	<select id="cancleListPaging" parameterType="map" resultMap="joinMap">
+	    SELECT order_receipt_id, orderdate, order_status, user_id
+	    FROM order_receipt
+	    WHERE user_id = #{user.user_id}
+	      and order_status = '주문취소'
+	    ORDER BY order_receipt_id DESC
+	    LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+	
+		<!-- 페이징 처리된 발송완료 목록 조회 -->
+	<select id="completedListPaging" parameterType="map" resultMap="joinMap">
+	    SELECT order_receipt_id, orderdate, order_status, user_id
+	    FROM order_receipt
+	    WHERE user_id = #{user.user_id}
+	      and order_status = '발송완료'
+	    ORDER BY order_receipt_id DESC
+	    LIMIT #{pageSize} OFFSET #{startIndex}
+	</select>
+	
 	
 
 	<select id="selectByUserId" parameterType="OrderReceipt" resultMap="joinMap">

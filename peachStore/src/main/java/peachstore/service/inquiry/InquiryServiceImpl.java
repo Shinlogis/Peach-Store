@@ -2,6 +2,7 @@ package peachstore.service.inquiry;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import peachstore.repository.Inquiry.InquiryDAO;
 import peachstore.repository.Inquiry.InquiryImgDAO;
 import peachstore.service.admin.AdminService;
 import peachstore.util.FileCommonManager;
-import peachstore.util.FileManager;
 
 /**
  * 문의하기 service
@@ -171,6 +171,21 @@ public class InquiryServiceImpl implements InquiryService {
 			throw new InquiryException("문의가 존재하지 않습니다.");
 		}
 		return inquiry;
+	}
+
+	@Override
+	public int count(Inquiry inquiry) {
+		return inquiryDAO.count(inquiry);
+	}
+
+	@Override
+	public List<Inquiry> paging(Inquiry inquiry, int startIndex, int pageSize) {
+		Map<String, Object> param = new HashMap<>();
+        param.put("user", inquiry.getUser());
+        param.put("startIndex", startIndex);
+        param.put("pageSize", pageSize);
+		
+		return inquiryDAO.paging(param);
 	}
 
 }

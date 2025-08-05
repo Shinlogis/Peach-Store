@@ -1,7 +1,9 @@
 package peachstore.service.review;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -169,8 +171,20 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public int countByUserId(int userId) {
-		return reviewDAO.countByUserId(userId);
+	public int countByUserId(User user) {
+		return reviewDAO.countByUserId(user);
 	}
+
+	@Override
+	public List<Review> paging(User user, int startIndex, int pageSize) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("user", user);
+		param.put("startIndex", startIndex);
+		param.put("pageSize", pageSize);
+		
+		return reviewDAO.paging(param);
+	}
+	
+	
 
 }

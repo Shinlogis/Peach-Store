@@ -39,4 +39,13 @@ public interface InquiryDAO {
 	 * @return
 	 */
 	public Inquiry selectById(int inquiry_id);
+	
+	//페이징 총 레코드 수 조회
+	public int count(Inquiry inquiry);
+	
+	//페이징 처리될 리스트 조회
+	public List<Inquiry> paging(Map<String, Object> param);
+	
+	
+	
 }

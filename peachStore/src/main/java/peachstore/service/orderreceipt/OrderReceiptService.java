@@ -20,4 +20,12 @@ public interface OrderReceiptService {
 	public OrderReceipt selectById(int orderReceiptId);
 	
 	public List completedList(OrderReceipt orderReceipt);
+	
+	public int countByUserId(OrderReceipt orderReceipt);
+	 
+	public List<OrderReceipt> paging(OrderReceipt orderReceipt, int startIndex, int pageSize);
+	
+	public List<OrderReceipt> cancleListPaging(OrderReceipt orderReceipt, int startIndex, int pageSize);
+	
+	public List<OrderReceipt> completedListPaging(OrderReceipt orderReceipt, int startIndex, int pageSize);
 }
