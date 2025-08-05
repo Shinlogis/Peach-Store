@@ -3,19 +3,19 @@
 <mapper namespace="peachstore.mybatis.OrderMapper">
 	
 	 <select id="getAllOrders" resultType="map">
-	    SELECT
-	      orc.order_receipt_id AS orderReceiptId,
-	      u.user_name AS customerName,
-	      orc.orderdate AS orderDate,
-	      s.product_name AS productName,
-	      od.order_quantity AS quantity,
-	      s.price * od.order_quantity AS totalAmount,
-	      orc.order_status AS orderStatus
-	    FROM order_receipt orc
-	    JOIN user u ON orc.user_id = u.user_id
-	    JOIN order_detail od ON orc.order_receipt_id = od.order_receipt_id
-	    JOIN snapshot s ON od.snapshot_id = s.snapshot_id
-	    ORDER BY orc.order_receipt_id DESC
+			    SELECT
+		    orc.order_receipt_id AS orderReceiptId,
+		    u.user_name AS customerName,
+		    orc.orderdate AS orderDate,
+		    s.product_name AS productName,
+		    1 AS quantity,   -- 수량 1로 고정!
+		    s.price AS totalAmount,
+		    orc.order_status AS orderStatus
+		FROM order_receipt orc
+		JOIN user u ON orc.user_id = u.user_id
+		JOIN order_detail od ON orc.order_receipt_id = od.order_receipt_id
+		JOIN snapshot s ON od.snapshot_id = s.snapshot_id
+		ORDER BY orc.order_receipt_id DESC
 	  </select>
 		
 		<update id="updateOrderStatus">
