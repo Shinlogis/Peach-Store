@@ -53,7 +53,7 @@
 
 		<association property="admin" javaType="Admin">
 			<id column="adminId" property="adminId" />
-			<result column="adminName" property="name" />
+			<result column="adminName" property="adminName" />
 		</association>
 
 		<collection column="inquiry_id" property="imgList"

@@ -6,6 +6,9 @@
 		<id column="order_receipt_id" property="order_receipt_id"/> 
 		<result column="orderdate" property="orderdate"/>
 		<result column="order_status" property="order_status"/>
+		<result column="postcode" property="postcode"/>
+		<result column="address" property="address"/>
+		<result column="detail_address" property="detailAddress"/>
 		
 		<association column="user_id" property="user" javaType="User" select="User.selectById"/>
 		
@@ -23,9 +26,6 @@
 		 <collection column="order_receipt_id" property="orderList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderReceiptId"/> 
 
 	</resultMap>
-
-	
-	
 
 	<select id="selectByUserId" parameterType="OrderReceipt" resultMap="joinMap">
 		select order_receipt_id, orderdate, order_status, user_id 
@@ -56,8 +56,8 @@
 	
 	<!-- 주문내역 생성 -->
 	<insert id="insert" parameterType="OrderReceipt" useGeneratedKeys="true" keyProperty="order_receipt_id">
-		insert into order_receipt(orderdate, order_status, user_id, payment_id)
-		values(#{orderdate}, #{order_status}, #{user.user_id}, #{tosspayment.paymentId})
+		insert into order_receipt(orderdate, order_status, user_id, payment_id, postcode, address, detail_address)
+		values(#{orderdate}, #{order_status}, #{user.user_id}, #{tosspayment.paymentId}, #{postcode}, #{address}, #{detailAddress})
 	</insert>
 	
 	

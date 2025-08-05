@@ -44,4 +44,5 @@ public interface InquiryService {
 	 */
 	public Inquiry findById(int inquiry_id);
 	
+	
 }

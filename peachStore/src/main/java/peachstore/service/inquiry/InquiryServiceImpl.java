@@ -150,8 +150,7 @@ public class InquiryServiceImpl implements InquiryService {
 		inquiry.setAdmin(admin);
 		inquiry.setAnswer_text(answer_text);
 		inquiry.setAnswered_at(LocalDateTime.now());
-		log.debug("anwerInquiry data - {}, {}, {}", inquiry.getAdmin().getAdminId(), inquiry.getAnswer_text(),
-				inquiry.getAnswered_at());
+		log.debug("anwerInquiry data - {}, {}, {}", inquiry.getAdmin().getAdminId(), inquiry.getAnswer_text(), inquiry.getAnswered_at());
 
 		// 데이터베이스 업데이트
 		int result = inquiryDAO.updateAnswer(inquiry);
