@@ -98,8 +98,12 @@
         }
 
         .card-body {
-            padding: 30px;
-        }
+		    padding: 30px;
+		    height: 100%;      
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;  
+		}
 
         .card-footer {
             padding: 20px 30px;
