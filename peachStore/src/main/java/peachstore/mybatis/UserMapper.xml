@@ -19,6 +19,8 @@
 		<association column="sns_provider_id" property="sns_provider"
 			javaType="SnsProvider"
 			select="SnsProvider.selectAll"/>
+			
+			
 	</resultMap>
 	
 	
@@ -82,7 +84,51 @@
 	<update id="update" parameterType="User">
 		update user
 		set 
-			user_grade_id = #{user_grade.userGradeId}
+			user_grade_id = #{user_grade.userGradeId},
+			tel = #{tel},
+			address = #{address}
 		where user_id = #{user_id}
 	</update>
+	
+	<!-- is_active 상태 토글 -->
+	<update id="updateIsActive">
+		update user
+		set is_active = #{isActive}
+		where user_id = #{userId}
+	</update>
+	
+	<resultMap id="userJoinMap_v2" type="User">
+	    <id column="user_id" property="user_id" />
+	    <result column="id" property="id" />
+	    <result column="email" property="email" />
+	    <result column="salt" property="salt" />
+	    <result column="hashedpassword" property="hashedpassword" />
+	    <result column="user_name" property="user_name" />
+	    <result column="tel" property="tel" />
+	    <result column="address" property="address" />
+	    <result column="is_active" property="is_active" />
+	    <result column="created_at" property="created_at" />
+	
+	    <association property="user_grade" javaType="UserGrade">
+	        <id column="user_grade_id" property="userGradeId" />
+	        <result column="user_grade_name" property="userGradeName" />
+	    </association>
+	
+	    <association property="sns_provider" javaType="SnsProvider">
+	        <id column="sns_provider_id" property="sns_provider_id" />
+	        <result column="provider_name" property="provider_name" />
+	    </association>
+	</resultMap>
+
+	<select id="selectAllJoin_v2" resultMap="userJoinMap_v2">
+	    SELECT 
+	        u.*, 
+	        ug.user_grade_id as user_grade_id, 
+	        ug.user_grade_name as user_grade_name,
+	        sp.sns_provider_id as sns_provider_id, 
+	        sp.provider_name
+	    FROM user u
+	    JOIN user_grade ug ON u.user_grade_id = ug.user_grade_id
+	    JOIN sns_provider sp ON u.sns_provider_id = sp.sns_provider_id
+	</select>
 </mapper>

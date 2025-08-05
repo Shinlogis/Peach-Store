@@ -1,17 +1,23 @@
 package peachstore.service.orderreceipt;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+import peachstore.advice.ShopGlobalExceptionHandler;
 import peachstore.domain.OrderReceipt;
+import peachstore.domain.User;
 import peachstore.exception.OrderException;
+import peachstore.exception.OrderReceiptException;
 import peachstore.repository.orderreceipt.OrderReceiptDAO;
 
+@Slf4j
 @Service
 public class OrderReceiptServiceImpl implements OrderReceiptService{
-	
+
 	@Autowired
 	private OrderReceiptDAO orderReceiptDAO;
 
@@ -41,12 +47,18 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 
 	/**
 	 * 주문내역 생성
-	 * @param orderReceipt
-	 * @return
 	 */
 	@Override
-	public int insert(OrderReceipt orderReceipt) {
-		return orderReceiptDAO.insert(orderReceipt);
+	public void insert(LocalDateTime localDateTime, String orderStatus, User user, Long paymentId) {
+		OrderReceipt orderReceipt = new OrderReceipt();
+		orderReceipt.setOrderdate(localDateTime);
+		orderReceipt.setOrder_status(orderStatus);
+		orderReceipt.setUser(user);
+		
+		int result = orderReceiptDAO.insert(orderReceipt);
+		if (result == 0) {
+			throw new OrderReceiptException("주문내역 생성 실패");
+		}
 	}
 
 }

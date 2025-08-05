@@ -16,12 +16,11 @@
     const paymentKey     = '<%=paymentKey%>';
     const orderId        = '<%=orderId%>';
     const amount         = <%=amount%>;
-    const orderReceiptId = <%=orderReceiptId%>;
 
     fetch("/shop/payment/confirm", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paymentKey, orderId, amount, orderReceiptId })
+      body: JSON.stringify({ paymentKey, orderId, amount })
     })
     .then(res => {
       if (!res.ok) throw new Error(res.status);
@@ -30,7 +29,7 @@
     })
     .catch(() => {
       // 실패 페이지로 이동
-      window.location.href = "/shop/payment/fail?orderId=" + orderId + "&amount=" + amount + "&orderReceiptId=" + orderReceiptId;
+      window.location.href = "/shop/payment/fail?orderId=" + orderId + "&amount=" + amount;
     });
   </script>
 </body>

@@ -15,14 +15,11 @@
     <result column="total_amount" property="totalAmount" />
     <result column="requested_at" property="requestedAt" />
     <result column="approved_at" property="approvedAt" />
-
-    <association property="orderReceipt" javaType="OrderReceipt" column="order_receipt_id" select="OrderReceipt.select" />
   </resultMap>
 
   <!-- INSERT -->
-  <insert id="insert" parameterType="Tosspayment">
+  <insert id="insert" parameterType="Tosspayment" useGeneratedKeys="true" keyProperty="paymentId">
     INSERT INTO toss_payment (
-      order_receipt_id,
       toss_order_id,
       toss_payment_key,
       toss_payment_method,
@@ -31,7 +28,6 @@
       approved_at,
       requested_at
     ) VALUES (
-      #{orderReceipt.order_receipt_id},
       #{tossOrderId},
       #{tossPaymentKey},
       #{tossPaymentMethod},

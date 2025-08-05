@@ -1,6 +1,7 @@
 package peachstore.shop.controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -60,16 +61,13 @@ public class PaymentController {
 	public String getMethodName(Model model, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(user.getUser_id());
-		// TODO: 수정필!!!!!!!!!!!!!!
-		 int orderReceiptId = 2;
 		
-		String successUrl = "http://localhost:8888/shop/payment/success-handler?orderReceiptId=" + orderReceiptId;
+		String successUrl = "http://localhost:8888/shop/payment/success-handler";
 		String failUrl = "http://localhost:8888/shop/payment/fail";
 		String orderId = String.valueOf(System.currentTimeMillis());
 
-		log.debug("paymentPage orderId - {}, orderReceiptId - {}", orderId, orderReceiptId);
+		log.debug("paymentPage orderId - {}", orderId);
 		
-		model.addAttribute("orderReceiptId", orderReceiptId);
 		model.addAttribute("orderId", orderId);
 		model.addAttribute("successUrl", successUrl);
 		model.addAttribute("failUrl", failUrl);
@@ -82,38 +80,15 @@ public class PaymentController {
 	}
 	
 
-//	/*
-//	 * 결제 입장
-//	 */
-//	@GetMapping("/payment/start")
-//	public String paymentPage(Model model, int orderReceiptId, Long amount, String userName) {
-//		String successUrl = "http://localhost:8888/shop/payment/success-handler?orderReceiptId=" + orderReceiptId;
-//		String failUrl = "http://localhost:8888/shop/payment/fail";
-//		String orderId = String.valueOf(System.currentTimeMillis());
-//
-//		log.debug("paymentPage orderId - {}, orderReceiptId - {}, amount - {}, userName - {}", orderId, orderReceiptId, amount, userName);
-//		
-//		model.addAttribute("orderReceiptId", orderReceiptId);
-//		model.addAttribute("orderId", orderId);
-//		model.addAttribute("amount", amount);
-//		model.addAttribute("customerName", userName);
-//		model.addAttribute("successUrl", successUrl);
-//		model.addAttribute("failUrl", failUrl);
-//		model.addAttribute("orderName", "주문번호 " + orderId + " 결제");
-//
-//		return "/payment/payment";
-//	}
-
 	/**
 	 * 결제 완료 중간 단계로 이동
 	 */
 	@GetMapping("/payment/success-handler")
 	public String successHandlerPage(@RequestParam String paymentKey, @RequestParam String orderId,
-			@RequestParam long amount, @RequestParam int orderReceiptId, Model model) {
+			@RequestParam long amount, Model model) {
 		model.addAttribute("paymentKey", paymentKey);
 		model.addAttribute("orderId", orderId);
 		model.addAttribute("amount", amount);
-		model.addAttribute("orderReceiptId", orderReceiptId);
 
 		return "/shop/payment/success-handler";
 	}
@@ -125,7 +100,8 @@ public class PaymentController {
 	 * @return
 	 */
 	@PostMapping("/payment/confirm")
-	public ResponseEntity<TossConfirmResponse> successHandlerPageConfirm(@RequestBody ConfirmPaymentRequest req) {
+	public ResponseEntity<TossConfirmResponse> successHandlerPageConfirm(@RequestBody ConfirmPaymentRequest req, HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
 
 		log.debug("successHandlerPageConfirm 호출");
 		// 토스 결제 승인 요청
@@ -141,13 +117,12 @@ public class PaymentController {
 		tosspayment.setTossPaymentStatus(response.getStatus());
 		tosspayment.setApprovedAt(response.getApprovedAt().toLocalDateTime()); // OffsetDateTime -> LocalDateTime 변환
 		tosspayment.setRequestedAt(response.getRequestedAt().toLocalDateTime());
-		OrderReceipt orderReceipt = orderReceiptService.selectById(req.getOrderReceiptId());
-		tosspayment.setOrderReceipt(orderReceipt);
 
 		// 1. 결제 정보 DB 저장
 		tosspaymentDAO.insert(tosspayment);
 
-		// TODO: 2. OrderReceipt DB 저장!!!!!!!!!!!
+		// TODO: 2. OrderReceipt DB 저장
+		orderReceiptService.insert(response.getApprovedAt().toLocalDateTime(), "상품 준비 전", user, tosspayment.getPaymentId());
 		
 		// TODO OrderDetail DB 저장
 		
@@ -234,4 +209,28 @@ public class PaymentController {
 			return responseBody;
 		}
 	}
+	
+
+//	/*
+//	 * 결제 입장
+//	 */
+//	@GetMapping("/payment/start")
+//	public String paymentPage(Model model, int orderReceiptId, Long amount, String userName) {
+//		String successUrl = "http://localhost:8888/shop/payment/success-handler?orderReceiptId=" + orderReceiptId;
+//		String failUrl = "http://localhost:8888/shop/payment/fail";
+//		String orderId = String.valueOf(System.currentTimeMillis());
+//
+//		log.debug("paymentPage orderId - {}, orderReceiptId - {}, amount - {}, userName - {}", orderId, orderReceiptId, amount, userName);
+//		
+//		model.addAttribute("orderReceiptId", orderReceiptId);
+//		model.addAttribute("orderId", orderId);
+//		model.addAttribute("amount", amount);
+//		model.addAttribute("customerName", userName);
+//		model.addAttribute("successUrl", successUrl);
+//		model.addAttribute("failUrl", failUrl);
+//		model.addAttribute("orderName", "주문번호 " + orderId + " 결제");
+//
+//		return "/payment/payment";
+//	}
+
 }

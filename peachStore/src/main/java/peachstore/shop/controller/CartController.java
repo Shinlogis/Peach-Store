@@ -6,14 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import antlr.TokenWithIndex;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.Cart;
 import peachstore.domain.CartItem;
 import peachstore.domain.CustomOption;
 import peachstore.domain.Product;
+import peachstore.domain.ProductCapacity;
 import peachstore.domain.ProductColor;
 import peachstore.domain.ProductSize;
 import peachstore.domain.User;
@@ -61,7 +62,7 @@ public class CartController {
 	}
 	
 	@PostMapping("/cart/insert")
-	public String addToCart(int product_id,int product_color_id,int product_size_id,HttpSession httpSession) {
+	public String addToCart(int product_id,int product_color_id,int product_size_id,int product_capacity_id,HttpSession httpSession) {
 		User user1 = (User) httpSession.getAttribute("user");
 		Cart cart = cartService.selectById(user1.getUser_id());
 		int cart_id=cart.getCart_id();
@@ -70,12 +71,15 @@ public class CartController {
 		CustomOption option = new CustomOption();
 		ProductColor color = new ProductColor();
 		ProductSize size = new ProductSize();
+		ProductCapacity capacity=new ProductCapacity();
 		
 		color.setProduct_color_id(product_color_id);
 		size.setProduct_size_id(product_size_id);
+		capacity.setProduct_capacity_id(product_capacity_id);
 		
 		option.setProduct_color(color);
 		option.setProduct_size(size);
+		option.setProduct_capacity(capacity);
 
 		customOptionService.regist(option); //selectkey에 의해 pk가 채워짐 
 		
@@ -91,5 +95,12 @@ public class CartController {
 		cartItemService.insertCartItem(cartItem);
 
 		return "redirect:/shop/user/cart";
-	} 
+	}
+	
+	@PostMapping("/cart/delete")
+	public String deleteCartItem(@RequestParam("cartItemId")int cart_item_id) {
+		cartItemService.deleteCartItem(cart_item_id);
+		return "redirect:/shop/user/cart";
+	}
+	
 }

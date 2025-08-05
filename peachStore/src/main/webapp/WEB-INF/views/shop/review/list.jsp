@@ -11,6 +11,8 @@
 User user = (User) session.getAttribute("user");
 List<Review> reviewList = (List) request.getAttribute("reviewList");
 List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+User userGrade = (User)request.getAttribute("userGrade");
+Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +94,6 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 													         style="width: 20px; height: 20px; margin-right: 5px;">
 													    <div><%=review.getOrderDetail().getSnapShot().getProduct_name() %></div>
 													  </div>
-													  <div><%=review.getReviewId() %></div>
 													  
 													  <div style="display: flex; gap:10px">
 													  <div><%=review.getOrderDetail().getSnapShot().getColor() %></div>

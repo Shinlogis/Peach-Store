@@ -86,5 +86,14 @@ public class UserServiceImpl implements UserService {
 			 throw new UserException("업데이트 실패");
 		 }
 	}
+	
+	public void updateIsActive(int userId, boolean isActive) {
+        userDAO.updateIsActive(userId, isActive);
+    }
+	
+	@Override
+	public List<User> getAllUsersJoinV2() {
+		return userDAO.selectAllJoinV2();
+	}
 
 }

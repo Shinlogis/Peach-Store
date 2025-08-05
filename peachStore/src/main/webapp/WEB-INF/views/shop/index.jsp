@@ -18,7 +18,7 @@
 	<link rel="stylesheet"  href="/static/shop/css/main/product_section.css">
     
 </head>
-<body>
+<body style="background-color:#f5f5f7;">
 
     <!-- Header Section Begin -->
 <%@ include file="./inc/header.jsp" %>

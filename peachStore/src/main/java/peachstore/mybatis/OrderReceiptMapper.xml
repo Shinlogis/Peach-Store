@@ -9,8 +9,9 @@
 		
 		<association column="user_id" property="user" javaType="User" select="User.selectById"/>
 		
-		<association property="tossPayment" javaType="Tosspayment">
-		    <id property="tossPaymentKey" column="toss_payment_key"/>
+		<association property="tosspayment" javaType="Tosspayment">
+			<id property="paymentId" column="payment_id"/>
+			<result property="tossPaymentKey" column="toss_payment_key"/>
 		    <result property="tossOrderId" column="toss_order_id"/>
 		    <result property="totalAmount" column="total_amount"/>
 		    <result property="tossPaymentMethod" column="toss_payment_method"/>
@@ -54,9 +55,10 @@
 	</select>
 	
 	<!-- 주문내역 생성 -->
-	<insert id="insert" parameterMap="joinMap" useGeneratedKeys="true" keyProperty="order_receipt_id">
+	<insert id="insert" parameterType="OrderReceipt" useGeneratedKeys="true" keyProperty="order_receipt_id">
 		insert into order_receipt(orderdate, order_status, user_id, tosspayment_id)
-		values(#{orderdate}, #{order_status}, #{user_id}, #{tosspayment_id})
+		values(#{orderdate}, #{order_status}, #{user.user_id}, #{tosspayment.paymentId})
 	</insert>
+	
 	
 </mapper>

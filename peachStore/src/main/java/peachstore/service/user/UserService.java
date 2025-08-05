@@ -28,4 +28,8 @@ public interface UserService {
 	 * @return
 	 */
 	public void update(User user);
+	
+	public void updateIsActive(int userId, boolean isActive);
+	
+	public List<User> getAllUsersJoinV2();
 }

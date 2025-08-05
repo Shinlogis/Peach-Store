@@ -5,8 +5,10 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-   List<ProductTopcategory> topList =(List)request.getAttribute("topList");
-   List<CartItem> cartItemList = (List)request.getAttribute("cartItemList");
+	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+	List<CartItem> cartItemList = (List)request.getAttribute("cartItemList");
+	User userGrade = (User)request.getAttribute("userGrade");
+/*    String cartItemPk; */
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,12 +49,28 @@
    letter-spacing: 1px;
    color:white;
 }
+
+.cart__delete:hover {
+	color: red;
+	font-weight: bold;
+	cursor: pointer;
+	}
+
 h6{
-   font-size:20px;
+   font-size:28px;
 }
 
 .rating{
-	font-size:12px;
+	margin-top:35px;
+}
+
+.rating span{
+	font-size:18px;
+}
+
+.cart__product__item img{
+	width:150px;
+	height:100%;
 }
 </style>
 <body>
@@ -68,7 +86,7 @@ h6{
    <!-- Shop Cart Section Begin -->
     <section class="shop-cart-section">
        <div>
-         <span class="title-h1" style="display: block; text-align: center;">장바구니총액: 값 넣어주기</span>
+         <span class="title-h1" style="display: block; text-align: center;">장바구니 총액: </span>
       </div>
       <div style="display: block; text-align: center;">모든 주문에 무료 배송 서비스가 제공됩니다</div>
       
@@ -86,81 +104,97 @@ h6{
                             <thead>
                                 <tr>
                                     <th>제품</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
+                                    <th></th>
+                                    <th></th>
                                     <th>가격</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                             <!-- 전부 fk 설정이므로 참조해서 받아와야함.get().get() -->
-                            <%for(int i =0;i<cartItemList.size();i++){ %>
-                                <tr>
-                                    <td class="cart__product__item">
-                                        <img src="/static/shop/img/shop-cart/cp-1.jpg" alt="주문 상품">
-                                        <div class="cart__product__item__title">
-                                            <h6><%=cartItemList.get(i).getProduct().getProductName() %></h6>
-                                            <div class="rating">
-                                            <% if (cartItemList.get(i).getCustom_option() != null){%>
-                                               <% if (cartItemList.get(i).getCustom_option().getProduct_capacity() !=null){%>
-                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_capacity().getCapacity().getCapacity_name() %></span>
-                                                <%} %>
-                                               <% if (cartItemList.get(i).getCustom_option().getProduct_color() !=null){%>
-                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_color().getColor().getColor_name()%></span>
-                                                <%} %>
-                                               <% if (cartItemList.get(i).getCustom_option().getProduct_size() !=null){%>
-                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_size().getSize().getSize_name() %></span>
-                                                <%} %>
-                                               <% if (cartItemList.get(i).getCustom_option().getProduct_engraving() !=null){%>
-                                                <span><%=cartItemList.get(i).getCustom_option().getProduct_engraving().getEngraving_text() %></span>
-                                                <%} %>
-                                            <%} %>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <%if(cartItemList.get(i).getCustom_option()==null){ %>
-                                    <td class="cart__price"><%= cartItemList.get(i).getProduct().getPrice()%></td>
-                                    <%}else if(cartItemList.get(i).getCustom_option()!=null){ %>
-                                        <%if(cartItemList.get(i).getCustom_option().getProduct_engraving()!=null){ %>
-                                        <td class="cart__price"><%= cartItemList.get(i).getProduct().getPrice() + cartItemList.get(i).getCustom_option().getProduct_engraving().getEngraving_price()%></td>
-                                        <%}else{ %>
-                                        <td class="cart__price"><%= cartItemList.get(i).getProduct().getPrice()%></td>
-                                        <%} %>
-                                    <%} %>
-                                    <td class="cart__quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="<%= cartItemList.get(i).getQuantity()%>">
-                                        </div>
-                                    </td>
-                                    <td class="cart__total">1,000,000</td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
-                                </tr>
-                               <%} %>
+							<% for (int i = 0; i < cartItemList.size(); i++) {
+							    CartItem item = cartItemList.get(i);
+							    Product product = item.getProduct();
+							    int price = product.getPrice();
+							    String capacity = null, color = null, size = null, engraving = null;
+							    int engravingPrice = 0;
+							
+							    if (item.getCustom_option() != null) {
+							        if (item.getCustom_option().getProduct_capacity() != null)
+							            capacity = item.getCustom_option().getProduct_capacity().getCapacity().getCapacity_name();
+							        if (item.getCustom_option().getProduct_color() != null)
+							            color = item.getCustom_option().getProduct_color().getColor().getColor_name();
+							        if (item.getCustom_option().getProduct_size() != null)
+							            size = item.getCustom_option().getProduct_size().getSize().getSize_name();
+							        if (item.getCustom_option().getProduct_engraving() != null) {
+							            engraving = item.getCustom_option().getProduct_engraving().getEngraving_text();
+							            engravingPrice = item.getCustom_option().getProduct_engraving().getEngraving_price();
+							        }
+							    }
+							
+							    int finalPrice = price + engravingPrice;
+							%>
+							<tr 
+							  data-id="<%= item.getCart_item_id() %>"
+							  data-name="<%= product.getProductName() %>"
+							  data-price="<%= finalPrice %>"
+							  data-quantity="<%= item.getQuantity() %>"
+							  <%= capacity != null ? "data-capacity=\"" + capacity + "\"" : "" %>
+							  <%= color != null ? "data-color=\"" + color + "\"" : "" %>
+							  <%= size != null ? "data-size=\"" + size + "\"" : "" %>
+							  <%= engraving != null ? "data-engraving=\"" + engraving + "\"" : "" %>
+							>
+							    <td class="cart__product__item">
+							<% 
+							String imagePath = "/static/shop/img/no-image.png"; // 기본 이미지
+							if (product.getProductImgs() != null && !product.getProductImgs().isEmpty()) {
+							    imagePath = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();
+							}
+							%>
+							<img src="<%= imagePath %>" alt="장바구니 상품<%= i %>">
+
+							        <div class="cart__product__item__title">
+							            <h6><%= product.getProductName() %></h6>
+							
+							            <div class="rating">
+							                <% if (capacity != null) { %><span><%= capacity %></span><% } %>
+							                <% if (color != null) { %><span><%= color %></span><% } %>
+							                <% if (size != null) { %><span><%= size %></span><% } %>
+							                <% if (engraving != null) { %><span><%= engraving %></span><% } %>
+							            </div>
+							        </div>
+							    </td>
+							
+							    <td class="cart__blank">
+							    </td>
+							
+							    <td class="cart__blank"></td>
+							
+							    <td class="cart__price"><%= finalPrice %></td>
+							
+							    <td class="cart__delete" data-id="<%= item.getCart_item_id() %>">X</td>
+							</tr>
+							<% } %>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="#">Continue Shopping</a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn update__btn">
-                        <a href="#"><span class="icon_loading"></span> Update cart</a>
-                    </div>
-                </div>
-            </div>
+			<div class="row">
+			    <div class="col-lg-3 offset-lg-8">
+			        <div class="cart__btn update__btn">
+			            <a href="/shop/main">쇼핑 계속하기</a>
+			        </div>
+			    </div>
+			</div>
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
                     <div class="cart__total__procced">
                         <h6>Cart total</h6>
+                           <p><%= userGrade.getUser_grade().getUserGradeName()%>회원에게 <%= userGrade.getUser_grade().getDiscountRate()%>%의 할인율이 적용됩니다.</p>
                         <ul>
-                           <p>실버회원에게 5%의 할인율이 적용됩니다.</p>
                             <li>총액<span>$ 750.0</span></li>
-                            <li>결제할 금액<span>$ 750.0</span></li>
+                            <li>할인된 금액<span>$ 750.0</span></li>
                         </ul>
                         <a href="/shop/payment/payment-ready" class="primary-btn">Proceed to checkout</a>
                     </div>
@@ -184,10 +218,26 @@ h6{
 
    <!-- Js Plugins -->
    <%@ include file="../inc/footer_link.jsp" %>
-   <script type="text/javascript">
-   
-   
-   
-   </script>
+	<script type="text/javascript">
+		$(() => {
+			$(".shop__cart__table").on("click", ".cart__delete", function () {
+				const cartItemId = $(this).data("id");
+				if (confirm("선택 항목을 장바구니에서 삭제하시겠습니까?")) {
+					$.ajax({
+						url: "/shop/cart/delete",
+						type: "POST",
+						data: { cartItemId: cartItemId },
+						success: function(response) {
+							// 성공 시 페이지 새로고침 또는 해당 행 삭제
+							location.reload();
+						},
+						error: function(err) {
+							alert("삭제 중 오류가 발생했습니다.");
+						}
+					});
+				}
+			});
+		});
+	</script>
 </body>
 </html>

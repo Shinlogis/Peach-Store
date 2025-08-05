@@ -42,20 +42,13 @@ public class InquiryController {
 	public String regist(Inquiry inquiry, HttpServletRequest request, HttpSession session) {
 
 		String savePath = request.getServletContext().getRealPath("/data");
-		String responseData = "fail";
 		log.debug("제목은 : " + request.getParameter("title"));
 		log.debug("내용은 : " + request.getParameter("inquiry_text"));
-		try {
-			inquiryService.regist(inquiry, savePath);
-			log.debug("문의 아이디는 : " + inquiry.getInquiry_id());
-			responseData = "success";
-		} catch (Exception e) {
-			log.debug("inquiry.regist catch 내부 진입 - {}", e);
-			inquiryService.remove(inquiry, savePath);
-			e.printStackTrace();
-		}
+		
+		inquiryService.regist(inquiry, savePath);
+		log.debug("문의 아이디는 : " + inquiry.getInquiry_id());
 
-		return responseData;
+		return "ok";
 	}
 
 	// 전체 조회
@@ -110,8 +103,6 @@ public class InquiryController {
 		String savePath = request.getServletContext().getRealPath("/data");
 		
 		inquiryService.update(inquiry, savePath);
-		
-
 		
 		return "ok";
 	}

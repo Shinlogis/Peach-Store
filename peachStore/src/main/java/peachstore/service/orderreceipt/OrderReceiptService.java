@@ -1,8 +1,10 @@
 package peachstore.service.orderreceipt;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import peachstore.domain.OrderReceipt;
+import peachstore.domain.User;
 
 public interface OrderReceiptService {
 
@@ -23,8 +25,12 @@ public interface OrderReceiptService {
 	
 	/**
 	 * 주문내역 생성
-	 * @param orderReceipt
+	 * 
+	 * @param localDateTime 주문 시각(=결제완료 시각)
+	 * @param orderStatus 상품 준비 상태
+	 * @param user 주문한 사용자
+	 * @param paymentId 결제번호
 	 * @return
 	 */
-	public int insert(OrderReceipt orderReceipt);
+	public void insert(LocalDateTime localDateTime, String orderStatus, User user, Long paymentId);
 }

@@ -1,5 +1,6 @@
 package peachstore.admin.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,5 +235,32 @@ public class ProductController {
 	        return "redirect:/admin/product/list";
 	    }
 
-	
+	// 이미지 업로드를 위한 API 추가
+	 @PostMapping("/product/uploadImage")
+	 @ResponseBody
+	 public String uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+	     try {
+	         // 저장 폴더 생성 (ex. /data)
+	         String uploadDir = request.getServletContext().getRealPath("/data/");
+	         File dir = new File(uploadDir);
+	         if (!dir.exists()) dir.mkdirs();
+
+	         // 파일명 유니크 처리
+	         String uuid = java.util.UUID.randomUUID().toString();
+	         String originalName = file.getOriginalFilename();
+	         String extension = originalName.substring(originalName.lastIndexOf("."));
+	         String newFileName = uuid + extension;
+
+	         // 저장
+	         File savedFile = new File(uploadDir, newFileName);
+	         file.transferTo(savedFile);
+
+	         // 클라이언트에서 접근 가능한 URL 경로 반환
+	         String url = request.getContextPath() + "/data/" + newFileName;
+	         return url;
+	     } catch (Exception e) {
+	         e.printStackTrace();
+	         return "";
+	     }
+	 }
 }

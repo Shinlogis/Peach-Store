@@ -69,5 +69,6 @@ public class UserGradeDAOImpl implements UserGradeDAO{
         log.debug("selectTotalAmountByUser - result: {}", result);
         return result;
 	}
+	
 
 }
