@@ -33,7 +33,8 @@
 		<typeAlias type="peachstore.domain.CartItem" alias="CartItem"/>
 		<typeAlias type="peachstore.domain.ProductEngraving" alias="ProductEngraving"/>
 		<typeAlias type="peachstore.domain.CustomOption" alias="CustomOption"/>
-		   <typeAlias type="peachstore.domain.Tosspayment" alias="Tosspayment"/>
+		 <typeAlias type="peachstore.domain.Tosspayment" alias="Tosspayment"/>
+		 
 	</typeAliases>
 
    <environments default="development">
@@ -77,6 +78,7 @@
 		<mapper resource="peachstore/mybatis/ProductEngravingMapper.xml"/>
 		<mapper resource="peachstore/mybatis/CustomOptionMapper.xml"/>
 		<mapper resource="peachstore/mybatis/TosspaymentMapper.xml"/>
+		 <mapper resource="peachstore/mybatis/OrderMapper.xml"/>
 	</mappers>
 
 </configuration>

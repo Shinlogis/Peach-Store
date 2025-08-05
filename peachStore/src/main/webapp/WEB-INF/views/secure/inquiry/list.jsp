@@ -4,20 +4,26 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-List<Inquiry> inquiries = (List) request.getAttribute("inquiries");
-Paging paging = (Paging) request.getAttribute("paging");
-int firstPage = paging.getFirstPage();
-int lastPage = paging.getLastPage();
-int currentPage = paging.getCurrentPage();
-int totalPage = paging.getTotalPage();
+	List<Inquiry> inquiries = (List) request.getAttribute("inquiries");
+	Paging paging = (Paging) request.getAttribute("paging");
+	int firstPage = paging.getFirstPage();
+	int lastPage = paging.getLastPage();
+	int currentPage = paging.getCurrentPage();
+	int totalPage = paging.getTotalPage();
+	
+	String searchKey = request.getParameter("searchKey") != null ? request.getParameter("searchKey") : "";
+	String searchCondition = request.getParameter("searchCondition") != null
+			? request.getParameter("searchCondition")
+			: "userId";
+	String filterNoAnswer = request.getParameter("filterNoAnswer") != null ? request.getParameter("filterNoAnswer") : "";
+	String startDate = request.getParameter("startDate") != null ? request.getParameter("startDate") : "";
+	String endDate = request.getParameter("endDate") != null ? request.getParameter("endDate") : "";
+	String baseParams = "&searchCondition=" + URLEncoder.encode(searchCondition, "UTF-8") 
+			+ "&searchKey=" + URLEncoder.encode(searchKey, "UTF-8") 
+			+ (filterNoAnswer.equals("true") ? "&filterNoAnswer=true" : "") 
+            + (!startDate.isEmpty() ? "&startDate=" + URLEncoder.encode(startDate, "UTF-8") : "") 
+            + (!endDate.isEmpty() ? "&endDate=" + URLEncoder.encode(endDate, "UTF-8") : "");
 
-String searchKey = request.getParameter("searchKey") != null ? request.getParameter("searchKey") : "";
-String searchCondition = request.getParameter("searchCondition") != null
-		? request.getParameter("searchCondition")
-		: "userId";
-String filterNoAnswer = request.getParameter("filterNoAnswer") != null ? request.getParameter("filterNoAnswer") : "";
-String baseParams = "&searchCondition=" + URLEncoder.encode(searchCondition, "UTF-8") + "&searchKey="
-		+ URLEncoder.encode(searchKey, "UTF-8") + (filterNoAnswer.equals("true") ? "&filterNoAnswer=true" : "");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -58,13 +64,13 @@ String baseParams = "&searchCondition=" + URLEncoder.encode(searchCondition, "UT
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0">상품 목록</h1>
+							<h1 class="m-0">문의관리</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">문의관리>문의목록</li>
+								<li class="breadcrumb-item active">고객센터>문의관리</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -96,6 +102,15 @@ String baseParams = "&searchCondition=" + URLEncoder.encode(searchCondition, "UT
 												class="form-check-label" for="filterNoAnswer"> 답변대기만
 												보기 </label>
 										</div>
+										
+											<!-- 날짜 필터 (시작일 ~ 종료일) -->
+										<div class="input-group input-group-sm mr-3" style="width: 350px;">
+											<input type="date" name="startDate" class="form-control"
+												value="<%= startDate%>">
+											<span class="mx-1">~</span>
+											<input type="date" name="endDate" class="form-control"
+												value="<%= endDate%>">
+										</div>
 
 										<div class="input-group input-group-sm" style="width: 300px;">
 											<select name="searchCondition" class="form-control"
@@ -103,8 +118,8 @@ String baseParams = "&searchCondition=" + URLEncoder.encode(searchCondition, "UT
 												<option value="userId"
 													<%="userId".equals(searchCondition) ? "selected" : ""%>>
 													고객 ID</option>
-												<option value="content"
-													<%="content".equals(searchCondition) ? "selected" : ""%>>
+												<option value="inquiryText"
+													<%="inquiryText".equals(searchCondition) ? "selected" : ""%>>
 													문의내용</option>
 											</select> <input type="text" name="searchKey" class="form-control"
 												placeholder="Search" value="<%=searchKey%>">

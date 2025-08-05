@@ -26,4 +26,10 @@ public interface OrderReceiptDAO {
 	public List<OrderReceipt> completedListPaging(Map<String, Object> param);
 	
 	
+	/**
+	 * 주문내역 생성
+	 * @param orderReceipt
+	 * @return
+	 */
+	public int insert(OrderReceipt orderReceipt);
 }

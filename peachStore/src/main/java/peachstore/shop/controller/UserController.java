@@ -7,7 +7,9 @@ import java.util.concurrent.ExecutionException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,6 +131,7 @@ public class UserController {
 	}
 	
 	//유저 정보 수정 로직
+	@Transactional
 	@PostMapping("/user/edit")
 	public String userEdit(String user_tel, String user_address ,int user_grade_id, HttpSession session) {
 	    User obj = (User) session.getAttribute("user");
@@ -145,7 +148,11 @@ public class UserController {
 	    obj.setTel(user_tel);
 	    obj.setAddress(user_address);
 
-	    userService.update(obj);
+	    try {
+			userService.update(obj);
+		} catch (DuplicateKeyException e) {
+			log.debug("전화번호가 중복 됐습니다.");
+		}
 
 	    session.setAttribute("user", obj);
 	    return "redirect:/shop/user/editform";

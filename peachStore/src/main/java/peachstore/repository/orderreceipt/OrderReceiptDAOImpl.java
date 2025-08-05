@@ -74,5 +74,12 @@ public class OrderReceiptDAOImpl implements OrderReceiptDAO{
 	public List<OrderReceipt> completedListPaging(Map<String, Object> param) {
 		return sqlSessionTemplate.selectList("OrderReceipt.completedListPaging", param);
 	}
+	
+	@Override
+	public int insert(OrderReceipt orderReceipt) {
+		int result = sqlSessionTemplate.insert("OrderReceipt.insert", orderReceipt);
+		log.debug("insert - count: {}", result);
+		return result;
+	}
 
 }

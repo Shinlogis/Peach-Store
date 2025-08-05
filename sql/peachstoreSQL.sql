@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS review; -- 리뷰
 DROP TABLE IF EXISTS order_detail; -- 주문상세
 DROP TABLE IF EXISTS cart_item; -- 장바구니 제품
 DROP TABLE IF EXISTS custom_option; -- 제품 커스텀
-DROP TABLE IF EXISTS toss_payment; -- 토스 결제 정보
 DROP TABLE IF EXISTS order_receipt; -- 주문내역
+DROP TABLE IF EXISTS toss_payment; -- 토스 결제 정보
 DROP TABLE IF EXISTS inquiry_img; -- 문의 이미지
 DROP TABLE IF EXISTS snapshot; -- 스냅샷
 DROP TABLE IF EXISTS product_img; -- 제품 이미지
@@ -35,7 +35,7 @@ CREATE TABLE admin (
    admin_id INT PRIMARY KEY AUTO_INCREMENT,
    email VARCHAR(100) NOT NULL UNIQUE,
    password VARCHAR(100) NOT NULL,
-   salt VARCHAR(100) NOT NULL, -- 추가됨
+   salt VARCHAR(100) NOT NULL, 
    admin_name VARCHAR(100) NOT NULL,
    role VARCHAR(10) NOT NULL DEFAULT 'admin' CHECK(role IN ('super', 'admin')),
    is_active BOOLEAN NOT NULL DEFAULT TRUE
@@ -281,7 +281,21 @@ CREATE TABLE snapshot(
    , capacity varchar(100)
    , color varchar(100)
    , engraving varchar(100)
-    , filename varchar(100) NOT NULL
+   , filename varchar(100) NOT NULL
+   , order_quantity int NOT NULL DEFAULT 1
+);
+
+
+-- 토스 결제 정보 테이블
+CREATE TABLE toss_payment (
+    payment_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    toss_order_id VARCHAR(255) NOT NULL,
+    toss_payment_key VARCHAR(255) NOT NULL UNIQUE,
+    toss_payment_method VARCHAR(255) NOT NULL,
+    toss_payment_status VARCHAR(255) NOT NULL,
+    total_amount BIGINT NOT NULL,
+    approved_at DATETIME(6) DEFAULT NULL,
+    requested_at DATETIME(6) NOT NULL
 );
 
 -- 주문내역 테이블(CREATE TABLE order_receipt)
@@ -290,15 +304,18 @@ CREATE TABLE order_receipt(
    , orderdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
    , order_status varchar(10) NOT NULL DEFAULT '상품 준비 전' CHECK(order_status IN ('상품 준비 전', '상품 준비 중', '발송완료', '주문취소'))
    , user_id int NOT NULL
+   , payment_id BIGINT NOT NULL
    , CONSTRAINT fk_order_receipt_user_id
       FOREIGN KEY (user_id)
       REFERENCES user(user_id)
+	, CONSTRAINT fk_order_receipt_payment_id
+	FOREIGN KEY (payment_id)
+	REFERENCES toss_payment(payment_id)
 );
 
 -- 주문상세 테이블 생성(CREATE TABLE order_detail)
 CREATE TABLE order_detail(
    order_detail_id int PRIMARY KEY AUTO_INCREMENT
-   , order_quantity int NOT NULL
    , order_receipt_id int NOT NULL
    , snapshot_id int NOT NULL UNIQUE
    , CONSTRAINT fk_order_detail_order_receipt_id
@@ -361,20 +378,6 @@ CREATE TABLE GRADE_COUPON (
         REFERENCES COUPON(COUPON_ID)
 );
 
-
--- 토스 결제 정보 테이블
-CREATE TABLE toss_payment (
-    payment_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    order_receipt_id int NOT NULL UNIQUE,
-    toss_order_id VARCHAR(255) NOT NULL,
-    toss_payment_key VARCHAR(255) NOT NULL UNIQUE,
-    toss_payment_method VARCHAR(255) NOT NULL,
-    toss_payment_status VARCHAR(255) NOT NULL,
-    total_amount BIGINT NOT NULL,
-    approved_at DATETIME(6) DEFAULT NULL,
-    requested_at DATETIME(6) NOT NULL,
-    CONSTRAINT fk_order_receipt_id FOREIGN KEY (order_receipt_id) REFERENCES order_receipt(order_receipt_id)
-);
 
 
 -- ------인서트시작-------------------------------------------------
@@ -640,16 +643,30 @@ VALUES
 -- 문의 이미지 테이블 인서트(INSERT INTO INQUIRY_IMG)
 -- =========인서트 없음
 
+-- 결제정보 테이블 인서트
+INSERT INTO toss_payment (
+    payment_id, toss_payment_key, toss_order_id, total_amount, 
+    toss_payment_method, toss_payment_status, requested_at, approved_at
+) VALUES
+(1, 'pay_key_001', 'order_001', 10000, '카드', 'DONE', NOW(), NOW()),
+(2, 'pay_key_002', 'order_002', 20000, '카드', 'DONE', NOW(), NOW()),
+(3, 'pay_key_003', 'order_003', 15000, '카드', 'DONE', NOW(), NOW()),
+(4, 'pay_key_004', 'order_004', 18000, '카드', 'DONE', NOW(), NOW()),
+(5, 'pay_key_005', 'order_005', 22000, '카드', 'DONE', NOW(), NOW()),
+(6, 'pay_key_006', 'order_006', 17000, '카드', 'DONE', NOW(), NOW()),
+(7, 'pay_key_007', 'order_007', 13000, '카드', 'DONE', NOW(), NOW());
+
+
 -- 주문내역 테이블 인서트(INSERT INTO ORDER_RECEIPT)
-INSERT INTO ORDER_RECEIPT (ORDER_STATUS, USER_ID)
+INSERT INTO ORDER_RECEIPT (ORDER_STATUS, USER_ID, payment_id)
 VALUES
-   ('상품 준비 전', 1),
-   ('상품 준비 중', 3),
-   ('발송완료', 5),
-   ('상품 준비 전', 7),
-   ('상품 준비 중', 9),
-   ('발송완료', 2),
-   ('상품 준비 전', 4);
+   ('상품 준비 전', 1, 1),
+   ('상품 준비 중', 3, 2),
+   ('발송완료', 5, 3),
+   ('상품 준비 전', 7, 4),
+   ('상품 준비 중', 9, 5),
+   ('발송완료', 2, 6),
+   ('상품 준비 전', 4, 7);
 
 -- 제품 커스텀 옵션 테이블 인서트(INSERT INTO CUSTOM_OPTION)
 INSERT INTO CUSTOM_OPTION (PRODUCT_SIZE_ID, PRODUCT_COLOR_ID, PRODUCT_CAPACITY_ID, PRODUCT_ENGRAVING_ID)
@@ -661,16 +678,16 @@ VALUES
     (5, 5, 5, 3);
 
 -- 주문상세 테이블 인서트(INSERT INTO ORDER_DETAIL)
-INSERT INTO ORDER_DETAIL (ORDER_QUANTITY, ORDER_RECEIPT_ID, SNAPSHOT_ID)
+INSERT INTO ORDER_DETAIL (ORDER_RECEIPT_ID, SNAPSHOT_ID)
 VALUES
-   (2, 1, 1),
-   (1, 1, 2),
-   (3, 2, 3),
-   (1, 3, 4),
-   (2, 3, 5),
-   (1, 4, 6),
-   (1, 5, 7),
-   (2, 5, 8);
+   (1, 1),
+   (1, 2),
+   (2, 3),
+   (3, 4),
+   (3, 5),
+   (4, 6),
+   (5, 7),
+   (5, 8);
 
 -- 리뷰 테이블 인서트 (INSERT INTO review)
 INSERT INTO review (content, status, user_id, order_detail_id)
@@ -697,15 +714,26 @@ VALUES
    ('PMINI6-PNK', 'pPad Mini 6 핑크', 770000, '컴팩트 태블릿', '8.3인치 / USB-C 포트', 5);
 
 
-INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving, filename)
+INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving, filename, order_quantity)
 VALUES
-    (13, 'pPhone 14 Pro 블랙', 1350000, '6.1인치', '128GB', 'Black', '각 인입니다1', '1753859785461.webp'),
-    (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg'),
-    (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp'),
-    (16, 'pPad Air 5 스페이스 그레이', 850000, '10.9인치', '256GB', 'Red', '각인이므니다', '1753859785461.webp'),
-    (17, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3', '1753859785475.webp'),
-    (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg'),
-    (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp');
+    (13, 'pPhone 14 Pro 블랙', 1350000, '6.1인치', '128GB', 'Black', '각 인입니다1', '1753859785461.webp', 1),
+    (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg', 1),
+    (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp', 1),
+    (16, 'pPad Air 5 스페이스 그레이', 850000, '10.9인치', '256GB', 'Red', '각인이므니다', '1753859785461.webp', 1),
+    (17, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3', '1753859785475.webp', 1),
+    (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg', 1),
+    (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp', 1);
+
+-- 관리자계정 insert
+INSERT INTO admin (email, password, salt, admin_name, role, is_active)
+VALUES (
+  'admin',
+  'F0uSWIMVk+9lQB8zW/8IbLNSgnoTvz3KTGgvz8h9he8=',
+  'QrJRDMLxoc5kaa4Z8WCJ1g==',
+  '관리자',
+  'super',
+  TRUE
+);
 
 
 -- 장바구니 제품 테이블 인서트(INSERT INTO CART_ITEM)
@@ -722,16 +750,5 @@ VALUES
     (11, 4, 4),
     (13, 5, NULL),
     (14, 8, NULL),
-    (15, 12, NULL),
-    (16, 6, NULL);
-
-INSERT INTO order_detail (order_quantity, order_receipt_id, snapshot_id)
-VALUES
-   (2, 2, 9),
-   (1, 8, 10),
-   (3, 8, 11),
-   (1, 9, 12),
-   (2, 11, 13),
-   (1, 10, 14),
-   (2, 12, 15);
+    (15, 12, NULL);
 

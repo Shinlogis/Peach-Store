@@ -9,7 +9,19 @@
 		
 		<association column="user_id" property="user" javaType="User" select="User.selectById"/>
 		
+		<association property="tosspayment" javaType="Tosspayment">
+			<id property="paymentId" column="payment_id"/>
+			<result property="tossPaymentKey" column="toss_payment_key"/>
+		    <result property="tossOrderId" column="toss_order_id"/>
+		    <result property="totalAmount" column="total_amount"/>
+		    <result property="tossPaymentMethod" column="toss_payment_method"/>
+		    <result property="tossPaymentStatus" column="toss_payment_status"/>
+		    <result property="requestedAt" column="requested_at"/>
+		    <result property="approvedAt" column="approved_at"/>
+		</association>
+		
 		 <collection column="order_receipt_id" property="orderList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderReceiptId"/> 
+
 	</resultMap>
 
 
@@ -53,6 +65,7 @@
 	</select>
 	
 	
+	
 
 	<select id="selectByUserId" parameterType="OrderReceipt" resultMap="joinMap">
 		select order_receipt_id, orderdate, order_status, user_id 
@@ -80,6 +93,12 @@
 		select order_receipt_id, orderdate, order_status, user_id 
 		 from order_receipt where user_id = #{user.user_id} and order_status = '발송완료' order by order_receipt_id desc;
 	</select>
+	
+	<!-- 주문내역 생성 -->
+	<insert id="insert" parameterType="OrderReceipt" useGeneratedKeys="true" keyProperty="order_receipt_id">
+		insert into order_receipt(orderdate, order_status, user_id, payment_id)
+		values(#{orderdate}, #{order_status}, #{user.user_id}, #{tosspayment.paymentId})
+	</insert>
 	
 	
 </mapper>

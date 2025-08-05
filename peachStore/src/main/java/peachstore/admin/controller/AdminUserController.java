@@ -62,7 +62,8 @@ public class AdminUserController {
         }
             String hashed = PasswordUtil.hashPassword(password, admin.getSalt());
             if (hashed.equals(admin.getPassword())) {
-                session.setAttribute("user", admin);
+                session.setAttribute("admin", admin);
+                System.out.println("로그인 성공! 세션 저장: " + session.getAttribute("admin"));
                 return "redirect:/admin/main";
             } else {
                 log.warn("비밀번호 불일치: 입력값={}, 기대값={}", hashed, admin.getPassword());
@@ -74,14 +75,15 @@ public class AdminUserController {
     // 로그아웃
     @GetMapping("/user/logout")
     public String logout(HttpSession session) {
-        session.invalidate();
+    	session.removeAttribute("admin");
         return "redirect:/admin/main";
     }
 
     // 관리자 등록 폼
     @GetMapping("/user/registform")
     public String getRegisterForm(HttpSession session, Model model) {
-        Admin admin = (Admin) session.getAttribute("user");
+        Admin admin = (Admin) session.getAttribute("admin");
+        System.out.println("admin in session: " + admin);
         if (!"super".equalsIgnoreCase(admin.getRole())) {
             model.addAttribute("msg", "권한이 없습니다.");
             model.addAttribute("url", "/admin/main");
@@ -95,7 +97,7 @@ public class AdminUserController {
                            @RequestParam String adminName,
                            @RequestParam(defaultValue = "admin") String role,
                            HttpSession session, Model model) {
-        Admin admin = (Admin) session.getAttribute("user");
+        Admin admin = (Admin) session.getAttribute("admin");
         if (!"super".equalsIgnoreCase(admin.getRole())) {
             model.addAttribute("msg", "권한이 없습니다.");
             model.addAttribute("url", "/admin/main");
@@ -141,7 +143,7 @@ public class AdminUserController {
                                  @RequestParam String newPassword,
                                  @RequestParam String confirmPassword,
                                  HttpSession session) {
-        Admin admin = (Admin) session.getAttribute("user");
+        Admin admin = (Admin) session.getAttribute("admin");
         if(admin == null) {
             return "redirect:/admin/user/loginform";
         }
@@ -175,7 +177,7 @@ public class AdminUserController {
             // 세션 비밀번호/salt도 최신값으로 갱신(로그아웃 유도해도 됨)
             admin.setPassword(hashedNewPw);
             admin.setSalt(newSalt);
-            session.setAttribute("user", admin);
+            session.setAttribute("admin", admin);
             return "redirect:/admin/main?msg=pwchanged";
         } else {
             return "redirect:/admin/user/changepasswordform?error=fail";
@@ -186,7 +188,7 @@ public class AdminUserController {
     public String setActive(@RequestParam int adminId,
                             @RequestParam boolean isActive,
                             HttpSession session, Model model) {
-        Admin admin = (Admin) session.getAttribute("user");
+        Admin admin = (Admin) session.getAttribute("admin");
         if (!"super".equalsIgnoreCase(admin.getRole())) {
             model.addAttribute("msg", "권한이 없습니다.");
             model.addAttribute("url", "/admin/main");
@@ -203,7 +205,7 @@ public class AdminUserController {
     
     @GetMapping("/user/adminlist")
     public String getAdminList(Model model, HttpSession session) {
-        Admin admin = (Admin) session.getAttribute("user");
+        Admin admin = (Admin) session.getAttribute("admin");
         if (!"super".equalsIgnoreCase(admin.getRole())) {
             model.addAttribute("msg", "권한이 없습니다.");
             model.addAttribute("url", "/admin/main");

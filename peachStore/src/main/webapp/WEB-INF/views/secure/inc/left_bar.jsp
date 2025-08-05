@@ -5,7 +5,13 @@
       <img src="/static/admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">쇼핑몰 관리자</span>
     </a>
-
+	<%
+	    Object adminObj = session.getAttribute("admin");
+	    String adminName = "";
+	    if (adminObj != null && adminObj instanceof peachstore.domain.Admin) {
+	        adminName = ((peachstore.domain.Admin) adminObj).getAdminName();
+	    }
+	%>
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
@@ -14,7 +20,7 @@
           <img src="/static/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">${user.adminName}</a>
+          <a href="#" class="d-block"><%= adminName %></a>
         </div>
       </div>
 

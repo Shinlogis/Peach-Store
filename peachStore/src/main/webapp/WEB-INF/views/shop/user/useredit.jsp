@@ -75,7 +75,7 @@
         <section class="shop-cart spad regist_content" style="margin-top: 30px;">
             <div class="header-container">
                 <h3 class="card-title" style="font-weight: bold;">내 정보</h3>
-                    <button type="submit" class="btn-edit">회원정보 수정</button>
+					<button type="submit" class="btn-edit" onclick="return confirm('회원정보를 수정하시겠습니까?');">확인요청</button>
             </div>
 		<input type="hidden" name="user_grade_id" value="<%= userGrade != null ? userGrade.getUser_grade().getUserGradeId() : "" %>" />
             <table>
