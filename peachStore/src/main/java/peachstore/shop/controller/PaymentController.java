@@ -3,6 +3,7 @@ package peachstore.shop.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.CartItem;
+import peachstore.domain.OrderReceipt;
 import peachstore.domain.SnapShot;
 import peachstore.domain.Tosspayment;
 import peachstore.domain.User;
@@ -36,6 +38,8 @@ import peachstore.dto.TossConfirmResponse;
 import peachstore.repository.tosspayment.TosspaymentDAO;
 import peachstore.service.TossPaymentService;
 import peachstore.service.cart.CartItemService;
+import peachstore.service.orderdetail.OrderDetailService;
+import peachstore.service.orderdetail.OrderDetailServiceImpl;
 import peachstore.service.orderreceipt.OrderReceiptService;
 
 
@@ -43,14 +47,15 @@ import peachstore.service.orderreceipt.OrderReceiptService;
 @Slf4j
 @RequiredArgsConstructor
 public class PaymentController {
-	
-	private final CartItemService cartItemService;
-	private final TossPaymentService tossPaymentService;
-	private final OrderReceiptService orderReceiptService;
 
+	private final CartItemService cartItemService;
+	private final OrderReceiptService orderReceiptService;
+	private final OrderDetailService orderDetailService;
+
+	private final TossPaymentService tossPaymentService;
+	
 	private final TosspaymentDAO tosspaymentDAO;
 
-	
 	/**
 	 * 결제 품목 정보 보여주기
 	 * @param model
@@ -102,12 +107,6 @@ public class PaymentController {
 	@PostMapping("/payment/confirm")
 	public ResponseEntity<TossConfirmResponse> successHandlerPageConfirm(@RequestBody ConfirmPaymentRequest request, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
-		// 1. 결제할 때 스냅샷 리스트를 만들어서 TODO 받아오는 것으로 고쳐야 함 snapshotList
-		List<SnapShot> snapshots = new ArrayList<>();
-		snapshots.add(new SnapShot(0, 1, "iPhone 14 Pro", 1390000, "6.1인치", "256GB", "딥 퍼플", "Happy Birthday", "iphone14pro_purple.jpg"));
-		snapshots.add(new SnapShot(0, 2, "Galaxy S23 Ultra", 1590000, "6.8인치", "512GB", "팬텀 블랙", "For Dad", "galaxy_s23_ultra_black.jpg"));
-		snapshots.add(new SnapShot(0, 3, "MacBook Air M2", 1690000, "13.6인치", "256GB", "실버", null, "macbook_air_m2_silver.jpg"));
-
 		log.debug("successHandlerPageConfirm 호출");
 		// 토스 결제 승인 요청
 		TossConfirmResponse response = tossPaymentService.confirmPayment(request.getPaymentKey(), request.getOrderId(), request.getAmount());
@@ -116,11 +115,16 @@ public class PaymentController {
 		Tosspayment tosspayment = tosspaymentDAO.insert(request.getOrderId(), request.getPaymentKey(), response.getMethod(), response.getStatus(), request.getAmount(), response.getApprovedAt().toLocalDateTime(), response.getRequestedAt().toLocalDateTime());
 
 		// 2. OrderReceipt DB 저장
-		orderReceiptService.insert(response.getApprovedAt().toLocalDateTime(), "상품 준비 전", user, tosspayment);
+		OrderReceipt orderReceipt = orderReceiptService.insert(response.getApprovedAt().toLocalDateTime(), "상품 준비 전", user, tosspayment);
+		
+		// TODO Snapshot insert
+		// snapshotList 반환
+		List<SnapShot> snapshotList = (List<SnapShot>) new HashMap();
 		
 		// TODO OrderDetail DB 저장
-
-		// 그 스냅샷 리스트들을 OrderDetail에 저장한다.
+		for (SnapShot snapShot : snapshotList) {
+			orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
+		}
 		
 		// 성공 결과 반환
 		return ResponseEntity.ok(response);
