@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +62,7 @@ public class CartController {
 		return mav;
 	}
 	
+	@Transactional
 	@PostMapping("/cart/insert")
 	public String addToCart(int product_id,int product_color_id,int product_size_id,int product_capacity_id,HttpSession httpSession) {
 		User user1 = (User) httpSession.getAttribute("user");

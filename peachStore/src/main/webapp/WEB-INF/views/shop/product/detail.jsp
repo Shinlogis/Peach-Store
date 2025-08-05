@@ -118,8 +118,12 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
-								<h6>Description</h6>
-								<%=product.getDetail() %>
+								<div style="display:flex; flex-direction: column; align-items: center;">
+									<div class="title-h1" style="margin:10px 0 50px 0;">제품 구성</div>
+									<%=product.getDetail()%>
+									<div class="title-h1" style="margin:140px 0 50px 0;">제품 상세정보</div>
+									<%=product.getDetail()%>
+								</div>
 							</div>
 							<div class="tab-pane" id="tabs-2" role="tabpanel" style="padding: 20px 20px;">
 								<h6>총 리뷰 수 : <%=reviewList.size()%> 개</h6>

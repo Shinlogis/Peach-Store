@@ -20,6 +20,7 @@ public class CartItemServiceImpl implements CartItemService{
 		return cartItemDAO.selectCartItemByCartId(cart_id);
 	}
 
+	@Transactional
 	@Override
 	public void insertCartItem(CartItem cartItem) {
 		cartItemDAO.insertCartItem(cartItem);
