@@ -14,106 +14,107 @@
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="description" content="Ashion Template">
-   <meta name="keywords" content="Ashion, unica, creative, html">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <title>Ashion | Template</title>
-   <%@ include file="../inc/head_link.jsp" %>
+<meta charset="UTF-8">
+<meta name="description" content="Ashion Template">
+<meta name="keywords" content="Ashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ashion | Template</title>
+<%@ include file="../inc/head_link.jsp"%>
 </head>
 <style>
-.pay-btn-wrapper{
-   display:flex;
-   justify-content:center;
-   margin:auto;
-   background-color:#fff;
-   border-radius: 18px;
-   padding: 8px;
-   width: 290px;
+.pay-btn-wrapper {
+	display: flex;
+	justify-content: center;
+	margin: auto;
+	background-color: #fff;
+	border-radius: 18px;
+	padding: 8px;
+	width: 290px;
 }
 
-.pay-btn-content{
-   width: 290px;
-   margin-top: 31px;
+.pay-btn-content {
+	width: 290px;
+	margin-top: 31px;
 }
 
-.pay-btn{
-   width:100%;
-   border:none;
-   border-radius:8px;
-   background-color:#0071E3;
-   padding: 8px 15px;
-   font-size:14px;
-   font-weight:600;
-   letter-spacing: 1px;
-   color:white;
+.pay-btn {
+	width: 100%;
+	border: none;
+	border-radius: 8px;
+	background-color: #0071E3;
+	padding: 8px 15px;
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	color: white;
 }
 
 .cart__delete:hover {
 	color: red;
 	font-weight: bold;
 	cursor: pointer;
-	}
-
-h6{
-   font-size:28px;
 }
 
-.rating{
-	margin-top:35px;
+h6 {
+	font-size: 28px;
 }
 
-.rating span{
-	font-size:18px;
+.rating {
+	margin-top: 35px;
 }
 
-.cart__product__item img{
-	width:150px;
-	height:100%;
+.rating span {
+	font-size: 18px;
+}
+
+.cart__product__item img {
+	width: 150px;
+	height: 100%;
 }
 </style>
 <body>
-   <!-- Offcanvas Menu Begin -->
-   <%@ include file="../inc/offcanvas.jsp" %>
-   <!-- Offcanvas Menu End -->
+	<!-- Offcanvas Menu Begin -->
+	<%@ include file="../inc/offcanvas.jsp"%>
+	<!-- Offcanvas Menu End -->
 
-   <!-- Header Section Begin -->
-   <%@ include file="../inc/header.jsp"%>
-   <!-- Header Section End -->
-   
-   
-   <!-- Shop Cart Section Begin -->
-    <section class="shop-cart-section">
-       <div>
-       <span class="title-h1" id="total-price" style="display: block; text-align: center;">장바구니 총액: 0원</span>
-      </div>
-      <div style="display: block; text-align: center;">모든 주문에 무료 배송 서비스가 제공됩니다</div>
-      
-      <div class=pay-btn-wrapper >
-         <div class="pay-btn-content">
-            <button class="pay-btn" value="">결제하기 </button>
-         </div>
-      </div>
-      
-        <div class="container" style="padding:80px 110px;">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shop__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>제품</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>가격</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <!-- 전부 fk 설정이므로 참조해서 받아와야함.get().get() -->
-							<% int totalPrice=0;%>
-							<% for (int i = 0; i < cartItemList.size(); i++) {
+	<!-- Header Section Begin -->
+	<%@ include file="../inc/header.jsp"%>
+	<!-- Header Section End -->
+
+
+	<!-- Shop Cart Section Begin -->
+	<section class="shop-cart-section">
+		<div>
+			<span class="title-h1" id="total-price"
+				style="display: block; text-align: center;">장바구니 총액: 0원</span>
+		</div>
+		<div style="display: block; text-align: center;">
+			<p><%= userGrade.getUser_grade().getUserGradeName()%>회원에게
+				<%= userGrade.getUser_grade().getDiscountRate()%>%의 할인율이 적용됩니다.
+			</p>
+
+			모든 주문에 무료 배송 서비스가 제공됩니다
+		</div>
+
+		<div class="container" style="padding: 80px 110px;">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="shop__cart__table">
+						<table>
+							<thead>
+								<tr>
+									<th>제품</th>
+									<th></th>
+									<th></th>
+									<th>가격</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 전부 fk 설정이므로 참조해서 받아와야함.get().get() -->
+								<% int totalPrice=0;%>
+								<% for (int i = 0; i < cartItemList.size(); i++) {
 							    CartItem item = cartItemList.get(i);
 							    Product product = item.getProduct();
 							    int price = product.getPrice();
@@ -136,96 +137,119 @@ h6{
 							    int finalPrice = price + engravingPrice;
 							    totalPrice += finalPrice;
 							%>
-							<tr 
-							  data-id="<%= item.getCart_item_id() %>"
-							  data-name="<%= product.getProductName() %>"
-							  data-price="<%= finalPrice %>"
-							  data-quantity="<%= item.getQuantity() %>"
-							  <%= capacity != null ? "data-capacity=\"" + capacity + "\"" : "" %>
-							  <%= color != null ? "data-color=\"" + color + "\"" : "" %>
-							  <%= size != null ? "data-size=\"" + size + "\"" : "" %>
-							  <%= engraving != null ? "data-engraving=\"" + engraving + "\"" : "" %>
-							>
-							    <td class="cart__product__item">
-							<% 
+								<tr data-id="<%= item.getCart_item_id() %>"
+									data-name="<%= product.getProductName() %>"
+									data-price="<%= finalPrice %>"
+									data-quantity="<%= item.getQuantity() %>"
+									<%= capacity != null ? "data-capacity=\"" + capacity + "\"" : "" %>
+									<%= color != null ? "data-color=\"" + color + "\"" : "" %>
+									<%= size != null ? "data-size=\"" + size + "\"" : "" %>
+									<%= engraving != null ? "data-engraving=\"" + engraving + "\"" : "" %>>
+									<td class="cart__product__item">
+										<% 
 							String imagePath = "/static/shop/img/no-image.png"; // 기본 이미지
 							if (product.getProductImgs() != null && !product.getProductImgs().isEmpty()) {
 							    imagePath = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();
 							}
-							%>
-							<img src="<%= imagePath %>" alt="장바구니 상품<%= i %>">
+							%> <img src="<%= imagePath %>" alt="장바구니 상품<%= i %>">
 
-							        <div class="cart__product__item__title">
-							            <h6><%= product.getProductName() %></h6>
-							
-							            <div class="rating">
-							                <% if (capacity != null) { %><span><%= capacity %></span><% } %>
-							                <% if (color != null) { %><span><%= color %></span><% } %>
-							                <% if (size != null) { %><span><%= size %></span><% } %>
-							                <% if (engraving != null) { %><span><%= engraving %></span><% } %>
-							            </div>
-							        </div>
-							    </td>
-							
-							    <td class="cart__blank">
-							    </td>
-							
-							    <td class="cart__blank"></td>
-							
-							    <td class="cart__price"><%= String.format("%,d", finalPrice)%></td>
-							
-							    <td class="cart__delete" data-id="<%= item.getCart_item_id() %>">X</td>
-							</tr>
-							<% } %>
-<!-- 동기방식 사용했기 때문에 위에서 total뿌려주는 건 JS로 -->							
-<script>document.getElementById("total-price").innerText = "장바구니 총액: <%= String.format("%,d", totalPrice) %>원";</script>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-			<div class="row">
-			    <div class="col-lg-3 offset-lg-8">
-			        <div class="cart__btn update__btn">
-			            <a href="/shop/main">쇼핑 계속하기</a>
-			        </div>
-			    </div>
+										<div class="cart__product__item__title">
+											<h6><%= product.getProductName() %></h6>
+
+											<div class="rating">
+												<% if (capacity != null) { %><span><%= capacity %></span>
+												<% } %>
+												<% if (color != null) { %><span><%= color %></span>
+												<% } %>
+												<% if (size != null) { %><span><%= size %></span>
+												<% } %>
+												<% if (engraving != null) { %><span><%= engraving %></span>
+												<% } %>
+											</div>
+										</div>
+									</td>
+
+									<td class="cart__blank"></td>
+
+									<td class="cart__blank"></td>
+
+									<td class="cart__price"><%= String.format("%,d", finalPrice)%></td>
+
+									<td class="cart__delete"
+										data-id="<%= item.getCart_item_id() %>">X</td>
+								</tr>
+								<% } %>
+								<!-- 동기방식 사용했기 때문에 위에서 total뿌려주는 건 JS로 -->
+								<script>document.getElementById("total-price").innerText = "장바구니 총액: <%= String.format("%,d", totalPrice) %>원";</script>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
-            <div class="row">
-                <div class="col-lg-10 offset-lg-1">
-                    <div class="cart__total__procced">
-                        <h6>Cart total</h6>
-                           <p><%= userGrade.getUser_grade().getUserGradeName()%>회원에게 <%= userGrade.getUser_grade().getDiscountRate()%>%의 할인율이 적용됩니다.</p>
-                        <ul>
-                            <li>총액<span><%= String.format("%,d", totalPrice)%></span></li>
-                            	<%
-                            		double discountedPrice = 0;
-                            		/* discountedPrice = totalPrice - totalPrice*(userGrade.getUser_grade().getDiscountRate()/100); */
-                            	%>
-                            <li>할인된 금액<span></span></li>
-                        </ul>
-                        <a href="/shop/payment/payment-ready" class="primary-btn">Proceed to checkout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Shop Cart Section End -->
-    
-   <!-- Instagram Begin -->
-   <%@ include file="../inc/instagram.jsp" %>   
-   <!-- Instagram End -->
+			<div class="row">
+				<div class="col-lg-3 offset-lg-8">
+					<div class="cart__btn update__btn">
+						<a href="/shop/main">쇼핑 계속하기</a>
+					</div>
+				</div>
+			</div>
+			<section class="info-section">
+			<h3>배송 상세 정보</h3>
+			변경>
+			<div class="info-grid">
+				<div>
+					<p>
+						<strong>받는사람:</strong>
+					</p>
+					<p>
+						<strong>주소:</strong> 경기도 어딘시<br>신사면 신장리 신장로1-1 ABC빌딩<br>대한민국
+					</p>
+				</div>
+				<div>
+					<p>
+						<strong>연락처:</strong>
+					</p>
+					<p>
+						</p>
+				</div>
+			</div>
+		</section>
 
-   <!-- Footer Section Begin -->
-   <%@ include file="../inc/footer.jsp" %>
-   <!-- Footer Section End -->
 
-   <!-- Search Begin -->
-   <%@ include file="../inc/search.jsp" %>
-   <!-- Search End -->
+		<section class="terms">
+			<p>
+				Apple의 <a href="#">개인정보 처리방침</a>에 따라 정보를 수집하고, 저장하며, 처리하는 것에 동의하셔야
+				합니다.
+			</p>
+		</section>
+			
+			<div class="row">
+				<div class="col-lg-10 offset-lg-1">
+					<div class=pay-btn-wrapper>
+						<div class="pay-btn-content">
+							<button class="pay-btn" value="">결제하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Shop Cart Section End -->
 
-   <!-- Js Plugins -->
-   <%@ include file="../inc/footer_link.jsp" %>
+	<!-- Instagram Begin -->
+	<%@ include file="../inc/instagram.jsp"%>
+	<!-- Instagram End -->
+
+	<!-- Footer Section Begin -->
+	<%@ include file="../inc/footer.jsp"%>
+	<!-- Footer Section End -->
+
+	<!-- Search Begin -->
+	<%@ include file="../inc/search.jsp"%>
+	<!-- Search End -->
+
+	<!-- Js Plugins -->
+	<%@ include file="../inc/footer_link.jsp"%>
 	<script type="text/javascript">
 		$(() => {
 			$(".shop__cart__table").on("click", ".cart__delete", function () {
