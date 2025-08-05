@@ -35,7 +35,7 @@ CREATE TABLE admin (
    admin_id INT PRIMARY KEY AUTO_INCREMENT,
    email VARCHAR(100) NOT NULL UNIQUE,
    password VARCHAR(100) NOT NULL,
-   salt VARCHAR(100) NOT NULL, -- 추가됨
+   salt VARCHAR(100) NOT NULL, 
    admin_name VARCHAR(100) NOT NULL,
    role VARCHAR(10) NOT NULL DEFAULT 'admin' CHECK(role IN ('super', 'admin')),
    is_active BOOLEAN NOT NULL DEFAULT TRUE
@@ -706,6 +706,17 @@ VALUES
     (17, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3', '1753859785475.webp'),
     (14, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg'),
     (15, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp');
+
+-- 관리자계정 insert
+INSERT INTO admin (email, password, salt, admin_name, role, is_active)
+VALUES (
+  'admin',
+  'F0uSWIMVk+9lQB8zW/8IbLNSgnoTvz3KTGgvz8h9he8=',
+  'QrJRDMLxoc5kaa4Z8WCJ1g==',
+  '관리자',
+  'super',
+  TRUE
+);
 
 
 -- 장바구니 제품 테이블 인서트(INSERT INTO CART_ITEM)
