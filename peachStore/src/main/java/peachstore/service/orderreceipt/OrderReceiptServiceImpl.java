@@ -50,7 +50,7 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 	 * 주문내역 생성
 	 */
 	@Override
-	public void insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment) {
+	public OrderReceipt insert(LocalDateTime localDateTime, String orderStatus, User user, Tosspayment tosspayment) {
 		OrderReceipt orderReceipt = new OrderReceipt();
 		orderReceipt.setOrderdate(localDateTime);
 		orderReceipt.setOrder_status(orderStatus);
@@ -61,6 +61,7 @@ public class OrderReceiptServiceImpl implements OrderReceiptService{
 		if (result == 0) {
 			throw new OrderReceiptException("주문내역 생성 실패");
 		}
+		return orderReceipt;
 	}
 
 }
