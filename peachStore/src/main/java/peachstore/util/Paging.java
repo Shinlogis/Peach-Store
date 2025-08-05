@@ -51,9 +51,13 @@ public class Paging {
 	    }
 
 	    this.totalPage = (int) Math.ceil((double) totalRecord / pageSize);
-	    if (currentPage > totalPage) {
-	        currentPage = totalPage;
+
+	    if (totalPage == 0) {
+	    	currentPage = 1;
+	    } else if (currentPage > totalPage) {
+		   	currentPage = totalPage;
 	    }
+
 
 	    this.firstPage = currentPage - (currentPage - 1) % blockSize;
 	    this.lastPage = Math.min(firstPage + blockSize - 1, totalPage);
@@ -69,5 +73,6 @@ public class Paging {
 	public int getEndIndex() {
 		return Math.min(curPos + pageSize, totalRecord);
 	}
+	
 
 }

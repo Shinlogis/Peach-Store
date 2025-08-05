@@ -3,6 +3,7 @@ package peachstore.shop.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,33 +21,38 @@ import peachstore.service.orderdetail.OrderDetailService;
 import peachstore.service.orderreceipt.OrderReceiptService;
 import peachstore.service.review.ReviewService;
 import peachstore.service.snapshot.SnapShotService;
+import peachstore.util.Paging;
 
 @Slf4j
 @Controller
 public class OrderController {
 
 	@Autowired
-	private OrderDetailService orderDetailService;
-	@Autowired
 	private OrderReceiptService orderReceiptService;
-	@Autowired
-	private SnapShotService snapShotService;
 	@Autowired
 	private ReviewService reviewService;
 
 	// 주문 리스트
 	@GetMapping("/order/list")
-	public ModelAndView selectAll(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
+	public ModelAndView selectAll(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session, HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		orderReceipt.setUser(user);
 		log.debug("유저 데이터 : {}", user);
+		Paging paging = new Paging();
+		
+		int totalRecord = orderReceiptService.countByUserId(orderReceipt);
+		paging.init(totalRecord, request);
+		
+		List<OrderReceipt> receiptList = orderReceiptService.paging(orderReceipt, paging.getStartIndex(), paging.getPageSize());
+		
 
-		List<OrderReceipt> receiptList = orderReceiptService.selectByUserId(orderReceipt);
+		//List<OrderReceipt> receiptList = orderReceiptService.selectByUserId(orderReceipt);
 		log.debug("주문요약 데이터 : {}", receiptList);
 
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("receiptList", receiptList);
+		mav.addObject("paging", paging);
 
 		mav.setViewName("shop/order/orderList");
 
@@ -55,17 +61,26 @@ public class OrderController {
 
 	// 주문 취소 리스트
 	@GetMapping("/order/cancle/list")
-	public ModelAndView selectCancle(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session) {
+	public ModelAndView selectCancle(OrderReceipt orderReceipt, SnapShot snapShot, HttpSession session, HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		orderReceipt.setUser(user);
 		log.debug("유저 데이터 : {}", user);
+		
+		Paging paging = new Paging();
+		
+		int totalRecord = orderReceiptService.countByUserId(orderReceipt);
+		paging.init(totalRecord, request);
+		
+		List<OrderReceipt> cancleList = orderReceiptService.cancleListPaging(orderReceipt, paging.getStartIndex(), paging.getPageSize());
+		
 
-		List<OrderReceipt> cancleList = orderReceiptService.cancleList(orderReceipt);
+		//List<OrderReceipt> cancleList = orderReceiptService.cancleList(orderReceipt);
 		log.debug("주문요약 데이터 : {}", cancleList);
 
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("cancleList", cancleList);
+		mav.addObject("paging", paging);
 
 		mav.setViewName("shop/order/cancleList");
 
@@ -83,12 +98,18 @@ public class OrderController {
 	// 발송완료 리스트
 	@GetMapping("/order/ordercompleted")
 	public ModelAndView selectComleted(OrderReceipt orderReceipt, Review review, SnapShot snapShot,
-			HttpSession session) {
+			HttpSession session, HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		orderReceipt.setUser(user);
 		log.debug("유저 데이터 : {}", user);
+		
+		Paging paging = new Paging();
+		int totalRecord = orderReceiptService.countByUserId(orderReceipt);
+		
+		paging.init(totalRecord, request);
+		List<OrderReceipt> completedList = orderReceiptService.completedListPaging(orderReceipt, paging.getStartIndex(), paging.getPageSize());
 
-		List<OrderReceipt> completedList = orderReceiptService.completedList(orderReceipt);
+		//List<OrderReceipt> completedList = orderReceiptService.completedList(orderReceipt);
 		log.debug("주문요약 데이터 : {}", completedList);
 
 		//이미 쓴 리뷰 중복방지
@@ -105,6 +126,7 @@ public class OrderController {
 
 		mav.addObject("completedList", completedList);
 		mav.addObject("writtenReview", writtenReview);
+		mav.addObject("paging", paging);
 
 		mav.setViewName("shop/order/ordercompleted");
 

@@ -1,6 +1,7 @@
 package peachstore.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 상품별 이미지
@@ -11,6 +12,8 @@ import lombok.Data;
 public class ProductImg {
 	private int product_img_id; //
 	private String filename;
+	
+	@ToString.Exclude
 	private Product product;
 
 }

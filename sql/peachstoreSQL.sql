@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS review; -- 리뷰
 DROP TABLE IF EXISTS order_detail; -- 주문상세
 DROP TABLE IF EXISTS cart_item; -- 장바구니 제품
 DROP TABLE IF EXISTS custom_option; -- 제품 커스텀
-DROP TABLE IF EXISTS order_receipt; -- 주문내역
 DROP TABLE IF EXISTS toss_payment; -- 토스 결제 정보
+DROP TABLE IF EXISTS order_receipt; -- 주문내역
 DROP TABLE IF EXISTS inquiry_img; -- 문의 이미지
 DROP TABLE IF EXISTS snapshot; -- 스냅샷
 DROP TABLE IF EXISTS product_img; -- 제품 이미지

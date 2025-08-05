@@ -24,6 +24,13 @@ public interface OrderReceiptService {
 	
 	public List completedList(OrderReceipt orderReceipt);
 	
+	public int countByUserId(OrderReceipt orderReceipt);
+	 
+	public List<OrderReceipt> paging(OrderReceipt orderReceipt, int startIndex, int pageSize);
+	
+	public List<OrderReceipt> cancleListPaging(OrderReceipt orderReceipt, int startIndex, int pageSize);
+	
+	public List<OrderReceipt> completedListPaging(OrderReceipt orderReceipt, int startIndex, int pageSize);
 	/**
 	 * 주문내역 생성
 	 * @param localDateTime

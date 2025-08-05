@@ -1,6 +1,7 @@
 package peachstore.service.review;
 
 import java.util.List;
+import java.util.Map;
 
 import peachstore.domain.Review;
 import peachstore.domain.User;
@@ -52,5 +53,9 @@ public interface ReviewService {
 	public void updateReview(Review review, String savePath);
 	
 	//리뷰 갯수 조회
-	public int countByUserId(int userId);
+	public int countByUserId(User user);
+	
+	//페이징 처리될 리스트 조회
+	public List<Review> paging(User user, int startIndex, int pageSize);
+
 }
