@@ -136,6 +136,7 @@ h6{
 							    int finalPrice = price + engravingPrice;
 							    totalPrice += finalPrice;
 							%>
+							<!-- 담긴 데이터들에 동적으로 호출자 속성 부여 -->
 							<tr 
 							  data-id="<%= item.getCart_item_id() %>"
 							  data-name="<%= product.getProductName() %>"
@@ -153,7 +154,15 @@ h6{
 							    imagePath = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();
 							}
 							%>
-							<img src="<%= imagePath %>" alt="장바구니 상품<%= i %>">
+							<!-- 담긴 이미지 또한 받아오기 동적으로 호출자 속성 부여 -->
+							<img 
+							  src="<%= imagePath %>" 
+							  alt="장바구니 상품<%= i %>"
+							  <%= (product.getProductImgs() != null && !product.getProductImgs().isEmpty()) 
+							        ? "data-filename=\"" + product.getProductImgs().get(0).getFilename() + "\"" 
+							        : "" 
+							  %>
+							>
 
 							        <div class="cart__product__item__title">
 							            <h6><%= product.getProductName() %></h6>
