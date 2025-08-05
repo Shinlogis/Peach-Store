@@ -84,7 +84,6 @@ public class CartController {
 		return mav;
 	}
 	
-	@Transactional
 	@PostMapping("/cart/insert")
 	public String addToCart(int product_id,int product_color_id,int product_size_id,int product_capacity_id,HttpSession httpSession) {
 		User user1 = (User) httpSession.getAttribute("user");

@@ -45,7 +45,7 @@
 				<div class="sub-accessory-wrapper">
 					<a class="sub-btn" data-id="<%=productSubcategory.getProductSubcategoryId()%>">
 					<div class="sub-accessory-img">
-						<img src="/static/shop/img/product/accessory/airpods.png">
+						<img src="/data/subcategory_<%=productSubcategory.getProductSubcategoryId()%>/<%=productSubcategory.getFilename() %>">
 					</div>
 					<div class="sub-accessory-name"><%=productSubcategory.getProductSubcategoryName() %></div>
 				    </a>
@@ -129,7 +129,7 @@ function getProductList(subId){
 
 $(".sub-btn").click(function () {
 	let subId = $(this).data("id");
-	console.log("subOd은 "+subId);
+	console.log("subid은 "+subId);
  	getProductList(subId);
  });
  

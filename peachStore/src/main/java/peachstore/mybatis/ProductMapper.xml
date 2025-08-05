@@ -63,6 +63,28 @@
 	    and is_deleted = 0
 	</select>
 	
+	<select id="selectByTopId" parameterType="int" resultMap="joinMap">
+		select p.* from product p
+		JOIN product_subcategory ps ON p.product_subcategory_id = ps.product_subcategory_id
+		where ps.product_topcategory_id = #{topId}
+		and p.is_deleted = 0
+	</select>
+	
+	<select id="selectByTopIdWithPaging" resultMap="joinMap">
+		select p.* from product p
+		JOIN product_subcategory ps ON p.product_subcategory_id = ps.product_subcategory_id
+		where ps.product_topcategory_id = #{topId}
+		and p.is_deleted = 0
+		limit #{offset}, #{pageSize}
+	</select>
+	
+	<select id="countByTopId" parameterType="int" resultType="int">
+		select count(*) from product p
+		JOIN product_subcategory ps ON p.product_subcategory_id = ps.product_subcategory_id
+		where ps.product_topcategory_id = #{topId}
+		and p.is_deleted = 0
+	</select>
+	
 	<select id="selectAllWithPaging" resultMap="joinMap">
 	    select <include refid="columns"/> 
 	    from product 

@@ -23,4 +23,7 @@ public interface ProductService {
     public List<Product> selectAll(int startIndex, int pageSize);
     public int getTotalRecord();
     public List<Product> selectBySubId(int subId);
+    public List<Product> selectByTopId(int topId);
+    public List<Product> selectByTopId(int topId, int page, int pageSize);
+    public int getTotalRecordByTopId(int topId);
 }

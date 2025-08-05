@@ -71,8 +71,8 @@
 							<legend>사이즈 </legend>
 							<%for(ProductSize productSize :product.getProductSizes()){ %>
 							<div>
-								<input type="radio" id="size<%=productSize.getSize().getSize_id() %>" name="product_size_id" value="<%=productSize.getSize().getSize_id()%>">
-								<label for="size<%=productSize.getSize().getSize_id() %>"><%=productSize.getSize().getSize_name() %> 모델  <%=productSize.getAdditional_price() %></label>
+								<input type="radio" id="size<%=productSize.getProduct_size_id() %>" name="product_size_id" value="<%=productSize.getProduct_size_id()%>">
+								<label for="size<%=productSize.getProduct_size_id() %>"><%=productSize.getSize().getSize_name() %> 모델  <%=productSize.getAdditional_price() %></label>
 							</div>
 							<%} %>
 						</fieldset>
@@ -81,8 +81,8 @@
 							<legend id="color-title">색상</legend>
 							<%for(ProductColor productColor:product.getProductColors()){ %>
 							<div class="color-box">
-								<input type="radio" id="color<%=productColor.getColor().getColor_id() %>" name="product_color_id" value="<%=productColor.getColor().getColor_id()%>" data-color-name="<%=productColor.getColor().getColor_name()%>">
-								<label for="color<%=productColor.getColor().getColor_id() %>" style="background-color:<%=productColor.getColor().getColor_value() %>;"></label>
+								<input type="radio" id="color<%=productColor.getProduct_color_id() %>" name="product_color_id" value="<%=productColor.getProduct_color_id()%>" data-color-name="<%=productColor.getColor().getColor_name()%>">
+								<label for="color<%=productColor.getProduct_color_id() %>" style="background-color:<%=productColor.getColor().getColor_value() %>;"></label>
 							</div>
 							<%} %>
 						</fieldset>
@@ -91,13 +91,23 @@
 							<legend>용량</legend>
 							<%for(ProductCapacity productCapacity:product.getProductCapacities()){ %>
 							<div>
-								<input type="radio" id="<%=productCapacity.getCapacity().getCapacity_id() %>" name="product_capacity_id" value="<%=productCapacity.getCapacity().getCapacity_id() %>">
-								<label for="<%=productCapacity.getCapacity().getCapacity_id() %>"><%=productCapacity.getCapacity().getCapacity_name() %><%=productCapacity.getAdditional_price() %></label>
+								<input type="radio" id="<%=productCapacity.getProduct_capacity_id() %>" name="product_capacity_id" value="<%=productCapacity.getProduct_capacity_id() %>">
+								<label for="<%=productCapacity.getProduct_capacity_id() %>"><%=productCapacity.getCapacity().getCapacity_name() %><%=productCapacity.getAdditional_price() %></label>
 							</div>
 							<%} %>
 						</fieldset> 
 						
 						<input type="hidden" name ="product_id" value="<%=product.getProductId()%>">
+						
+						<!-- 가격 표시 영역 -->
+						<div class="price-display" style="margin-top: 30px; padding: 20px; background: #f5f5f7; border-radius: 12px;">
+							<div class="base-price">기본 가격: <%=String.format("%,d", product.getPrice())%>원</div>
+							<div class="additional-price" id="additional-price" style="color: #06c; margin-top: 5px;"></div>
+							<div class="total-price" id="total-price" style="font-size: 24px; font-weight: 600; margin-top: 10px; color: #1d1d1f;">
+								총 가격: <%=String.format("%,d", product.getPrice())%>원
+							</div>
+						</div>
+						
 						<input type="button" value="장바구니에 담기">
 					</form>
 				</div>
@@ -260,9 +270,52 @@
 			
 		});
 		
+		/* 가격 계산 함수 */
+		function updatePrice() {
+			let basePrice = <%=product.getPrice()%>;
+			let additionalPrice = 0;
+			let additionalText = "";
+			
+			// 선택된 사이즈 추가 금액
+			let selectedSize = $('input[name="product_size_id"]:checked');
+			if (selectedSize.length > 0) {
+				<%for(ProductSize productSize : product.getProductSizes()){ %>
+					if (selectedSize.val() == '<%=productSize.getProduct_size_id()%>') {
+						additionalPrice += <%=productSize.getAdditional_price()%>;
+						<%if(productSize.getAdditional_price() != 0) { %>
+							additionalText += "사이즈 옵션: +<%=String.format("%,d", productSize.getAdditional_price())%>원 ";
+						<%} %>
+					}
+				<%} %>
+			}
+			
+			// 선택된 용량 추가 금액
+			let selectedCapacity = $('input[name="product_capacity_id"]:checked');
+			if (selectedCapacity.length > 0) {
+				<%for(ProductCapacity productCapacity : product.getProductCapacities()){ %>
+					if (selectedCapacity.val() == '<%=productCapacity.getProduct_capacity_id()%>') {
+						additionalPrice += <%=productCapacity.getAdditional_price()%>;
+						<%if(productCapacity.getAdditional_price() != 0) { %>
+							additionalText += "용량 옵션: +<%=String.format("%,d", productCapacity.getAdditional_price())%>원 ";
+						<%} %>
+					}
+				<%} %>
+			}
+			
+			// 화면 업데이트
+			let totalPrice = basePrice + additionalPrice;
+			$("#additional-price").text(additionalText);
+			$("#total-price").text("총 가격: " + totalPrice.toLocaleString() + "원");
+		}
+		
 		$(document).ready(function () {
 			$(".review-img").each(function () {
 				$(this).children("img").hide().eq(0).show();  // 첫 번째 이미지만 보이게
+			});
+			
+			// 옵션 선택 시 가격 업데이트
+			$('input[name="product_size_id"], input[name="product_capacity_id"]').change(function() {
+				updatePrice();
 			});
 			
 			$("input[type='button']").click(function () {

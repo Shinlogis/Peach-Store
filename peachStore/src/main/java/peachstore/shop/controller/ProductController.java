@@ -50,7 +50,7 @@ public class ProductController {
 		int currentPage = (page != null) ? page : 1;
 		int pageSize = 9; // 한 페이지당 상품 수
 		
-		List<Product> list = productService.selectAll(currentPage, pageSize);
+		List<Product> list = productService.selectByTopId(topid);
 		int totalRecord = productService.getTotalRecord();
 		int totalPage = (int) Math.ceil((double) totalRecord / pageSize);
 		
