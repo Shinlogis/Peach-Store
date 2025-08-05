@@ -8,6 +8,18 @@
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	List<CartItem> cartItemList = (List)request.getAttribute("cartItemList");
 	User userGrade = (User)request.getAttribute("userGrade");
+
+	User user = (User) request.getAttribute("user");
+	int amount = 0;
+
+	// 결제에 필요한 정보들
+	  String orderId = (String)  request.getAttribute("orderId");
+	  String orderName =  user.getUser_name();
+	  String customerName = "Peach Store";
+	  Integer orderReceiptId = (Integer) request.getAttribute("orderReceiptId");
+
+	  String successUrl = (String)   request.getAttribute("successUrl");
+	  String failUrl = (String)   request.getAttribute("failUrl");
 /*    String cartItemPk; */
 %>
 <!DOCTYPE html>
@@ -193,13 +205,15 @@ h6 {
 					</div>
 				</div>
 			</div>
-			<section class="info-section">
+			
+		<section class="info-section">
 			<h3>배송 상세 정보</h3>
 			변경>
 			<div class="info-grid">
 				<div>
 					<p>
 						<strong>받는사람:</strong>
+						<%=user.getUser_name() %>
 					</p>
 					<p>
 						<strong>주소:</strong> 경기도 어딘시<br>신사면 신장리 신장로1-1 ABC빌딩<br>대한민국
@@ -207,10 +221,10 @@ h6 {
 				</div>
 				<div>
 					<p>
-						<strong>연락처:</strong>
+						<strong>연락처:</strong><%=user.getTel() %>
 					</p>
 					<p>
-						</p>
+						<%=user.getEmail() %></p>
 				</div>
 			</div>
 		</section>
@@ -218,8 +232,7 @@ h6 {
 
 		<section class="terms">
 			<p>
-				Apple의 <a href="#">개인정보 처리방침</a>에 따라 정보를 수집하고, 저장하며, 처리하는 것에 동의하셔야
-				합니다.
+				Peach의 <a href="#">개인정보 처리방침</a>에 따라 정보를 수집하고, 저장하며, 처리하는 것에 동의하셔야	합니다.
 			</p>
 		</section>
 			
@@ -227,7 +240,7 @@ h6 {
 				<div class="col-lg-10 offset-lg-1">
 					<div class=pay-btn-wrapper>
 						<div class="pay-btn-content">
-							<button class="pay-btn" value="">결제하기</button>
+							<button class="pay-btn" id="pay-btn" value="">결제하기</button>
 						</div>
 					</div>
 				</div>
@@ -250,7 +263,21 @@ h6 {
 
 	<!-- Js Plugins -->
 	<%@ include file="../inc/footer_link.jsp"%>
+	  <script src="https://js.tosspayments.com/v1/payment"></script>
 	<script type="text/javascript">
+	 const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
+	 // 결제하기 버튼 클릭 이벤트
+	    document.getElementById("pay-btn").addEventListener("click", () => {
+	      tossPayments.requestPayment("간편결제", {
+	        amount: <%=totalPrice%>,
+	        orderId: '<%=orderId%>',
+	        orderName: '<%=orderName%>',
+	        customerName: '<%=customerName%>',
+	        successUrl: '<%=successUrl%>',
+	        failUrl: '<%=failUrl%>'
+	      });
+	    });
+	
 		$(() => {
 			$(".shop__cart__table").on("click", ".cart__delete", function () {
 				const cartItemId = $(this).data("id");

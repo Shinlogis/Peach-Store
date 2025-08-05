@@ -84,15 +84,15 @@
                         totalAmount += o.getTotalAmount();
                         String status = o.getOrderStatus();
                         // === 상태명은 반드시 DB/서비스/프론트 일관성 주의!
-                        if ("대기".equals(status) || "결제완료".equals(status)) {
-                            pendingOrders++;
-                        } else if ("처리중".equals(status) || "배송중".equals(status) || "상품 준비 중".equals(status)) {
-                            processingOrders++;
-                        } else if ("완료".equals(status) || "배송완료".equals(status) || "발송 완료".equals(status)) {
-                            completedOrders++;
-                        } else if ("취소".equals(status) || "주문 취소".equals(status) || "주문취소".equals(status)) {
-                            cancelledOrders++;
-                        }
+                        if ("상품 준비 전".equals(status)) {
+					    pendingOrders++;
+					} else if ("상품 준비 중".equals(status)) {
+					    processingOrders++;
+					} else if ("발송완료".equals(status)) {
+					    completedOrders++;
+					} else if ("주문취소".equals(status)) {
+					    cancelledOrders++;
+					}
                     }
                 }
                 %>
@@ -156,31 +156,11 @@
 						<!-- 필터 탭 -->
 						<div class="filter-tabs">
 							<ul class="nav nav-tabs" id="orderTabs" role="tablist">
-								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">
-										<i class="fas fa-list mr-1"></i>전체 주문
-									</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">
-										<i class="fas fa-clock mr-1"></i>대기중
-									</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="processing-tab" data-bs-toggle="tab" data-bs-target="#processing" type="button" role="tab">
-										<i class="fas fa-truck mr-1"></i>처리중
-									</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab">
-										<i class="fas fa-check-circle mr-1"></i>완료
-									</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab">
-										<i class="fas fa-ban mr-1"></i>취소
-									</button>
-								</li>
+							  <li class="nav-item"><button class="nav-link active" data-bs-target="#all" type="button">전체 주문</button></li>
+							  <li class="nav-item"><button class="nav-link" data-bs-target="#pending" type="button">상품 준비 전</button></li>
+							  <li class="nav-item"><button class="nav-link" data-bs-target="#processing" type="button">상품 준비 중</button></li>
+							  <li class="nav-item"><button class="nav-link" data-bs-target="#completed" type="button">발송완료</button></li>
+							  <li class="nav-item"><button class="nav-link" data-bs-target="#cancelled" type="button">주문취소</button></li>
 							</ul>
 						</div>
 
@@ -211,80 +191,60 @@
 										</tr>
 									</thead>
 									<tbody>
-										<% for (OrderView o : orderList) { 
-                                        String statusClass = "";
-                                        String status = o.getOrderStatus();
-                                        if ("대기".equals(status) || "결제완료".equals(status)) {
-                                            statusClass = "status-pending";
-                                        } else if ("처리중".equals(status) || "배송중".equals(status) || "상품 준비 중".equals(status)) {
-                                            statusClass = "status-processing";
-                                        } else if ("완료".equals(status) || "배송완료".equals(status) || "발송 완료".equals(status)) {
-                                            statusClass = "status-completed";
-                                        } else if ("취소".equals(status) || "주문 취소".equals(status) || "주문취소".equals(status)) {
-                                            statusClass = "status-cancelled";
-                                        }
-                                    %>
-										<tr class="order-row" data-status="<%= status %>">
-											<td>
-												<div class="order-info">
-													<%
-													    String orderIdStr = String.valueOf(o.getOrderReceiptId());
-													    String shortOrderId = orderIdStr.length() >= 3 ? orderIdStr.substring(orderIdStr.length() - 3) : orderIdStr;
-													%>
-													<div class="order-id">
-														#<%= shortOrderId %>
-													</div>
-													<div class="order-details">
-														<h6>
-															#<%=  o.getOrderReceiptId() %></h6>
-														<small class="text-muted"><%= o.getOrderDate().format(formatter) %></small>
-													</div>
-												</div>
-											</td>
-											<td><strong><%= o.getCustomerName() %></strong></td>
-											<td>
-												<div class="product-name" title="<%= o.getProductName() %>">
-													<%= o.getProductName() %>
-												</div>
-											</td>
-											<td><span class="badge badge-light"><%= o.getQuantity() %>개</span></td>
-											<td><span class="amount-display"><%= String.format("%,d원", o.getTotalAmount()) %></span></td>
-											<td><span class="badge status-badge <%= statusClass %>">
-													<%= status %>
-											</span></td>
-											<td>
-												<button type="button" class="btn btn-info btn-action"
-													onclick="viewOrderDetail('<%= o.getOrderReceiptId() %>')">
-													<i class="fas fa-eye mr-1"></i>상세
-												</button>
-												<div class="btn-group">
-													<button type="button"
-														class="btn btn-secondary btn-action dropdown-toggle"
-														data-toggle="dropdown">
-														<i class="fas fa-cog mr-1"></i>상태변경
-													</button>
-													<div class="dropdown-menu">
-														<a class="dropdown-item" href="#"
-															onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '처리중')">
-															<i class="fas fa-clock mr-2"></i>처리중으로 변경
-														</a> <a class="dropdown-item" href="#"
-															onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '배송중')">
-															<i class="fas fa-truck mr-2"></i>배송중으로 변경
-														</a> <a class="dropdown-item" href="#"
-															onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '완료')">
-															<i class="fas fa-check mr-2"></i>완료로 변경
-														</a>
-														<div class="dropdown-divider"></div>
-														<a class="dropdown-item text-danger" href="#"
-															onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '취소')">
-															<i class="fas fa-times mr-2"></i>주문 취소
-														</a>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<% } %>
+									    <% for (OrderView o : orderList) { 
+									        String status = o.getOrderStatus();
+									        String statusClass = "";
+									        if ("상품 준비 전".equals(status)) statusClass = "status-pending";
+									        else if ("상품 준비 중".equals(status)) statusClass = "status-processing";
+									        else if ("발송완료".equals(status)) statusClass = "status-completed";
+									        else if ("주문취소".equals(status)) statusClass = "status-cancelled";
+									
+									        String orderIdStr = String.valueOf(o.getOrderReceiptId());
+									        String shortOrderId = orderIdStr.length() >= 3 ? orderIdStr.substring(orderIdStr.length() - 3) : orderIdStr;
+									    %>
+									    <tr class="order-row" data-status="<%= status %>">
+									        <td>
+									            <div class="order-info">
+									                <div class="order-id">
+									                    #<%= shortOrderId %>
+									                </div>
+									                <div class="order-details">
+									                    <h6>#<%= o.getOrderReceiptId() %></h6>
+									                    <small class="text-muted"><%= o.getOrderDate().format(formatter) %></small>
+									                </div>
+									            </div>
+									        </td>
+									        <td><strong><%= o.getCustomerName() %></strong></td>
+									        <td>
+									            <div class="product-name" title="<%= o.getProductName() %>">
+									                <%= o.getProductName() %>
+									            </div>
+									        </td>
+									        <td><span class="badge badge-light"><%= o.getQuantity() %>개</span></td>
+									        <td><span class="amount-display"><%= String.format("%,d원", o.getTotalAmount()) %></span></td>
+									        <td>
+									            <span class="badge status-badge <%= statusClass %>"><%= status %></span>
+									        </td>
+									        <td>
+									            <div class="btn-group">
+									                <button type="button"
+									                    class="btn btn-secondary btn-action dropdown-toggle"
+									                    data-toggle="dropdown">
+									                    <i class="fas fa-cog mr-1"></i>상태변경
+									                </button>
+									                <div class="dropdown-menu">
+									                    <a class="dropdown-item" href="#" onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '상품 준비 전')">상품 준비 전</a>
+									                    <a class="dropdown-item" href="#" onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '상품 준비 중')">상품 준비 중</a>
+									                    <a class="dropdown-item" href="#" onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '발송완료')">발송완료</a>
+									                    <div class="dropdown-divider"></div>
+									                    <a class="dropdown-item text-danger" href="#" onclick="updateOrderStatus('<%= o.getOrderReceiptId() %>', '주문취소')">주문취소</a>
+									                </div>
+									            </div>
+									        </td>
+									    </tr>
+									    <% } %>
 									</tbody>
+
 								</table>
 							</div>
 							<% } else { %>
@@ -323,39 +283,26 @@
 
         // 탭 필터링 (취소 탭까지 추가)
         $('.nav-link').on('click', function() {
-            const target = $(this).attr('data-bs-target');
-            $('.order-row').show(); // 모든 행 보이기
-            
-            if (target === '#pending') {
-                $('.order-row').each(function() {
-                    const status = $(this).data('status');
-                    if (status !== '대기' && status !== '결제완료') {
-                        $(this).hide();
-                    }
-                });
-            } else if (target === '#processing') {
-                $('.order-row').each(function() {
-                    const status = $(this).data('status');
-                    if (status !== '처리중' && status !== '배송중' && status !== '상품 준비 중') {
-                        $(this).hide();
-                    }
-                });
-            } else if (target === '#completed') {
-                $('.order-row').each(function() {
-                    const status = $(this).data('status');
-                    if (status !== '완료' && status !== '배송완료' && status !== '발송 완료') {
-                        $(this).hide();
-                    }
-                });
-            } else if (target === '#cancelled') {
-                $('.order-row').each(function() {
-                    const status = $(this).data('status');
-                    if (status !== '취소' && status !== '주문 취소' && status !== '주문취소') {
-                        $(this).hide();
-                    }
-                });
-            }
-        });
+		    const target = $(this).attr('data-bs-target');
+		    $('.order-row').show();
+		    if (target === '#pending') {
+		        $('.order-row').each(function() {
+		            if ($(this).data('status') !== '상품 준비 전') $(this).hide();
+		        });
+		    } else if (target === '#processing') {
+		        $('.order-row').each(function() {
+		            if ($(this).data('status') !== '상품 준비 중') $(this).hide();
+		        });
+		    } else if (target === '#completed') {
+		        $('.order-row').each(function() {
+		            if ($(this).data('status') !== '발송완료') $(this).hide();
+		        });
+		    } else if (target === '#cancelled') {
+		        $('.order-row').each(function() {
+		            if ($(this).data('status') !== '주문취소') $(this).hide();
+		        });
+		    }
+		});
 
         // 테이블 애니메이션
         $('.order-row').hover(
@@ -368,10 +315,6 @@
         );
     });
 
-    // 주문 상세 보기
-    function viewOrderDetail(orderId) {
-        window.location.href = '/admin/order/detail?orderId=' + orderId;
-    }
 
     // 주문 상태 업데이트
     function updateOrderStatus(orderId, newStatus) {
@@ -417,5 +360,6 @@
         });
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
