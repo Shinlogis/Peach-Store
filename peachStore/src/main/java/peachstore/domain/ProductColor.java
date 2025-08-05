@@ -1,6 +1,7 @@
 package peachstore.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 상품별 색상
@@ -11,5 +12,7 @@ import lombok.Data;
 public class ProductColor {
 	private int product_color_id;
 	private Color color;
+	
+	@ToString.Exclude
 	private Product product;
 }

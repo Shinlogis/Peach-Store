@@ -2,6 +2,7 @@ package peachstore.service.inquiry;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -150,8 +151,7 @@ public class InquiryServiceImpl implements InquiryService {
 		inquiry.setAdmin(admin);
 		inquiry.setAnswer_text(answer_text);
 		inquiry.setAnswered_at(LocalDateTime.now());
-		log.debug("anwerInquiry data - {}, {}, {}", inquiry.getAdmin().getAdminId(), inquiry.getAnswer_text(),
-				inquiry.getAnswered_at());
+		log.debug("anwerInquiry data - {}, {}, {}", inquiry.getAdmin().getAdminId(), inquiry.getAnswer_text(), inquiry.getAnswered_at());
 
 		// 데이터베이스 업데이트
 		int result = inquiryDAO.updateAnswer(inquiry);
@@ -170,6 +170,21 @@ public class InquiryServiceImpl implements InquiryService {
 			throw new InquiryException("문의가 존재하지 않습니다.");
 		}
 		return inquiry;
+	}
+
+	@Override
+	public int count(Inquiry inquiry) {
+		return inquiryDAO.count(inquiry);
+	}
+
+	@Override
+	public List<Inquiry> paging(Inquiry inquiry, int startIndex, int pageSize) {
+		Map<String, Object> param = new HashMap<>();
+        param.put("user", inquiry.getUser());
+        param.put("startIndex", startIndex);
+        param.put("pageSize", pageSize);
+		
+		return inquiryDAO.paging(param);
 	}
 
 }

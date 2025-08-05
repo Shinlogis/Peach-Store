@@ -181,7 +181,7 @@
 														%>
 														<h6 class="font-weight-bold mb-2 text-success">답변</h6>
 														<ul class="list-unstyled mb-0">
-															<li><strong>답변자:</strong> <%=inquiry.getAdmin().getName()%></li>
+															<li><strong>답변자:</strong> <%=inquiry.getAdmin().getAdminName()%></li>
 															<li><strong>답변날짜:</strong> <%=inquiry.getAnswered_at()%></li>
 														</ul>
 														<div class="mt-2" style="white-space: pre-wrap;"><%=inquiry.getAnswer_text()%></div>

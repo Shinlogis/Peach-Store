@@ -1,6 +1,7 @@
 package peachstore.repository.review;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -80,8 +81,13 @@ public class ReviewDAOImpl implements ReviewDAO{
 
 	//리뷰 갯수 조회
 	@Override
-	public int countByUserId(int userId) {
-		return sqlSessionTemplate.selectOne("Review.countByUserId", userId);
+	public int countByUserId(User user) {
+		return sqlSessionTemplate.selectOne("Review.countByUserId", user);
+	}
+
+	@Override
+	public List<Review> paging(Map<String, Object> param) {
+		return sqlSessionTemplate.selectList("Review.selectByUserPaging", param);
 	}
 	
 	}

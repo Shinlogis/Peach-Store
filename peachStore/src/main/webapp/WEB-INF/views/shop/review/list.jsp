@@ -1,3 +1,4 @@
+<%@page import="peachstore.util.Paging"%>
 <%@page import="com.mysql.cj.x.protobuf.MysqlxConnection.CapabilitiesGetOrBuilder"%>
 <%@page import="peachstore.domain.ReviewImg"%>
 <%@page import="peachstore.domain.Review"%>
@@ -13,6 +14,12 @@ List<Review> reviewList = (List) request.getAttribute("reviewList");
 List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 User userGrade = (User)request.getAttribute("userGrade");
 Integer reviewCount = (Integer)request.getAttribute("reviewCount");
+Paging paging = (Paging)request.getAttribute("paging");
+
+int firstPage = paging.getFirstPage();
+int lastPage = paging.getLastPage();
+int currentPage = paging.getCurrentPage();
+int totalPage = paging.getTotalPage();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,17 +74,17 @@ Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 
 			<!-- 리스트 시작 -->
 				<section class="shop-cart spad">
-					<div class="container">
+					<div class="container" >
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="shop__cart__table">
 
-									<table style="table-layout: fixed; width: 70%; margin-left: 80px">
+									<table style="table-layout: fixed; width: 100%;">
 										<thead>
 											<tr>
 												<th colspan="5">
 													<div class="card-header"
-														style="display: flex; justify-content: space-between;">
+														style="display: flex; justify-content: space-between; width: 100%;">
 														<h3 class="card-title" style="font-weight: bold;">리뷰상세</h3>
 													</div>
 												</th>
@@ -85,7 +92,7 @@ Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 										</thead>
 										<tbody>
 										<%for(Review review : reviewList){ %>
-											<tr>
+											<tr style="width: 930px;">
 												<td colspan="5">
 													<div style="display: flex; flex-direction: column; background-color: #f5f5f5;">
 													  <!-- 사진 + 상품 이름 한 줄 -->
@@ -147,6 +154,36 @@ Integer reviewCount = (Integer)request.getAttribute("reviewCount");
 											<%} %>
 										</tbody>
 									</table>
+									<!-- 페이징 처리 -->
+										<div class="card-footer d-flex justify-content-center">
+											<ul class="pagination pagination-sm m-0">
+											<!-- 이전 페이지 버튼 -->
+												<li
+													class="page-item <%=(firstPage <= 1 ? "disabled" : "")%>">
+													<a class="page-link"
+													href="<%=(firstPage > 1) ? ("/shop/review/list?currentPage=" + (firstPage - 1)) : "#"%>">&laquo;</a>
+												</li>
+												<!-- 페이지 번호 목록 -->
+												<%
+												for (int i = firstPage; i <= lastPage && i <= totalPage; i++) {
+												%>
+												<li
+													class="page-item <%=(i == currentPage ? "active" : "")%>">
+													<a class="page-link"
+													href="/shop/review/list?currentPage=<%=i%>"><%=i%></a>
+												</li>
+												<%
+												}
+												%>
+		
+												<!-- 다음 페이지 버튼 -->
+												<li
+													class="page-item <%=(lastPage >= totalPage ? "disabled" : "")%>">
+													<a class="page-link"
+													href="<%=(lastPage < totalPage) ? ("/shop/review/list?currentPage=" + (lastPage + 1)) : "#"%>">&raquo;</a>
+												</li>
+											
+									</div>
 								</div>
 							</div>
 						</div>
