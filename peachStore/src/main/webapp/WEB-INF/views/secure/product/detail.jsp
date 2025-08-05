@@ -46,6 +46,305 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Dashboard</title>
   <%@ include file="../inc/head_link.jsp" %>
+  
+  <style>
+    /* Enhanced Styling */
+    .content-wrapper {
+	  background: #fff;      
+	  min-height: 100vh;
+	}
+    
+    .enhanced-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .enhanced-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header-enhanced {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      padding: 25px 30px;
+      border-radius: 20px 20px 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-header-enhanced::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .card-header-enhanced:hover::before {
+      left: 100%;
+    }
+    
+    .card-title-enhanced {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0;
+      color: #222 !important;  
+ 	  text-shadow: none !important; 
+    }
+    
+    .form-group-enhanced {
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .form-control-enhanced {
+	  border: 2px solid #e9ecef;
+	  border-radius: 12px;
+	  padding: 15px 20px;
+	  font-size: 16px;
+	  transition: all 0.3s ease;
+	  background: rgba(255, 255, 255, 0.9);  /* ← 배경 거의 흰색 */
+	  color: #495057; /* ← 글자색 */
+	}
+    .form-control-enhanced:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+      transform: translateY(-2px);
+      background: white;
+    }
+    
+    .label-enhanced {
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 8px;
+      display: block;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .select-enhanced {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 12px center;
+      background-repeat: no-repeat;
+      background-size: 16px 12px;
+    }
+    
+    .row-enhanced {
+      margin: 0px -15px;
+    }
+    .form-control-enhanced {
+	  min-width: 180px;
+	  min-height: 53px;
+	}
+	    
+    .col-enhanced {
+      padding: 0 15px;
+    }
+    
+    .preview-container {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border: 2px dashed #667eea;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .preview-container::before {
+      content: '🖼️';
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+    
+    .preview-container:hover {
+      border-color: #764ba2;
+      background: linear-gradient(135deg, #667eea20, #764ba220);
+    }
+    
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+      border: 2px solid #e9ecef;
+	  border-radius: 12px;
+	  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .custom-file-enhanced {
+      position: relative;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      background: white;
+      transition: all 0.3s ease;
+    }
+    
+    .custom-file-enhanced:hover {
+      border-color: #667eea;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+    }
+    
+    .btn-enhanced {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-enhanced::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn-enhanced:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-enhanced:hover::before {
+      left: 100%;
+    }
+    
+    .breadcrumb-enhanced {
+      color: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 10px 20px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .breadcrumb-enhanced a {
+      color: rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .breadcrumb-enhanced a:hover {
+      color: white;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+    
+    .content-header-enhanced {
+      padding: 30px 0;
+    }
+    
+    .page-title {
+      color: #222;
+      font-size: 2.5rem;
+      font-weight: 700;
+      ttext-shadow: none;
+      margin: 0;
+    }
+    
+    .summernote-container {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .card-body-enhanced {
+      padding: 40px;
+    }
+    
+    .card-footer-enhanced {
+      background: rgba(248, 249, 250, 0.5);
+      border-top: 1px solid rgba(0,0,0,0.1);
+      padding: 25px 40px;
+      text-align: center;
+    }
+    
+    .breadcrumb-enhanced,
+	.breadcrumb-enhanced a,
+	.breadcrumb-enhanced .breadcrumb-item,
+	.breadcrumb-enhanced .breadcrumb-item.active {
+	  color: #222 !important;
+	  font-weight: 600;
+	}
+	
+	.breadcrumb-enhanced a:hover {
+	  color: #764ba2 !important;
+	}
+	    
+    /* Animation for form elements */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .form-group-enhanced {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    
+    .form-group-enhanced:nth-child(even) {
+      animation-delay: 0.1s;
+    }
+    
+    .form-group-enhanced:nth-child(odd) {
+      animation-delay: 0.2s;
+    }
+   .preview-container {
+	  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+	  border: 2px dashed #667eea;
+	  border-radius: 15px;
+	  padding: 30px;
+	  text-align: left;
+	  margin-top: 15px;
+	  display: flex;
+	  flex-wrap: wrap;
+	  gap: 16px;
+	  min-height: 220px;
+	  align-items: flex-start;
+	}
+	.preview-container img {
+	  width: 180px;
+	  height: 180px;
+	  object-fit: cover;
+	  border-radius: 14px;
+	  margin: 0 10px 10px 0;
+	  background: #fafafd;
+	  border: 2px solid #eee;
+	  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.08);
+	  transition: transform 0.2s, border-color 0.2s;
+	}
+	.preview-container img:hover {
+	  transform: scale(1.05);
+	  border-color: #667eea;
+	}
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -54,16 +353,16 @@
   <%@ include file="../inc/left_bar.jsp" %>
 
   <div class="content-wrapper">
-    <div class="content-header">
+    <div class="content-header content-header-enhanced">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">상품 상세</h1>
+            <h1 class="page-title">✨ 상품 상세</h1>
           </div>
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">상품관리 > 상품목록 > 상품상세</li>
+            <ol class="breadcrumb float-sm-right breadcrumb-enhanced">
+              <li class="breadcrumb-item" color="black">🏠 Home</li>
+              <li class="breadcrumb-item active">📦 상품관리 > 📋 상품목록 > 🔍 상품상세</li>
             </ol>
           </div>
         </div>
@@ -72,82 +371,89 @@
 
     <section class="content">
       <div class="container-fluid">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">상품 상세</h3>
+        <div class="card enhanced-card">
+          <div class="card-header card-header-enhanced">
+            <h3 class="card-title-enhanced">🛍️ 상품 상세 정보</h3>
           </div>
           <form id="form1">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label>상위 카테고리</label>
-                    <select class="form-control" id="topcategory"></select>
+            <div class="card-body card-body-enhanced">
+              <div class="row row-enhanced">
+                <div class="col-sm-6 col-enhanced">
+                  <div class="form-group form-group-enhanced">
+                    <label class="label-enhanced">📂 상위 카테고리</label>
+                    <select class="form-control form-control-enhanced select-enhanced" id="topcategory"></select>
                   </div>
                 </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label>하위 카테고리</label>
-                    <select class="form-control" name="subCategory.subcategory_id" id="subcategory"></select>
+                <div class="col-sm-6 col-enhanced">
+                  <div class="form-group form-group-enhanced">
+                    <label class="label-enhanced">📁 하위 카테고리</label>
+                    <select class="form-control form-control-enhanced select-enhanced" name="subCategory.subcategory_id" id="subcategory"></select>
                   </div>
                 </div>
               </div>
 
-              <div class="form-group">
-                <label>상품코드</label>
-                <input type="text" class="form-control" name="product_code" value="<%= product.getProductCode() %>">
+              <div class="form-group form-group-enhanced">
+                <label class="label-enhanced">🔢 상품코드</label>
+                <input type="text" class="form-control form-control-enhanced" name="product_code" value="<%= product.getProductCode() %>" placeholder="상품 코드를 입력하세요">
               </div>
-              <div class="form-group">
-                <label>상품명</label>
-                <input type="text" class="form-control" name="product_name" value="<%= product.getProductName() %>">
+              
+              <div class="form-group form-group-enhanced">
+                <label class="label-enhanced">🏷️ 상품명</label>
+                <input type="text" class="form-control form-control-enhanced" name="product_name" value="<%= product.getProductName() %>" placeholder="상품명을 입력하세요">
               </div>
-              <div class="form-group">
-                <label>가격</label>
-                <input type="text" class="form-control" name="price" value="<%= product.getPrice() %>">
+              
+              <div class="form-group form-group-enhanced">
+                <label class="label-enhanced">💰 가격</label>
+                <input type="text" class="form-control form-control-enhanced" name="price" value="<%= product.getPrice() %>" placeholder="가격을 입력하세요">
               </div>
-              <div class="form-group">
-                <label>간단소개</label>
-                <input type="text" class="form-control" name="introduce" value="<%= product != null ? product.getIntroduce() : "" %>">
+              
+              <div class="form-group form-group-enhanced">
+                <label class="label-enhanced">📝 간단소개</label>
+                <input type="text" class="form-control form-control-enhanced" name="introduce" value="<%= product != null ? product.getIntroduce() : "" %>" placeholder="상품 간단 소개를 입력하세요">
               </div>
-              <div class="form-group">
-                <label>색상</label>
-                <select class="form-control" name="color" id="color" multiple="multiple">
-                </select>
-              </div>
-              <div class="form-group">
-                <label>사이즈</label>
-                <select class="form-control" name="size" id="size" multiple="multiple">
-                </select>
-              </div>
-              <div class="form-group">
-                <label>용량</label>
-                <select class="form-control" name="capacity" id="capacity" multiple="multiple">
-                </select>
-              </div>
-              <div class="form-group">
-                <textarea id="summernote" name="detail"></textarea>
-              </div>
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="photo" id="photo" multiple="multiple">
-                    <label class="custom-file-label">상품 이미지 선택</label>
-                  </div>
-                  <div class="input-group-append">
-                    <span class="input-group-text">Upload</span>
+              
+              <div class="row row-enhanced">
+                <div class="col-sm-4 col-enhanced">
+                  <div class="form-group form-group-enhanced">
+                    <label class="label-enhanced">🎨 색상</label>
+                    <select class="form-control form-control-enhanced select-enhanced" name="color" id="color" multiple="multiple">
+                    </select>
                   </div>
                 </div>
-                <div id="preview" style="width:100%;background:skyblue">
-                  미리보기
+                <div class="col-sm-4 col-enhanced">
+                  <div class="form-group form-group-enhanced">
+                    <label class="label-enhanced">📏 사이즈</label>
+                    <select class="form-control form-control-enhanced select-enhanced" name="size" id="size" multiple="multiple">
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-enhanced">
+                  <div class="form-group form-group-enhanced">
+                    <label class="label-enhanced">🥤 용량</label>
+                    <select class="form-control form-control-enhanced select-enhanced" name="capacity" id="capacity" multiple="multiple">
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+              
+              <div class="form-group form-group-enhanced">
+                <label class="label-enhanced">📄 상세 설명</label>
+                <div class="summernote-container">
+                  <textarea id="summernote" name="detail"></textarea>
+                </div>
+              </div>
+              
+              <div class="form-group form-group-enhanced">
+                <label class="label-enhanced">📸 상품 이미지</label>
+                <div id="preview" class="preview-container">
+                  <strong>이미지 미리보기</strong>
+                  <p style="margin: 10px 0 0 0; color: #6c757d;">이미지를 선택하면 여기에 미리보기가 표시됩니다</p>
+                </div>
               </div>
             </div>
-            <div class="card-footer">
-              <button type="button" class="btn btn-primary" id="bt_list">목록보기</button>
+            
+            <div class="card-footer card-footer-enhanced">
+              <button type="button" class="btn btn-enhanced" id="bt_list">📋 목록보기</button>
             </div>
           </form>
         </div>
@@ -193,6 +499,10 @@
 
   $("#photo").change(function(e){
     let files = e.target.files;
+    // Clear preview before adding new images
+    const preview = document.getElementById("preview");
+    preview.innerHTML = '<strong>이미지 미리보기</strong><p style="margin: 10px 0 0 0; color: #6c757d;">선택된 이미지들</p>';
+    
     for(let i=0; i<files.length; i++){
       selectedFile[i] = files[i];
       const reader = new FileReader();

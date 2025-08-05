@@ -63,7 +63,7 @@ public class CartController {
 	public ModelAndView getCartItem(int cart_id , HttpSession httpSession, HttpServletRequest request) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		User user = (User) httpSession.getAttribute("user");
-		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(user.getUser_id()); // 장바구니 목록 가져오기
+		List<CartItem> cartItemList = cartItemService.selectCartItemByCartId(cart_id); // 장바구니 목록 가져오기
 		
 		String successUrl = "http://localhost:8888/shop/payment/success-handler";
 		String failUrl = "http://localhost:8888/shop/payment/fail";
