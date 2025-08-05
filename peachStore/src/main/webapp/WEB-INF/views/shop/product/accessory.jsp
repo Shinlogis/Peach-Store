@@ -1,10 +1,12 @@
 <%@page import="java.util.List"%>
+<%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	List<ProductSubcategory> subList=(List)request.getAttribute("subList");
 	String topname=(String)request.getAttribute("topName");
+	List<Product> listAll=(List)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -41,102 +43,34 @@
 			<%for(ProductSubcategory productSubcategory : subList){ %>
 			<li>
 				<div class="sub-accessory-wrapper">
+					<a class="sub-btn" data-id="<%=productSubcategory.getProductSubcategoryId()%>">
 					<div class="sub-accessory-img">
 						<img src="/static/shop/img/product/accessory/airpods.png">
 					</div>
 					<div class="sub-accessory-name"><%=productSubcategory.getProductSubcategoryName() %></div>
+				    </a>
 				</div>
 			</li>
 			<%} %>
-			<li>
-				<div class="sub-accessory-wrapper">
-					<div class="sub-accessory-img">
-						<img src="/static/shop/img/product/accessory/airpods.png">
-					</div>
-					<div class="sub-accessory-name">시계</div>
-				</div>
-			</li>
-			<li>
-				<div class="sub-accessory-wrapper">
-					<div class="sub-accessory-img">
-						<img src="/static/shop/img/product/accessory/airpods.png">
-					</div>
-					<div class="sub-accessory-name">시계</div>
-				</div>
-			</li>
-			<li>
-				<div class="sub-accessory-wrapper">
-					<div class="sub-accessory-img">
-						<img src="/static/shop/img/product/accessory/airpods.png">
-					</div>
-					<div class="sub-accessory-name">시계</div>
-				</div>
-			</li>
-			<li>
-				<div class="sub-accessory-wrapper">
-					<div class="sub-accessory-img">
-						<img src="/static/shop/img/product/accessory/airpods.png">
-					</div>
-					<div class="sub-accessory-name">시계</div>
-				</div>
-			</li>
-			<li>
-				<div class="sub-accessory-wrapper">
-					<div class="sub-accessory-img">
-						<img src="/static/shop/img/product/accessory/airpods.png">
-					</div>
-					<div class="sub-accessory-name">시계</div>
-				</div>
-			</li>
-			<li>
-				<div class="sub-accessory-wrapper">
-					<div class="sub-accessory-img">
-						<img src="/static/shop/img/product/accessory/airpods.png">
-					</div>
-					<div class="sub-accessory-name">시계</div>
-				</div>
-			</li>
 		</ul>
 	</div>
 	<!-- 서브카테고리 끝-->
 	
 	<!--상품 리스트  -->
 	<div class="acc-content-container">
+		   <%for(Product product:listAll){ %>
+		  
 	       <div class="acc">
-	           <img src="/static/shop/img/product/accessory/airpods.png" class="slide" alt="Slide 1">
-	           <div class="acc_name">iPhone 16 PRO</div>
-	           <div class="acc_price">💲199,0000원</div>
+	       		<a href='/shop/product/detail?productId=<%=product.getProductId() %>' class='p_list' style="text-align:center;">
+	       			<% if(product.getProductImgs()!=null && !product.getProductImgs().isEmpty()){%>
+					<% String imagePath = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();%>
+						<img src='<%= imagePath %>' class='slide' alt='Slide 1'>
+					<% }%>
+	           		<div class="acc_name"><%=product.getProductName() %></div>
+	           		<div class="acc_price">💲<%=product.getPrice()%></div>
+	           </a>
 	       </div>
-	       <div class="acc">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="acc_name">iPhone 16 PRO</div>
-	           <div class="acc_price">💲199,0000원</div>
-	       </div>
-	       <div class="acc">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="acc_name">iPhone 16 PRO</div>
-	           <div class="acc_price">💲199,0000원</div>
-	       </div>
-	       <div class="acc">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="acc_name">iPhone 16 PRO</div>
-	           <div class="acc_price">💲199,0000원</div>
-	       </div>
-	       <div class="acc">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="acc_name">iPhone 16 PRO</div>
-	           <div class="acc_price">💲199,0000원</div>
-	       </div>
-	       <div class="acc">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="acc_name">iPhone 16 PRO</div>
-	           <div class="acc_price">💲199,0000원</div>
-	       </div>
-	       <div class="acc">
-	           <img src="/static/shop/img/product/iphone.png" class="slide" alt="Slide 1">
-	           <div class="acc_name">iPhone 16 PRO</div>
-	           <div class="acc_price">💲199,0000원</div>
-	       </div>
+	       <%} %>
 	   </div>
 	<!--상품 리스트  -->
 </section>
@@ -161,5 +95,44 @@
 <script src="/static/admin/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/static/admin/dist/js/pages/dashboard.js"></script>
+<script type="text/javascript">
+function printCategory(list){
+	let tag="";
+	
+	for(let i=0;i<list.length;i++){
+		tag+="<a href='/shop/product/detail?productId=" + list[i].productId + "' class='p_list'>";
+		if(list[i].productImgs[0]!=null){
+		tag+="<img src='/data/product_"+list[i].productId+"/"+list[i].productImgs[0].filename+"' class='slide' alt='Slide 1'>";
+		}
+		tag+="<div class='acc_name'>" + list[i].productName +"</div>";
+		tag+="<div class='acc_price'>" + list[i].price +"</div>";
+		tag+="</a>";
+	}
+	
+	$(".acc").html(tag);  // innerHTML=태그 동일
+}
+
+
+function getProductList(subId){
+	$.ajax({
+		url:"/shop/product/list", 
+		type:"GET",
+		data: { subId: subId },
+		success:function(result, status, xhr){
+			console.log(result);
+			printCategory(result);
+		},
+		error:function(xhr, status, err){
+		}
+	});
+}
+
+$(".sub-btn").click(function () {
+	let subId = $(this).data("id");
+	console.log("subOd은 "+subId);
+ 	getProductList(subId);
+ });
+ 
+</script>
 </body>
 </html>

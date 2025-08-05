@@ -11,8 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
 import peachstore.domain.OrderReceipt;
+import peachstore.domain.Product;
 import peachstore.domain.User;
 import peachstore.service.orderreceipt.OrderReceiptService;
+import peachstore.service.product.ProductService;
 import peachstore.service.review.ReviewService;
 import peachstore.service.user.UserService;
 
@@ -32,10 +34,18 @@ public class MainController {
 	private ReviewService reviewService;
 	@Autowired
 	private OrderReceiptService orderReceiptService;
-	
+	@Autowired
+	private ProductService productService;
+
 	@GetMapping("/main")
-	public String main() {
-		return "shop/index";
+	public ModelAndView main() {
+		ModelAndView mav=new ModelAndView();
+		List<Product> productList=productService.selectAll();
+		
+		mav.setViewName("shop/index");
+		mav.addObject("productList", productList);
+		
+		return mav;
 	}
 
 	@GetMapping("/mypage")
