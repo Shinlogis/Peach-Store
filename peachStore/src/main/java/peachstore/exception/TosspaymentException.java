@@ -1,11 +1,8 @@
 package peachstore.exception;
-/**
- * 문의 exception
- * @author 성유진 
- * @since 2025-07-26
- */
-public class TosspaymentException extends RuntimeException{
 
+import lombok.Getter;
+
+public class TosspaymentException extends RuntimeException {
 	public TosspaymentException(String msg) {
 		super(msg);
 	}

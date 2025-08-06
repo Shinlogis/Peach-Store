@@ -23,22 +23,9 @@ public class TosspaymentDAOImpl implements TosspaymentDAO{
 	private final SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public Tosspayment insert(String tossOrderId, String tossPaymentKey, String tossPaymentMethod, String tossPaymentStatus,
-			long totalAmount, LocalDateTime ApprovedAt, LocalDateTime requestedAt) {
-		
-		Tosspayment tosspayment = new Tosspayment();
-		tosspayment.setTossOrderId(tossOrderId);
-		tosspayment.setTossPaymentKey(tossPaymentKey);
-		tosspayment.setTossPaymentMethod(tossPaymentMethod);
-		tosspayment.setTossPaymentStatus(tossPaymentStatus);
-		tosspayment.setTotalAmount(totalAmount);
-		tosspayment.setApprovedAt(ApprovedAt);
-		tosspayment.setRequestedAt(requestedAt);
+	public Tosspayment insert(Tosspayment tosspayment){
 		
 		int result = sqlSessionTemplate.insert("Tosspayment.insert", tosspayment);
-		if (result == 0) {
-			throw new TosspaymentException("결제정보 insert 실패");
-		}
 		log.debug("insert count - {}", result);
 
 		return tosspayment;

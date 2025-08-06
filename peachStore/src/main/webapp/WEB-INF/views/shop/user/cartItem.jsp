@@ -1,3 +1,6 @@
+<%@page import="java.math.RoundingMode"%>
+<%@page import="java.math.BigDecimal"%>
+<%@ page import="java.text.DecimalFormat" %>
 <%@page import="peachstore.domain.CartItem"%>
 <%@page import="peachstore.domain.ProductImg"%>
 <%@page import="peachstore.domain.Product"%>
@@ -212,7 +215,21 @@ h6 {
 								</tr>
 								<% } %>
 								<!-- 동기방식 사용했기 때문에 위에서 total뿌려주는 건 JS로 -->
-								<script>document.getElementById("total-price").innerText = "장바구니 총액: <%= String.format("%,d", totalPrice) %>원";</script>
+								<%
+								BigDecimal discountRate = userGrade.getUser_grade().getDiscountRate();
+								BigDecimal discountRateDecimal = discountRate.divide(BigDecimal.valueOf(100));
+
+								BigDecimal bdTotalPrice = BigDecimal.valueOf(totalPrice);
+
+								BigDecimal discountAmount = bdTotalPrice.multiply(discountRateDecimal).setScale(0, RoundingMode.HALF_UP);
+								BigDecimal finalAmount = bdTotalPrice.subtract(discountAmount); // 최종 금액
+
+								DecimalFormat formatter = new DecimalFormat("#,###");
+								%>
+								<script>
+    document.getElementById("total-price").innerText = "장바구니 총액: <%= String.format("%,d", totalPrice) %>에서 <%= formatter.format(finalAmount) %>원";
+</script>
+								
 							</tbody>
 						</table>
 					</div>
@@ -280,7 +297,7 @@ h6 {
   const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
 
   $(function () {
-    // ❌ 장바구니 삭제 버튼
+    // 장바구니 삭제 버튼
     $(".shop__cart__table").on("click", ".cart__delete", function () {
       const cartItemId = $(this).data("id");
       if (confirm("선택 항목을 장바구니에서 삭제하시겠습니까?")) {
@@ -298,7 +315,7 @@ h6 {
       }
     });
 
-    // ✅ 스냅샷 저장 버튼
+    // 스냅샷 저장 버튼
 $("#pay-btn").on("click", function (e) {
   e.preventDefault();
   const $btn = $(this);
@@ -328,7 +345,7 @@ $("#pay-btn").on("click", function (e) {
 });
 
 
-    // 💳 결제하기 버튼
+    // 결제하기 버튼
     $("#paypay-btn").on("click", function () {
       tossPayments.requestPayment("간편결제", {
         amount: <%=totalPrice%>,
