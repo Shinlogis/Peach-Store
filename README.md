@@ -1,6 +1,6 @@
 # 🛒 PeachStore 전자기기 쇼핑몰
 
-PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와 악세서리**를 판매하는 쇼핑몰입니다. 관리자와 고객 간의 인터랙션, 다양한 제품 커스터마이징, 회원 등급별 쿠폰 정책까지 포함된 전자상거래 플랫폼입니다.
+PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와 악세서리**를 판매하는 쇼핑몰입니다. 관리자와 고객 간의 인터랙션, 제품 커스터마이징, 회원 등급별 할인 정책까지 포함된 전자상거래 플랫폼입니다.
 
 프론트엔드는 JSP + Bootstrap/jQuery, 백엔드는 Spring MVC + MyBatis, DB는 MySQL, WAS는 Tomcat으로 구성되어 있습니다.
 
@@ -11,13 +11,17 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring MVC](https://img.shields.io/badge/Spring%20MVC-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![MyBatis](https://img.shields.io/badge/MyBatis-0052CC?style=for-the-badge&logo=databricks&logoColor=white)
-![JSP](https://img.shields.io/badge/JSP-1A237E?style=for-the-badge&logo=apachetomcat&logoColor=white)
+![JSP](https://img.shields.io/badge/JSP-1A237E?style=for-the-badge)
 
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![Tomcat](https://img.shields.io/badge/Tomcat-005571?style=for-the-badge&logo=apachetomcat&logoColor=white)
 
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![jQuery](https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white)
+
+![KakaoLogin](https://img.shields.io/badge/Kakao%20Login-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black)
+![NaverLogin](https://img.shields.io/badge/Naver%20Login-03C75A?style=for-the-badge&logo=naver&logoColor=white)
+![DaumPostAddress](https://img.shields.io/badge/Daum%20Postcode-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black)
 
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)
@@ -34,10 +38,9 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 ### 👤 회원 기능
 | 기능             | 설명                                                            |
 | -------------- | ------------------------------------------------------------- |
-| **회원가입 / 로그인** | 이메일 및 아이디 기반 회원가입, SNS 로그인(Google, Naver, Kakao) 연동           |
+| **회원가입 / 로그인** | 이메일 및 아이디 기반 회원가입, SNS 로그인(Google, Naver) 연동           |
 | **회원정보 관리**    | 비밀번호 변경, 주소 수정, 휴면 전환 등                                       |
 | **회원 등급 시스템**  | 누적 구매 금액에 따라 Bronze\~Platinum 등급 자동 승급<br>→ 할인율 및 쿠폰 혜택 차등 적용 |
-| **쿠폰 확인 및 적용** | 발급된 쿠폰 목록 조회, 주문 시 적용 조건 만족 시 자동 적용                           |
 
 ### 🛒 쇼핑 기능
 | 기능                    | 설명                                        |
@@ -46,13 +49,13 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 | **제품 상세 조회**          | 제품 기본 정보 + 커스터마이징 옵션 (사이즈/색상/용량/각인) 선택 가능 |
 | **제품 커스터마이징**         | 옵션에 따른 가격 자동 계산, 각인 문구 입력 등               |
 | **장바구니 담기 / 수정 / 삭제** | 동일 제품이라도 옵션이 다르면 개별 항목으로 분리               |
-| **주문 생성 (결제)**        | 장바구니 기반 주문 생성 → `snapshot`에 당시 제품 정보 저장   |
+| **주문 생성 (결제)**        | 장바구니 기반 주문 생성 → 결제(토스 페이먼츠) → 결제, 주문 내역 및 `snapshot`에 당시 제품 정보 저장   |
 | **주문 상태 확인**          | '상품 준비 전' → '상품 준비 중' → '발송완료' 단계 확인 가능   |
 
 ### 💬 고객 서비스 기능
 | 기능            | 설명                                |
 | ------------- | --------------------------------- |
-| **문의 등록**     | 제품/배송/기타에 대한 문의 등록, 이미지 첨부 가능     |
+| **문의 등록**     | 문의 등록, 이미지 첨부 가능     |
 | **관리자 답변 확인** | 관리자가 답변 시 `answered_at`과 함께 내용 표시 |
 | **리뷰 작성**     | 구매 완료된 상품에 한해 리뷰 작성 가능, 이미지 등록 가능 |
 
@@ -64,10 +67,9 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 | **제품 관리**    | 제품 등록 / 수정 / 삭제, 옵션(색상/사이즈/용량) 및 이미지 등록  |
 | **주문 관리**    | 유저 주문 내역 확인 가능  |
 | **회원 관리** | 사이트 회원 목록 확인 가능        |
-| **리뷰 관리** | 전체 리뷰 확인 및 선택 리뷰 비활성화 가         |
+| **리뷰 관리** | 전체 리뷰 확인 및 선택 리뷰 비활성화 가능         |
 | **문의 답변**    | 유저 문의 목록 확인 및 관리자 계정으로 답변 작성 가능          |
 | **등급 관리**    | 회원 등급 생성, 수정, 삭제 가능         |
-| **쿠폰 발급 관리** | 쿠폰 생성, 조건 설정, 등급별 자동 발급 정책 설정            |
 
 📦 기타 기능
 | 기능          | 설명                                                     |
@@ -83,7 +85,7 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 | **클라이언트(웹 브라우저)**          | JSP, Bootstrap, jQuery | UI 렌더링, 사용자 입력 수집, AJAX 요청, SNS 로그인 버튼 제공     |
 | **웹 서버/서블릿 컨테이너**          | Tomcat                 | HTTP 요청 수신 및 처리, JSP 서블릿 변환                   |
 | **애플리케이션 서버 (Spring MVC)** | Spring MVC, MyBatis    | 요청 라우팅, 비즈니스 로직 처리, DB 연동, 트랜잭션 관리, 보안(인증/인가) |
-| **DB 서버**                  | MySQL                  | 사용자, 제품, 주문, 리뷰, 쿠폰 등 데이터 저장 및 관리             |
+| **DB 서버**                  | MySQL                  | 사용자, 제품, 주문, 리뷰 등 데이터 저장 및 관리             |
 
 ---
 
@@ -94,7 +96,6 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 |---|---|
 | `admin` | 관리자 정보 및 역할 (`super`, `admin`) |
 | `user` | 일반 회원 정보 (소셜 로그인 연동 포함) |
-| `user_grade` | 등급 정보 및 할인율 (Bronze~Platinum) |
 | `sns_provider` | 소셜 로그인 제공자 (Google, Naver) |
 
 ### 🛍️ 제품 관련 테이블
@@ -115,14 +116,15 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 | `order_receipt` | 주문 영수증 (날짜, 상태) |
 | `order_detail` | 주문 상세 (수량, 스냅샷) |
 | `snapshot` | 주문 시점 제품 정보 스냅샷 |
+| `tosspayment` | 결제 정보 저장 |
 
 ### 🎟️ 혜택 및 리뷰
 | 테이블명 | 설명 |
 |---|---|
-| `coupon` | 쿠폰 정보 |
-| `grade_coupon` | 회원 등급별 쿠폰 발급 규칙 |
+| `user_grade` | 등급 정보 및 할인율 (Bronze~Platinum) |
 | `review`, `review_img` | 제품 리뷰 및 이미지 |
 | `inquiry`, `inquiry_img` | 문의 및 이미지, 답변 포함 |
+
 
 ---
 
@@ -151,3 +153,20 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 - [공용 파일 매니저 클래스 가이드](https://github.com/Shinlogis/Peach-Store/blob/dev/docs/fileCommonManager-guide.md)
 
   모든 도메인에서 이미지를 등록할 때 사용할 수 있는 공용 파일 매니저 클래스 사용법이 정리되어 있습니다.
+
+---
+
+## 💬 프로젝트 후기
+### 🧢 이세형
+
+### 🎨 서예닮
+Spring Framework의 전반적인 생태계를 이해할 수 있었고, 특히 Spring Boot의 자동 설정 기능과 의존성 주입의 편리함을 체감할 수 있었습니다. 무엇보다 단순한 기능 구현을 넘어서 안정성과 확장성을 고려한 아키텍처 설계의 필요성을 느낄 수 있었습니다.
+
+### 🐇 성유진
+배운 내용을 실제로 적용해보며 많은 걸 얻었습니다. 다만 디테일한 부분은 미흡했기에, 다음에는 이런 부분까지 놓치지 않도록 노력할 계획입니다.
+
+### 🧋 김지민
+미니 프로젝트였지만 다양한 기능을 직접 구현해보며 스프링에 대한 이해도와 숙련도를 높일 수 있었던 의미 있는 경험이었습니다.
+
+### 🐈 김예진
+매일 접하던 쇼핑몰에 이렇게 많은 로직이 필요할지 몰랐습니다. 사용자 입장에서 당연하게 있어야 한다고 생각하는 기능을 어떻게 구현해야 하는지 생각할 수 있는 좋은 기회였습니다. 다음 프로젝트에서는 트러블 슈팅 과정도 세세하게 기록하면 더 좋은 경험이 될 것 같습니다.
