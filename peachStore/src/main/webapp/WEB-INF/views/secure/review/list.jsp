@@ -1,3 +1,4 @@
+<%@page import="peachstore.domain.ReviewImg"%>
 <%@page import="peachstore.domain.Review"%>
 <%@page import="peachstore.domain.ProductSubcategory"%>
 <%@page import="peachstore.util.Paging"%>
@@ -53,13 +54,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0">상품 목록</h1>
+							<h1 class="m-0">리뷰관리</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">상품관리>상품목록</li>
+								<li class="breadcrumb-item active">리뷰관리>리뷰내역</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -121,7 +122,6 @@
 											<tr>
 												<td><%= num-- %>
 												<%
-												    String imgSrc = "/static/admin/dist/img/default.png"; // 기본 이미지 경로
 //												    if (review != null &&
 	//											        product.getProductImgList() != null &&
 		//										        !product.getProductImgList().isEmpty() &&
@@ -139,7 +139,7 @@
 													<%= review.getUser().getUser_grade().getUserGradeName() %>
 												</td>
 												<td>
-													제품이미지 추가 필요<br>
+													<br>
 													<%= review.getOrderDetail().getSnapShot().getProduct_name() %><br>
 													<%= review.getOrderDetail().getSnapShot().getSize()%>&nbsp;
 													<%= review.getOrderDetail().getSnapShot().getCapacity()%>&nbsp;
@@ -148,10 +148,26 @@
 													<span style="color:gray;">구매가:&nbsp;<%= review.getOrderDetail().getSnapShot().getPrice() %></span>
 												</td>
 												<td>
-												  <img width="40px" src="<%= imgSrc %>">
+												<div
+														style="display: flex; gap: 10px; margin-bottom: 10px; overflow-x: auto; white-space: nowrap;">
+														<%
+														if (review.getImgList() != null && !review.getImgList().isEmpty()) {
+															for (ReviewImg img : review.getImgList()) {
+														%>
+														<img
+															src="/data/r_<%=review.getReviewId()%>/<%=img.getFilename()%>"
+															style="width: 100px; height: 100px; object-fit: cover; flex-shrink: 0;">
+														<%
+														
+														}
+														}
+														%>
+														
+													</div> 												  
 												</td>
 												<td>
-												리뷰이미지 추가 필요<br>
+
+												<br>
 												<%= review.getContent() %>
 												</td>
 												<td>
