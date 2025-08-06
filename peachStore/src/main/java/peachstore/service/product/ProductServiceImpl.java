@@ -191,4 +191,20 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> selectBySubId(int subId) {
 		return productDAO.selectBySubId(subId);
 	}
+
+	@Override
+	public List<Product> selectByTopId(int topId) {
+		return productDAO.selectByTopId(topId);
+	}
+	
+	@Override
+	public List<Product> selectByTopId(int topId, int page, int pageSize) {
+		int offset = (page - 1) * pageSize;
+		return productDAO.selectByTopIdWithPaging(topId, offset, pageSize);
+	}
+	
+	@Override
+	public int getTotalRecordByTopId(int topId) {
+		return productDAO.countByTopId(topId);
+	}
 }

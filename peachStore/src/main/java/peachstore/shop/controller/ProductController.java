@@ -41,16 +41,26 @@ public class ProductController {
 	ReviewService reviewService;
 	
 	@GetMapping("/product")
-	public ModelAndView phone(int topid) {
+	public ModelAndView product(int topid, Integer page) {
 		List<ProductSubcategory> subList=productSubcategoryService.findAllByTopcategoryId(topid);
 		ProductTopcategory productTopcategory=productTopcategoryService.findById(topid);
 		String topName=productTopcategory.getProductTopcategoryName();
-		List<Product> list=productService.selectAll();
+		
+		// 페이징 처리
+		int currentPage = (page != null) ? page : 1;
+		int pageSize = 9; // 한 페이지당 상품 수
+		
+		List<Product> list = productService.selectByTopId(topid);
+		int totalRecord = productService.getTotalRecord();
+		int totalPage = (int) Math.ceil((double) totalRecord / pageSize);
 		
 		ModelAndView mav = new ModelAndView("shop/product/"+productTopcategory.getProductTopcategoryName());
 		mav.addObject("subList", subList);
 		mav.addObject("topName", topName);
 		mav.addObject("list", list);
+		mav.addObject("currentPage", currentPage);
+		mav.addObject("totalPage", totalPage);
+		mav.addObject("topid", topid);
 		
 		return mav;
 	}

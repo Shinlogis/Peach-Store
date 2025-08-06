@@ -5,10 +5,11 @@
             <div class="col-lg-4 col-md-6 col-sm-7">
                 <div class="footer__about">
                     <div class="footer__logo">
-                        <a href="./index.html"><img src="/static/shop/img/logo.png" alt=""></a>
+  <img src="/static/shop/img/peach.png" alt="Peach Logo" style="width:400px; height:150px;">
+</a>
+                    
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    cilisis.</p>
+                    <p>PEACH는 일상을 더 세련되게 연결해주는 감각적인<br>모바일 경험을 선사합니다.</p>
                     <div class="footer__payment">
                         <a href="#"><img src="/static/shop/img/payment/payment-1.png" alt=""></a>
                         <a href="#"><img src="/static/shop/img/payment/payment-2.png" alt=""></a>

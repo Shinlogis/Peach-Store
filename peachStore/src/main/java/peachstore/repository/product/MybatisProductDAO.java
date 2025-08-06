@@ -78,4 +78,23 @@ public class MybatisProductDAO implements ProductDAO {
 		return sqlSessionTemplate.selectOne("Product.count");
 	}
 
+	@Override
+	public List<Product> selectByTopId(int topId) {
+		return sqlSessionTemplate.selectList("Product.selectByTopId",topId);
+	}
+	
+	@Override
+	public List<Product> selectByTopIdWithPaging(int topId, int offset, int pageSize) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("topId", topId);
+		paramMap.put("offset", offset);
+		paramMap.put("pageSize", pageSize);
+		return sqlSessionTemplate.selectList("Product.selectByTopIdWithPaging", paramMap);
+	}
+	
+	@Override
+	public int countByTopId(int topId) {
+		return sqlSessionTemplate.selectOne("Product.countByTopId", topId);
+	}
+
 }

@@ -18,6 +18,9 @@ public interface ProductDAO {
     public void update(Product product);
     public void softDelete(int product_id);
     public List<Product> selectBySubId(int subId);   
+    public List<Product> selectByTopId(int topId);   
+    public List<Product> selectByTopIdWithPaging(@Param("topId") int topId, @Param("offset") int offset, @Param("pageSize") int pageSize);
+    public int countByTopId(int topId);   
     public List<Product> selectAllWithPaging(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);   
     public int count();
 }

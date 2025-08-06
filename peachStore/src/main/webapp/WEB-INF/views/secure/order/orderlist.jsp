@@ -320,7 +320,7 @@
     function updateOrderStatus(orderId, newStatus) {
         Swal.fire({
             title: '주문 상태 변경',
-            text: `주문 상태를 '${newStatus}'로 변경하시겠습니까?`,
+            text: "주문 상태를 '" + newStatus + "'로 변경하시겠습니까?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#007bff',

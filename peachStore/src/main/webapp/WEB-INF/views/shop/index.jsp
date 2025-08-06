@@ -1,8 +1,10 @@
+<%@page import="peachstore.domain.Product"%>
 <%@page import="peachstore.domain.ProductTopcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+	List<Product> productList =(List)request.getAttribute("productList");
 %>
 <!DOCTYPE html>
 <html lang="zxx">

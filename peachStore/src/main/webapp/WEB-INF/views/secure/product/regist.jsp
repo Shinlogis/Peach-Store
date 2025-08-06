@@ -6,6 +6,374 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Dashboard</title>
 	<%@ include file="../inc/head_link.jsp" %>
+	
+	<!-- 추가된 디자인 스타일 -->
+	<style>
+    :root {
+      --primary-color: #667eea;
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --error-color: #ef4444;
+      --text-primary: #1f2937;
+      --text-secondary: #6b7280;
+      --bg-light: #f8fafc;
+      --border-light: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
+    .content-wrapper {
+      background: transparent !important;
+      padding: 2rem 1rem;
+      min-height: calc(100vh - 3.5rem);
+    }
+
+    .content-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .content-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary-gradient);
+    }
+
+    .content-header h1 {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .breadcrumb {
+      background: transparent !important;
+      margin: 0;
+      padding: 0;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: "→";
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(20px) !important;
+      border: none !important;
+      border-radius: 24px !important;
+      box-shadow: var(--shadow-lg) !important;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-header {
+      background: var(--primary-gradient) !important;
+      border: none !important;
+      padding: 1.5rem 2rem !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(180deg); }
+    }
+
+    .card-title {
+      color: white !important;
+      font-weight: 600 !important;
+      font-size: 1.25rem !important;
+      margin: 0 !important;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-body {
+      padding: 2rem !important;
+    }
+
+    .form-group {
+      margin-bottom: 2rem !important;
+      position: relative;
+    }
+
+    .form-group label {
+      color: var(--text-primary) !important;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      margin-bottom: 0.75rem !important;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-group label::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: var(--primary-gradient);
+      border-radius: 2px;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.8) !important;
+      border: 2px solid var(--border-light) !important;
+      border-radius: 12px !important;
+      padding: 0.875rem 1rem !important;
+      font-size: 0.95rem !important;
+      transition: all 0.3s ease !important;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1) !important;
+      background: white !important;
+      transform: translateY(-1px);
+    }
+
+    .form-control::placeholder {
+      color: var(--text-secondary) !important;
+      font-style: italic;
+    }
+
+    .row {
+      margin-left: -0.75rem !important;
+      margin-right: -0.75rem !important;
+    }
+
+    .row > [class*="col-"] {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    .custom-file {
+      position: relative;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(217, 119, 6, 0.05) 100%);
+      border: 2px dashed var(--warning-color);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .custom-file:hover {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+      border-color: var(--warning-color);
+      transform: scale(1.02);
+    }
+
+    .custom-file-input {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .custom-file-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      color: var(--warning-color);
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    .custom-file-label::before {
+      content: '📁 ';
+      font-size: 1.2rem;
+    }
+
+    #preview {
+      background: var(--bg-light);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1rem;
+      min-height: 100px;
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .note-editor {
+      border-radius: 12px !important;
+      border: 2px solid var(--border-light) !important;
+      overflow: hidden;
+    }
+
+    .note-toolbar {
+      background: var(--bg-light) !important;
+      border-bottom: 1px solid var(--border-light) !important;
+    }
+
+    .card-footer {
+      background: rgba(248, 250, 252, 0.8) !important;
+      border: none !important;
+      padding: 2rem !important;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .btn {
+      border-radius: 12px !important;
+      padding: 0.875rem 2rem !important;
+      font-weight: 600 !important;
+      font-size: 0.95rem !important;
+      transition: all 0.3s ease !important;
+      border: none !important;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-secondary {
+      background: var(--primary-gradient) !important;
+      color: white !important;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .input-group {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .input-group-text {
+      background: var(--primary-color) !important;
+      color: white !important;
+      border: none !important;
+      font-weight: 600;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+      .content-wrapper {
+        padding: 1rem 0.5rem;
+      }
+      
+      .card-body {
+        padding: 1.5rem !important;
+      }
+      
+      .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      
+      .card-footer {
+        flex-direction: column;
+      }
+    }
+
+    /* 커스텀 스크롤바 */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-gradient);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    }
+    
+    select.form-control {
+	  width: 100%;                /* 칸 전체 채움 */
+	  min-width: 160px;
+	  max-width: 100%;
+	  font-size: 1.08rem;         /* 글씨 크기 키움 */
+	  height: 50px;               /* 드롭박스 높이 지정 */
+	  line-height: 1.2;
+	  padding: 0.2rem 1.2rem;     /* 상하/좌우 여백 */
+	  box-sizing: border-box;
+	  background: #fff;
+	  border: 2px solid var(--border-light, #e2e8f0);
+	}
+	
+	select.form-control:focus {
+	  outline: none;
+	  border-color: var(--primary-color, #667eea);
+	  background: #fff;
+	}
+
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -152,7 +520,41 @@
 	<%@ include file="../inc/footer_link.jsp" %>
 	<script src="/static/admin/custom/ProductImg.js"></script>
 	<script>  
+	$(document).ready(function() {
+		  $('#summernote').summernote({
+		    height: 200,
+		    placeholder: "상품 상세 설명을 채우세요",
+		    dialogsInBody: true, // (모달 레이어 오류 방지)
+		    callbacks: {
+		      onImageUpload: function(files) {
+		        // Summernote의 모든 이미지 업로드(드래그/붙여넣기/버튼 클릭)는 이 콜백에서 처리
+		        for (let i = 0; i < files.length; i++) {
+		          sendFile(files[i]);
+		        }
+		      }
+		    }
+		  });
 
+		  function sendFile(file) {
+		    let data = new FormData();
+		    data.append('file', file);
+		    $.ajax({
+		      url: '/admin/product/uploadImage', // 서버에서 이미지 저장하고, url만 반환!
+		      type: 'POST',
+		      data: data,
+		      contentType: false,
+		      processData: false,
+		      success: function(res) {
+		        let imageUrl = typeof res === "string" ? res : res.url;
+		        $('#summernote').summernote('insertImage', imageUrl);
+		      },
+		      error: function() {
+		        alert('이미지 업로드 실패!');
+		      }
+		    });
+		  }
+		});
+	
 	let selectedFile=[];
 	   
 	function printCategory(obj, list){
@@ -242,27 +644,6 @@
 			}
 		});
 	}
-	
-	$('#summernote').summernote({
-		  height: 200,
-		  placeholder: "상품 상세 설명을 채우세요",
-		  callbacks: {
-		    onImageUpload: function(files) {
-		      let data = new FormData();
-		      data.append('file', files[0]);
-		      $.ajax({
-		        url: '/admin/product/uploadImage', // 여기에 백엔드 API 경로!
-		        method: 'POST',
-		        data: data,
-		        contentType: false,
-		        processData: false,
-		        success: function(url) {
-		          $('#summernote').summernote('insertImage', url); // URL을 에디터에 삽입
-		        }
-		      });
-		    }
-		  }
-		});
 	   
 	   //상위 카테고리 가져오기 
 	   getTopCategory(); //상위 카테고리 가져오기
