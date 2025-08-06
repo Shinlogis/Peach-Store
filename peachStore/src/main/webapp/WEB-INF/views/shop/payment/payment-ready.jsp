@@ -444,7 +444,7 @@ body {
 					<%
 					String imagePath = "/static/shop/img/no-image.png";
 					if (snapshot.getFilename() != null && !snapshot.getFilename().isEmpty()) {
-						imagePath = "/data/product_" + snapshot.getProduct_id() + "/" + snapshot.getFilename();
+						imagePath = snapshot.getFilename();
 					}
 					%>
 					<img src="<%=imagePath%>" alt="상품 이미지" class="product-image">

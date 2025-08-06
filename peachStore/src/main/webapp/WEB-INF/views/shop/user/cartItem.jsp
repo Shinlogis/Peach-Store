@@ -295,7 +295,7 @@ h6 {
     {
       "product_id": <%= product.getProductId() %>,
       "product_name": "<%= product.getProductName() %>",
-      "price": <%= finalPrice %>,
+      "price": <%= finalAmount %>,
       "size": <%= size != null ? ("\"" + size + "\"") : "null" %>,
       "capacity": <%= capacity != null ? ("\"" + capacity + "\"") : "null" %>,
       "color": <%= color != null ? ("\"" + color + "\"") : "null" %>,
@@ -359,7 +359,7 @@ $("#pay-btn").on("click", function (e) {
     // 결제하기 버튼
     $("#paypay-btn").on("click", function () {
       tossPayments.requestPayment("간편결제", {
-        amount: <%=totalPrice%>,
+        amount: <%=finalAmount%>,
         orderId: '<%=orderId%>',
         orderName: '<%=orderName%>',
         customerName: '<%=customerName%>',

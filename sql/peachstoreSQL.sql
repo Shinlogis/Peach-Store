@@ -547,4 +547,111 @@ VALUES (
 	'super',
 	TRUE
 );
-select 
+select * from user;
+
+
+
+-- 문의 테이블 인서트(INSERT INTO INQUIRY)
+-- UPDATE시 CURRENT TIME 찍히게 했으므로 UPDATE문 포함한 INSERT
+INSERT INTO INQUIRY (TITLE, INQUIRY_TEXT, USER_ID) 
+VALUES ('배송 문의', '언제 배송되나요?', 1);
+
+INSERT INTO INQUIRY (TITLE, INQUIRY_TEXT, USER_ID) 
+VALUES ('색상 변경 가능한가요?', 'RED 색상으로 변경 가능한가요?', 2);
+
+INSERT INTO INQUIRY (TITLE, INQUIRY_TEXT, USER_ID) 
+VALUES ('각인 추가 문의', '각인 문구 추가 가능한가요?', 3);
+
+INSERT INTO INQUIRY (TITLE, INQUIRY_TEXT, USER_ID) 
+VALUES ('제품 설명이 부족해요', '상세 페이지에 사이즈 정보가 부족해요.', 4);
+
+INSERT INTO INQUIRY (TITLE, INQUIRY_TEXT, USER_ID) 
+VALUES ('환불 문의', '개봉하지 않았는데 환불 가능할까요?', 5);
+
+UPDATE INQUIRY
+SET ANSWER_TEXT = '변경 가능합니다.', ANSWERED_AT = CURRENT_TIMESTAMP, ADMIN_ID = 1
+WHERE INQUIRY_ID = 2;
+
+UPDATE INQUIRY
+SET ANSWER_TEXT = '네, 주문 전에 추가 가능합니다.', ANSWERED_AT = CURRENT_TIMESTAMP, ADMIN_ID = 2
+WHERE INQUIRY_ID = 3;
+
+UPDATE INQUIRY
+SET ANSWER_TEXT = '가능합니다. 고객센터로 문의주세요.', ANSWERED_AT = CURRENT_TIMESTAMP, ADMIN_ID = 1
+WHERE INQUIRY_ID = 5;
+
+-- 결제정보 테이블 인서트
+INSERT INTO toss_payment (
+    payment_id, toss_payment_key, toss_order_id, total_amount, 
+    toss_payment_method, toss_payment_status, requested_at, approved_at
+) VALUES
+(3, 'pay_key_003', 'order_003', 15000, '카드', 'DONE', NOW(), NOW()),
+(4, 'pay_key_004', 'order_004', 18000, '카드', 'DONE', NOW(), NOW()),
+(5, 'pay_key_005', 'order_005', 22000, '카드', 'DONE', NOW(), NOW()),
+(6, 'pay_key_006', 'order_006', 17000, '카드', 'DONE', NOW(), NOW()),
+(7, 'pay_key_007', 'order_007', 13000, '카드', 'DONE', NOW(), NOW());
+
+
+-- 주문내역 테이블 인서트(INSERT INTO ORDER_RECEIPT)
+INSERT INTO ORDER_RECEIPT (ORDER_STATUS, USER_ID, payment_id, postcode, address, detail_address)
+VALUES
+   ('상품 준비 전', 1, 1, 12345, "주소주소", "상세주소"),
+   ('상품 준비 중', 3, 2, 12645, "주소주소", "상세주소"),
+   ('발송완료', 2, 3, 92345, "주소", "상세"),
+   ('상품 준비 전', 4, 4,  12345, "주소주소", "상세주소"),
+   ('상품 준비 중', 5, 5, 12345, "주소주소", "상세주소"),
+   ('발송완료', 1, 6, 12345, "주소주소", "상세주소"),
+   ('상품 준비 전', 2, 7, 12345, "주소주소", "상세주소");
+
+-- 제품 사이즈 테이블 인서트(INSERT INTO PRODUCT_SIZE)
+INSERT INTO PRODUCT_SIZE (ADDITIONAL_PRICE, SIZE_ID, PRODUCT_ID)
+VALUES
+    (0, 2, 1),
+    (1000, 2, 2),
+    (0, 1, 3),
+    (1500, 4, 4),
+    (0, 4, 5),
+    (2000, 5, 6),
+    (0, 3, 7),
+    (0, 3, 8),
+    (1000, 5, 9),
+    (0, 5, 10),
+    (0, 2, 11),
+    (500, 1, 12);
+
+INSERT INTO snapshot (product_id, product_name, price, size, capacity, color, engraving, filename, order_quantity)
+VALUES
+    (1, 'pPhone 14 Pro 블랙', 1350000, '6.1인치', '128GB', 'Black', '각 인입니다1', '1753859785461.webp', 1),
+    (4, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg', 1),
+    (5, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp', 1),
+    (6, 'pPad Air 5 스페이스 그레이', 850000, '10.9인치', '256GB', 'Red', '각인이므니다', '1753859785461.webp', 1),
+    (7, 'pPad Mini 6 핑크', 770000, '8.3인치', '256GB', 'Red', '각인입니다3', '1753859785475.webp', 1),
+    (8, 'pPhone 15 화이트', 1250000, '6.1인치', '128GB', 'Green', '각인 이므묘', '1753864719575.jpeg', 1),
+    (9, 'pPhone SE 3 레드', 650000, '4.7인치', '64GB', 'Black', '각인입 니다2', '1753959155216.webp', 1);
+
+-- 주문상세 테이블 인서트(INSERT INTO ORDER_DETAIL)
+INSERT INTO ORDER_DETAIL (ORDER_RECEIPT_ID, SNAPSHOT_ID)
+VALUES
+   (1, 1),
+   (9, 2),
+   (10, 3),
+   (11, 4),
+   (12, 5),
+   (13, 6),
+   (14, 7);
+
+select * from order_detail;
+
+-- 리뷰 테이블 인서트 (INSERT INTO review)
+INSERT INTO review (content, status, user_id, order_detail_id)
+VALUES
+    ('정말 마음에 들어요! 배송도 빨랐어요.', '활성', 2, 1),
+    ('상품이 설명과 같고 만족스러워요.', '활성', 3, 2),
+    ('가성비 최고네요. 다음에도 구매할게요!', '활성', 4, 34);
+
+
+INSERT INTO review (content, status, user_id, order_detail_id)
+VALUES
+    ('정말 마음에 들어요! 배송도 빨랐어요......', '활성', 2, 36),
+    ('상품이 설명과 같고 만족스러워요.재구매할래', '활성', 3, 35),
+    ('가성비 최고네요. 다음에도 구매할게요! 최고입니', '활성', 4,37);
