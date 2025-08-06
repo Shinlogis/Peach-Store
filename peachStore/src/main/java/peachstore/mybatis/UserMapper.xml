@@ -59,7 +59,7 @@
 	</select>
 	
 	<!-- 소셜로그인 회원가입 쿼리 -->
-	<insert id="snsInsert" parameterType="User">
+	<insert id="snsInsert" parameterType="User" useGeneratedKeys="true" keyProperty="user_id">
 		insert into user(id, email, user_name, sns_provider_id)
 		values(#{id}, #{email}, #{user_name}, #{sns_provider.sns_provider_id})
 	</insert>
