@@ -42,250 +42,279 @@ String failUrl = (String) request.getAttribute("failUrl");
 }
 
 body {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-		Helvetica, Arial, sans-serif;
-	background-color: #f5f5f7;
+	font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	background-color: #ffffff;
 	color: #1d1d1f;
-	line-height: 1.47059;
+	line-height: 1.4;
 }
 
 .container {
-	max-width: 980px;
-	margin: 0 auto;
-	padding: 0 22px;
+ 	width: 60%;
 }
 
-/* Main Content */
-.main-content {
-	padding: 60px 0;
+/* Header */
+.page-header {
+	text-align: center;
+	margin-bottom: 30px;
+	padding-top: 20px;
 }
 
 .page-title {
-	font-size: 48px;
-	font-weight: 600;
-	text-align: center;
-	margin-bottom: 12px;
-	letter-spacing: -0.003em;
-}
-
-.subtitle {
-	font-size: 21px;
-	color: #86868b;
-	text-align: center;
-	margin-bottom: 40px;
-	font-weight: 400;
-}
-
-/* Cart Summary */
-.cart-summary {
-	background: white;
-	border-radius: 18px;
-	padding: 24px;
-	margin-bottom: 40px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-}
-
-.total-price {
-	font-size: 32px;
-	font-weight: 600;
-	text-align: center;
-	margin-bottom: 12px;
-}
-
-.discount-info {
-	text-align: center;
-	color: #06c;
-	margin-bottom: 8px;
-}
-
-.shipping-info {
-	text-align: center;
-	color: #86868b;
-	font-size: 14px;
-}
-
-/* Cart Items */
-.cart-items {
-	background: white;
-	border-radius: 18px;
-	margin-bottom: 40px;
-	overflow: hidden;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-}
-
-.cart-item {
-	display: flex;
-	padding: 24px;
-	border-bottom: 1px solid #f5f5f7;
-	align-items: center;
-	transition: background-color 0.3s ease;
-}
-
-.cart-item:last-child {
-	border-bottom: none;
-}
-
-.cart-item:hover {
-	background-color: #fafafa;
-}
-
-.cart__product__item {
-	display: flex;
-	align-items: center;
-	flex: 1;
-}
-
-.cart__product__item img {
-	width: 120px;
-	height: 120px;
-	border-radius: 12px;
-	object-fit: cover;
-	margin-right: 24px;
-	background: #f5f5f7;
-}
-
-.cart__product__item__title {
-	flex: 1;
-}
-
-.cart__product__item__title h6 {
-	font-size: 19px;
+	font-size: 24px;
 	font-weight: 600;
 	margin-bottom: 8px;
 	color: #1d1d1f;
 }
 
-.rating {
-	display: flex;
-	gap: 16px;
-	margin-top: 12px;
+.order-date {
+	font-size: 14px;
+	color: #86868b;
+	margin-bottom: 4px;
 }
 
-.rating span {
+.order-number {
+	font-size: 12px;
+	color: #06c;
+}
+
+/* Product Item */
+.product-section {
+	margin-bottom: 40px;
+}
+
+.product-item {
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #f5f5f7;
+}
+
+.product-item:last-child {
+	border-bottom: none;
+}
+
+.product-image {
+	width: 80px;
+	height: 80px;
+	border-radius: 8px;
+	object-fit: cover;
+	margin-right: 16px;
 	background: #f5f5f7;
-	padding: 4px 12px;
-	border-radius: 16px;
+}
+
+.product-details {
+	flex: 1;
+}
+
+.product-name {
+	font-size: 16px;
+	font-weight: 500;
+	margin-bottom: 8px;
+	color: #1d1d1f;
+	line-height: 1.3;
+}
+
+.product-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.product-options span {
+	background: #f5f5f7;
+	padding: 2px 8px;
+	border-radius: 4px;
 	font-size: 12px;
 	color: #6e6e73;
 }
 
-.cart__blank {
-	display: none;
-}
-
-.cart__price {
-	font-size: 19px;
-	font-weight: 600;
-	color: #1d1d1f;
-	margin-right: 24px;
-}
-
-.cart__delete {
-	width: 32px;
-	height: 32px;
-	border-radius: 50%;
-	background: #f5f5f7;
-	color: #86868b;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all 0.3s ease;
-	font-size: 16px;
-	border: none;
-}
-
-.cart__delete:hover {
-	background: #ff3b30;
-	color: white;
-	transform: scale(1.1);
-	font-weight: bold;
-}
-
-/* Shipping Info */
-.info-section {
-	background: white;
-	border-radius: 18px;
-	padding: 24px;
-	margin-bottom: 40px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-}
-
-.info-section h3 {
-	font-size: 19px;
-	font-weight: 600;
-	margin-bottom: 20px;
-	color: #1d1d1f;
-}
-
-.info-grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 24px;
-}
-
-.info-grid div {
+.product-quantity {
 	font-size: 14px;
-	line-height: 1.6;
+	color: #86868b;
 }
 
-.info-grid p {
+.product-price {
+	font-size: 16px;
+	font-weight: 600;
+	color: #1d1d1f;
+	text-align: right;
+	margin-left: 16px;
+}
+
+/* Info Sections */
+.info-section {
+	margin-bottom: 30px;
+	border-bottom: 1px solid #f5f5f7;
+	padding-bottom: 20px;
+}
+
+.info-section:last-of-type {
+	border-bottom: none;
+}
+
+.section-title {
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 12px;
+	color: #1d1d1f;
+}
+
+.info-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+	font-size: 14px;
+}
+
+.info-label {
+	color: #86868b;
+}
+
+.info-value {
+	color: #1d1d1f;
+	margin-left: 0; /* 불필요 */
+	text-align: left;
+}
+
+
+/* Address Section */
+.address-section {
+	margin-bottom: 30px;
+}
+
+.address-input-group {
 	margin-bottom: 12px;
 }
 
-.info-grid strong {
-	font-weight: 600;
-	color: #1d1d1f;
+.address-input-group label {
 	display: block;
-	margin-bottom: 4px;
+	font-size: 14px;
+	color: #1d1d1f;
+	margin-bottom: 6px;
+	font-weight: 500;
 }
 
-/* Terms */
-.terms {
-	text-align: center;
+.address-input-group input {
+	width: 100%;
+	padding: 12px 16px;
+	border: 1px solid #d2d2d7;
+	border-radius: 8px;
+	font-size: 16px;
+	background: #ffffff;
+	transition: border-color 0.3s ease;
+}
+
+.address-input-group input:focus {
+	outline: none;
+	border-color: #06c;
+}
+
+.address-input-group input:read-only {
+	background: #f5f5f7;
+	color: #86868b;
+}
+
+.address-buttons {
+	display: flex;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.address-btn {
+	flex: 1;
+	padding: 10px 16px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	border: 1px solid #d2d2d7;
+	background: #ffffff;
+	color: #1d1d1f;
+}
+
+.address-btn.primary {
+	background: #06c;
+	color: white;
+	border-color: #06c;
+}
+
+.address-btn:hover {
+	opacity: 0.8;
+}
+
+/* Agreement */
+.agreement-section {
+	margin-bottom: 30px;
+}
+
+.agreement-checkbox {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
 	font-size: 12px;
 	color: #86868b;
-	margin-bottom: 40px;
-	background: white;
-	border-radius: 12px;
-	padding: 20px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	line-height: 1.4;
 }
 
-.terms a {
+.agreement-checkbox input[type="checkbox"] {
+	margin-top: 2px;
+}
+
+.agreement-checkbox a {
 	color: #06c;
 	text-decoration: none;
 }
 
-/* Payment Button */
-.pay-btn-wrapper {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 40px;
+/* Total */
+.total-section {
+	margin-bottom: 30px;
+	padding: 20px 0;
+	border-top: 1px solid #d2d2d7;
+	border-bottom: 1px solid #d2d2d7;
 }
 
-.pay-btn-content {
-	width: 100%;
-	max-width: 290px;
+.total-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.total-label {
+	font-size: 18px;
+	font-weight: 600;
+	color: #1d1d1f;
+}
+
+.total-price {
+	font-size: 20px;
+	font-weight: 700;
+	color: #1d1d1f;
+}
+
+/* Payment Button */
+.payment-section {
+	margin-bottom: 20px;
 }
 
 .pay-btn {
 	width: 100%;
-	background: #0071e3;
+	background: #06c;
 	color: white;
 	border: none;
 	border-radius: 12px;
-	padding: 17px 32px;
+	padding: 16px;
 	font-size: 17px;
-	font-weight: 400;
+	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	letter-spacing: 0.5px;
 }
 
 .pay-btn:hover {
 	background: #0077ed;
-	transform: scale(1.02);
 }
 
 .pay-btn:active {
@@ -293,107 +322,73 @@ body {
 }
 
 /* Continue Shopping */
-.cart__btn {
+.continue-shopping {
 	text-align: center;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
-.cart__btn a {
+.continue-shopping a {
 	color: #06c;
 	text-decoration: none;
-	font-size: 17px;
-	transition: opacity 0.3s ease;
+	font-size: 16px;
+	font-weight: 500;
 }
 
-.cart__btn a:hover {
+.continue-shopping a:hover {
 	opacity: 0.7;
 }
 
-/* Hide original table structure */
-.shop__cart__table table, .shop__cart__table thead, .shop__cart__table tbody
-	{
-	display: block;
+/* Discount Info */
+.discount-info {
+	background: #e8f4fd;
+	border-radius: 8px;
+	padding: 12px;
+	margin-bottom: 20px;
+	font-size: 14px;
+	color: #06c;
+	text-align: center;
 }
 
-.shop__cart__table thead {
+/* Hide original table structure */
+.shop__cart__table table, 
+.shop__cart__table thead, 
+.shop__cart__table tbody {
 	display: none;
 }
 
-.shop__cart__table tbody tr {
-	display: flex;
-	align-items: center;
-	padding: 24px;
-	border-bottom: 1px solid #f5f5f7;
-	transition: background-color 0.3s ease;
-	background: white;
-	margin-bottom: 0;
-}
-
-.shop__cart__table tbody tr:hover {
-	background-color: #fafafa;
-}
-
-.shop__cart__table tbody tr:last-child {
-	border-bottom: none;
-}
-
-.shop__cart__table tbody td {
-	display: contents;
-}
-
 .shop-cart-section {
-	background-color: #f5f5f7;
+	background-color: #ffffff;
 	min-height: 100vh;
-	padding: 40px 0;
+	padding: 0;
 }
 
 /* Responsive */
-@media ( max-width : 768px) {
+@media (max-width: 768px) {
 	.container {
-		padding: 0 16px;
+		padding: 16px;
+		max-width: 100%;
 	}
-	.main-content {
-		padding: 40px 0;
-	}
-	.page-title {
-		font-size: 32px;
-	}
-	.subtitle {
-		font-size: 19px;
-	}
-	.cart-item, .shop__cart__table tbody tr {
-		flex-direction: column;
-		align-items: flex-start;
-		padding: 20px;
-		position: relative;
-	}
-	.cart__product__item {
-		width: 100%;
+	
+	.product-item {
 		flex-direction: column;
 		align-items: flex-start;
 	}
-	.cart__product__item img {
+	
+	.product-image {
 		width: 100%;
 		height: 200px;
 		margin-right: 0;
-		margin-bottom: 16px;
+		margin-bottom: 12px;
 	}
-	.info-grid {
-		grid-template-columns: 1fr;
-		gap: 16px;
+	
+	.product-price {
+		margin-left: 0;
+		margin-top: 8px;
+		text-align: left;
 	}
-	.cart__price {
-		margin-right: 0;
-		margin-top: 12px;
-		align-self: flex-start;
-	}
-	.cart__delete {
-		position: absolute;
-		top: 20px;
-		right: 20px;
-	}
-	.rating {
-		flex-wrap: wrap;
+	
+	.address-buttons {
+		flex-direction: column;
 	}
 }
 </style>
@@ -410,197 +405,193 @@ body {
 	<!-- Shop Cart Section Begin -->
 	<section class="shop-cart-section">
 		<div class="container">
-			<div class="main-content">
-				<h1 class="page-title">장바구니</h1>
-				<p class="subtitle">주문을 검토하고 결제를 진행하세요</p>
+			<!-- Header -->
+			<div class="page-header">
+				<h1 class="page-title style="font-weight: bold;">주문하시겠습니까?</h1>
+				<h1 class="page-title style="font-weight: bold;">입력하신 사항이 모두 정확한지 확인해주십시오.</h1>
+			</div>
 
-				<!-- Cart Summary -->
-				<div class="cart-summary">
-					<div class="title-h1 total-price" id="total-price">장바구니 총액:
-						0원</div>
-					<div class="discount-info">
-						<%=userGrade.getUser_grade().getUserGradeName()%>회원에게
-						<%=userGrade.getUser_grade().getDiscountRate()%>%의 할인율이 적용됩니다.
+			<!-- Discount Info -->
+			<div class="discount-info">
+				<%=userGrade.getUser_grade().getUserGradeName()%>회원에게
+				<%=userGrade.getUser_grade().getDiscountRate()%>%의 할인율이 적용됩니다.
+			</div>
+
+			<!-- Products -->
+			<div class="product-section">
+				<%
+				int totalPrice = 0;
+				for (int i = 0; i < snapshotList.size(); i++) {
+					SnapShot snapshot = snapshotList.get(i);
+					int price = snapshot.getPrice();
+					String capacity = null, color = null, size = null, engraving = null;
+					int engravingPrice = 0;
+
+					if (snapshot.getCapacity() != null)
+						capacity = snapshot.getCapacity();
+					if (snapshot.getColor()!= null)
+						color = snapshot.getColor();
+					if (snapshot.getSize() != null)
+						size = snapshot.getSize();
+					if (snapshot.getEngraving() != null) {
+						engraving = snapshot.getEngraving();
+					}
+
+					int finalPrice = price + engravingPrice;
+					totalPrice += finalPrice;
+				%>
+				<div class="product-item">
+					<%
+					String imagePath = "/static/shop/img/no-image.png";
+					if (snapshot.getFilename() != null && !snapshot.getFilename().isEmpty()) {
+						imagePath = "/data/product_" + snapshot.getProduct_id() + "/" + snapshot.getFilename();
+					}
+					%>
+					<img src="<%=imagePath%>" alt="상품 이미지" class="product-image">
+					
+					<div class="product-details">
+						<div class="product-name"><%=snapshot.getProduct_name()%></div>
+						<div class="product-options">
+							<%if (capacity != null) {%><span><%=capacity%></span><%}%>
+							<%if (color != null) {%><span><%=color%></span><%}%>
+							<%if (size != null) {%><span><%=size%></span><%}%>
+							<%if (engraving != null) {%><span><%=engraving%></span><%}%>
+						</div>
+						<div class="product-quantity">1</div>
 					</div>
-					<div class="shipping-info">모든 주문에 무료 배송 서비스가 제공됩니다</div>
+					
+					<div class="product-price">₩<%=String.format("%,d", finalPrice)%></div>
+				</div>
+				<%}%>
+			</div>
+
+			<!-- Shipping Info -->
+			<div class="info-section">
+				<div class="section-title">배송 상세 정보</div>
+				<div class="info-item">
+					<span class="info-label">배송비:</span>
+					<span class="info-value">무료</span>
+				</div>
+				<div class="info-item">
+					<span class="info-label">배송일:</span>
+					<span class="info-value">빠른 배송</span>
+				</div>
+				<div class="info-item">
+					<span class="info-label">배송 방법:</span>
+					<span class="info-value">택배</span>
+				</div>
+			</div>
+
+			<!-- Payment Info -->
+			<div class="info-section">
+				<div class="section-title">결제 상세 정보</div>
+				<div class="info-item">
+					<span class="info-label">결제 방법:</span>
+					<span class="info-value">간편결제</span>
+				</div>
+				<div class="info-item">
+					<span class="info-label">청구서 발송:</span>
+					<span class="info-value"><%=user.getEmail()%></span>
+				</div>
+			</div>
+
+			<!-- Address Section -->
+			<div class="address-section">
+			<span class="total-label">배송 상세 정보</span>
+				
+				<div class="address-input-group">
+					<label for="userPostCode">우편번호</label>
+					<input type="text" id="userPostCode" name="userPostCode" readonly>
+					<div class="address-buttons">
+						<button type="button" class="address-btn primary" onclick="searchAddress();">주소 검색</button>
+						<button type="button" class="address-btn" onclick="cancelAddress();">취소</button>
+					</div>
 				</div>
 
-				<!-- Cart Items -->
-				<div class="cart-items">
-					<div class="shop__cart__table">
-						<table>
-							<thead>
-								<tr>
-									<th>제품</th>
-									<th></th>
-									<th></th>
-									<th>가격</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								<!-- 전부 fk 설정이므로 참조해서 받아와야함.get().get() -->
+				<div class="address-input-group">
+					<label for="userAddress">주소</label>
+					<input type="text" id="userAddress" name="userAddress" readonly>
+				</div>
+
+				<div class="address-input-group">
+					<label for="userDtlAddress">상세주소</label>
+					<input type="text" id="userDtlAddress" name="userDtlAddress" maxlength="100" readonly>
+				</div>
+			</div>
+			
+			
+
+			<!-- Agreement -->
+			<div class="agreement-section">
+				<span class="total-label">이용 약관</span>
+				<div class="agreement-checkbox">
+					<input type="checkbox" id="agreement" checked>
+					<label for="agreement">
+						Peach의 <a href="#">개인정보 처리방침</a>에 따라 정보를 수집하고, 저장하며, 처리하는 것에 동의합니다.
+					</label>
+				</div>
+			</div>
+
+			<!-- Total -->
+			<div class="total-section">
+				<div class="total-row">
+					<span class="total-label">총계</span>
+					<span class="total-price" id="total-price">₩<%=String.format("%,d", totalPrice)%></span>
+				</div>
+			</div>
+
+			<!-- Payment Button -->
+			<div class="payment-section">
+				<button class="pay-btn" id="pay-btn">₩<%=String.format("%,d", totalPrice)%>로 주문 완료하기</button>
+			</div>
+
+			<!-- Continue Shopping -->
+			<div class="continue-shopping">
+				<a href="/shop/main">쇼핑 계속하기</a>
+			</div>
+
+			<!-- Hidden original table -->
+			<div class="shop__cart__table" style="display: none;">
+				<table>
+					<thead>
+						<tr>
+							<th>제품</th>
+							<th></th>
+							<th></th>
+							<th>가격</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<%for (int i = 0; i < snapshotList.size(); i++) {
+							SnapShot snapshot = snapshotList.get(i);
+							int price = snapshot.getPrice();
+							int engravingPrice = 0;
+							int finalPrice = price + engravingPrice;
+						%>
+						<tr>
+							<td class="cart__product__item">
 								<%
-								int totalPrice = 0;
-								%>
-								<%
-								for (int i = 0; i < snapshotList.size(); i++) {
-									SnapShot snapshot = snapshotList.get(i);
-									int price = snapshot.getPrice();
-									String capacity = null, color = null, size = null, engraving = null;
-									int engravingPrice = 0;
-
-										if (snapshot.getCapacity() != null)
-									capacity = snapshot.getCapacity();
-										if (snapshot.getColor()!= null)
-									color = snapshot.getColor();
-										if (snapshot.getSize() != null)
-									size = snapshot.getSize();
-										if (snapshot.getEngraving() != null) {
-									engraving = snapshot.getEngraving();
-										}
-
-									int finalPrice = price + engravingPrice;
-									totalPrice += finalPrice;
-								%>
-								<tr>
-									<td class="cart__product__item">
-										<%
-										String imagePath = "/static/shop/img/no-image.png"; // 기본 이미지
-										if (snapshot.getFilename() != null && !snapshot.getFilename().isEmpty()) {
-											imagePath = "/data/product_" + snapshot.getProduct_id() + "/" + snapshot.getFilename();
-										}
-										%> <img src="<%=imagePath%>"
-										alt="장바구니 상품<%=i%>">
-
-										<div class="cart__product__item__title">
-											<h6><%=snapshot.getProduct_name()%></h6>
-
-											<div class="rating">
-												<%
-												if (capacity != null) {
-												%><span><%=capacity%></span>
-												<%
-												}
-												%>
-												<%
-												if (color != null) {
-												%><span><%=color%></span>
-												<%
-												}
-												%>
-												<%
-												if (size != null) {
-												%><span><%=size%></span>
-												<%
-												}
-												%>
-												<%
-												if (engraving != null) {
-												%><span><%=engraving%></span>
-												<%
-												}
-												%>
-											</div>
-										</div>
-									</td>
-
-									<td class="cart__blank"></td>
-									<td class="cart__blank"></td>
-
-									<td class="cart__price">₩<%=String.format("%,d", finalPrice)%></td>
-
-								</tr>
-								<%
+								String imagePath = "/static/shop/img/no-image.png";
+								if (snapshot.getFilename() != null && !snapshot.getFilename().isEmpty()) {
+									imagePath = "/data/product_" + snapshot.getProduct_id() + "/" + snapshot.getFilename();
 								}
 								%>
-								<!-- 동기방식 사용했기 때문에 위에서 total뿌려주는 건 JS로 -->
-								<script>document.getElementById("total-price").innerText = "장바구니 총액: ₩<%=String.format("%,d", totalPrice)%>";</script>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
-				<!-- Shipping Info -->
-				<section class="info-section">
-					<!-- 우편번호 -->
-					<div class="row align-items-center">
-						<label for="userPostCode" class="col-sm-1 col-form-label">
-							<span class="required-none">&nbsp;</span> 우편번호
-						</label>
-						<div class="col-sm-6">
-							<!-- 기존 4 → 6 혹은 더 크게 -->
-							<input type="text" class="form-control" id="userPostCode"
-								name="userPostCode" readonly>
-						</div>
-						<div class="col-sm-5">
-							<!-- 버튼 영역도 넓게 -->
-							<button type="button" class="btn btn-outline-primary" onclick="searchAddress();">
-								입력
-								<fmt:message key="code_search" />
-							</button>
-							<button type="button" class="btn btn-outline-danger" onclick="cancelAddress();">
-								취소
-								<fmt:message key="code_cancel" />
-							</button>
-						</div>
-					</div>
-
-					<!-- 주소 -->
-					<div class="row align-items-center mt-2">
-						<label for="userAddress" class="col-sm-1 col-form-label">
-							<span class="required-none">&nbsp;</span> 주소
-						</label>
-						<div class="col-sm-11">
-							<!-- label 1, input 11으로 전체 행 폭 사용 -->
-							<input type="text" class="form-control" id="userAddress"
-								name="userAddress" readonly>
-						</div>
-					</div>
-
-					<!-- 상세주소 -->
-					<div class="row align-items-center mt-2">
-						<label for="userDtlAddress" class="col-sm-1 col-form-label">
-							<span class="required-none">&nbsp;</span> 상세주소
-						</label>
-						<div class="col-sm-11">
-							<!-- label 1, input 11으로 전체 행 폭 사용 -->
-							<input type="text" class="form-control" id="userDtlAddress"
-								name="userDtlAddress" maxlength="100" readonly>
-						</div>
-					</div>
-				</section>
-
-				<!-- Terms -->
-				<section class="terms">
-					<p>
-						Peach의 <a href="#">개인정보 처리방침</a>에 따라 정보를 수집하고, 저장하며, 처리하는 것에 동의하셔야
-						합니다.
-					</p>
-				</section>
-
-				<!-- Payment Button -->
-				<div class="row">
-					<div class="col-lg-10 offset-lg-1">
-						<div class="pay-btn-wrapper">
-							<div class="pay-btn-content">
-								<button class="pay-btn" id="pay-btn" value="">결제하기</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Continue Shopping -->
-				<div class="row">
-					<div class="col-lg-3 offset-lg-8">
-						<div class="cart__btn update__btn">
-							<a href="/shop/main">쇼핑 계속하기</a>
-						</div>
-					</div>
-				</div>
+								<img src="<%=imagePath%>" alt="장바구니 상품<%=i%>">
+								<div class="cart__product__item__title">
+									<h6><%=snapshot.getProduct_name()%></h6>
+								</div>
+							</td>
+							<td class="cart__blank"></td>
+							<td class="cart__blank"></td>
+							<td class="cart__price">₩<%=String.format("%,d", finalPrice)%></td>
+						</tr>
+						<%}%>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</section>
-	<!-- Shop 
 	<!-- Shop Cart Section End -->
 
 	<!-- Instagram Begin -->
@@ -618,16 +609,15 @@ body {
 	<!-- Js Plugins -->
 	<%@ include file="../inc/footer_link.jsp"%>
 	<script src="https://js.tosspayments.com/v1/payment"></script>
-	<script
-		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
     /** 카카오 주소 처리 */
     function searchAddress() {
         new daum.Postcode({
-            oncomplete: function(data) { // 선택시 입력값 세팅
-                document.getElementById("userAddress").value = data.address; // 주소 넣기
-                document.getElementById("userPostCode").value = data.zonecode; // 우편번호 넣기
-                var inputDtlAddr = document.getElementById("userDtlAddress"); // 주소란 읽기전용 설정
+            oncomplete: function(data) {
+                document.getElementById("userAddress").value = data.address;
+                document.getElementById("userPostCode").value = data.zonecode;
+                var inputDtlAddr = document.getElementById("userDtlAddress");
                 inputDtlAddr.readOnly = false;
             }
         }).open();
@@ -636,68 +626,65 @@ body {
     /** 취소버튼 클릭 시 주소, 상세주소 초기화 */
     function cancelAddress() {
         var inputPostCode = document.getElementById("userPostCode");
-        inputPostCode.value = ""; // 우편번호 초기화
+        inputPostCode.value = "";
         var inputAddr = document.getElementById("userAddress");
-        inputAddr.value = ""; // 주소란 초기화
+        inputAddr.value = "";
         var inputDtlAddr = document.getElementById("userDtlAddress");
-        inputDtlAddr.value = ""; // 상세주소란 초기화
-        inputDtlAddr.readOnly = true; // 상세주소란 읽기전용 해제
+        inputDtlAddr.value = "";
+        inputDtlAddr.readOnly = true;
     }
 	
-	 const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
+	const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
 	 
-	 document.getElementById("pay-btn").addEventListener("click", () => {
-		    const postCode = document.getElementById("userPostCode").value;
-		    const address = document.getElementById("userAddress").value;
-		    const detailAddress = document.getElementById("userDtlAddress").value;
+	document.getElementById("pay-btn").addEventListener("click", () => {
+		const postCode = document.getElementById("userPostCode").value;
+		const address = document.getElementById("userAddress").value;
+		const detailAddress = document.getElementById("userDtlAddress").value;
 
-		    // 1. 주소 세션 저장 요청
-		    $.ajax({
-		        url: "/shop/payment/save-address",
-		        type: "POST",
-		        data: {
-		            postCode: postCode,
-		            address: address,
-		            detailAddress: detailAddress,
-		            
-		            
-		        },
-		        success: function () {
-		            // 2. 주소 저장 후 결제 진행
-		            tossPayments.requestPayment("간편결제", {
-		                amount: <%=totalPrice%>,
-		                orderId: '<%=orderId%>',
-		                orderName: '<%=orderName%>',
-		                customerName: '<%=customerName%>',
-		                successUrl: '<%=successUrl%>',
-		                failUrl: '<%=failUrl%>'
-		            });
-		        },
-		        error: function () {
-		            alert("주소 저장 중 오류가 발생했습니다.");
-		        }
-		    });
+		// 1. 주소 세션 저장 요청
+		$.ajax({
+			url: "/shop/payment/save-address",
+			type: "POST",
+			data: {
+				postCode: postCode,
+				address: address,
+				detailAddress: detailAddress,
+			},
+			success: function () {
+				// 2. 주소 저장 후 결제 진행
+				tossPayments.requestPayment("간편결제", {
+					amount: <%=totalPrice%>,
+					orderId: '<%=orderId%>',
+					orderName: '<%=orderName%>',
+					customerName: '<%=customerName%>',
+					successUrl: '<%=successUrl%>',
+					failUrl: '<%=failUrl%>'
+				});
+			},
+			error: function () {
+				alert("주소 저장 중 오류가 발생했습니다.");
+			}
 		});
-	
-		$(() => {
-			$(".shop__cart__table").on("click", ".cart__delete", function () {
-				const cartItemId = $(this).data("id");
-				if (confirm("선택 항목을 장바구니에서 삭제하시겠습니까?")) {
-					$.ajax({
-						url: "/shop/cart/delete",
-						type: "POST",
-						data: { cartItemId: cartItemId },
-						success: function(response) {
-							// 성공 시 페이지 새로고침 또는 해당 행 삭제
-							location.reload();
-						},
-						error: function(err) {
-							alert("삭제 중 오류가 발생했습니다.");
-						}
-					});
-				}
-			});
+	});
+
+	$(() => {
+		$(".shop__cart__table").on("click", ".cart__delete", function () {
+			const cartItemId = $(this).data("id");
+			if (confirm("선택 항목을 장바구니에서 삭제하시겠습니까?")) {
+				$.ajax({
+					url: "/shop/cart/delete",
+					type: "POST",
+					data: { cartItemId: cartItemId },
+					success: function(response) {
+						location.reload();
+					},
+					error: function(err) {
+						alert("삭제 중 오류가 발생했습니다.");
+					}
+				});
+			}
 		});
+	});
 	</script>
 </body>
 </html>

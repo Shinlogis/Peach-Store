@@ -31,4 +31,14 @@
 		delete from cart_item where cart_item_id = #{cart_item_id}
 	</delete>
 	
+	<delete id="deleteAllByUserId" parameterType="int">
+	    DELETE FROM CART_ITEM
+	    WHERE CART_ID IN (
+	        SELECT C.CART_ID
+	        FROM CART C
+	        WHERE C.USER_ID = #{value}
+	    )
+	</delete>
+	
+	
 </mapper>

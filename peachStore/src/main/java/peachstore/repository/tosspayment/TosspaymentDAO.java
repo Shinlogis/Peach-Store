@@ -1,7 +1,5 @@
 package peachstore.repository.tosspayment;
 
-import java.time.LocalDateTime;
-
 import peachstore.domain.Tosspayment;
 
 /**
@@ -16,6 +14,6 @@ public interface TosspaymentDAO {
 	 * @param tosspayment
 	 * @return
 	 */
-	public Tosspayment insert(String tossOrderId, String tossPaymentKey, String tossPaymentMethod,  String tossPaymentStatus, long totalAmount, LocalDateTime ApprovedAt, LocalDateTime requestedAt);
+	public Tosspayment insert(Tosspayment tosspayment);
 
 }

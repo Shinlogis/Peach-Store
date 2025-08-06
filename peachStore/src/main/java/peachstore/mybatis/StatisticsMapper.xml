@@ -4,7 +4,7 @@
 	<!-- 통계 모음 mapper -->
 	<!-- 오늘 매출 -->
 	<select id="todayAmount" resultType="int">
-		SELECT SUM(total_amount)
+		SELECT IFNULL(SUM(total_amount), 0)
 		FROM toss_payment
 		WHERE DATE(APPROVED_AT) = CURDATE()
 		AND toss_payment_status = "DONE"
@@ -12,21 +12,21 @@
 
 	<!-- 오늘 주문 건수 -->
 	<select id="todayReceiptCount"  resultType="int">
-		SELECT COUNT(*)
+		SELECT IFNULL(COUNT(*), 0)
 		FROM order_receipt
 		WHERE DATE(orderdate) = CURDATE()
 	</select>
 
 	<!-- 오늘 신규회원 수 -->
 	<select id="todayNewUserCount"  resultType="int">
-		SELECT COUNT(*)
+		SELECT IFNULL(COUNT(*), 0)
 		FROM USER
 		WHERE DATE(CREATED_AT) = curdate()
 	</select>
 	
 		<!-- 미답변 문의 수 -->
 	<select id="noAnsweredInquiryCount" resultType="int">
-		SELECT COUNT(*)
+		SELECT IFNULL(COUNT(*), 0)
 		FROM INQUIRY
 		WHERE ANSWERED_AT IS NULL
 	</select>
