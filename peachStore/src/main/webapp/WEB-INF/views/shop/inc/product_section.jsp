@@ -3,7 +3,7 @@
 <%@page import="java.util.List"%>
 <%-- <%
 List<Product> productList =(List)request.getAttribute("productList");
-%> --%>
+%> --%> 
 <section id="product_section" style="margin:0px">
 	<!-- 제목 -->
    	<div style="margin-left:165px">
@@ -14,7 +14,7 @@ List<Product> productList =(List)request.getAttribute("productList");
 	<div class="banner2">
 		<div class="slider">
 			<ul class="slide-container">
-				<%for(int i=0;i<6; i++){ %>
+				<%for(int i=0;i<productList.size(); i++){ %>
 				<li>
 					<a href="#">
 	                   <img src="/static/shop/img/product/slideipone.jpeg">

@@ -208,12 +208,13 @@ public class UserController {
 			user.setUser_name(name);
 
 			userService.register(user);
-			cartService.createCart(user.getUser_id());
 		}
 		// 없으면 가입 후, 있으면 로그인
 		// session에 user라는 이름의 객체를 저장
 		session.setAttribute("user", user);
-
+		if(cartService.selectById(user.getUser_id())==null) {
+			cartService.createCart(user.getUser_id());
+		}
 		return "redirect:/shop/main";
 	}
 
@@ -260,11 +261,13 @@ public class UserController {
 			user.setUser_name(name);
 
 			userService.register(user);
-			cartService.createCart(user.getUser_id());
 		}
 		// 없으면 가입 후, 있으면 로그인
 		session.setAttribute("user", user);// 세션이 살아있는 한, Member를 사용할 수 있음
-
+		log.debug("니가없으면 안된다 카트야..."+cartService.selectById(user.getUser_id()));
+		if(cartService.selectById(user.getUser_id())==null) {
+			cartService.createCart(user.getUser_id());
+		}
 		return "redirect:/shop/main";
 	}
 }
