@@ -73,7 +73,7 @@ h6 {
 }
 
 .rating {
-	margin-top: 35px;
+	margin-top: 20px;
 }
 
 .rating span {
@@ -81,8 +81,8 @@ h6 {
 }
 
 .cart__product__item img {
-	width: 150px;
-	height: 100%;
+	width: 170px;
+	height: auto%;
 }
 </style>
 <body>
@@ -140,22 +140,26 @@ h6 {
 							    Product product = item.getProduct();
 							    int price = product.getPrice();
 							    String capacity = null, color = null, size = null, engraving = null;
-							    int engravingPrice = 0;
+							    int engravingPrice = 0, sizePrice = 0, capacityPrice = 0;
 							
 							    if (item.getCustom_option() != null) {
-							        if (item.getCustom_option().getProduct_capacity() != null)
+							        if (item.getCustom_option().getProduct_capacity() != null) {
 							            capacity = item.getCustom_option().getProduct_capacity().getCapacity().getCapacity_name();
+							            capacityPrice = item.getCustom_option().getProduct_capacity().getAdditional_price();
+							        }
 							        if (item.getCustom_option().getProduct_color() != null)
 							            color = item.getCustom_option().getProduct_color().getColor().getColor_name();
-							        if (item.getCustom_option().getProduct_size() != null)
+							        if (item.getCustom_option().getProduct_size() != null) {
 							            size = item.getCustom_option().getProduct_size().getSize().getSize_name();
+							            sizePrice = item.getCustom_option().getProduct_size().getAdditional_price();
+							        }
 							        if (item.getCustom_option().getProduct_engraving() != null) {
 							            engraving = item.getCustom_option().getProduct_engraving().getEngraving_text();
 							            engravingPrice = item.getCustom_option().getProduct_engraving().getEngraving_price();
 							        }
 							    }
 							
-							    int finalPrice = price + engravingPrice;
+							    int finalPrice = price + engravingPrice + sizePrice + capacityPrice;
 							    totalPrice += finalPrice;
 							%>
 							<!-- 담긴 데이터들에 동적으로 호출자 속성 부여 -->
@@ -246,23 +250,30 @@ h6 {
         Product product = item.getProduct();
 
         String size = null, capacity = null, color = null, engraving = null, filename = "/static/shop/img/no-image.png";
+        int engravingPrice = 0, sizePrice = 0, capacityPrice = 0;
 
         if (item.getCustom_option() != null) {
-          if (item.getCustom_option().getProduct_size() != null)
+          if (item.getCustom_option().getProduct_size() != null) {
             size = item.getCustom_option().getProduct_size().getSize().getSize_name();
-          if (item.getCustom_option().getProduct_capacity() != null)
+            sizePrice = item.getCustom_option().getProduct_size().getAdditional_price();
+          }
+          if (item.getCustom_option().getProduct_capacity() != null) {
             capacity = item.getCustom_option().getProduct_capacity().getCapacity().getCapacity_name();
+            capacityPrice = item.getCustom_option().getProduct_capacity().getAdditional_price();
+          }
           if (item.getCustom_option().getProduct_color() != null)
             color = item.getCustom_option().getProduct_color().getColor().getColor_name();
-          if (item.getCustom_option().getProduct_engraving() != null)
+          if (item.getCustom_option().getProduct_engraving() != null) {
             engraving = item.getCustom_option().getProduct_engraving().getEngraving_text();
+            engravingPrice = item.getCustom_option().getProduct_engraving().getEngraving_price();
+          }
         }
 
         if (product.getProductImgs() != null && !product.getProductImgs().isEmpty()) {
           filename = "/data/product_" + product.getProductId() + "/" + product.getProductImgs().get(0).getFilename();
         }
 
-        int finalPrice = product.getPrice();
+        int finalPrice = product.getPrice() + engravingPrice + sizePrice + capacityPrice;
     %>
     {
       "product_id": <%= product.getProductId() %>,
