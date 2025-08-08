@@ -1,5 +1,11 @@
+<%@page import="peachstore.domain.Product"%>
+<%@page import="peachstore.domain.ProductTopcategory"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+	List<Product> productList =(List)request.getAttribute("productList");
+%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -10,15 +16,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ashion | Template</title>
-<%@ include file="./inc/head_link.jsp" %>
+	<%@ include file="./inc/head_link.jsp" %>
+	<link rel="stylesheet"  href="/static/shop/css/main/product_section.css">
     
 </head>
-<body>
-    <!-- Page Preloder -->
-<%-- <%@ include file="./inc/preloader.jsp" %> --%>
-    <!-- Offcanvas Menu Begin -->
-<%@ include file="./inc/offcanvas.jsp" %>
-    <!-- Offcanvas Menu End -->
+<body style="background-color:#f5f5f7;">
 
     <!-- Header Section Begin -->
 <%@ include file="./inc/header.jsp" %>
@@ -40,14 +42,6 @@
 <%@ include file="./inc/trend_section.jsp" %>
 <!-- Trend Section End -->
 
-<!-- Discount Section Begin -->
-<%-- <%@ include file="./inc/discount_section.jsp" %> --%>
-<!-- Discount Section End -->
-
-<!-- Services Section Begin -->
-<%-- <%@ include file="./inc/services_section.jsp" %> --%>
-<!-- Services Section End -->
-
 <!-- Instagram Begin -->
 <%@ include file="./inc/instagram.jsp" %> 
 <!-- Instagram End -->
@@ -66,7 +60,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/static/admin/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/static/admin/dist/js/pages/dashboard.js"></script>
 </body>
 
 </html>

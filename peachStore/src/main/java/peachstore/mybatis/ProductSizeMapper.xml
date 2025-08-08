@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductSize">
+
+	<insert id="insert" parameterType="ProductSize"> 
+		insert into product_size(product_id, size_id) values(#{product.productId}, #{size.size_id})
+	</insert>
+	
+	<resultMap id="sizeMap" type="ProductSize" >
+		<id	column="product_size_id" property="product_size_id"/>
+		<result column="additional_price" property="additional_price"/>
+		<association column="size_id" property="size" javaType="Size" select="Size.select"></association>
+	</resultMap>
+	
+	<select id="selectByProductId" parameterType="int" resultMap="sizeMap"> 
+		select product_size_id, product_id, size_id, additional_price from product_size where product_id=#{productId}
+	</select>
+	
+	<delete id="deleteByProductId" parameterType="int">
+		  delete from product_size where product_id = #{productId}
+	</delete>
+	
+	<select id="selectById" parameterType="int" resultMap="sizeMap"> 
+		select product_size_id, product_id, size_id, additional_price from product_size where product_size_id=#{product_size_id}
+	</select>
+
+</mapper>

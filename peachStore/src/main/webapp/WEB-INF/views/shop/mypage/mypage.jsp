@@ -1,6 +1,14 @@
+<%@page import="peachstore.domain.OrderDetail"%>
+<%@page import="peachstore.domain.OrderReceipt"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+	User userGrade = (User)request.getAttribute("userGrade");
+	Integer reviewCount = (Integer)request.getAttribute("reviewCount");
+	List<OrderReceipt> order = (List)request.getAttribute("receiptList");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +61,7 @@
 									<div class="card-header"
 										style="display: flex; justify-content: space-between;">
 										<h3 class="card-title" style="font-weight: bold;">최근 주문</h3>
-										<a href="#" style="color: black;">더보기 ></a>
+										<a href="/shop/order/list" style="color: black;">더보기 ></a>
 
 									</div>
 									<colgroup>
@@ -72,64 +80,32 @@
 										</tr>
 									</thead>
 									<tbody>
+									<%for(int i=0; i<order.size()&&i<3;i++){ %>
+									<%OrderReceipt orderReceipt = order.get(i); %>
 										<tr>
 											<!-- 주문일 -->
-											<td class="cart__price" style="color: black;">20260725</td>
+											<td class="cart__price" style="color: black;"><%=orderReceipt.getOrderdate().toLocalDate() %></td>
 
 											<!-- 주문내역 -->
-											<td class="cart__product__item"><img
-												src="/static/shop/img/shop-cart/cp-1.jpg" alt="">
+											<%for(OrderDetail detail : orderReceipt.getOrderList()){ %>
+											<td class="cart__product__item">
+												<img src="<%=detail.getSnapShot().getFilename()%>"
+												style="width: 100px; height: 100px; object-fit: cover;">
 												<div class="cart__product__item__title">
-													<h6>Chain bucket bag</h6>
+													<h6><%=detail.getSnapShot().getProduct_name() %></h6>
 												</div></td>
 
 											<!-- 주문번호 -->
 											<td class="cart__order__number">
-												<h6>1233413</h6>
+												<h6><%=orderReceipt.getOrder_receipt_id() %></h6>
 											</td>
 
+											
 											<!-- 결제금액 -->
-											<td class="cart__total">$ 300.0</td>
+											<td class="cart__total"><%=detail.getSnapShot().getPrice() %>원</td>
+											<%} %>
 										</tr>
-
-										<tr>
-											<!-- 주문일 -->
-											<td class="cart__price" style="color: black;">20260725</td>
-
-											<!-- 주문내역 -->
-											<td class="cart__product__item"><img
-												src="/static/shop/img/shop-cart/cp-1.jpg" alt="">
-												<div class="cart__product__item__title">
-													<h6>Chain bucket bag</h6>
-												</div></td>
-
-											<!-- 주문번호 -->
-											<td class="cart__order__number">
-												<h6>1233413</h6>
-											</td>
-
-											<!-- 결제금액 -->
-											<td class="cart__total">$ 300.0</td>
-										</tr>
-										<tr>
-											<!-- 주문일 -->
-											<td class="cart__price" style="color: black;">20260725</td>
-
-											<!-- 주문내역 -->
-											<td class="cart__product__item"><img
-												src="/static/shop/img/shop-cart/cp-1.jpg" alt="">
-												<div class="cart__product__item__title">
-													<h6>Chain bucket bag</h6>
-												</div></td>
-
-											<!-- 주문번호 -->
-											<td class="cart__order__number">
-												<h6>1233413</h6>
-											</td>
-
-											<!-- 결제금액 -->
-											<td class="cart__total">$ 300.0</td>
-										</tr>
+									<%} %>
 									</tbody>
 								</table>
 							</div>

@@ -31,13 +31,10 @@
 /* Template default CSS
 /*----------------------------------------*/
 
-* {
-    font-family: "Apple SD Gothic Neo", "애플 SD 산돌고딕 Neo", -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", sans-serif !important;
-}
-
 html,
 body {
 	height: 100%;
+	font-family: "Montserrat", sans-serif;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -50,6 +47,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
+	font-family: "Montserrat", sans-serif;
 }
 
 h1 {
@@ -78,6 +76,7 @@ h6 {
 
 p {
 	font-size: 14px;
+	font-family: "Montserrat", sans-serif;
 	color: #666666;
 	font-weight: 400;
 	line-height: 24px;
@@ -519,6 +518,7 @@ ol {
 .banner__text h1 {
 	font-size: 80px;
 	color: #111111;
+	font-family: "Cookie", cursive;
 	margin-bottom: 15px;
 }
 
@@ -701,6 +701,7 @@ ol {
 .discount__text__title h2 {
 	font-size: 60px;
 	color: #ca1515;
+	font-family: "Cookie", cursive;
 	line-height: 46px;
 	margin-bottom: 10px;
 }
@@ -1009,6 +1010,7 @@ ol {
 	right: -14px;
 	top: 0;
 	content: "";
+	font-family: "FontAwesome";
 }
 
 .breadcrumb__links a i {
@@ -1062,6 +1064,7 @@ ol {
 }
 
 .categories__text h1 {
+	font-family: "Cookie", cursive;
 	color: #111111;
 	margin-bottom: 5px;
 }
@@ -1380,6 +1383,7 @@ ol {
 .categories__accordion .card-heading>a.active[aria-expanded=false]:after {
 	content: "";
 	font-size: 14px;
+	font-family: "FontAwesome";
 	color: #666666;
 	position: absolute;
 	right: 30px;
@@ -1389,6 +1393,7 @@ ol {
 .categories__accordion .card-heading.active a:after {
 	content: "";
 	font-size: 14px;
+	font-family: "FontAwesome";
 	color: #666666;
 	position: absolute;
 	right: 30px;
@@ -1399,6 +1404,7 @@ ol {
 .categories__accordion .card-heading>a.active:after {
 	content: "";
 	font-size: 14px;
+	font-family: "FontAwesome";
 	color: #666666;
 	position: absolute;
 	right: 30px;
@@ -2093,7 +2099,7 @@ ol {
 }
 
 .shop__cart__table tbody tr td {
-	padding: 30px 0;
+	padding: 10px 0;
 }
 
 .shop__cart__table tbody tr .cart__product__item {

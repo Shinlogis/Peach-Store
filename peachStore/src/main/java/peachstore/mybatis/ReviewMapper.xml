@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Review">
+
+	<resultMap id="ReviewMap" type="Review">
+		<id column="review_id" property="reviewId" />
+		<result column="content" property="content" />
+		<result column="regdate" property="regdate" />
+		<result column="status" property="status" />
+
+		<association property="user" javaType="User">
+			<id column="user_id" property="user_id" />
+			<result column="id" property="id" />
+			<result column="email" property="email" />
+			<result column="user_name" property="user_name" />
+
+			<association property="user_grade" javaType="UserGrade">
+				<id column="userGradeId" property="userGradeId" />
+				<result column="userGradeName" property="userGradeName" /> <!-- column에는 alias명이 필요 -->
+			</association>
+		</association>
+
+		<association property="orderDetail" javaType="OrderDetail">
+			<id column="orderDetailId" property="order_detail_id" />
+			
+			<association property="snapShot" javaType="SnapShot">
+				<id column="snapshot_id" property="snapshot_id" />
+				<id column="product_id" property="product_id" />
+    			<result column="product_name" property="product_name" />
+    			<result column="price" property="price" />
+    			<result column="size" property="size" />
+    			<result column="capacity" property="capacity" />
+    			<result column="color" property="color" />
+    			<result column="engraving" property="engraving" />
+    			<result column="filename" property="filename" />
+			</association>
+		
+		</association>
+		
+		<collection column="review_id" property="imgList" javaType="java.util.List" ofType="ReviewImg"
+			select="ReviewImg.selectByReviewId"/>
+
+	</resultMap>
+
+	<!-- 전체 조회 -->
+	<select id="selectAll" resultMap="ReviewMap" parameterType="User">
+		SELECT
+			r.review_id,
+			r.content,
+			r.regdate,
+			r.status,
+	
+			u.user_id AS user_id,
+			u.id AS id,
+			u.email AS email,
+			u.user_name AS user_name,
+	
+			ug.user_grade_id AS userGradeId,
+			ug.user_grade_name AS userGradeName,
+	
+			od.order_detail_id AS orderDetailId,
+			
+			s.snapshot_id AS snapshotId,
+			s.product_id AS product_id,
+			s.product_name AS product_name,
+			s.price AS price,
+			s.size AS size,
+			s.capacity AS capacity,
+			s.color AS color,
+			s.engraving AS engraving
+
+		FROM review r
+		JOIN user u 
+			ON r.user_id = u.user_id
+		JOIN user_grade ug 
+			ON u.user_grade_id = ug.user_grade_id
+		JOIN order_detail od 
+			ON r.order_detail_id = od.order_detail_id
+		JOIN snapshot s
+			ON od.snapshot_id = s.snapshot_id
+			
+		<where>
+			<if test="user_id != null and user_id != ''">
+				and u.user_id = #{user_id}
+			</if>
+		</where>
+		
+		order by r.regdate desc
+	</select>
+	
+	<!-- update -->
+	<update id="update" parameterType="Review">
+		update review
+		set status = #{status}
+		where review_id = #{reviewId} 
+	</update>
+	
+	<!-- pk로 조회 -->
+	<select id="selectById" parameterType="int" resultMap="ReviewMap">
+	    SELECT
+	        r.review_id,
+	        r.content,
+	        r.regdate,
+	        r.status,
+	
+	        u.user_id AS user_id,
+	        u.id AS id,
+	        u.email AS email,
+	        u.user_name AS user_name,
+	
+	        ug.user_grade_id AS userGradeId,
+	        ug.user_grade_name AS userGradeName,
+	
+	        od.order_detail_id AS orderDetailId,
+	
+	        s.snapshot_id AS snapshotId,
+	        s.product_id AS product_id,
+	        s.product_name AS product_name,
+	        s.price AS price,
+	        s.size AS size,
+	        s.capacity AS capacity,
+	        s.color AS color,
+	        s.engraving AS engraving
+	
+	    FROM review r
+	    JOIN user u 
+	        ON r.user_id = u.user_id
+	    JOIN user_grade ug 
+	        ON u.user_grade_id = ug.user_grade_id
+	    JOIN order_detail od 
+	        ON r.order_detail_id = od.order_detail_id
+	    JOIN snapshot s
+	        ON od.snapshot_id = s.snapshot_id
+	    WHERE r.review_id = #{reviewId}
+	</select>
+	
+	<!--  회원별 리뷰 조회 -->
+	<select id="selectByUser" resultMap="ReviewMap" parameterType="User">
+		SELECT
+			r.review_id,
+			r.content,
+			r.regdate,
+			r.status,
+	
+			u.user_id AS user_id,
+			u.id AS id,
+			u.email AS email,
+			u.user_name AS user_name,
+	
+			ug.user_grade_id AS userGradeId,
+			ug.user_grade_name AS userGradeName,
+	
+			od.order_detail_id AS orderDetailId,
+			
+			s.snapshot_id AS snapshotId,
+			s.product_name AS product_name,
+			s.price AS price,
+			s.size AS size,
+			s.capacity AS capacity,
+			s.color AS color,
+			s.engraving AS engraving,
+			s.engraving AS engraving
+
+		FROM review r
+		JOIN user u 
+			ON r.user_id = u.user_id
+		JOIN user_grade ug 
+			ON u.user_grade_id = ug.user_grade_id
+		JOIN order_detail od 
+			ON r.order_detail_id = od.order_detail_id
+		JOIN snapshot s
+			ON od.snapshot_id = s.snapshot_id
+			
+		<where>
+			<if test="user_id != null and user_id != ''">
+				and u.user_id = #{user_id}
+			</if>
+			AND r.status = '활성'
+		</where>
+		
+		order by r.regdate desc
+	</select>
+	
+	
+	
+	<!-- 회원별 리뷰 페이징 -->
+	<select id="selectByUserPaging" resultMap="ReviewMap" parameterType="map">
+    SELECT
+        r.review_id,
+        r.content,
+        r.regdate,
+        r.status,
+
+        u.user_id AS user_id,
+        u.id AS id,
+        u.email AS email,
+        u.user_name AS user_name,
+
+        ug.user_grade_id AS userGradeId,
+        ug.user_grade_name AS userGradeName,
+
+        od.order_detail_id AS orderDetailId,
+
+        s.snapshot_id AS snapshot_id,
+        s.product_name AS product_name,
+        s.price AS price,
+        s.size AS size,
+        s.capacity AS capacity,
+        s.color AS color,
+        s.engraving AS engraving,
+        s.filename AS filename
+
+    FROM review r
+    JOIN user u 
+        ON r.user_id = u.user_id
+    JOIN user_grade ug 
+        ON u.user_grade_id = ug.user_grade_id
+    JOIN order_detail od 
+        ON r.order_detail_id = od.order_detail_id
+    JOIN snapshot s
+        ON od.snapshot_id = s.snapshot_id
+
+    <where>
+        <if test="user.user_id != null and user.user_id != ''">
+            AND u.user_id = #{user.user_id}
+        </if>
+        AND r.status = '활성'
+    </where>
+
+    ORDER BY r.regdate DESC
+
+    LIMIT #{pageSize} OFFSET #{startIndex}
+</select>
+	
+	
+	<delete id="delete" parameterType="int">
+		delete 
+		from review 
+		where review_id = #{reviewId}
+	</delete>
+	
+	<!-- 리뷰 등록 -->
+	<insert id="insert" parameterType="Review">
+		insert into review (content, status, user_id, order_detail_id) values (#{content},'활성', #{user.user_id}, #{orderDetail.order_detail_id})
+	
+		<selectKey keyColumn="review_id" keyProperty="reviewId" resultType="int" order="AFTER">
+			select last_insert_id() as review_id			
+		</selectKey>
+	</insert>
+	
+	<!-- 리뷰 내용 수정 -->
+	<update id="updateReview" parameterType="Review">
+		update review set content=#{content}, status = '활성' where review_id = #{reviewId}
+	</update>
+
+
+	<!--  리뷰 갯수 조회 -->
+	<select id="countByUserId" resultType="int" parameterType="User">
+		SELECT COUNT(*) 
+			FROM review r
+			JOIN user u ON r.user_id = u.user_id
+		WHERE r.status = '활성'
+	  	AND u.user_id = #{user_id}
+	</select>
+	
+	
+	
+	<!-- 상품 id로 조회 -->
+	<select id="selectByProductId" parameterType="int" resultMap="ReviewMap">
+	    SELECT
+	        r.review_id,
+	        r.content,
+	        r.regdate,
+	        r.status,
+	
+	        u.user_id AS user_id,
+	        u.id AS id,
+	        u.email AS email,
+	        u.user_name AS user_name,
+	
+	        ug.user_grade_id AS userGradeId,
+	        ug.user_grade_name AS userGradeName,
+	
+	        od.order_detail_id AS orderDetailId,
+	
+	        s.snapshot_id AS snapshotId,
+	        s.product_id AS product_id,
+	        s.product_name AS product_name,
+	        s.price AS price,
+	        s.size AS size,
+	        s.capacity AS capacity,
+	        s.color AS color,
+	        s.engraving AS engraving
+	
+	    FROM review r
+	    JOIN user u 
+	        ON r.user_id = u.user_id
+	    JOIN user_grade ug 
+	        ON u.user_grade_id = ug.user_grade_id
+	    JOIN order_detail od 
+	        ON r.order_detail_id = od.order_detail_id
+	    JOIN snapshot s
+	        ON od.snapshot_id = s.snapshot_id
+	    WHERE s.product_id=#{productId}
+	</select>
+</mapper>

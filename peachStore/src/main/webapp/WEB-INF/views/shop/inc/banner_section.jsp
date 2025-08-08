@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <section class="banner set-bg"
-	data-setbg="/static/shop/img/banner/team1.png"
+	data-setbg="/static/shop/img/banner/banner01.png"
 	style="margin:50px 0px 30px 0px; padding:10px">
 	<div class="container">
 		<div class="row">

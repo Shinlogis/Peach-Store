@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@page import="peachstore.domain.User"%>
 <!-- 카테고리 시작 -->
 <section class="services spad">
 
@@ -11,8 +11,8 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">주문내역 조회</a></li>
-						<li><a href="#">취소내역</a></li>
+						<li><a href="/shop/order/list">주문내역 조회</a></li>
+						<li><a href="/shop/order/cancle/list">취소내역</a></li>
 					</ul>
 				</div>
 			</div>
@@ -22,8 +22,8 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">리뷰 작성</a></li>
-						<li><a href="#">내 리뷰</a></li>
+						<li><a href="/shop/order/ordercompleted">리뷰 작성</a></li>
+						<li><a href="/shop/review/list">내 리뷰</a></li>
 					</ul>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">회원정보 수정</a></li>
+						<li><a href="/shop/user/editform">회원정보 수정</a></li>
 					</ul>
 				</div>
 			</div>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="card-body">
 					<ul>
-						<li><a href="#">나의 문의내역 보기</a></li>
+						<li><a href="/shop/inquiry/list">나의 문의내역 보기</a></li>
 					</ul>
 				</div>
 			</div>

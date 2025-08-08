@@ -1,5 +1,7 @@
 package peachstore.repository.Inquiry;
 
+import java.util.List;
+
 import peachstore.domain.InquiryImg;
 
 /**
@@ -10,5 +12,12 @@ import peachstore.domain.InquiryImg;
 public interface InquiryImgDAO {
 	
 	public void insert(InquiryImg inquiryImg);
+	
+	public void update(InquiryImg inquiryImg);
+	
+	public void delete(int inquiry_id);
+	
+	public void deleteByFilename(InquiryImg inquiryImg);
 
+	public List select(int inquiry_id);
 }

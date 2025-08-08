@@ -1,8 +1,13 @@
 <%@page import="peachstore.domain.User"%>
 <%@page import="java.util.List"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<% User user = (User)session.getAttribute("user"); %>
+<%
+User user = (User)session.getAttribute("user"); 
+List<ProductTopcategory> topList =(List)request.getAttribute("topList");
+
+%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -54,14 +59,15 @@
 					<!-- Default box -->
 					<div class="card">
 						<div class="card-body">
-							<form id="form1" enctype="multipart/form-data">
+							<form id="form1">
+							<input type="hidden" name="user.user_id" value="<%=user.getUser_id() %>">
 								<div class="form-group">
 									<label >제목</label> <input type="text"
 										id="title" name="title" class="form-control" required />
 								</div>
 								<div class="form-group">
-									<label >작성자</label> <input type="text" value="<%=user.getId() %>"
-										 class="form-control" required />
+									<label >작성자</label> <input type="text" value="<%=user.getUser_name() %>"
+										 class="form-control" required readonly/>
 								</div>
 								<div class="form-group">
 									<div>
@@ -166,6 +172,7 @@
 	
 	$("#bt_regist").click(()=>{
 		regist();
+		location.href="redirect:/shop/inquiry/list";
 	});
 	
 });

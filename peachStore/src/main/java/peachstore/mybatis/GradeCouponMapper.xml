@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GradeCoupon">
+
+	<resultMap id="GradeCouponResultMap" type="GradeCoupon">
+		<result column="grade_coupon_id" property="gradeCouponId" />
+		<result column="issue_rule" property="issueRule" />
+		<result column="is_active" property="isActive" />
+
+		<!-- 하나의 등급을 가짐 -->
+		<association column="user_grade_id" property="userGrade"
+			javaType="UserGrade"
+			select="UserGrade.selectById" />
+
+		<!-- 하나의 쿠폰을 가짐 -->
+		<association column="coupon_id" property="coupon"
+			javaType="Coupon"
+			select="Coupon.selectById" />
+	</resultMap>
+
+ 
+	<select id="selectByUserGradeId" resultMap="GradeCouponResultMap" parameterType="int" resultType="GradeCoupon">
+		SELECT * FROM grade_coupon WHERE user_grade_id = #{userGradeId}
+	</select>
+
+
+	<!-- 전체 조회 -->
+	<select id="selectAll" resultMap="GradeCouponResultMap">
+		SELECT gc.*, ug.*, c.*
+		FROM grade_coupon gc
+		JOIN user_grade ug 
+			ON gc.user_grade_id = ug.user_grade_id
+		JOIN coupon c 
+			ON gc.coupon_id = c.coupon_id
+	</select>
+
+</mapper>

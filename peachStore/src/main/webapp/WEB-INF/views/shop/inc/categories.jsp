@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<section id="category">
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@page import="peachstore.domain.ProductTopcategory"%>
+<section id="category" style="margin-left:165px">
  	<!-- 제목 -->
 	<div class="store-title">
 		<div>
@@ -12,22 +12,15 @@
 	 <!-- 카테고리 -->
 	<div class="store-category">
 		 <ul class="store-category-ul">
-	         <li>
-	             <img src="/static/shop/img/trend/f-3.jpg">
-	             <div class="category_name">핸드폰</div>
-	         </li>
-	         <li>
-	             <img src="/static/shop/img/trend/f-3.jpg">
-	             <div class="category_name">컴퓨터</div>
-	         </li>
-	         <li>
-	             <img src="/static/shop/img/trend/f-3.jpg">
-	             <div class="category_name">노트북</div>
-	         </li>
-	         <li>
-	             <img src="/static/shop/img/trend/f-3.jpg">
-	             <div class="category_name">액세서리</div>
-	         </li>
+		 	<%for(ProductTopcategory topcategory: topList){%>
+		 	<% String topName=topcategory.getProductTopcategoryName(); %>
+        	<% int topId=topcategory.getProductTopcategoryId(); %>
+        	<% String imagePath = "/data/category_" + topcategory.getProductTopcategoryId() + "/" + topcategory.getFilename();%>
+	        <li>
+	        	<img style="width:100%; height:120px;" src="<%=imagePath%>">
+	            <a style="color:#212529;" href="/shop/product?topid=<%=topId%>" class="category_name"><%=topName %></a>
+	        </li>
+	        <%} %>
          </ul>
     </div>
 </section>

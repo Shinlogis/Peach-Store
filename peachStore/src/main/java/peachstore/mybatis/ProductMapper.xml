@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+
+	
+	<insert id="insert" parameterType="Product">
+		insert into product(product_code, product_name, price, introduce, detail, product_subcategory_id)
+		values(#{productCode}, #{productName}, #{price}, #{introduce}, #{detail}, #{productSubcategory.productSubcategoryId})
+		
+		<selectKey keyColumn="product_id" keyProperty="productId" resultType="int" order="AFTER">
+			select last_insert_id() as product_id
+		</selectKey>
+	</insert>
+
+	<sql id="columns">
+		product_id, product_code, product_name, price, introduce, detail, product_subcategory_id
+	</sql>
+	
+	<resultMap type="Product" id="joinMap">
+		<id 		column="product_id" 		property="productId"/>		
+		<result 	column="product_code" 	property="productCode"/>
+		<result 	column="product_name" 	property="productName"/>
+		<result 	column="price" 				property="price"/>
+		<result 	column="introduce" 			property="introduce"/>
+		<result 	column="detail" 				property="detail"/>
+		
+		<association column="product_subcategory_id" property="productSubcategory" javaType="ProductSubcategory"
+				select="peachstore.repository.subcategory.ProductSubcategoryDAO.selectById"/>
+		
+		<collection column="product_id" property="productColors" javaType="java.util.List" ofType="ProductColor"
+			select="ProductColor.selectByProductId"/>
+		
+		<collection column="product_id" property="productSizes" javaType="java.util.List" ofType="ProductSize"
+			select="ProductSize.selectByProductId"/>
+			
+		<collection column="product_id" property="productCapacities" javaType="java.util.List" ofType="ProductCapacity"
+			select="ProductCapacity.selectByProductId"/>		
+			
+		<collection column="product_id" property="productImgs" javaType="java.util.List" ofType="ProductImg"
+			select="ProductImg.selectByProductId"/>
+		
+	</resultMap>
+	
+
+	<select id="selectAll" resultMap="joinMap">
+		select <include refid="columns"/> from product where is_deleted = 0 order by product_id desc
+	</select>
+	
+	<select id="select" parameterType="int" resultMap="joinMap">
+		select <include refid="columns"/> from product 
+		where product_id=#{productId} and is_deleted = 0
+	</select>
+	
+	<select id="selectBySubcategoyId" parameterType="int" resultType="Product">
+		select <include refid="columns"/> from product
+		where product_subcategory_id = #{product_subcategory_id}
+		and is_deleted = 0
+	</select>	
+		
+	<select id="selectBySubId" parameterType="int" resultMap="joinMap">
+		select * from product 
+	    where product_subcategory_id = #{product_subcategory_id}
+	    and is_deleted = 0
+	    order by product_id desc;
+	</select>
+	
+	<select id="selectByTopId" parameterType="int" resultMap="joinMap">
+		select p.* from product p
+		JOIN product_subcategory ps ON p.product_subcategory_id = ps.product_subcategory_id
+		where ps.product_topcategory_id = #{topId}
+		and p.is_deleted = 0
+		order by product_id desc;
+	</select>
+	
+	<select id="selectByTopIdWithPaging" resultMap="joinMap">
+		select p.* from product p
+		JOIN product_subcategory ps ON p.product_subcategory_id = ps.product_subcategory_id
+		where ps.product_topcategory_id = #{topId}
+		and p.is_deleted = 0
+		limit #{offset}, #{pageSize}
+	</select>
+	
+	<select id="countByTopId" parameterType="int" resultType="int">
+		select count(*) from product p
+		JOIN product_subcategory ps ON p.product_subcategory_id = ps.product_subcategory_id
+		where ps.product_topcategory_id = #{topId}
+		and p.is_deleted = 0
+	</select>
+	
+	<select id="selectAllWithPaging" resultMap="joinMap">
+	    select <include refid="columns"/> 
+	    from product 
+	    WHERE is_deleted = 0
+	    order by product_id desc
+	    limit #{pageSize} offset #{startIndex}
+	</select>
+	
+	<select id="count" resultType="int">
+	    SELECT COUNT(*) FROM product where is_deleted = 0
+	</select>
+	
+	<update id="softDelete" parameterType="int">
+	  UPDATE product
+	  SET is_deleted = 1
+	  WHERE product_id = #{product_id}
+	</update>
+	
+	<update id="update" parameterType="Product">
+	    UPDATE product
+	    SET product_name = #{productName},
+	        price = #{price},
+	        introduce = #{introduce},
+	        detail = #{detail},
+	        product_subcategory_id = #{productSubcategory.productSubcategoryId}
+	    WHERE product_id = #{productId}
+	</update>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

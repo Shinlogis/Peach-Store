@@ -2,9 +2,133 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="User">
 
-	<select id="select" parameterType="int" resultType="User"> 
-		select * from user where user_id = #{user_id};
+	<resultMap type="User" id="userResultMap">
+		<id column="user_id" property="user_id"/>
+		<result column="id" property="id"/>
+		<result column="email" property="email"/>
+		<result column="salt" property="salt"/>
+		<result column="hashedpassword" property="hashedpassword"/>
+		<result column="user_name" property="user_name"/>
+		<result column="tel" property="tel"/>
+		<result column="address" property="address"/>
+		<result column="is_active" property="is_active"/>
+		<result column="created_at" property="created_at"/>
+		<association column="user_grade_id" property="user_grade"
+			javaType="UserGrade"
+			select="UserGrade.selectAll"/>
+		<association column="sns_provider_id" property="sns_provider"
+			javaType="SnsProvider"
+			select="SnsProvider.selectAll"/>
+			
+			
+	</resultMap>
+	
+	
+	<resultMap type="User" id="userSimpleMap">
+		<id column="user_id" property="user_id"/>
+		<result column="id" property="id"/>
+		<result column="email" property="email"/>
+		<result column="salt" property="salt"/>
+		<result column="hashedpassword" property="hashedpassword"/>
+		<result column="user_name" property="user_name"/>
+		<result column="tel" property="tel"/>
+		<result column="address" property="address"/>
+		<result column="is_active" property="is_active"/>
+		<result column="created_at" property="created_at"/>
+		<association column="user_grade_id" property="user_grade"
+		    javaType="UserGrade"
+		    select="UserGrade.selectById"/>
+	</resultMap>
+	
+	<!-- 로그인 id로 회원 조회 -->
+	<select id="selectById" resultType="User" parameterType="String"> 
+		select * from user where id = #{id}
 	</select>
+	
+	<!-- pk로 회원 조회 -->
+	<select id="selectByUserId" resultMap="userSimpleMap" parameterType="int"> 
+		select * from user where user_id = #{userId}
+	</select>
+	
+	<select id="selectAll" resultMap="userResultMap">
+		select * from user
+	</select>
+	
+	<select id="homepageLogin" parameterType="User" resultType="User">
+		select * from user where id = #{id} and hashedpassword = #{hashedpassword}
+	</select>
+	
+	<!-- 소셜로그인 회원가입 쿼리 -->
+	<insert id="snsInsert" parameterType="User" useGeneratedKeys="true" keyProperty="user_id">
+		insert into user(id, email, user_name, sns_provider_id)
+		values(#{id}, #{email}, #{user_name}, #{sns_provider.sns_provider_id})
+	</insert>
+	
+	<!-- 사이트 회원가입 쿼리 -->
+	<insert id="userJoin" parameterType="User" useGeneratedKeys="true" keyProperty="user_id">
+		insert into user (id, email, salt, hashedpassword, user_name, tel, address)
+		values (#{id}, #{email}, #{salt}, #{hashedpassword}, #{user_name}, #{tel}, #{address})
+	</insert>
+	
+	<!-- mybaits 특성상 resultmap으로는 innerjoin이 원활히 진행되지 않기 때문에 조인문 쿼리 따로작성 -->
+	<!-- outerjoin후 조건에맞추어 다시 select 하는구동방식인듯 -->
+	<select id="selectAllJoin" resultType="User" parameterType="String">
+		select *
+		from user u
+		inner join user_grade ug on u.user_grade_id = ug.user_grade_id
+		inner join sns_provider sp on u.sns_provider_id = sp.sns_provider_id
+	</select>
+	
+	<!-- update -->
+	<!-- parameterType을 User로 해놓았으니, 추후 수정할 컬럼이 더 생길 경우 set에 추가만 해주면 됩니다 -->
+	<update id="update" parameterType="User">
+		update user
+		set 
+			user_grade_id = #{user_grade.userGradeId},
+			tel = #{tel},
+			address = #{address}
+		where user_id = #{user_id}
+	</update>
+	
+	<!-- is_active 상태 토글 -->
+	<update id="updateIsActive">
+		update user
+		set is_active = #{isActive}
+		where user_id = #{userId}
+	</update>
+	
+	<resultMap id="userJoinMap_v2" type="User">
+	    <id column="user_id" property="user_id" />
+	    <result column="id" property="id" />
+	    <result column="email" property="email" />
+	    <result column="salt" property="salt" />
+	    <result column="hashedpassword" property="hashedpassword" />
+	    <result column="user_name" property="user_name" />
+	    <result column="tel" property="tel" />
+	    <result column="address" property="address" />
+	    <result column="is_active" property="is_active" />
+	    <result column="created_at" property="created_at" />
+	
+	    <association property="user_grade" javaType="UserGrade">
+	        <id column="user_grade_id" property="userGradeId" />
+	        <result column="user_grade_name" property="userGradeName" />
+	    </association>
+	
+	    <association property="sns_provider" javaType="SnsProvider">
+	        <id column="sns_provider_id" property="sns_provider_id" />
+	        <result column="provider_name" property="provider_name" />
+	    </association>
+	</resultMap>
 
-
+	<select id="selectAllJoin_v2" resultMap="userJoinMap_v2">
+	    SELECT 
+	        u.*, 
+	        ug.user_grade_id as user_grade_id, 
+	        ug.user_grade_name as user_grade_name,
+	        sp.sns_provider_id as sns_provider_id, 
+	        sp.provider_name
+	    FROM user u
+	    JOIN user_grade ug ON u.user_grade_id = ug.user_grade_id
+	    JOIN sns_provider sp ON u.sns_provider_id = sp.sns_provider_id
+	</select>
 </mapper>

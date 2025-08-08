@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserGrade">
+
+	<resultMap id="UserGradeResultMap" type="UserGrade">
+		<result column="user_grade_id" property="userGradeId" />
+		<result column="user_grade_name" property="userGradeName" />
+		<result column="criteria_amount" property="criteriaAmount" />
+		<result column="discount_rate" property="discountRate" />
+		<result column="is_active" property="isActive" />
+
+		<!-- 회원등급은 여러 등급별 쿠폰을 가짐 -->
+		<collection property="gradeCoupons" ofType="GradeCoupon"
+			select="GradeCoupon.selectByUserGradeId" column="user_grade_id" />
+	</resultMap>
+
+	<!-- 등급계산에 쓸 MAP -->
+	<resultMap id="UserGradeSimpleMap" type="UserGrade">
+		<result column="user_grade_id" property="userGradeId" />
+		<result column="user_grade_name" property="userGradeName" />
+		<result column="criteria_amount" property="criteriaAmount" />
+		<result column="discount_rate" property="discountRate" />
+		<result column="is_active" property="isActive" />
+	</resultMap>
+
+	<!-- 전체 조회 -->
+	<select id="selectAll" resultMap="UserGradeResultMap">
+		SELECT * FROM user_grade
+	</select>
+
+	<!-- pk로 조회 -->
+	<select id="selectById" resultMap="UserGradeResultMap"
+		parameterType="int">
+		SELECT * FROM user_grade WHERE user_grade_id =
+		#{userGradeId}
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insert" parameterType="UserGrade">
+		INSERT INTO
+		USER_GRADE(USER_GRADE_NAME, DISCOUNT_RATE, CRITERIA_AMOUNT)
+		VALUES(#{userGradeName}, #{discountRate}, #{criteriaAmount});
+	</insert>
+
+	<!-- 수정 -->
+	<update id="update" parameterType="UserGrade">
+		update user_grade
+		set
+		user_grade_name = #{userGradeName}
+		, discount_rate = #{discountRate}
+		,
+		criteria_amount = #{criteriaAmount}
+		, is_active = #{isActive}
+		where
+		user_grade_id = #{userGradeId}
+	</update>
+
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from user_grade where
+		user_grade_id = #{userGradeId}
+	</delete>
+
+	<!-- 활성화 등급 중, 높은 등급 순으로 불러오기 -->
+	<select id="gradeSelectByAmount" resultMap="UserGradeSimpleMap">
+		SELECT * FROM
+		USER_GRADE WHERE IS_ACTIVE = TRUE ORDER BY CRITERIA_AMOUNT DESC
+	</select>
+
+	<!-- 해당 사용자의 총 구매 금액 -->
+	<select id="selectTotalAmountByUser" resultType="Long" parameterType="int">
+		SELECT 
+		    SUM(PRICE) AS AMOUNT
+		FROM snapshot S
+		JOIN order_detail OD
+			ON S.snapshot_id = OD.snapshot_id
+		JOIN order_receipt ORT
+			ON OD.order_receipt_id = ORT.order_receipt_id
+		WHERE USER_ID = #{value}
+		GROUP BY USER_ID
+	</select>
+
+</mapper>
