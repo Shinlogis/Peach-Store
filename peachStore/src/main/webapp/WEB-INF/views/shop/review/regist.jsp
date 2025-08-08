@@ -121,7 +121,7 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 			formData.append("photo", selectedFile[i]);
 		}
 		
-		$.ajax({
+		return $.ajax({
 			url:"/shop/review/regist",
 			type:"post",
 			data:formData,
@@ -170,7 +170,11 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	});
 	
 	$("#bt_regist").click(()=>{
-		regist();
+		regist().done(() => {
+			location.href = "/shop/review/list";
+		}).fail(() => {
+			alert("등록 실패");
+		});
 	});
 	
 });
