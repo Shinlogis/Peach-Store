@@ -89,7 +89,7 @@
 											<!-- 주문내역 -->
 											<%for(OrderDetail detail : orderReceipt.getOrderList()){ %>
 											<td class="cart__product__item">
-												<img src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename()%>"
+												<img src="<%=detail.getSnapShot().getFilename()%>"
 												style="width: 100px; height: 100px; object-fit: cover;">
 												<div class="cart__product__item__title">
 													<h6><%=detail.getSnapShot().getProduct_name() %></h6>

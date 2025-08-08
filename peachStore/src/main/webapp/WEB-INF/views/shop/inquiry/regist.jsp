@@ -172,6 +172,7 @@ List<ProductTopcategory> topList =(List)request.getAttribute("topList");
 	
 	$("#bt_regist").click(()=>{
 		regist();
+		location.href="redirect:/shop/inquiry/list";
 	});
 	
 });

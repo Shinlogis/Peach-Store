@@ -281,7 +281,7 @@ body {
         
         <div class="action-buttons">
             <a href="/shop/main" class="btn btn-primary">쇼핑 계속하기</a>
-            <a href="/shop/mypage/orders" class="btn btn-secondary">주문 내역 확인</a>
+            <a href="/shop/order/list" class="btn btn-secondary">주문 내역 확인</a>
         </div>
     </div>
 </body>

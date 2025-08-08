@@ -131,7 +131,7 @@ int totalPage = paging.getTotalPage();
 												<td>
 													<div style="display: flex; gap: 100px;">
 														<img
-															src="/data/p_<%=detail.getSnapShot().getSnapshot_id()%>/<%=detail.getSnapShot().getFilename()%>"
+															src="<%=detail.getSnapShot().getFilename()%>"
 															style="width: 100px; height: 100px; object-fit: cover;">
 														<div>
 															<div style="margin-bottom: 8px;">

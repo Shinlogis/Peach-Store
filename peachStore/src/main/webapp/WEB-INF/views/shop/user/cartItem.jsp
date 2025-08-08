@@ -17,7 +17,7 @@
 
 	// 결제에 필요한 정보들
 	  String orderId = (String)  request.getAttribute("orderId");
-	  String orderName =  user.getUser_name();
+	  String orderName =  "PEACH STORE";
 	  String customerName = "Peach Store";
 	  Integer orderReceiptId = (Integer) request.getAttribute("orderReceiptId");
 
