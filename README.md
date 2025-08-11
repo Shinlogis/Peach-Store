@@ -6,10 +6,16 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 
 ---
 
+## 팀원 구성 및 역할 분담
+<img width="996" height="265" alt="image" src="https://github.com/user-attachments/assets/e3dae231-cda1-490b-b74f-b73ae08691c8" />
+
+
+---
+
 ## 🛠️ 기술 스택
 
 ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring MVC](https://img.shields.io/badge/Spring%20MVC-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Spring MVC](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![MyBatis](https://img.shields.io/badge/MyBatis-0052CC?style=for-the-badge&logo=databricks&logoColor=white)
 ![JSP](https://img.shields.io/badge/JSP-1A237E?style=for-the-badge)
 
@@ -22,6 +28,7 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 ![KakaoLogin](https://img.shields.io/badge/Kakao%20Login-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black)
 ![NaverLogin](https://img.shields.io/badge/Naver%20Login-03C75A?style=for-the-badge&logo=naver&logoColor=white)
 ![DaumPostAddress](https://img.shields.io/badge/Daum%20Postcode-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black)
+![TossPayments](https://img.shields.io/badge/Toss%20Payments-0064FF?style=for-the-badge&logo=Toss&logoColor=black)
 
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)
@@ -33,45 +40,97 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 
 ---
 
+## 개발 기간
+- 전체 개발 기간: 2025-07-10 ~ 2025-08-05
+- 요구사항 정의: 2025-07-10 ~ 2025-07-12
+- 기획 및 설계(기능정의서, ERD 작성): 2025-07-13 ~ 2025-07-20
+- 구현: 2025-07-17 ~ 2025-08-04
+- 테스트 및 수정: 2025-08-04 ~ 2025-08-05
+
+---
+
 ## ✨ 주요 기능
 
 ### 👤 회원 기능
-| 기능             | 설명                                                            |
-| -------------- | ------------------------------------------------------------- |
-| **회원가입 / 로그인** | 이메일 및 아이디 기반 회원가입, SNS 로그인(Google, Naver) 연동           |
-| **회원정보 관리**    | 비밀번호 변경, 주소 수정, 휴면 전환 등                                       |
-| **회원 등급 시스템**  | 누적 구매 금액에 따라 Bronze\~Platinum 등급 자동 승급<br>→ 할인율 및 쿠폰 혜택 차등 적용 |
+**회원가입 / 로그인** 
+- 이메일 및 아이디 기반 회원가입, SNS 로그인(Google, Naver) 연동           
+
+**회원정보 관리**    
+- 비밀번호 변경, 주소 수정
+ 
+**회원 등급 시스템**  
+- 등급에 따른 할인율 및 쿠폰 혜택 차등 적용 
 
 ### 🛒 쇼핑 기능
-| 기능                    | 설명                                        |
-| --------------------- | ----------------------------------------- |
-| **제품 목록 조회**          | 상위/하위 카테고리별 필터링, 활성/비활성 제품 구분             |
-| **제품 상세 조회**          | 제품 기본 정보 + 커스터마이징 옵션 (사이즈/색상/용량/각인) 선택 가능 |
-| **제품 커스터마이징**         | 옵션에 따른 가격 자동 계산, 각인 문구 입력 등               |
-| **장바구니 담기 / 수정 / 삭제** | 동일 제품이라도 옵션이 다르면 개별 항목으로 분리               |
-| **주문 생성 (결제)**        | 장바구니 기반 주문 생성 → 결제(토스 페이먼츠) → 결제, 주문 내역 및 `snapshot`에 당시 제품 정보 저장   |
-| **주문 상태 확인**          | '상품 준비 전' → '상품 준비 중' → '발송완료' 단계 확인 가능   |
+**제품 목록 조회**
+- 상위, 하위 카테고리 별 상품 목록 조회
+  
+![상품 조회](https://github.com/user-attachments/assets/664b7368-abbb-4537-a4a9-24d8a1d42649)
+
+**제품 상세 조회 및 장바구니 추가**
+- 제품의 기본 정보를 확인
+- 커스터마이징 옵션 (사이즈/색상/용량) 선택 후 장바구니에 추가
+  
+![상품 장바구니에 담기](https://github.com/user-attachments/assets/1ec99ef6-6cc4-447a-8fc9-62c9a7426663)
+
+**주문 생성(결제)**
+- 장바구니 기반 주문 생성
+- 주소 정보 입력 후 결제(토스 페이먼츠) 완료할 경우, 결제와 주문 내역 및 `snapshot`에 당시 주문 정보를 저장
+  
+![주문생성](https://github.com/user-attachments/assets/2844c164-76b6-4e9a-a1ed-cc86b709e429)
+
 
 ### 💬 고객 서비스 기능
-| 기능            | 설명                                |
-| ------------- | --------------------------------- |
-| **문의 등록**     | 문의 등록, 이미지 첨부 가능     |
-| **관리자 답변 확인** | 관리자가 답변 시 `answered_at`과 함께 내용 표시 |
-| **리뷰 작성**     | 구매 완료된 상품에 한해 리뷰 작성 가능, 이미지 등록 가능 |
+**문의 등록**
+- 문의 등록, 이미지 첨부 가능
+- 관리자가 답변 시 `answered_at`과 함께 내용 표시
+
+https://github.com/user-attachments/assets/6a9efcd3-7651-4790-8e2c-23e879c6502b
+
+**리뷰 작성**     
+- 발송 완료된 상품에 한해 리뷰 작성 가능, 이미지 등록 가능
+  
+https://github.com/user-attachments/assets/6e44d526-247f-4f2a-a1fa-68c2a725981c
+  
 
 ### ⚙️ 관리자 기능
-| 기능           | 설명                                       |
-| ------------ | ---------------------------------------- |
-| **관리자 관리** | 최상위 관리자가 타 관리자를 등록 및 관리 가능            |
-| **카테고리 관리**  | 상위/하위 카테고리 생성, 수정, 비활성화 처리 가능            |
-| **제품 관리**    | 제품 등록 / 수정 / 삭제, 옵션(색상/사이즈/용량) 및 이미지 등록  |
-| **주문 관리**    | 유저 주문 내역 확인 가능  |
-| **회원 관리** | 사이트 회원 목록 확인 가능        |
-| **리뷰 관리** | 전체 리뷰 확인 및 선택 리뷰 비활성화 가능         |
-| **문의 답변**    | 유저 문의 목록 확인 및 관리자 계정으로 답변 작성 가능          |
-| **등급 관리**    | 회원 등급 생성, 수정, 삭제 가능         |
+**관리자 관리** 
+- 최상위 관리자가 타 관리자를 등록 및 관리 가능
+  
+**제품 관리** 
+- 제품 등록 / 수정 / 삭제, 옵션(색상/사이즈/용량) 및 이미지 등록
 
-📦 기타 기능
+https://github.com/user-attachments/assets/eebbf408-ab37-4499-8265-6700a213d72c
+
+- 제품의 상위/하위 카테고리 생성, 수정, 비활성화 처리 가능
+  
+![카테고리 관리](https://github.com/user-attachments/assets/dfb0372d-1c79-41db-9509-8e5f086d9b5b)
+
+**주문 관리**    
+- 유저 주문 내역 확인 가능
+  
+**회원 관리** 
+- 사이트 회원 목록 확인 및 비활성화 처리 가능
+
+**리뷰 관리** 
+- 전체 리뷰 확인 및 선택 리뷰 비활성화 처리 가능
+        
+![리뷰관리](https://github.com/user-attachments/assets/b97cfd27-ecc5-41f0-b37d-c63aac48566e)
+
+
+**문의 관리**
+- 유저 문의 목록 확인 및 관리자 계정으로 답변 작성
+  
+![문의관리](https://github.com/user-attachments/assets/d604faac-3803-491a-b8d3-917b72d2ee39)
+
+  
+**등급 관리**   
+- 회원 등급 생성, 수정, 삭제 가능
+
+![등급관리](https://github.com/user-attachments/assets/8fd34437-757e-4516-b59b-0b6fdbdbba5b)
+
+
+### 📦 기타 기능
 | 기능          | 설명                                                     |
 | ----------- | ------------------------------------------------------ |
 | **스냅샷 기능**  | 주문 당시 제품의 이름, 가격, 옵션 등을 그대로 보존                         |
@@ -157,6 +216,12 @@ PeachStore는 **pPhone, pPad, pMac 등 Apple 기반 스타일의 전자기기와
 ---
 
 ## 💬 프로젝트 후기
+
+### 개선할 점
+- 기간 내 개발하지 못한 제품 각인 서비스, 멤버십 자동 승급, 쿠폰 시스템 등 구현
+- RPG 패턴이 지켜지지 않은 페이지 개선
+- 예외처리가 제대로 이루어지지 않은 부분 개선
+
 ### 🧢 이세형
 수업시간에 배운것들을 구현하면서 듣고만 넘어갔던 개념들에 대해 다시 리뷰해 볼수 있는 시간과 더 나아가 보안과 관련해 조금 더 깊게 알아보고 익힐 수 있는 프로젝트 기간이 되었습니다.
 
