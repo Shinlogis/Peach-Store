@@ -1,10 +1,13 @@
 package peachstore.shop.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.hql.internal.ast.tree.SessionFactoryAwareNode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,7 @@ import peachstore.domain.User;
 import peachstore.dto.ConfirmPaymentRequest;
 import peachstore.dto.PaymentSessionData;
 import peachstore.dto.TossConfirmResponse;
+import peachstore.exception.TosspaymentException;
 import peachstore.service.TossPaymentService;
 
 
@@ -61,23 +65,20 @@ public class PaymentController {
 	
 	/**
 	 * 결제 전 입력한 정보를 세션에 저장
-	 * @param postCode
-	 * @param address
-	 * @param detailAddress
+	 * @param paymentData
 	 * @param session
 	 * @return
 	 */
 	@PostMapping("/payment/save-address")
 	@ResponseBody
 	public ResponseEntity<Void> saveAddressToSession(
-			@RequestParam String postCode,
-			@RequestParam String address,
-			@RequestParam String detailAddress,
+			@RequestBody PaymentSessionData paymentData, // JSON 요청 바디 받기
 			HttpSession session) {
 		
-		session.setAttribute("postCode", postCode);
-		session.setAttribute("address", address);
-		session.setAttribute("detailAddress", detailAddress);
+		// 세션 내에 결제 관련 정보를 저장
+		session.setAttribute("paymentSessionData", paymentData);
+		
+		log.debug("Saved payment data in session: {}", paymentData);
 		
 		return ResponseEntity.ok().build();
 	}
@@ -101,21 +102,31 @@ public class PaymentController {
      * @param request
      * @return
      */
-    @PostMapping("/payment/confirm")
-    public ResponseEntity<TossConfirmResponse> successHandlerPageConfirm(@RequestBody ConfirmPaymentRequest request, HttpSession httpSession) {
-    	 // 1. 세션 데이터 추출
-        PaymentSessionData sessionData = tossPaymentService.extractPaymentSessionData(httpSession);
-        if (!sessionData.isValid()) {
-            log.warn("세션에 스냅샷 정보가 없습니다.");
-            return ResponseEntity.badRequest().build();
-        }
+	@PostMapping("/payment/confirm")
+	public ResponseEntity<?> successHandlerPageConfirm(
+	        @RequestBody ConfirmPaymentRequest request,
+	        HttpSession httpSession) {
+	    
+	    try {
+	    	// 결제에 필요한 세션 데이터 객체
+	        PaymentSessionData paymentData = (PaymentSessionData) httpSession.getAttribute("paymentSessionData");
+	        
+	        // 결제 수행
+	        TossConfirmResponse response = tossPaymentService.handlePaymentAndSession(request, httpSession, paymentData);
+	        
+	        return ResponseEntity.ok(response);
+	        
+	    } catch (TosspaymentException e) {
+	    	Map<String, String> errorResponse = new HashMap<>();
+	    	errorResponse.put("error", e.getMessage());
+	    	return ResponseEntity.badRequest().body(errorResponse);
 
-        // 2. 결제 승인 + 완료 처리 + 세션 정리
-        TossConfirmResponse response = tossPaymentService.handlePaymentAndSession(request, httpSession, sessionData);
-        
-        // 성공 결과 반환
-        return ResponseEntity.ok(response);
-    }
+	    } catch (Exception e) {
+	    	  Map<String, String> errorResponse = new HashMap<>();
+	          errorResponse.put("error", "서버 오류가 발생했습니다.");
+	          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	    }
+	}
 
 	/**
 	 * 결제 성공 페이지
@@ -141,60 +152,5 @@ public class PaymentController {
 		return "/shop/payment/fail";
 	}
 
-
-	
-//	/**
-//	 * 결제 정보 db 저장
-//	 * 
-//	 * @param request
-//	 * @return
-//	 */
-//	@PostMapping("/payment/confirm")
-//	public ResponseEntity<TossConfirmResponse> successHandlerPageConfirm(@RequestBody ConfirmPaymentRequest request, HttpSession httpSession) {
-//		User user = (User) httpSession.getAttribute("user");
-//		log.debug("successHandlerPageConfirm 호출");
-//		// 토스 결제 승인 요청
-//		TossConfirmResponse response = tossPaymentService.confirmPayment(request.getPaymentKey(), request.getOrderId(), request.getAmount());
-//
-//		// 결제 정보 DB 저장
-//		Tosspayment tosspayment = tossPaymentService.insert(request.getOrderId(), request.getPaymentKey(), response.getMethod(), response.getStatus(), request.getAmount(), response.getApprovedAt().toLocalDateTime(), response.getRequestedAt().toLocalDateTime());
-//
-//		// 세션에서 주소 꺼내기
-//		String postCode = (String) httpSession.getAttribute("postCode");
-//		String address = (String) httpSession.getAttribute("address");
-//		String detailAddress = (String) httpSession.getAttribute("detailAddress");
-//		log.debug("주소 정보: {}, {}, {}", postCode, address, detailAddress);
-//		
-//		// OrderReceipt DB 저장
-//		OrderReceipt orderReceipt = orderReceiptService.insert(response.getApprovedAt().toLocalDateTime(), "상품 준비 전", user, tosspayment, postCode, address, detailAddress);
-//		
-//		// 세션에서 스냅샷 꺼내
-//	    List<SnapShot> snapshotList = (List<SnapShot>) httpSession.getAttribute("cartSnapshots");
-//	    if (snapshotList == null || snapshotList.isEmpty()) {
-//	        log.warn("세션에 스냅샷 정보가 없습니다.");
-//	        return ResponseEntity.badRequest().build();
-//	    }
-//	    log.warn("세션에 넘어온 스냅샷 리스트는" + snapshotList);
-//	    
-//		// OrderDetail DB 저장
-//		for (SnapShot snapShot : snapshotList) {
-//			orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
-//		}
-//		
-//		// 결제되었으므로 장바구니의 상품 삭제
-//		cartItemService.deleteAllByUserId(user.getUser_id());
-//		
-//		// 세션에서 정보 삭제
-//		httpSession.removeAttribute("postCode");
-//		httpSession.removeAttribute("address");
-//		httpSession.removeAttribute("detailAddress");
-//		httpSession.removeAttribute("cartSnapshots");
-//		
-//		// orderReceiptId 세션에 저장
-//		httpSession.setAttribute("orderReceiptId", orderReceipt.getOrder_receipt_id());
-//		
-//		// 성공 결과 반환
-//		return ResponseEntity.ok(response);
-//	}
 
 }

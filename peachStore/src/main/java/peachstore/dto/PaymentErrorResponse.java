@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 결제 에러 메시지 dto
+ */
 @Getter
 @Setter
 @Builder

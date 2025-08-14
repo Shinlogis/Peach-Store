@@ -15,8 +15,8 @@ int amount = 0;
 
 // 결제에 필요한 정보들
 String orderId = (String) request.getAttribute("orderId");
-String orderName = user.getUser_name();
-String customerName = "Peach Store";
+String orderName = "Peach Store";
+String customerName = user.getUser_name();
 Integer orderReceiptId = (Integer) request.getAttribute("orderReceiptId");
 
 String successUrl = (String) request.getAttribute("successUrl");
@@ -42,14 +42,15 @@ String failUrl = (String) request.getAttribute("failUrl");
 }
 
 body {
-	font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont,
+		'Segoe UI', Roboto, sans-serif;
 	background-color: #ffffff;
 	color: #1d1d1f;
 	line-height: 1.4;
 }
 
 .container {
- 	width: 60%;
+	width: 60%;
 }
 
 /* Header */
@@ -178,7 +179,6 @@ body {
 	margin-left: 0; /* 불필요 */
 	text-align: left;
 }
-
 
 /* Address Section */
 .address-section {
@@ -350,9 +350,8 @@ body {
 }
 
 /* Hide original table structure */
-.shop__cart__table table, 
-.shop__cart__table thead, 
-.shop__cart__table tbody {
+.shop__cart__table table, .shop__cart__table thead, .shop__cart__table tbody
+	{
 	display: none;
 }
 
@@ -363,30 +362,26 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media ( max-width : 768px) {
 	.container {
 		padding: 16px;
 		max-width: 100%;
 	}
-	
 	.product-item {
 		flex-direction: column;
 		align-items: flex-start;
 	}
-	
 	.product-image {
 		width: 100%;
 		height: 200px;
 		margin-right: 0;
 		margin-bottom: 12px;
 	}
-	
 	.product-price {
 		margin-left: 0;
 		margin-top: 8px;
 		text-align: left;
 	}
-	
 	.address-buttons {
 		flex-direction: column;
 	}
@@ -407,8 +402,9 @@ body {
 		<div class="container">
 			<!-- Header -->
 			<div class="page-header">
-				<h1 class="page-title style="font-weight: bold;">주문하시겠습니까?</h1>
-				<h1 class="page-title style="font-weight: bold;">입력하신 사항이 모두 정확한지 확인해주십시오.</h1>
+				<h1 class="page-title" style="font-weight: bold;">주문하시겠습니까?</h1>
+				<h1 class="page-title" style="font-weight: bold;">입력하신 사항이 모두
+					정확한지 확인해주십시오.</h1>
 			</div>
 
 			<!-- Discount Info -->
@@ -421,6 +417,7 @@ body {
 			<div class="product-section">
 				<%
 				int totalPrice = 0;
+				int finalPrice = 0;
 				for (int i = 0; i < snapshotList.size(); i++) {
 					SnapShot snapshot = snapshotList.get(i);
 					int price = snapshot.getPrice();
@@ -429,7 +426,7 @@ body {
 
 					if (snapshot.getCapacity() != null)
 						capacity = snapshot.getCapacity();
-					if (snapshot.getColor()!= null)
+					if (snapshot.getColor() != null)
 						color = snapshot.getColor();
 					if (snapshot.getSize() != null)
 						size = snapshot.getSize();
@@ -437,7 +434,7 @@ body {
 						engraving = snapshot.getEngraving();
 					}
 
-					int finalPrice = price + engravingPrice;
+					finalPrice = price + engravingPrice;
 					totalPrice += finalPrice;
 				%>
 				<div class="product-item">
@@ -448,37 +445,58 @@ body {
 					}
 					%>
 					<img src="<%=imagePath%>" alt="상품 이미지" class="product-image">
-					
+
 					<div class="product-details">
 						<div class="product-name"><%=snapshot.getProduct_name()%></div>
 						<div class="product-options">
-							<%if (capacity != null) {%><span><%=capacity%></span><%}%>
-							<%if (color != null) {%><span><%=color%></span><%}%>
-							<%if (size != null) {%><span><%=size%></span><%}%>
-							<%if (engraving != null) {%><span><%=engraving%></span><%}%>
+							<%
+							if (capacity != null) {
+							%><span><%=capacity%></span>
+							<%
+							}
+							%>
+							<%
+							if (color != null) {
+							%><span><%=color%></span>
+							<%
+							}
+							%>
+							<%
+							if (size != null) {
+							%><span><%=size%></span>
+							<%
+							}
+							%>
+							<%
+							if (engraving != null) {
+							%><span><%=engraving%></span>
+							<%
+							}
+							%>
 						</div>
 						<div class="product-quantity">1</div>
 					</div>
-					
-					<div class="product-price">₩<%=String.format("%,d", finalPrice)%></div>
+
+					<div class="product-price">
+						₩<%=String.format("%,d", finalPrice)%></div>
 				</div>
-				<%}%>
+				<%
+				}
+				%>
 			</div>
 
 			<!-- Shipping Info -->
 			<div class="info-section">
 				<div class="section-title">배송 상세 정보</div>
 				<div class="info-item">
-					<span class="info-label">배송비:</span>
-					<span class="info-value">무료</span>
+					<span class="info-label">배송비:</span> <span class="info-value">무료</span>
 				</div>
 				<div class="info-item">
-					<span class="info-label">배송일:</span>
-					<span class="info-value">빠른 배송</span>
+					<span class="info-label">배송일:</span> <span class="info-value">빠른
+						배송</span>
 				</div>
 				<div class="info-item">
-					<span class="info-label">배송 방법:</span>
-					<span class="info-value">택배</span>
+					<span class="info-label">배송 방법:</span> <span class="info-value">택배</span>
 				</div>
 			</div>
 
@@ -486,48 +504,47 @@ body {
 			<div class="info-section">
 				<div class="section-title">결제 상세 정보</div>
 				<div class="info-item">
-					<span class="info-label">결제 방법:</span>
-					<span class="info-value">간편결제</span>
+					<span class="info-label">결제 방법:</span> <span class="info-value">간편결제</span>
 				</div>
 				<div class="info-item">
-					<span class="info-label">청구서 발송:</span>
-					<span class="info-value"><%=user.getEmail()%></span>
+					<span class="info-label">청구서 발송:</span> <span class="info-value"><%=user.getEmail()%></span>
 				</div>
 			</div>
 
 			<!-- Address Section -->
 			<div class="address-section">
-			<span class="total-label">배송 상세 정보</span>
-				
+				<span class="total-label">배송 상세 정보</span>
+
 				<div class="address-input-group">
-					<label for="userPostCode">우편번호</label>
-					<input type="text" id="userPostCode" name="userPostCode" readonly>
+					<label for="userPostCode">우편번호</label> <input type="text"
+						id="userPostCode" name="userPostCode" readonly>
 					<div class="address-buttons">
-						<button type="button" class="address-btn primary" onclick="searchAddress();">주소 검색</button>
-						<button type="button" class="address-btn" onclick="cancelAddress();">취소</button>
+						<button type="button" class="address-btn primary"
+							id="search-address-btn">주소 검색</button>
+						<button type="button" class="address-btn" id="cancel-address-btn">취소</button>
 					</div>
 				</div>
 
 				<div class="address-input-group">
-					<label for="userAddress">주소</label>
-					<input type="text" id="userAddress" name="userAddress" readonly>
+					<label for="userAddress">주소</label> <input type="text"
+						id="userAddress" name="userAddress" readonly>
 				</div>
 
 				<div class="address-input-group">
-					<label for="userDtlAddress">상세주소</label>
-					<input type="text" id="userDtlAddress" name="userDtlAddress" maxlength="100" readonly>
+					<label for="userDtlAddress">상세주소</label> <input type="text"
+						id="userDtlAddress" name="userDtlAddress" maxlength="100" readonly>
 				</div>
 			</div>
-			
-			
+
+
 
 			<!-- Agreement -->
 			<div class="agreement-section">
 				<span class="total-label">이용 약관</span>
 				<div class="agreement-checkbox">
-					<input type="checkbox" id="agreement" checked>
-					<label for="agreement">
-						Peach의 <a href="#">개인정보 처리방침</a>에 따라 정보를 수집하고, 저장하며, 처리하는 것에 동의합니다.
+					<input type="checkbox" id="agreement" checked> <label
+						for="agreement"> Peach의 <a href="#">개인정보 처리방침</a>에 따라 정보를
+						수집하고, 저장하며, 처리하는 것에 동의합니다.
 					</label>
 				</div>
 			</div>
@@ -535,14 +552,16 @@ body {
 			<!-- Total -->
 			<div class="total-section">
 				<div class="total-row">
-					<span class="total-label">총계</span>
-					<span class="total-price" id="total-price">₩<%=String.format("%,d", totalPrice)%></span>
+					<span class="total-label">총계</span> <span class="total-price"
+						id="total-price">₩<%=String.format("%,d", totalPrice)%></span>
 				</div>
 			</div>
 
 			<!-- Payment Button -->
 			<div class="payment-section">
-				<button class="pay-btn" id="pay-btn">₩<%=String.format("%,d", totalPrice)%>로 주문 완료하기</button>
+				<button class="pay-btn" id="pay-btn">
+					₩<%=String.format("%,d", totalPrice)%>로 주문 완료하기
+				</button>
 			</div>
 
 			<!-- Continue Shopping -->
@@ -563,11 +582,12 @@ body {
 						</tr>
 					</thead>
 					<tbody>
-						<%for (int i = 0; i < snapshotList.size(); i++) {
+						<%
+						for (int i = 0; i < snapshotList.size(); i++) {
 							SnapShot snapshot = snapshotList.get(i);
 							int price = snapshot.getPrice();
 							int engravingPrice = 0;
-							int finalPrice = price + engravingPrice;
+							finalPrice = price + engravingPrice;
 						%>
 						<tr>
 							<td class="cart__product__item">
@@ -576,8 +596,7 @@ body {
 								if (snapshot.getFilename() != null && !snapshot.getFilename().isEmpty()) {
 									imagePath = "/data/product_" + snapshot.getProduct_id() + "/" + snapshot.getFilename();
 								}
-								%>
-								<img src="<%=imagePath%>" alt="장바구니 상품<%=i%>">
+								%> <img src="<%=imagePath%>" alt="장바구니 상품<%=i%>">
 								<div class="cart__product__item__title">
 									<h6><%=snapshot.getProduct_name()%></h6>
 								</div>
@@ -586,7 +605,9 @@ body {
 							<td class="cart__blank"></td>
 							<td class="cart__price">₩<%=String.format("%,d", finalPrice)%></td>
 						</tr>
-						<%}%>
+						<%
+						}
+						%>
 					</tbody>
 				</table>
 			</div>
@@ -609,9 +630,11 @@ body {
 	<!-- Js Plugins -->
 	<%@ include file="../inc/footer_link.jsp"%>
 	<script src="https://js.tosspayments.com/v1/payment"></script>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
-    /** 카카오 주소 처리 */
+	
+    /** 다음 우편주소 처리 */
     function searchAddress() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -622,7 +645,7 @@ body {
             }
         }).open();
     }
-
+    
     /** 취소버튼 클릭 시 주소, 상세주소 초기화 */
     function cancelAddress() {
         var inputPostCode = document.getElementById("userPostCode");
@@ -633,28 +656,40 @@ body {
         inputDtlAddr.value = "";
         inputDtlAddr.readOnly = true;
     }
-	
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("search-address-btn").addEventListener("click", searchAddress);
+        document.getElementById("cancel-address-btn").addEventListener("click", cancelAddress);
+        
 	const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
-	 
+	
 	document.getElementById("pay-btn").addEventListener("click", () => {
 		const postCode = document.getElementById("userPostCode").value;
 		const address = document.getElementById("userAddress").value;
 		const detailAddress = document.getElementById("userDtlAddress").value;
+		
+		const paymentData = {
+				// 주소 정보 묶음
+			    addressData: {
+			        postCode: postCode,
+			        address: address,
+			        detailAddress: detailAddress
+			    },
+			    amount: <%=totalPrice%>,
+			    orderId: '<%=orderId%>'
+			};
 
 		// 1. 주소 세션 저장 요청
 		$.ajax({
 			url: "/shop/payment/save-address",
 			type: "POST",
-			data: {
-				postCode: postCode,
-				address: address,
-				detailAddress: detailAddress,
-			},
+			contentType: "application/json",
+			data: JSON.stringify(paymentData),
 			success: function () {
 				// 2. 주소 저장 후 결제 진행
 				tossPayments.requestPayment("간편결제", {
-					amount: <%=totalPrice%>,
-					orderId: '<%=orderId%>',
+					amount: paymentData.amount,
+					orderId: paymentData.orderId,
 					orderName: '<%=orderName%>',
 					customerName: '<%=customerName%>',
 					successUrl: '<%=successUrl%>',
@@ -666,6 +701,12 @@ body {
 			}
 		});
 	});
+		
+      });
+
+	
+	 
+
 
 	$(() => {
 		$(".shop__cart__table").on("click", ".cart__delete", function () {
