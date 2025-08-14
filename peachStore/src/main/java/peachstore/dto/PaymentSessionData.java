@@ -1,25 +1,19 @@
 package peachstore.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import peachstore.domain.SnapShot;
-import peachstore.domain.User;
 
+/**
+ * 결제 전 세션용, 결제 관련 정보 묶음 dto
+ */
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentSessionData {
-    private String postCode;
-    private String address;
-    private String detailAddress;
-    private List<SnapShot> snapshotList;
-    private User user;
 
-    public boolean isValid() {
-        return snapshotList != null && !snapshotList.isEmpty();
-    }
+	private AddressData addressData; // 주소정보
+    private String orderId; // 내부 주문 ID
+    private long amount; // 결제 금액
 }

@@ -2,11 +2,19 @@ package peachstore.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import peachstore.domain.CartItem;
 
-@Getter @Setter
+/**
+ * 결제 요청용 DTO
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ConfirmPaymentRequest {
 	private String paymentKey;      // 토스 결제 키
 	private String orderId;         // 내부 주문 ID

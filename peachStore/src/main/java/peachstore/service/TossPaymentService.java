@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -33,8 +32,11 @@ import peachstore.domain.SnapShot;
 import peachstore.domain.Tosspayment;
 import peachstore.domain.User;
 import peachstore.dto.ConfirmPaymentRequest;
+import peachstore.dto.PaymentErrorResponse;
 import peachstore.dto.PaymentSessionData;
 import peachstore.dto.TossConfirmResponse;
+import peachstore.exception.TosspaymentException;
+import peachstore.exception.UserException;
 import peachstore.repository.tosspayment.TosspaymentDAO;
 import peachstore.service.cart.CartItemService;
 import peachstore.service.orderdetail.OrderDetailService;
@@ -68,108 +70,109 @@ public class TossPaymentService {
 		this.objectMapper.registerModule(new JavaTimeModule());
 		this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 	}
-	
-	 /**
-     * 결제 관련 세션 정보 추출
-     */
-	public PaymentSessionData extractPaymentSessionData(HttpSession httpSession) {
-	    String postCode = (String) httpSession.getAttribute("postCode");
-	    String address = (String) httpSession.getAttribute("address");
-	    String detailAddress = (String) httpSession.getAttribute("detailAddress");
-	    User user = (User) httpSession.getAttribute("user");
-	    List<SnapShot> snapshotList = (List<SnapShot>) httpSession.getAttribute("cartSnapshots");
 
-	    log.debug("주소 정보: {}, {}, {}, {}", postCode, address, detailAddress, user);
-
-	    return new PaymentSessionData(postCode, address, detailAddress, snapshotList, user);
-	}
-	
 	/**
 	 * 결제 승인 요청 후 완료 처리
 	 * @param request
 	 * @param session
-	 * @param sessionData
+	 * @param paymentSessionData
 	 * @return
 	 */
-	public TossConfirmResponse handlePaymentAndSession(ConfirmPaymentRequest request, HttpSession session, PaymentSessionData sessionData) {
-	    // 결제 승인 요청
-	    TossConfirmResponse response = confirmPayment(request.getPaymentKey(), request.getOrderId(), request.getAmount());
+	public TossConfirmResponse handlePaymentAndSession(ConfirmPaymentRequest request, HttpSession session, PaymentSessionData paymentSessionData) {
+		// 결제 승인 요청 응답 수신
+		TossConfirmResponse response = confirmPayment(request.getPaymentKey(), request.getOrderId(), request.getAmount());
+		
+		// 결제 전 세션 내 금액(sessionData.getAmount())과 결제한 금액(request.getAmount())이 같은지
+		if (paymentSessionData.getAmount() != request.getAmount()) {
+			log.debug("결제 금액 오류. 취소 요청");
+			
+			try {
+				PaymentErrorResponse cancelResponse = cancelPayment(request.getPaymentKey(), "결제 금액 불일치로 인한 자동 취소");
+		        log.info("결제 취소 완료: {}", cancelResponse);
+			} catch (IOException e) {
+				log.error("결제 취소 요청 실패", e);
+			}
+			throw new TosspaymentException("결제 금액 정보가 유효하지 않습니다.");
+		}
+		
+		OrderReceipt orderReceipt = null;
+		try {
+			// 결제 완료 DB 처리
+			orderReceipt = processPaymentComplete(request, response, session, paymentSessionData);
+		} catch (Exception e) {
+			// DB 처리 실패로 인한 결제 취소
+			try {
+				cancelPayment(request.getPaymentKey(), "DB 처리 오류로 인한 자동 취소");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 
-	    // 결제 완료 처리
-	    OrderReceipt orderReceipt = processPaymentComplete(
-	        request, response, sessionData.getUser(), 
-	        sessionData.getPostCode(), sessionData.getAddress(), sessionData.getDetailAddress(), 
-	        sessionData.getSnapshotList()
-	    );
+		// 세션 정리
+		cleanupPaymentSession(session, paymentSessionData, orderReceipt.getOrder_receipt_id());
 
-	    // 세션 정리
-	    cleanupPaymentSession(session, orderReceipt.getOrder_receipt_id());
-
-	    return response;
+		return response;
 	}
 	
-	 /**
-     * 결제 승인 후 완료 처리를 위한 데이터 insert
-     */
-    @Transactional
-    public OrderReceipt processPaymentComplete(ConfirmPaymentRequest request, 
-                                             TossConfirmResponse tossResponse, 
-                                             User user, 
-                                             String postCode, 
-                                             String address, 
-                                             String detailAddress, 
-                                             List<SnapShot> snapshotList) {
-        
-        // 결제 정보 DB 저장
-        Tosspayment tosspayment = insert(
-            request.getOrderId(), 
-            request.getPaymentKey(), 
-            tossResponse.getMethod(), 
-            tossResponse.getStatus(), 
-            request.getAmount(), 
-            tossResponse.getApprovedAt().toLocalDateTime(), 
-            tossResponse.getRequestedAt().toLocalDateTime()
-        );
-        
-        // OrderReceipt DB 저장
-        OrderReceipt orderReceipt = orderReceiptService.insert(
-            tossResponse.getApprovedAt().toLocalDateTime(), 
-            "상품 준비 전", 
-            user, 
-            tosspayment, 
-            postCode, 
-            address, 
-            detailAddress
-        );
-        
-        // OrderDetail DB 저장
-        for (SnapShot snapShot : snapshotList) {
-            orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
-        }
-        
-        // 결제되었으므로 장바구니의 상품 삭제
-        cartItemService.deleteAllByUserId(user.getUser_id());
-        
-        log.debug("결제 완료 처리 완료. OrderReceipt ID: {}", orderReceipt.getOrder_receipt_id());
-        
-        return orderReceipt;
-    }
 
-    /**
-     * 결제 완료 후 세션 정리
-     */
-    public void cleanupPaymentSession(HttpSession httpSession, int orderReceiptId) {
-        // 세션에서 정보 삭제
-        httpSession.removeAttribute("postCode");
-        httpSession.removeAttribute("address");
-        httpSession.removeAttribute("detailAddress");
-        httpSession.removeAttribute("cartSnapshots");
-        
-        // orderReceiptId 세션에 저장
-        httpSession.setAttribute("orderReceiptId", orderReceiptId);
-        
-        log.debug("결제 관련 세션 정리 완료");
-    }
+	/**
+	 * 결제 승인 후 완료 처리를 위한 데이터 insert
+	 */
+	@Transactional
+	public OrderReceipt processPaymentComplete(ConfirmPaymentRequest request, TossConfirmResponse tossResponse, HttpSession session, PaymentSessionData paymentSessionData) {
+		// 세션 내 데이터 확인
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			throw new UserException("로그인한 사용자 정보가 세션에 없습니다.");
+		}
+		
+		List<SnapShot> snapshotList = (List<SnapShot>)session.getAttribute("cartSnapshots");
+		if (snapshotList == null || snapshotList.isEmpty()) {
+			throw new IllegalStateException("장바구니 스냅샷이 세션에 없습니다.");
+		}
+
+		// 결제 정보 DB 저장
+		Tosspayment tosspayment = insert(request.getOrderId(), request.getPaymentKey(), tossResponse.getMethod(),
+				tossResponse.getStatus(), request.getAmount(), tossResponse.getApprovedAt().toLocalDateTime(),
+				tossResponse.getRequestedAt().toLocalDateTime());
+
+		// OrderReceipt DB 저장
+		OrderReceipt orderReceipt = orderReceiptService.insert(
+				tossResponse.getApprovedAt().toLocalDateTime(), 
+				"상품 준비 전",
+				user,
+				tosspayment, 
+				paymentSessionData.getAddressData().getPostCode(), 
+				paymentSessionData.getAddressData().getAddress(), 
+				paymentSessionData.getAddressData().getDetailAddress()
+				);
+
+		// OrderDetail DB 저장
+		for (SnapShot snapShot : snapshotList) {
+			orderDetailService.insert(orderReceipt.getOrder_receipt_id(), snapShot.getSnapshot_id());
+		}
+
+		// 결제되었으므로 장바구니의 상품 삭제
+		cartItemService.deleteAllByUserId(user.getUser_id());
+
+		log.debug("결제 완료 처리 완료. OrderReceipt ID: {}", orderReceipt.getOrder_receipt_id());
+
+		return orderReceipt;
+	}
+
+	/**
+	 * 결제 완료 후 세션 정리
+	 */
+	public void cleanupPaymentSession(HttpSession session, PaymentSessionData paymentSessionData, int orderReceiptId) {
+	    if (paymentSessionData != null) {
+	        paymentSessionData.setAddressData(null);  // 주소 정보 삭제
+	        paymentSessionData.setAddressData(null);  // 장바구니 스냅샷 삭제
+	    }
+
+	    session.setAttribute("orderReceiptId", orderReceiptId);  // 주문 영수증 ID 저장
+
+	    log.debug("결제 관련 세션 정리 완료");
+	}
 
 	/**
 	 * 토스 결제 확정 API 호출 서비스 메서드
@@ -180,71 +183,69 @@ public class TossPaymentService {
 	 * @return TossConfirmResponse 결제 확인 응답 DTO
 	 * @throws RuntimeException
 	 */
-    public TossConfirmResponse confirmPayment(String paymentKey, String orderId, long amount) {
-        log.debug("confirmPayment 진입");
-        log.debug("paymentKey={}, orderId={}, amount={}", paymentKey, orderId, amount);
+	public TossConfirmResponse confirmPayment(String paymentKey, String orderId, long amount) {
+		log.debug("confirmPayment 진입");
+		log.debug("paymentKey={}, orderId={}, amount={}", paymentKey, orderId, amount);
 
-        // 최대 3번까지 재시도
-        for (int attempt = 1; attempt <= 3; attempt++) {
-            try {
-                // ObjectMapper로 요청 JSON 객체 생성
-                ObjectNode requestObj = objectMapper.createObjectNode();
-                requestObj.put("paymentKey", paymentKey);
-                requestObj.put("orderId", orderId);
-                requestObj.put("amount", amount);
+		// 최대 3번까지 재시도
+		for (int attempt = 1; attempt <= 3; attempt++) {
+			try {
+				// ObjectMapper로 요청 JSON 객체 생성
+				ObjectNode requestObj = objectMapper.createObjectNode();
+				requestObj.put("paymentKey", paymentKey);
+				requestObj.put("orderId", orderId);
+				requestObj.put("amount", amount);
 
-                String bodyJson = objectMapper.writeValueAsString(requestObj);
+				String bodyJson = objectMapper.writeValueAsString(requestObj);
 
-                // Basic Auth 헤더 생성
-                String auth = secretKey + ":";
-                String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.US_ASCII));
-                String authHeader = "Basic " + encodedAuth;
+				// Basic Auth 헤더 생성
+				String auth = secretKey + ":";
+				String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.US_ASCII));
+				String authHeader = "Basic " + encodedAuth;
 
-                log.debug("Toss Confirm 요청 URL: {}, 헤더 Authorization: {}, 요청 바디: {}", tossUrl, authHeader, bodyJson);
+				log.debug("Toss Confirm 요청 URL: {}, 헤더 Authorization: {}, 요청 바디: {}", tossUrl, authHeader, bodyJson);
 
-                OkHttpClient client = new OkHttpClient();
-                okhttp3.RequestBody body = okhttp3.RequestBody.create(bodyJson, okhttp3.MediaType.get("application/json"));
+				OkHttpClient client = new OkHttpClient();
+				okhttp3.RequestBody body = okhttp3.RequestBody.create(bodyJson,
+						okhttp3.MediaType.get("application/json"));
 
-                Request request = new Request.Builder()
-                        .url(tossUrl)
-                        .addHeader("Authorization", authHeader)
-                        .addHeader("Content-Type", "application/json")
-                        .post(body)
-                        .build();
+				Request request = new Request.Builder().url(tossUrl).addHeader("Authorization", authHeader)
+						.addHeader("Content-Type", "application/json").post(body).build();
 
-                try (Response response = client.newCall(request).execute()) {
-                    int statusCode = response.code();
-                    String responseBody = response.body() != null ? response.body().string() : "";
+				try (Response response = client.newCall(request).execute()) {
+					int statusCode = response.code();
+					String responseBody = response.body() != null ? response.body().string() : "";
 
-                    log.debug("OkHttp confirm status: {}, body: {}", statusCode, responseBody);
+					log.debug("OkHttp confirm status: {}, body: {}", statusCode, responseBody);
 
-                    if (statusCode == 200) {
-                        return objectMapper.readValue(responseBody, TossConfirmResponse.class);
-                    } else if (statusCode >= 500 && attempt < 3) {
-                        log.warn("Toss 서버 오류 ({}), {}번째 재시도 중...", statusCode, attempt);
-                        Thread.sleep(1000); // 1초 쉬고 재시도
-                        continue;
-                    } else {
-                        throw new RuntimeException("Toss Confirm API 호출 실패 " + statusCode);
-                    }
-                }
-            } catch (IOException e) {
-                log.error("OkHttp 요청 중 IOException 발생", e);
-                if (attempt >= 3) {
-                    throw new RuntimeException("Toss Confirm API 호출 중 오류 발생", e);
-                }
-                log.warn("IOException 발생으로 재시도 시도 중... ({}번째)", attempt);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ignored) {}
-            } catch (Exception e) {
-                log.error("Toss Confirm 처리 중 예외 발생", e);
-                throw new RuntimeException("Toss Confirm 처리 실패", e);
-            }
-        }
+					if (statusCode == 200) {
+						return objectMapper.readValue(responseBody, TossConfirmResponse.class);
+					} else if (statusCode >= 500 && attempt < 3) {
+						log.warn("Toss 서버 오류 ({}), {}번째 재시도 중...", statusCode, attempt);
+						Thread.sleep(1000); // 1초 쉬고 재시도
+						continue;
+					} else {
+						throw new RuntimeException("Toss Confirm API 호출 실패 " + statusCode);
+					}
+				}
+			} catch (IOException e) {
+				log.error("OkHttp 요청 중 IOException 발생", e);
+				if (attempt >= 3) {
+					throw new RuntimeException("Toss Confirm API 호출 중 오류 발생", e);
+				}
+				log.warn("IOException 발생으로 재시도 시도 중... ({}번째)", attempt);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException ignored) {
+				}
+			} catch (Exception e) {
+				log.error("Toss Confirm 처리 중 예외 발생", e);
+				throw new RuntimeException("Toss Confirm 처리 실패", e);
+			}
+		}
 
-        throw new RuntimeException("Toss Confirm API 호출 재시도 실패");
-    }
+		throw new RuntimeException("Toss Confirm API 호출 재시도 실패");
+	}
 
 	/**
 	 * 토스에 결제 승인받기
@@ -285,13 +286,10 @@ public class TossPaymentService {
 		return tosspaymentDAO.insert(tosspayment);
 	}
 
-	
-	
-	
 	/**
 	 * 결제 취소 요청
 	 */
-	public String cancelPayment(String paymentKey, String cancelReason) throws IOException {
+	public PaymentErrorResponse cancelPayment(String paymentKey, String cancelReason) throws IOException {
 		log.debug("cancelPayment");
 		String cancelUrl = "https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel";
 
@@ -307,7 +305,9 @@ public class TossPaymentService {
 				CloseableHttpResponse response = client.execute(post)) {
 
 			String responseBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-			return responseBody;
+			
+			ObjectMapper mapper = new ObjectMapper();
+	        return mapper.readValue(responseBody, PaymentErrorResponse.class);
 		}
 	}
 }
