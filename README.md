@@ -96,6 +96,10 @@ https://github.com/user-attachments/assets/6e44d526-247f-4f2a-a1fa-68c2a725981c
 ### ⚙️ 관리자 기능
 **관리자 관리** 
 - 최상위 관리자가 타 관리자를 등록 및 관리 가능
+
+https://github.com/user-attachments/assets/1dfdbeb0-ad07-4816-9418-24e54f7680d7
+
+
   
 **제품 관리** 
 - 제품 등록 / 수정 / 삭제, 옵션(색상/사이즈/용량) 및 이미지 등록
@@ -108,9 +112,14 @@ https://github.com/user-attachments/assets/eebbf408-ab37-4499-8265-6700a213d72c
 
 **주문 관리**    
 - 유저 주문 내역 확인 가능
+
+https://github.com/user-attachments/assets/ff7d5aee-eb48-40be-a556-1aaf014e2aa8
   
 **회원 관리** 
 - 사이트 회원 목록 확인 및 비활성화 처리 가능
+
+https://github.com/user-attachments/assets/59fdc42f-a03e-406f-b465-15415a40bee8
+  
 
 **리뷰 관리** 
 - 전체 리뷰 확인 및 선택 리뷰 비활성화 처리 가능
