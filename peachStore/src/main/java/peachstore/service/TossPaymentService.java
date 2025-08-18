@@ -104,8 +104,9 @@ public class TossPaymentService {
 			try {
 				cancelPayment(request.getPaymentKey(), "DB 처리 오류로 인한 자동 취소");
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				log.error("결제 취소 실패", e1);
 			}
+			throw e;
 		}
 
 		// 세션 정리
@@ -118,7 +119,6 @@ public class TossPaymentService {
 	/**
 	 * 결제 승인 후 완료 처리를 위한 데이터 insert
 	 */
-	@Transactional
 	public OrderReceipt processPaymentComplete(ConfirmPaymentRequest request, TossConfirmResponse tossResponse, HttpSession session, PaymentSessionData paymentSessionData) {
 		// 세션 내 데이터 확인
 		User user = (User) session.getAttribute("user");
@@ -166,7 +166,6 @@ public class TossPaymentService {
 	public void cleanupPaymentSession(HttpSession session, PaymentSessionData paymentSessionData, int orderReceiptId) {
 	    if (paymentSessionData != null) {
 	        paymentSessionData.setAddressData(null);  // 주소 정보 삭제
-	        paymentSessionData.setAddressData(null);  // 장바구니 스냅샷 삭제
 	    }
 
 	    session.setAttribute("orderReceiptId", orderReceiptId);  // 주문 영수증 ID 저장

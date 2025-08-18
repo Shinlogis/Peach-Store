@@ -6,10 +6,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.hql.internal.ast.tree.SessionFactoryAwareNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,6 +103,7 @@ public class PaymentController {
      * @return
      */
 	@PostMapping("/payment/confirm")
+	@Transactional
 	public ResponseEntity<?> successHandlerPageConfirm(
 	        @RequestBody ConfirmPaymentRequest request,
 	        HttpSession httpSession) {
